@@ -7,8 +7,8 @@ import {render} from 'react-dom';
 //import routes from './routes';
 //import configureStore from './store/configureStore';
 //require('./favicon.ico'); // Tell webpack to load favicon.ico
-import './css/bootstrap.css'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
-import './css/sb-admin-2.css';
+import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
+import './css/bootstrap/sb-admin-2.css';
 import './css/main.css'
 
 //import { syncHistoryWithStore } from 'react-router-redux';

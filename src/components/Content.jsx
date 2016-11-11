@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import SearchBox from './SearchBox.jsx'
+import IntroductionComp from './IntroductionComp.jsx';
+import SearchResults from './SearchResults.jsx';
 
 class Content extends React.Component {
 
@@ -19,7 +20,12 @@ constructor(props, state) {
 
 render = () => {
 
-    return (<SearchBox submit={false}  />)
+    return (
+        <div> 
+            <IntroductionComp  />
+            <SearchResults />
+        </div>
+        )
 
     
 }

@@ -10,6 +10,14 @@
     padding: 3%;
     color: #eee;
 }
+
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: rgba(200, 200, 200, 0.9);
+
+}
+.navbar-toggle span {
+    color: white;
+}
 .jumbotron {
     padding: 0px 15px;
     color: inherit;
