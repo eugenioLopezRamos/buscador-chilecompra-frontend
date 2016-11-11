@@ -3,17 +3,25 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+.navbar {
+    margin-bottom: 0;
+}
+.navbar-footer {
+    padding: 3%;
+    color: #eee;
+}
+.jumbotron {
+    padding: 0px 15px;
+    color: inherit;
+    background-color: #eee;
+    margin-top: 50px;
+    margin-bottom: 0px;
+    height: 85vh;
+}
 
-
-
-
-
-
-
-
-
-
-
+.jumbotron .container:first-of-type {
+   height: 100%; 
+}
 
 
 
