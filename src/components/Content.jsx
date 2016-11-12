@@ -11,19 +11,28 @@ constructor(props, state) {
     this.state = {
         displayContent: "searchBox",
         login: state.login,
-        searchValue: ""
+        searchValue: "",
+        searchResults: []
     }
 
 
 }
 
+showSearchResults = (results) => {
+    let resultValues = Object.keys(results).map( (el, index, arr) => {
+        return el;
+    });
+
+    this.setState({searchResults: resultValues})
+
+}
 
 render = () => {
 
     return (
         <div> 
-            <IntroductionComp  />
-            <SearchResults />
+            <IntroductionComp  items={this.showSearchResults} />
+            <SearchResults items={this.state.searchResults} />
         </div>
         )
 

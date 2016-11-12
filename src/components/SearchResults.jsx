@@ -5,21 +5,21 @@ class SearchResults extends React.Component {
     constructor(props, state) {
         super(props, state);
         this.state = {
-            resultsList: []
+            resultsList: this.props.items
         }
     }
 
 
     render = () => {
         return (<ul>
-        {
-            this.state.resultsList.map((el, i) => {
-
-                <li className={"search-results " + i}>{el}</li>  
+        {   
+            this.props.items.map((el, i) => {
+            
+               return <li className={"search-results " + i}>{el}</li>  
 
             })
 
-        }
+        } 
                 
         </ul>)
 
