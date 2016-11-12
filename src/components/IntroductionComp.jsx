@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchField from './SearchField.jsx'
-
+import SelectionField from './SelectionField.jsx'
 
 class IntroductionComp extends React.Component {
     constructor(state, props) {
@@ -9,7 +9,7 @@ class IntroductionComp extends React.Component {
         this.state = {
             logged: true,
             submit: false,
-        
+            active: 1
             
         }
     }
@@ -27,6 +27,18 @@ class IntroductionComp extends React.Component {
         this.props.items(json);
     }
 
+    handleSelectionChange = (value) => {
+
+        this.setState({active: value})
+
+    }
+
+    componentDidUpdate = () => {
+
+       console.log(this.state.active);
+
+     }
+
     render = () => {
 
         return (
@@ -39,6 +51,7 @@ class IntroductionComp extends React.Component {
                 <br />
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
 
+                <SelectionField active={this.state.active} onSelectionChange={this.handleSelectionChange} />
                 <SearchField onChange={this.handleChange} licitaciones={this.showResults} />
 
             </div>

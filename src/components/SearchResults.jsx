@@ -3,10 +3,8 @@ import React from 'react';
 class SearchResults extends React.Component {
 
     constructor(props, state) {
+        
         super(props, state);
-        this.state = {
-            resultsList: this.props.items
-        }
     }
 
 
