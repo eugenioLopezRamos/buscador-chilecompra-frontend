@@ -19,11 +19,8 @@ constructor(props, state) {
 }
 
 showSearchResults = (results) => {
-    let resultValues = Object.keys(results).map( (el, index, arr) => {
-        return el;
-    });
 
-    this.setState({searchResults: resultValues})
+    this.setState({searchResults: results})
 
 }
 

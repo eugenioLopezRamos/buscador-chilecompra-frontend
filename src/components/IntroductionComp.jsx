@@ -20,8 +20,8 @@ class IntroductionComp extends React.Component {
 
     }
 
-    showResults = (json) => {
-        this.props.items(json);
+    showResults = (licitaciones) => {
+        this.props.items(licitaciones);
     }
 
     handleSelectionChange = (value) => {
@@ -36,8 +36,12 @@ class IntroductionComp extends React.Component {
 
      }
 
-    render = () => {
+// In this case im gonna have a lot of <SelectionField /> with props that will be the fields that the chilecompra API allows you to query
+// then all of these will be sent to the rails API server when clicking the searchButton on <SearchField />. The returned JSON from the Rails API
+// will then be presented in <SearchResults />
 
+    render = () => {
+        
         return (
             <div className="container">
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
@@ -49,6 +53,7 @@ class IntroductionComp extends React.Component {
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
 
                 <SelectionField active={this.state.active} onSelectionChange={this.handleSelectionChange} />
+                
                 <SearchField onChange={this.handleChange} licitaciones={this.showResults} />
 
             </div>

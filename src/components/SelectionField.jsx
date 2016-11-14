@@ -12,10 +12,7 @@ class SelectionField extends React.Component {
         console.log("handle change");
         this.props.onSelectionChange(e.target.value);
 
-       return fetch('/test', {accept: 'application/json',}).then(function(response) { return response.json()})
-       .then(function(response) {
-           console.log("response", response.test);
-        })
+
 
 
 

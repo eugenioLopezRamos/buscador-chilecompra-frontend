@@ -7,8 +7,9 @@
     margin-bottom: 0;
 }
 .navbar-footer {
-    padding: 3%;
+  /* padding: 3%;*/
     color: #eee;
+    /*position:fixed;*/
 }
 
 .navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
@@ -24,7 +25,7 @@
     background-color: #eee;
     margin-top: 50px;
     margin-bottom: 0px;
-    height: 85vh;
+    min-height: 85vh;
 }
 
 .jumbotron .container:first-of-type {
