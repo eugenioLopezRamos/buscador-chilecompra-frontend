@@ -12,8 +12,8 @@ class SearchResults extends React.Component {
         return (<ul>
         {   
             this.props.items.map((el, i) => {
-            
-               return <li className={"search-results " + i}>{el}</li>  
+               let number = i + 1 
+               return <li key={number} className={"search-results"}>{el}</li>  
 
             })
 

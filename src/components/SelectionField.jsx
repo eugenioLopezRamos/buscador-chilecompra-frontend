@@ -12,17 +12,27 @@ class SelectionField extends React.Component {
         console.log("handle change");
         this.props.onSelectionChange(e.target.value);
 
+       return fetch('/test', {accept: 'application/json',}).then(function(response) { return response.json()})
+       .then(function(response) {
+           console.log("response", response.test);
+        })
+
+
+
     }
 
     render = () => {
         return (
-            <select onChange={this.handleChange} >
-                <option>One</option>
-                <option>Two</option>
-                <option>Three</option>
-                <option>Four</option>
-                <option>Five</option>         
-            </select>
+            <div>
+                <label>Selecciona tu opcion</label>
+                <select onChange={this.handleChange} >
+                    <option>Uno</option>
+                    <option>Dos</option>
+                    <option>Tres</option>
+                    <option>Cuatro</option>
+                    <option>Cinco</option>         
+                </select>
+            </div>
             )
     }
 

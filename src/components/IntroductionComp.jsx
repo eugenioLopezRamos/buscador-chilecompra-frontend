@@ -21,9 +21,6 @@ class IntroductionComp extends React.Component {
     }
 
     showResults = (json) => {
-        var parsedJSON = JSON.stringify(json);
-        //console.log("json", json, "parsedJSON", parsedJSON);
-      //  alert(json["hola"]);
         this.props.items(json);
     }
 

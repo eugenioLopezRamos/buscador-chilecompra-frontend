@@ -10,20 +10,25 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../webpack.config.dev';
+import url from 'url';
+import proxy from 'proxy-middleware';
 
 const bundler = webpack(config);
+const proxyOptions = url.parse('http://localhost:3001/test');
+proxyOptions.route = '/test';
 
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
   port: 3000,
   ui: {
-    port: 3001
+    port: 3002
   },
   server: {
     baseDir: 'src',
 
     middleware: [
-      historyApiFallback(),
+    //  historyApiFallback(), // has to be disabled for the proxy to the rails api server to work!. Otherwise it acts like a catch all, redirecting '/api' to 'reactapp/api', which
+    //doesnt exist but still shows the root app anyways.
 
       webpackDevMiddleware(bundler, {
         // Dev middleware can't access config, so we provide publicPath
@@ -47,7 +52,8 @@ browserSync({
       }),
 
       // bundler should be the same as above
-      webpackHotMiddleware(bundler)
+      webpackHotMiddleware(bundler),
+      proxy(proxyOptions)
     ]
   },
 
