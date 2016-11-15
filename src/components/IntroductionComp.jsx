@@ -1,6 +1,9 @@
 import React from 'react';
 import SearchField from './SearchField.jsx'
 import SelectionField from './SelectionField.jsx'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
+import 'react-datepicker/dist/react-datepicker.css'
 
 class IntroductionComp extends React.Component {
     constructor(state, props) {
@@ -30,6 +33,7 @@ class IntroductionComp extends React.Component {
 
     }
 
+
     componentDidUpdate = () => {
 
        console.log(this.state.active);
@@ -51,11 +55,26 @@ class IntroductionComp extends React.Component {
                 Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
                 <br />
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
+                <div className="container inputfields">
+                    <label>Selecciona una fecha</label>
+                    <DatePicker />
 
-                <SelectionField active={this.state.active} onSelectionChange={this.handleSelectionChange} />
+                    <label>Código de licitación</label>
+                    <input id="cod-licitacion" value="" onChange={this.handleChange} />
+
+                    <label>Estado de la licitación (código)</label>
+                    <SelectionField id="estado-licitacion" choices="estadoslicitacion" onChange={this.handleSelect} /> 
+
+                    <label>Según comprador (organismo público)</label>
+                    <input id="org-publico" />
+
+                    <label>Según RUT proveedor</label>
+                    <input id="rut-proveedor" />
+
+                    <label>Según palabras clave</label>
+                    <SearchField dateFormat="DD/MM/YYYY" todayButton={"Hoy"} onChange={this.handleChange} licitaciones={this.showResults} />
+                </div>
                 
-                <SearchField onChange={this.handleChange} licitaciones={this.showResults} />
-
             </div>
         )
         

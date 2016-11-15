@@ -14,8 +14,8 @@ import url from 'url';
 import proxy from 'proxy-middleware';
 
 const bundler = webpack(config);
-const proxyOptions = url.parse('http://localhost:3001/test');
-proxyOptions.route = '/test';
+const proxyOptions = url.parse('http://localhost:3001/');
+proxyOptions.route = ['/test', '/estadoslicitacion'];
 
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
