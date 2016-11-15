@@ -12,7 +12,8 @@ constructor(props, state) {
         displayContent: "searchBox",
         login: state.login,
         searchValue: "",
-        searchResults: []
+        searchResults: [],
+        organismosPublicos: ""
     }
 
 
@@ -24,11 +25,37 @@ showSearchResults = (results) => {
 
 }
 
+componentDidMount = () => {
+            {
+        var self = this;
+        fetch("/get_misc_info?info=organismos_publicos", {accept: 'application/json', contentType: 'application/json'})
+            .then(function(response) { return response.json()})
+            .then(function(response) {
+                console.log("RESP", response);
+            
+                self.setState({organismosPublicos: response});
+               // self.setState({choices: response, value: self.state.choices[0]});
+                })
+            
+        }
+        {
+        var self = this;
+        fetch("/get_misc_info?info=estados_licitacion", {accept: 'application/json', contentType: 'application/json'})
+            .then(function(response) { return response.json()})
+            .then(function(response) {
+                console.log("RESP", response);
+                self.setState({estadosLicitacion: response});
+               // self.setState({choices: response, value: self.state.choices[0]});
+                })
+            
+        }
+}
+
 render = () => {
 
     return (
         <div> 
-            <IntroductionComp  items={this.showSearchResults} />
+            <IntroductionComp  items={this.showSearchResults} organismosPublicos={this.state.organismosPublicos} estadosLicitacion={this.state.estadosLicitacion} />
             <SearchResults items={this.state.searchResults} />
         </div>
         )
