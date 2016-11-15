@@ -42,6 +42,33 @@
     
 }
 
+.title-container {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.title-container span {
+    display:flex;
+    justify-content: center;
+    text-align: center;
+   
+}
+
+.search.codigo-externo.title, .search.codigo-estado.title, .search.nombre.title {
+    border-top: 1px solid black;
+
+    border-bottom: none;
+}
+
+.search.nombre.title {
+        border-left: 1px solid black;
+
+}
+.search.codigo-estado.title {
+        border-right: 1px solid black;
+}
+
 .search-results {
     list-style-type: none;
     font-size: 1em;
@@ -63,7 +90,7 @@
  
 }
 
-.search.nombre {
+.search.nombre{
     width: 75%;
     border-bottom: 1px solid black;
  
@@ -80,6 +107,10 @@
     border-left: 1px solid black;
 
     border-bottom: 1px solid black;
+}
+
+.autofiller.select {
+    width: 100%;
 }
 
 @media all and (min-width: 700px) {

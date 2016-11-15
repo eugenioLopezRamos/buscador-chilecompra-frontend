@@ -26,7 +26,14 @@ class SearchResults extends React.Component {
             }
 
         })
-        return (<ul>{
+        return (<ul>
+                <div className="title-container">
+                    <span className="search nombre title">Nombre</span>
+                    <span className="search codigo-externo title">Código Licitación (código externo)</span>
+                    <span className="search codigo-estado title">Código Estado</span>
+                </div>
+                {
+
                 resultsArray.map( (e, i) => {
                     return <li className="search-results" key={e.key}>
 

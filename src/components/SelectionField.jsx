@@ -8,25 +8,26 @@ class SelectionField extends React.Component {
 
         this.state = ({
 
-        choices: ""
+            value: "",
+            choices: ""
 
         })
     }
 
-    componentDidMount = () => {
+    componentWillMount = () => {
         var self = this;
-        fetch("/estadoslicitacion", {accept: 'application/json', contentType: 'application/json'})
-                    .then(function(response) { return response.json()})
-                        .then(function(response) {
-                            console.log("RESP", response);
-                            self.setState({choices: response});
-                        })
+        fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
+            .then(function(response) { return response.json()})
+            .then(function(response) {
+                console.log("RESP", response);
+                self.setState({choices: response});
+                }) 
     }
 
-    handleChange = (e) => {
+    handleChange = (event) => {
         
-        console.log("handle change");
-        this.props.onSelectionChange(e.target.value);
+        console.log("handle change", event);
+        this.props.onChange(event.target.value);
     }
 
     render = () => {
@@ -41,17 +42,13 @@ class SelectionField extends React.Component {
 
         })
 
-        console.log("values", values);
 
         return (
             <div>
-                <select onChange={this.handleChange} >
+                <select onChange={this.handleChange} value={this.state.value} >
                   {
                       values.map( (e, i) => {
-                          
-                          console.log("eee", e);
                           return <option key={i}>{e}</option>
-
                         })
                   }      
                 </select>
