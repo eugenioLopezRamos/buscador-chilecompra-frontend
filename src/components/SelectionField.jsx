@@ -7,7 +7,7 @@ class SelectionField extends React.Component {
         super(props, state);
     }
 
-    componentWillMount = () => {
+    componentDidUpdate = () => {
       /*  var self = this;
         fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
             .then(function(response) { return response.json()})
@@ -15,6 +15,17 @@ class SelectionField extends React.Component {
                 console.log("RESP", response);
                 self.setState({choices: response});
                 }) */
+        if(typeof this.props.estadosLicitacion != "undefined") {
+            console.log("estados", this.props.estadosLicitacion);
+            var estadosLicitacion = this.props.estadosLicitacion[0];
+        }else {
+            var estadosLicitacion = "";
+        }
+        this.props.onChange(estadosLicitacion);
+    }
+
+    componentDidUpdate = () => {
+
     }
 
     handleChange = (event) => {
@@ -37,7 +48,7 @@ class SelectionField extends React.Component {
 
         return (
             <div>
-                <select onChange={this.handleChange} >
+                <select id="estadosLicitacion-select" onChange={this.handleChange} >
                   {
                       values.map( (e, i) => {
                           return <option key={i}>{e}</option>

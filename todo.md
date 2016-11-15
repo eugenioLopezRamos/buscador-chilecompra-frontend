@@ -9,3 +9,5 @@
 - The user has a  list of communication media where he/she'll get notifications. Can be email or SMS/something else
 
 
+- NEED to preset values (defaults) when updating the data that's fetched from ajax/fetch.
+- NEED to update the calendar when clicking a date.

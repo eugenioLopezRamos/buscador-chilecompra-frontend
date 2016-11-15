@@ -43,7 +43,7 @@ componentDidMount = () => {
         fetch("/get_misc_info?info=estados_licitacion", {accept: 'application/json', contentType: 'application/json'})
             .then(function(response) { return response.json()})
             .then(function(response) {
-                console.log("RESP", response);
+             //   console.log("RESP", response);
                 self.setState({estadosLicitacion: response});
                // self.setState({choices: response, value: self.state.choices[0]});
                 })

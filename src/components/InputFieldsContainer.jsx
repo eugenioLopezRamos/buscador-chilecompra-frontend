@@ -11,6 +11,9 @@ class InputFieldsContainer extends React.Component {
     constructor(state, props) {
         super(state, props);
 
+
+
+
         this.state = {
             selectedDate: "",
             codigoLicitacion: "",
@@ -18,7 +21,7 @@ class InputFieldsContainer extends React.Component {
             organismoPublico: "",
             rutProveedor: "",
             palabrasClave: ""
-            
+
         }
 
 
@@ -37,8 +40,8 @@ class InputFieldsContainer extends React.Component {
         this.setState({estadoLicitacion: value})
     }
 
-    handleChangeOrganismoPublico = (e) => {
-        this.setState({organismoPublico: e.target.value})
+    handleChangeOrganismoPublico = (value) => {
+        this.setState({organismoPublico: value})
     }
     handleChangeRUTProveedor = (e) => {
         this.setState({rutProveedor: e.target.value})
@@ -70,13 +73,19 @@ class InputFieldsContainer extends React.Component {
                     <SelectionField id="estado-licitacion" choices="estados_licitacion" estadosLicitacion={this.props.estadosLicitacion} onChange={this.handleChangeEstadoLicitacion} /> 
 
                     <label>Según comprador (organismo público)</label>
-                    <AutoFillerInput id="organismos_publicos" choices="organismos_publicos" onChange={this.handleChangeOrganismoPublico} />
+                    <AutoFillerInput 
+                        id="organismos_publicos" 
+                        choices="organismos_publicos" 
+                        organismosPublicos={this.props.organismosPublicos} 
+                        onChange={this.handleChangeOrganismoPublico}
+                        
+                     />
 
                     <label>Según RUT proveedor</label>
                     <input id="rut-proveedor" onChange={this.handleChangeRUTProveedor}/>
 
                     <label>Según palabras clave</label>
-                    <SearchField  onChange={this.handleChangePalabrasClave} toSearch={this.sendParameters} />
+                    <SearchField  onChange={this.handleChangePalabrasClave} onSubmit={this.sendParameters} />
 
                 </div>
                     )

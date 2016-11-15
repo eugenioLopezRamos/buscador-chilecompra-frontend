@@ -47,7 +47,11 @@ class IntroductionComp extends React.Component {
                 <br />
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
 
-                <InputFieldsContainer organismosPublicos={this.props.organismosPublicos} estadosLicitacion={this.props.estadosLicitacion} onSubmit={this.handleSubmit} />
+                <InputFieldsContainer 
+                    organismosPublicos={this.props.organismosPublicos} 
+                    estadosLicitacion={this.props.estadosLicitacion} 
+                    onSubmit={this.handleSubmit}
+                 />
                 
             </div>
         )

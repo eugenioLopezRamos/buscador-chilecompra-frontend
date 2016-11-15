@@ -34,19 +34,25 @@ handleChange = (event) => {
     //need to add something to throttle this without losing user input!!
 
     let testRegex = new RegExp(event.target.value.toLowerCase());
-    let selectionResults = this.state.choiceNames.filter(e => {
+    var selectionResults = this.state.choices.filter(e => {
         if(testRegex.test(e.toLowerCase())) {
             return e;
         }
     })
-
+    var newStartingIndex = this.state.choices.indexOf(selectionResults[0])
     this.setState({
         selectionResults: selectionResults
     })
+    console.log(newStartingIndex);
+
+  //  this.props.onChange(selectionResults[0]);
+   // this.props.onChange(selectionResults[0]);
 }
 
-componentDidMount = () => {
-    var self = this;
+
+
+componentWillReceiveProps = (nextProps) => {
+  /*  var self = this;
     fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
         .then(function(response) { return response.json()})
         .then(function(response) {
@@ -58,7 +64,20 @@ componentDidMount = () => {
             self.setState({choices: response,
                            choiceNames: choiceNames,
                             selectionResults: choiceNames});
-         })
+         })*/
+            //if(this.props.)
+            var choiceNames = [];
+            console.log("nxt prop", nextProps);
+           // Object.keys(this.props.organismosPublicos).forEach (e => {
+            Object.keys(nextProps["organismosPublicos"]).forEach ((e,i,a) => {
+             //   console.log("a", a, "e", e, "i", i);
+                choiceNames.push(nextProps["organismosPublicos"][e]);
+            })
+
+         
+         this.setState({choices: choiceNames, 
+                        selectionResults: choiceNames});
+       
 }
 
 
@@ -69,8 +88,8 @@ render = () => {
 
     return(
         <div className="selection-container">
-            <input placeholder="Busca un organismo público (código o nombre)" onChange={this.handleChange} />
-            <select className="autofiller select" >
+            <input placeholder="Busca un organismo público (código o nombre)" onChange={this.handleChange}  />
+            <select className="autofiller select">
             {   
                 selectionResults.map ( (e, i) => {
                  
