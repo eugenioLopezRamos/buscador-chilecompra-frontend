@@ -40,8 +40,9 @@ class InputFieldsContainer extends React.Component {
         this.setState({estadoLicitacion: value})
     }
 
-    handleChangeOrganismoPublico = (value) => {
-        this.setState({organismoPublico: value})
+    handleChangeOrganismoPublico = (org) => {
+        console.log("ORG PUBLICO VAL", org);
+        this.setState({organismoPublico: org})
     }
     handleChangeRUTProveedor = (e) => {
         this.setState({rutProveedor: e.target.value})
@@ -57,6 +58,7 @@ class InputFieldsContainer extends React.Component {
 
        // this.props.items(licitaciones);
     }
+
 
     render = () => {
 
@@ -74,9 +76,10 @@ class InputFieldsContainer extends React.Component {
 
                     <label>Según comprador (organismo público)</label>
                     <AutoFillerInput 
+
                         id="organismos_publicos" 
                         choices="organismos_publicos" 
-                        organismosPublicos={this.props.organismosPublicos} 
+                        organismosPublicos={this.props.organismosPublicos}
                         onChange={this.handleChangeOrganismoPublico}
                         
                      />
