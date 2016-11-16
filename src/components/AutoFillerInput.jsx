@@ -25,33 +25,40 @@ selectStatus = () => {
 
 handleChange = (event) => {
 
-    if(event.target.value.length < 3 && event.target.length > 0) {
+
+
+    var selectionResults;
+   /* if(event.target.value.length < 4 && event.target.value.length > 0) {
+        selectionResults = this.state.choicesNames;
         return;
     }
     if(event.target.value.length === 0) {
         selectionResults = this.state.choiceNames;
-    }
+    }*/
+
     let testRegex = new RegExp(event.target.value.toLowerCase());
-    var selectionResults = this.state.choices.filter(e => {
+
+    selectionResults = this.state.choices.filter(e => {
         if(testRegex.test(e.toLowerCase())) {
             return e;
         }
     })
-  //  var newStartingIndex = this.state.choices.indexOf(selectionResults[0])
-  //  var target = document.querySelector('#opselect');
-  //  var change = new Event("change", {bubbles: true});
-
-  //  target.dispatchEvent(change);
+    var selected = document.querySelector('#opselect option:first-of-type') ? document.querySelector('#opselect option:first-of-type').value : "";
+    console.log("SELECTED", selected);
+    if(!selectionResults) {
+        selectionResults = [];
+    }
+    this.props.onChange(selected);
     this.setState({
         selectionResults: selectionResults
     })
-//    console.log(newStartingIndex);
 
-   // document.querySelector('#op-select').onchange();
-      var selected = document.querySelector('#opselect option:first-of-type').value
-      console.log("SELECTED", selected);
-      this.props.onChange(selected);
-   // this.props.onChange(selectionResults[0]);
+
+
+
+
+
+
 }
 
 onSelect = (event) => {
@@ -90,15 +97,6 @@ componentWillReceiveProps = (nextProps) => {
                     console.log("failed");
                 }
             )
-
-
-
-
-
-
-
-
-
             }
 
 
