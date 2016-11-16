@@ -60,35 +60,48 @@ onSelect = (event) => {
 }
 
 componentWillReceiveProps = (nextProps) => {
-  /*  var self = this;
-    fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
-        .then(function(response) { return response.json()})
-        .then(function(response) {
-            console.log("RESP", response);
-            let choiceNames = [];
-            Object.keys(response).forEach (e => {
-                choiceNames.push(response[e]);
-            })
-            self.setState({choices: response,
-                           choiceNames: choiceNames,
-                            selectionResults: choiceNames});
-         })*/
-            //if(this.props.)
+
             var choiceNames = [];
             if(this.props.organismosPublicos != nextProps.organismosPublicos) {
                 console.log("nxt prop", nextProps);
-            // Object.keys(this.props.organismosPublicos).forEach (e => {
-                Object.keys(nextProps["organismosPublicos"]).forEach ((e,i,a) => {
-                //   console.log("a", a, "e", e, "i", i);
+                Object.keys(nextProps["organismosPublicos"]).forEach ((e,i,a) => {        
                     choiceNames.push(nextProps["organismosPublicos"][e]);
                 })
 
-            
             this.setState({choices: choiceNames, 
                             selectionResults: choiceNames});
-            
+
+            var setInitialValue = new Promise(function(resolve, reject) {
+                if(document.querySelectorAll(".options")) {
+                    resolve();
+                }else {
+                    throw error;
+                }
+            });
+
+            var self = this;
+            setInitialValue.then(
+                function success() {
+                    let value = document.querySelector("#opselect option").value;
+                    console.log("succeeded");
+                    self.props.onChange(value);
+                },
+                function fail() {
+                    console.log("failed");
+                }
+            )
+
+
+
+
+
+
+
+
+
             }
-            
+
+
 
        
 }
@@ -106,7 +119,7 @@ render = () => {
             {   
                 selectionResults.map ( (e, i) => {
                  
-                        return <option key={"selection-" + (i+1) }>{e}</option>
+                        return <option className="options" key={"selection-" + (i+1) }>{e}</option>
                     
                 
                 })

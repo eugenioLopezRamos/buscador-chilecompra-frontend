@@ -10,7 +10,7 @@ class SearchResults extends React.Component {
     render = () => {
 
         let listado = "";
-       console.log(this.props.items);
+      // console.log(this.props.items);
         let resultsArray = [];
         let extCodesArray = [];
         let codigoEstadoArray = [];
