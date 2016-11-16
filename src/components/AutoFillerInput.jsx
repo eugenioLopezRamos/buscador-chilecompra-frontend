@@ -25,8 +25,8 @@ selectStatus = () => {
 
 handleChange = (event) => {
 
-
-
+    var self = this;
+    console.log("event target value", event.target.value);
     var selectionResults;
    /* if(event.target.value.length < 4 && event.target.value.length > 0) {
         selectionResults = this.state.choicesNames;
@@ -36,34 +36,30 @@ handleChange = (event) => {
         selectionResults = this.state.choiceNames;
     }*/
 
-    let testRegex = new RegExp(event.target.value.toLowerCase());
+    var testRegex = new RegExp(event.target.value.toLowerCase());
 
     selectionResults = this.state.choices.filter(e => {
         if(testRegex.test(e.toLowerCase())) {
             return e;
         }
     })
-    var selected = document.querySelector('#opselect option:first-of-type') ? document.querySelector('#opselect option:first-of-type').value : "";
+   // var selected = document.querySelector('#opselect option:first-of-type') ? document.querySelector('#opselect option:first-of-type').value : "";
+    var selected = selectionResults[0];// document.querySelector("#opselect").value;
+    
     console.log("SELECTED", selected);
     if(!selectionResults) {
         selectionResults = [];
     }
-    this.props.onChange(selected);
-    this.setState({
-        selectionResults: selectionResults
-    })
+   function modifyState() {
+        
+        self.setState({
+            selectionResults: selectionResults
+        }, () => {self.props.onChange(selected);})
 
+    }
 
+    modifyState();
 
-
-
-
-
-}
-
-onSelect = (event) => {
-    //console.log(event);
-    console.log("SELECT CHANGE");
 }
 
 componentWillReceiveProps = (nextProps) => {
@@ -113,7 +109,7 @@ render = () => {
     return(
         <div className="selection-container">
             <input placeholder="Busca un organismo público (código o nombre)" onChange={this.handleChange}  />
-            <select className="autofiller select" id="opselect" onChange={this.onSelect} >
+            <select className="autofiller select" id="opselect">
             {   
                 selectionResults.map ( (e, i) => {
                  
