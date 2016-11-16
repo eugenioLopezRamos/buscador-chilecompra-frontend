@@ -50,10 +50,6 @@ handleChange = (event) => {
 
 }
 
-componentDidMount = () => {
-
-}
-
 handleChangeSelect = (event) => {
     // definitely improvable, but it's a start
     let newValue = event.target.value;

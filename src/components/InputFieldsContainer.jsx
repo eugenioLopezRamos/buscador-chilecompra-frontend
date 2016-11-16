@@ -54,6 +54,7 @@ class InputFieldsContainer extends React.Component {
 
     sendParameters= (parameters) => {
         // por lo tanto, este deberia llamarse al clickear el boton "BUSCAR" (lupa) y hacer fetch con todos los parametros dados
+        // (que vendrian a ser todas o la mayoria de las keys del state)
         // y al final del fetch, mandar this.props.items(resultados_desde_el_server) para q se muestren en <SearchResults />
 
        // this.props.items(licitaciones);
