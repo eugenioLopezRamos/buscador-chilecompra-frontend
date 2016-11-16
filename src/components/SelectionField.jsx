@@ -8,13 +8,6 @@ class SelectionField extends React.Component {
     }
 
     componentDidUpdate = () => {
-      /*  var self = this;
-        fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                console.log("RESP", response);
-                self.setState({choices: response});
-                }) */
         if(typeof this.props.estadosLicitacion != "undefined") {
             console.log("estados", this.props.estadosLicitacion);
             var estadosLicitacion = this.props.estadosLicitacion[0];

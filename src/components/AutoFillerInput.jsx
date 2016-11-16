@@ -25,42 +25,46 @@ selectStatus = () => {
 
 handleChange = (event) => {
 
-    var self = this;
-    console.log("event target value", event.target.value);
-    var selectionResults;
-   /* if(event.target.value.length < 4 && event.target.value.length > 0) {
-        selectionResults = this.state.choicesNames;
-        return;
-    }
-    if(event.target.value.length === 0) {
-        selectionResults = this.state.choiceNames;
-    }*/
-
-    var testRegex = new RegExp(event.target.value.toLowerCase());
-
+    let self = this;
+    let selectionResults;
+    let testRegex = new RegExp(event.target.value.toLowerCase());
     selectionResults = this.state.choices.filter(e => {
         if(testRegex.test(e.toLowerCase())) {
             return e;
         }
     })
-   // var selected = document.querySelector('#opselect option:first-of-type') ? document.querySelector('#opselect option:first-of-type').value : "";
-    var selected = selectionResults[0];// document.querySelector("#opselect").value;
-    
-    console.log("SELECTED", selected);
+
+    let selected = selectionResults.length > 0 ? selectionResults[0] : "";// At first I tried to use the value of the first <option>, but then I realized that at 
+    //this point its still the old one (since the value will change on re-render after the props are passed)
     if(!selectionResults) {
         selectionResults = [];
     }
    function modifyState() {
         
         self.setState({
-            selectionResults: selectionResults
-        }, () => {self.props.onChange(selected);})
-
+            selectionResults: selectionResults,
+            selected: selected
+        }, () => {self.props.onChange(selected)})
     }
-
     modifyState();
 
 }
+
+componentDidMount = () => {
+
+}
+
+handleChangeSelect = (event) => {
+    // definitely improvable, but it's a start
+    let newValue = event.target.value;
+    this.setState({selectionResults: this.state.selectionResults, selected: newValue},
+                    () => {
+                            document.querySelector("#opinput").value = "";
+                            console.log(document.querySelector("#opinput"));
+                            this.props.onChange(newValue)
+                        })
+        
+    }
 
 componentWillReceiveProps = (nextProps) => {
 
@@ -86,18 +90,14 @@ componentWillReceiveProps = (nextProps) => {
             setInitialValue.then(
                 function success() {
                     let value = document.querySelector("#opselect option").value;
-                    console.log("succeeded");
+                    console.log("autofiller promise succeeded");
                     self.props.onChange(value);
                 },
                 function fail() {
-                    console.log("failed");
+                    console.log("autofiller promise failed");
                 }
             )
-            }
-
-
-
-       
+            }    
 }
 
 
@@ -108,8 +108,8 @@ render = () => {
     
     return(
         <div className="selection-container">
-            <input placeholder="Busca un organismo público (código o nombre)" onChange={this.handleChange}  />
-            <select className="autofiller select" id="opselect">
+            <input placeholder="Busca un organismo público (código o nombre)" id="opinput" onChange={this.handleChange}  />
+            <select className="autofiller select" id="opselect" onChange={this.handleChangeSelect}>
             {   
                 selectionResults.map ( (e, i) => {
                  
