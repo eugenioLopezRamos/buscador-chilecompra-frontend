@@ -101,7 +101,7 @@ class InputFieldsContainer extends React.Component {
 
     render = () => {
        // console.log("ORG PUBLICO", this.state.organismoPublico);
-       //console.log(this.state);
+       console.log(this.state);
         return(
                 <div className="container inputfields">
 

@@ -23,8 +23,11 @@ class AutoFillerInput extends React.Component {
             return self.state.choices[e]["key"];
         });
         console.log("CHOICES", choices);*/
-        selectionResults = this.state.choices.filter(e => {
-            if(testRegex.test(e["key"].toLowerCase())) {
+        selectionResults = this.state.choices.filter( (e, i) => {
+
+            let key = Object.keys(self.state.choices[i])[0];
+
+            if(testRegex.test(e[key].toLowerCase())) {
                 return e;
             }
         })
@@ -38,7 +41,7 @@ class AutoFillerInput extends React.Component {
         this.setState({
             selectionResults: selectionResults,
             selected: selected["key"]
-        }, () => {this.props.onChange(selected["key"])})
+        }, () => {this.props.onChange(Object.keys(selected)[0])})
 
     }
 
@@ -82,14 +85,20 @@ class AutoFillerInput extends React.Component {
                         //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
                         // I should just push the whole object and in the <select> push ["6918"] 
                         let key = element.toString();
+                        //console.log("KEY VALUE IS ", key);
                         let value = nextProps["organismosPublicos"][element].toString();
+                        //console.log("VALUE VALUE IS ", value);
+                       // console.log("KEY VALUE IS ", key);
+                       // console.log("PUSH ", {key: value});
 
-                        choiceNames.push({ key: value });
+                        let object = {};
+                        object[key] = value;
+                        choiceNames.push(object);
                     
                     //choiceNames.push(nextProps["organismosPublicos"][element]);
                     })
 
-                    console.log("CHOICENAMES", choiceNames);
+                   // console.log("CHOICENAMES", choiceNames);
                 this.setState({choices: choiceNames, 
                                 selectionResults: choiceNames
                                 });
@@ -106,9 +115,10 @@ class AutoFillerInput extends React.Component {
 
                 setInitialValue.then(
                     function success() {
-                        let value = document.querySelector("#opselect option").value;
+                       // let value = document.querySelector("#opselect option").value;
                         console.log("autofiller promise succeeded");
-                        self.props.onChange(value);
+                        self.props.onChange(Object.keys(self.state.choices[0])[0])
+                        //self.props.onChange(value);
                     },
                     function fail() {
                         console.log("autofiller promise failed");
@@ -131,7 +141,8 @@ class AutoFillerInput extends React.Component {
                 <select className="autofiller select" id="opselect" onChange={this.handleChangeSelect}>
                 {   
                     this.state.selectionResults.map ( (e, i) => {
-                        let value = self.state.selectionResults[i]["key"];
+                        let key = Object.keys(self.state.selectionResults[i])[0]
+                        let value = self.state.selectionResults[i][key];
                      //   console.log("RENDER VALUE", value);
                         return <option className="options" key={"selection-" + (i+1) }>{value}</option>
                     })
