@@ -30,7 +30,7 @@ class SelectionField extends React.Component {
 
             var choiceNames = [];
             if(this.props.estadosLicitacion != nextProps.estadosLicitacion) {
-                console.log("nxt prop lic", nextProps);
+             //   console.log("nxt prop lic", nextProps);
                 Object.keys(nextProps["estadosLicitacion"]).forEach ((e,i,a) => {        
                     choiceNames.push(nextProps["estadosLicitacion"][e]);
                 })
@@ -50,7 +50,7 @@ class SelectionField extends React.Component {
             setInitialValue.then(
                 function success() {
                     let value = document.querySelector("#estadosLicitacion-select option").value;
-                    console.log("SEL autofiller promise succeeded");
+               //     console.log("SEL autofiller promise succeeded");
                     self.props.onChange(value);
                 },
                 function fail() {

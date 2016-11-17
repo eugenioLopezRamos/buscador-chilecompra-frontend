@@ -7,8 +7,8 @@ class AutoFillerInput extends React.Component {
         this.state = ({
             selection: "",
             selectionResults: [],
-            choices: "",
-            choiceNames: ""
+            choices: ""
+          //  choiceNames: ""
         })
     }
 
@@ -17,13 +17,19 @@ class AutoFillerInput extends React.Component {
         let self = this;
         let selectionResults;
         let testRegex = new RegExp(event.target.value.toLowerCase());
+       // console.log("CHOICES ON CHANGE", this.state.choices);
+
+       /* let choices = Object.keys(this.state.choices).map (e => {
+            return self.state.choices[e]["key"];
+        });
+        console.log("CHOICES", choices);*/
         selectionResults = this.state.choices.filter(e => {
-            if(testRegex.test(e.toLowerCase())) {
+            if(testRegex.test(e["key"].toLowerCase())) {
                 return e;
             }
         })
-
-        let selected = selectionResults.length > 0 ? selectionResults[0] : "";// At first I tried to use the value of the first <option>, but then I realized that at 
+      //  console.log("SELEC RESULT", selectionResults);
+        let selected = selectionResults.length > 0 ? selectionResults[0] : [{"key":""}];// At first I tried to use the value of the first <option>, but then I realized that at 
         //this point its still the previous one (since the value will change on re-render after the props callback is called)
         if(!selectionResults) {
             selectionResults = [];
@@ -31,8 +37,8 @@ class AutoFillerInput extends React.Component {
 
         this.setState({
             selectionResults: selectionResults,
-            selected: selected
-        }, () => {this.props.onChange(selected)})
+            selected: selected["key"]
+        }, () => {this.props.onChange(selected["key"])})
 
     }
 
@@ -40,10 +46,10 @@ class AutoFillerInput extends React.Component {
         // definitely improvable, but it's a start
         // http://stackoverflow.com/questions/23448937/react-retrieve-dynamic-child-key-upon-event should use this instead of querySelector to use keys from child elements
         let newValue = event.target.value;
-        this.setState({selectionResults: this.state.selectionResults, selected: newValue},
+        this.setState({selected: newValue},
                         () => {
                                 document.querySelector("#opinput").value = "";
-                                this.props.onChange(newValue)
+                                this.props.onChange(newValue);
                             })
             
         }
@@ -53,13 +59,40 @@ class AutoFillerInput extends React.Component {
 
                 var choiceNames = [];
                 if(this.props.organismosPublicos != nextProps.organismosPublicos) {
-                    console.log("nxt prop", nextProps);
-                    Object.keys(nextProps["organismosPublicos"]).forEach ((element,index,array) => {        
+
+
+               //     console.log("nxt prop", nextProps);
+                 //   console.log("next props", nextProps.organismosPublicos);
+                   
+                   
+                   
+                   // console.log("next props JSON", JSON.stringify(nextProps.organismosPublicos));
+                 //   let JSONProps = JSON.stringify(nextProps, )
+                  /*  Object.keys(nextProps["organismosPublicos"]).forEach ((element,index,array) => {
+                        //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
+                        // I should just push the whole object and in the <select> push ["6918"] 
+
+
                         choiceNames.push(nextProps["organismosPublicos"][element]);
+                      
+
+
+                    })*/
+                    Object.keys(nextProps["organismosPublicos"]).forEach ((element,index,array) => {
+                        //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
+                        // I should just push the whole object and in the <select> push ["6918"] 
+                        let key = element.toString();
+                        let value = nextProps["organismosPublicos"][element].toString();
+
+                        choiceNames.push({ key: value });
+                    
+                    //choiceNames.push(nextProps["organismosPublicos"][element]);
                     })
 
+                    console.log("CHOICENAMES", choiceNames);
                 this.setState({choices: choiceNames, 
-                                selectionResults: choiceNames});
+                                selectionResults: choiceNames
+                                });
 
                 var setInitialValue = new Promise(function(resolve, reject) {
                     if(document.querySelectorAll(".options")) {
@@ -70,7 +103,7 @@ class AutoFillerInput extends React.Component {
                 });
 
                 var self = this;
-                
+
                 setInitialValue.then(
                     function success() {
                         let value = document.querySelector("#opselect option").value;
@@ -87,16 +120,20 @@ class AutoFillerInput extends React.Component {
 
 
     render = () => {
-
-        const selectionResults = this.state.selectionResults;
+        var self = this;
+       // const options = this.state.selectionResults;
+       // console.log("SELECTION RESULTS RENDER", this.state.selectionResults);
+      //  const selectionResults = Object.keys(this.state.selectionResults);
         
         return(
             <div className="selection-container">
                 <input placeholder="Busca un organismo público (código o nombre)" id="opinput" onChange={this.handleChange}  />
                 <select className="autofiller select" id="opselect" onChange={this.handleChangeSelect}>
                 {   
-                    selectionResults.map ( (e, i) => {            
-                        return <option className="options" key={"selection-" + (i+1) }>{e}</option>
+                    this.state.selectionResults.map ( (e, i) => {
+                        let value = self.state.selectionResults[i]["key"];
+                     //   console.log("RENDER VALUE", value);
+                        return <option className="options" key={"selection-" + (i+1) }>{value}</option>
                     })
                 }
                 </select>
