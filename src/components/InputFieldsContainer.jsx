@@ -1,18 +1,12 @@
-
 import React from 'react';
 import SearchField from './SearchField.jsx'
 import SelectionField from './SelectionField.jsx'
-import DatePicker from 'react-datepicker'
-import moment from 'moment'
-import 'react-datepicker/dist/react-datepicker.css'
 import AutoFillerInput from './AutoFillerInput.jsx'
+import DateField from './DateField.jsx'
 
 class InputFieldsContainer extends React.Component {
     constructor(state, props) {
         super(state, props);
-
-
-
 
         this.state = {
             selectedDate: "",
@@ -23,13 +17,16 @@ class InputFieldsContainer extends React.Component {
             palabrasClave: ""
 
         }
-
-
-
     }
 
-    setDate = (value) => {
-        this.setState({selectedDate: value})
+    handleChangeDate = (value) => {
+        console.log("DATE", value);
+        let newValue = value;
+        if(value === "Invalid date"){
+            newValue = "";
+        }
+        
+        this.setState({selectedDate: newValue})
     }
 
     handleChangeCodigoLicitacion = (e) => {
@@ -37,11 +34,12 @@ class InputFieldsContainer extends React.Component {
     }
 
     handleChangeEstadoLicitacion = (value) => {
+      //  console.log("ESTADO LICITACION VAL", value);  
         this.setState({estadoLicitacion: value})
     }
 
     handleChangeOrganismoPublico = (org) => {
-        console.log("ORG PUBLICO VAL", org);
+        //console.log("ORG PUBLICO VAL", org);
         this.setState({organismoPublico: org})
     }
     handleChangeRUTProveedor = (e) => {
@@ -52,7 +50,47 @@ class InputFieldsContainer extends React.Component {
         this.setState({palabrasClave: value})
     }
 
-    sendParameters= (parameters) => {
+    sendParameters= () => {
+        let self = this;
+       // let parameters = JSON.stringify(this.state);
+     //   console.log("parameters", parameters);
+    //    console.log("STATE OBJECT KEYS", Object.keys(this.state));
+
+        //This should be destructuring to form the params
+
+        let query = Object.keys(self.state).map( e => {
+            let stateKeyValue = self.state[e];
+            if(stateKeyValue === "" || stateKeyValue.trim().length === 0) {
+                return;
+            }else {
+                let returnValue = (e + "=" + stateKeyValue).toString();
+                return returnValue;
+            }
+        })
+
+        query = query.filter( e => {
+            //eliminates undefined returned by .map when returning from empty strings.
+            if(e) { return e; }
+        })
+
+        console.log("QUERY ARRAY", query);
+        let queryExpression = query.join("&");
+
+        console.log("QUERY EXP", queryExpression);
+
+
+
+
+        fetch("/get_info?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
+            .then(function(response) { return response.json()})
+            .then(function(response) {
+                console.log("RESP", response);
+            //    console.log("RESP", response);
+            
+            //  console.log("SUBMIT RESPONSE", Object.keys(response));
+               // self.setState({choices: response, value: self.state.choices[0]});
+                })
+
         // por lo tanto, este deberia llamarse al clickear el boton "BUSCAR" (lupa) y hacer fetch con todos los parametros dados
         // (que vendrian a ser todas o la mayoria de las keys del state)
         // y al final del fetch, mandar this.props.items(resultados_desde_el_server) para q se muestren en <SearchResults />
@@ -63,11 +101,12 @@ class InputFieldsContainer extends React.Component {
 
     render = () => {
        // console.log("ORG PUBLICO", this.state.organismoPublico);
+       console.log(this.state);
         return(
                 <div className="container inputfields">
 
                     <label>Selecciona una fecha</label>
-                    <DatePicker dateFormat="DD/MM/YYYY" todayButton={"Hoy"} selectedDate={this.setDate} />
+                    <DateField onChange={this.handleChangeDate}/>
 
                     <label>Código de licitación</label>
                     <input id="cod-licitacion" placeholder="Buscar código de licitación" onChange={this.handleChangeCodigoLicitacion} />

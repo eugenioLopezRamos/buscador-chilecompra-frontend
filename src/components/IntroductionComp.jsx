@@ -14,27 +14,10 @@ class IntroductionComp extends React.Component {
         }
     }
 
-    componentWillMount = () => {
-
-
-    /*    var self = this;
-        fetch("/get_misc_info" + "?info=" + this.props.choices, {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                console.log("RESP", response);
-                self.setState({choices: response, value: self.state.choices[0]});
-                }) */
-
-    }
-
     handleSubmit = (data) => {
-        console.log("THE FOLLOWING DATA WILL BE SENT TO THE SERVER", data);
+       // console.log("THE FOLLOWING DATA WILL BE SENT TO THE SERVER", data); //is going to be put in InputFieldsContainer since thats the comp that should
+       //be reused on all views with search functionality
     }
-
-
-// In this case im gonna have a lot of <SelectionField /> with props that will be the fields that the chilecompra API allows you to query
-// then all of these will be sent to the rails API server when clicking the searchButton on <SearchField />. The returned JSON from the Rails API
-// will then be presented in <SearchResults />
 
     render = () => {    
         return (
@@ -50,7 +33,7 @@ class IntroductionComp extends React.Component {
                 <InputFieldsContainer 
                     organismosPublicos={this.props.organismosPublicos} 
                     estadosLicitacion={this.props.estadosLicitacion} 
-                    onSubmit={this.handleSubmit}
+                  // onSubmit={this.handleSubmit}
                  />
                 
             </div>

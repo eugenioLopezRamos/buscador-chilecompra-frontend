@@ -11,3 +11,6 @@
 
 - NEED to preset values (defaults) when updating the data that's fetched from ajax/fetch.
 - NEED to update the calendar when clicking a date.
+- Need to order values alphabetically, esp Organismos publicos
+- Dates should be only until today, not all
+- Autoupdate date on first load (currently not working that way)

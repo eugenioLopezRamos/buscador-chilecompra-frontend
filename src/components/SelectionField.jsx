@@ -25,7 +25,8 @@ class SelectionField extends React.Component {
         this.props.onChange(event.target.value);
     }
 
-    componentWillReceiveProps = (nextProps) => {
+    componentWillReceiveProps = (nextProps) => { //this updates the state of the parent when the component receives the async props
+        //via fetch from the rails API
 
             var choiceNames = [];
             if(this.props.estadosLicitacion != nextProps.estadosLicitacion) {
