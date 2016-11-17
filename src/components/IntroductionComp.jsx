@@ -17,6 +17,8 @@ class IntroductionComp extends React.Component {
     handleSubmit = (data) => {
        // console.log("THE FOLLOWING DATA WILL BE SENT TO THE SERVER", data); //is going to be put in InputFieldsContainer since thats the comp that should
        //be reused on all views with search functionality
+
+       this.props.items(data);
     }
 
     render = () => {    
@@ -33,7 +35,7 @@ class IntroductionComp extends React.Component {
                 <InputFieldsContainer 
                     organismosPublicos={this.props.organismosPublicos} 
                     estadosLicitacion={this.props.estadosLicitacion} 
-                  // onSubmit={this.handleSubmit}
+                    onSubmit={this.handleSubmit}
                  />
                 
             </div>

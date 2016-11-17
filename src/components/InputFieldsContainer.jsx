@@ -85,6 +85,9 @@ class InputFieldsContainer extends React.Component {
             .then(function(response) { return response.json()})
             .then(function(response) {
                 console.log("RESP", response);
+
+                self.props.onSubmit(response);
+
             //    console.log("RESP", response);
             
             //  console.log("SUBMIT RESPONSE", Object.keys(response));
