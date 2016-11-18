@@ -40,7 +40,7 @@ class IntroductionComp extends React.Component {
                 
             </div>
         )
-        
+           
     }
 
 }

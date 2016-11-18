@@ -10,13 +10,18 @@ class SearchResults extends React.Component {
     render = () => {
 
         let listado = "";
-      // console.log(this.props.items);
-        let resultsArray = [];
+        let resultsArray;
         let extCodesArray = [];
         let codigoEstadoArray = [];
+        console.log("THIS PROPS ITEMS", this.props.items);
 
         Object.keys(this.props.items).forEach( key => {
-            if(key === "Listado") {
+            if(this.props.items["Cantidad"] === 0) {
+                resultsArray = [];
+                return;
+            }
+            else if(key === "Listado") {
+                resultsArray = [];
                 this.props.items[key].map ( (e, i, arr) => {
                     let assignedKey = i + 1;
                     resultsArray.push( {key: assignedKey, Nombre: e.Nombre});
@@ -26,12 +31,14 @@ class SearchResults extends React.Component {
             }
 
         })
+
+        if(resultsArray && resultsArray.length > 0) {
         return (<ul>
                 <div className="title-container">
                     <span className="search nombre title">Nombre</span>
                     <span className="search codigo-externo title">Código Licitación (código externo)</span>
                     <span className="search codigo-estado title">Código Estado</span>
-                </div>
+                </div> 
                 {
 
                 resultsArray.map( (e, i) => {
@@ -52,68 +59,13 @@ class SearchResults extends React.Component {
                           </li>
                 })
                 }</ul>)
+       }
+       else if(resultsArray && resultsArray.length === 0){
+           return <span>No se encontraron resultados</span>;
+       }else if(!resultsArray) {
+           return null;
+       }
     }
 }
 
 export default SearchResults;
-            
-          /*  this.props.items.map((el, i, array) => {
-            console.log("prop", this.props.items);
-               let number = i + 1;
-
-               return <li key={number} className={"search-results"}>{el}</li>  
-
-
-
-            if(key === "CodigoExterno") {
-                this.props.items[key].map (e => {
-                    let assignedKey = i + 1;
-                    extCodesArray.push({ key: assignedKey, CodigoExterno: e.CodigoExterno });
-                });
-            }
-
-            if(key === "CodigoEstado") {
-                this.props.items[key].map (e => {
-                    let assignedKey = i + 1;
-                    codigoEstadoArray.push({ key: assignedKey, CodigoEstado: e.CodigoEstado });
-                })
-            }
-
-##############################################
-##############################################
-##############################################
-            var response = JSON.parse(xhr.responseText);
-                var responseKeys = Object.keys(response);
-
-                responseKeys.forEach(function (key) {
-
-                    if (key === "fields") {
-
-                        var innerJSON = Object.keys(response[key]);
-
-                        innerJSON.forEach(function (innerKey) {
-
-                            document.getElementById(innerKey).innerHTML = response[key][innerKey];
-
-                        });
-
-                    }
-
-            })
-            
-                   Object.keys(this.props.items).forEach(function(key) {
-                if(key === "Listado") {
-                    console.log("key", key);
-                    Object.keys(key).forEach( nombre => {return <li>{nombre}</li>})
-                }
-                
-
-            })
-     
-            
-            
-            
-            
-            
-            
-            */

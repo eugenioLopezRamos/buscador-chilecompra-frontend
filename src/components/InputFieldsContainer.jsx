@@ -78,32 +78,18 @@ class InputFieldsContainer extends React.Component {
 
         console.log("QUERY EXP", queryExpression);
 
-
-
-
         fetch("/get_info?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
             .then(function(response) { return response.json()})
             .then(function(response) {
                 console.log("RESP", response);
 
                 self.props.onSubmit(response);
-
-            //    console.log("RESP", response);
-            
-            //  console.log("SUBMIT RESPONSE", Object.keys(response));
-               // self.setState({choices: response, value: self.state.choices[0]});
                 })
-
-        // por lo tanto, este deberia llamarse al clickear el boton "BUSCAR" (lupa) y hacer fetch con todos los parametros dados
-        // (que vendrian a ser todas o la mayoria de las keys del state)
-        // y al final del fetch, mandar this.props.items(resultados_desde_el_server) para q se muestren en <SearchResults />
-
-       // this.props.items(licitaciones);
     }
 
 
     render = () => {
-       // console.log("ORG PUBLICO", this.state.organismoPublico);
+
        console.log(this.state);
         return(
                 <div className="container inputfields">

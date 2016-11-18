@@ -86,7 +86,7 @@ class AutoFillerInput extends React.Component {
                         // I should just push the whole object and in the <select> push ["6918"] 
                         let key = element.toString();
                         //console.log("KEY VALUE IS ", key);
-                        let value = nextProps["organismosPublicos"][element].toString();
+                        let value = (nextProps["organismosPublicos"][element] + "(" + element + ")").toString();
                         //console.log("VALUE VALUE IS ", value);
                        // console.log("KEY VALUE IS ", key);
                        // console.log("PUSH ", {key: value});

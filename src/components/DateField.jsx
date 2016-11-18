@@ -14,29 +14,38 @@ class DateField extends React.Component {
             startDate: moment(),
             
         }
-        console.log("STARTING DATE", this.state.startDate)
+    }
+
+
+    componentDidMount = () => {
+        let initialDate = moment(this.state.startDate).format("DD-MM-YYYY");
+        this.props.onChange(initialDate)
     }
 
     handleChange = (date) => {
         let self = this;
-        console.log("EVENT DATE", date);
-        console.log("EVENT DATE TGT VLA", date);
-        let newDate = moment(date).format("DD/MM/YYYY");
-
+        let newDate = moment(date).format("DD-MM-YYYY");
+        
         this.setState({
             startDate: date
         }, () => self.props.onChange(newDate))
     }
 
+    
+
     render = () => {
 
         return (
             <
-             DatePicker dateFormat="DD-MM-YYYY"
+             DatePicker 
+             
+             dateFormat="DD-MM-YYYY"
              selected={this.state.startDate}
              onChange={this.handleChange}
              isClearable={true}
              locale="ES" 
+             minDate={moment().subtract(10, "years")}
+             maxDate={moment()}
 
             />
         )
