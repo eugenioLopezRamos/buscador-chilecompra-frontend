@@ -39,7 +39,7 @@ class InputFieldsContainer extends React.Component {
     }
 
     handleChangeOrganismoPublico = (org) => {
-        //console.log("ORG PUBLICO VAL", org);
+        console.log("ORG PUBLICO VAL", org);
         this.setState({organismoPublico: org})
     }
     handleChangeRUTProveedor = (e) => {
@@ -90,7 +90,7 @@ class InputFieldsContainer extends React.Component {
 
     render = () => {
 
-       console.log(this.state);
+     //  console.log(this.state);
         return(
                 <div className="container inputfields">
 
@@ -103,7 +103,7 @@ class InputFieldsContainer extends React.Component {
                     <label>Estado de la licitación (código)</label>
                     <SelectionField id="estado-licitacion" choices="estados_licitacion" estadosLicitacion={this.props.estadosLicitacion} onChange={this.handleChangeEstadoLicitacion} /> 
 
-                    <label>Según comprador (organismo público)</label>
+                    <label>Según comprador (código organismo público)</label>
                     <AutoFillerInput 
 
                         id="organismos_publicos" 

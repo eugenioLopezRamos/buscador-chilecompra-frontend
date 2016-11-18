@@ -25,7 +25,7 @@ class DateField extends React.Component {
     handleChange = (date) => {
         let self = this;
         let newDate = moment(date).format("DD-MM-YYYY");
-        
+
         this.setState({
             startDate: date
         }, () => self.props.onChange(newDate))
@@ -39,13 +39,13 @@ class DateField extends React.Component {
             <
              DatePicker 
              
-             dateFormat="DD-MM-YYYY"
-             selected={this.state.startDate}
-             onChange={this.handleChange}
-             isClearable={true}
-             locale="ES" 
-             minDate={moment().subtract(10, "years")}
-             maxDate={moment()}
+                dateFormat="DD-MM-YYYY"
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+                isClearable={true}
+                locale="ES" 
+                minDate={moment().subtract(10, "years")}
+                maxDate={moment()}
 
             />
         )
