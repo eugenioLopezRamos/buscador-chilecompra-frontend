@@ -86,10 +86,6 @@
     border-top: 1px solid black;
 }
 
-.search-results:last-of-type {
- 
-}
-
 .search.nombre{
     width: 75%;
     border-bottom: 1px solid black;
@@ -111,6 +107,16 @@
 
 .autofiller.select {
     width: 100%;
+}
+.fullheight-btn {
+    height: 100%;
+}
+.react-datepicker__close-icon::after {
+    right: initial;
+    margin-left: -20px;
+}
+.no-gutter {
+    padding: 0;
 }
 
 @media all and (min-width: 700px) {

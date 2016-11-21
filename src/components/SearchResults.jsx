@@ -7,13 +7,22 @@ class SearchResults extends React.Component {
         super(props, state);
     }
 
+    getDescripcionEstados = (codigo) => {
+
+        let props = this.props.estadosLicitacion;
+        return Object.keys(props).filter (val => {
+            if(props[val] === codigo) {
+                return val;
+            }
+        })
+    }
+
     render = () => {
 
         let listado = "";
         let resultsArray;
         let extCodesArray = [];
         let codigoEstadoArray = [];
-        console.log("THIS PROPS ITEMS", this.props.items);
 
         Object.keys(this.props.items).forEach( key => {
             if(this.props.items["Cantidad"] === 0) {
@@ -26,7 +35,10 @@ class SearchResults extends React.Component {
                     let assignedKey = i + 1;
                     resultsArray.push( {key: assignedKey, Nombre: e.Nombre});
                     extCodesArray.push( {key: assignedKey, CodigoExterno: e.CodigoExterno } );
-                    codigoEstadoArray.push({ key: assignedKey, CodigoEstado: e.CodigoEstado} );
+
+                    let valorEstado = this.getDescripcionEstados(e.CodigoEstado);
+                    valorEstado += " (" + e.CodigoEstado + ")"; 
+                    codigoEstadoArray.push({ key: assignedKey, CodigoEstado: valorEstado} );
                 })
             }
 

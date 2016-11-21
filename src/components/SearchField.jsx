@@ -50,9 +50,9 @@ class SearchField extends React.Component {
     render = () => {
                 return (
                 <div>
-                    <input className="col-xs-10" type="search" onChange={this.handleChange}/>
+                    <input className="col-xs-8 col-md-10" type="search" onChange={this.handleChange}/>
 
-                    <button className="align-right" type="submit" onClick={this.handleClick} >
+                    <button className="col-xs-2 fullheight-btn align-right" type="submit" onClick={this.handleClick} >
                         <span className="glyphicon glyphicon-search"></span>
                     </button>
                 </div>

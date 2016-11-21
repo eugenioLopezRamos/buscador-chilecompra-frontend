@@ -38,7 +38,7 @@ class DateField extends React.Component {
         return (
             <
              DatePicker 
-             
+                className="col-xs-12 col-md-10 col-lg-4 no-gutter"
                 dateFormat="DD-MM-YYYY"
                 selected={this.state.startDate}
                 onChange={this.handleChange}

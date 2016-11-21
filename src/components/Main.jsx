@@ -3,6 +3,7 @@ import Header from './Header.jsx';
 import Content from './Content.jsx';
 import Footer from './Footer.jsx';
 import {render} from 'react-dom';
+import LoginComponent from './LoginComponent.jsx';
 
 class Main extends React.Component {
 
@@ -12,7 +13,7 @@ class Main extends React.Component {
                 <Header appName={this.props.appName} />
                 <div className="jumbotron">         
                     <div className="container">
-                    <Content login={true} />               
+                    <LoginComponent />
                     </div>                  
                 </div>
                 <Footer />
@@ -26,3 +27,4 @@ class Main extends React.Component {
     }
 
 export default Main;
+  //       <Content login={true} />       

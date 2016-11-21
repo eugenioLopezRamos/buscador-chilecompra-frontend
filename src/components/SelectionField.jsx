@@ -74,7 +74,7 @@ class SelectionField extends React.Component {
 
         return (
             <div>
-                <select id="estadosLicitacion-select" onChange={this.handleChange} >
+                <select className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="estadosLicitacion-select" onChange={this.handleChange} >
                   {
                       values.map( (e, i) => {
                           return <option key={i}>{e}</option>

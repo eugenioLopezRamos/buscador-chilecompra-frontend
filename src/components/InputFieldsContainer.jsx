@@ -98,7 +98,7 @@ class InputFieldsContainer extends React.Component {
                     <DateField onChange={this.handleChangeDate}/>
 
                     <label>Código de licitación</label>
-                    <input id="cod-licitacion" placeholder="Buscar código de licitación" onChange={this.handleChangeCodigoLicitacion} />
+                    <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="cod-licitacion" placeholder="Buscar código de licitación" onChange={this.handleChangeCodigoLicitacion} />
 
                     <label>Estado de la licitación (código)</label>
                     <SelectionField id="estado-licitacion" choices="estados_licitacion" estadosLicitacion={this.props.estadosLicitacion} onChange={this.handleChangeEstadoLicitacion} /> 
