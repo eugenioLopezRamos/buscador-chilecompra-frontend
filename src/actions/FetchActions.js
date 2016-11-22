@@ -37,6 +37,23 @@ import * as types from '../constants/actionTypes';
 // export const FETCH_ORGANISMOS_PUBLICOS = 'FETCH_ORGANISMOS_PUBLICOS';
 
 
+
+
+
+
+//this is a non async action.
+
+// export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+// function receivePosts(subreddit, json) {
+//   return {
+//     type: RECEIVE_POSTS,
+//     subreddit,
+//     posts: json.data.children.map(child => child.data),
+//     receivedAt: Date.now()
+//   }
+// }
+
+
 const FETCH_CHILECOMPRA_DATA = (context = this) => {
 
     //use a context parameter to replace context=context; !
@@ -46,40 +63,55 @@ const FETCH_CHILECOMPRA_DATA = (context = this) => {
      //   console.log("parameters", parameters);
     //    console.log("STATE OBJECT KEYS", Object.keys(context.state));
 
-        //context should be destructuring to form the params
+        //context should be destructured to form the params - Perhaps later.
+        
+        return function(dispatch) {
 
-        let query = Object.keys(context.state).map( e => {
-            let stateKeyValue = context.state[e];
-            if(stateKeyValue === "" || stateKeyValue.trim().length === 0) {
-                return;
-            }else {
-                let returnValue = (e + "=" + stateKeyValue).toString();
-                return returnValue;
-            }
-            //probably I can just if(!currentConditionalStatement) {currentElseStatementFunction} so it looks better
-        })
+            dispatch(requestData("Obteniendo datos")); // obteniendo datos = temporal, a modificarse luego:
+            
+            let query = Object.keys(context.state).map( e => {
+                
+                let stateKeyValue = context.state[e];
+                if(stateKeyValue === "" || stateKeyValue.trim().length === 0) {
+                    return;
+                }else {
+                    let returnValue = (e + "=" + stateKeyValue).toString();
+                    return returnValue;
+                }
+                    //probably I can just if(!currentConditionalStatement) {currentElseStatementFunction} so it looks better
+            })
 
-        query = query.filter( e => {
-            //eliminates undefined returned by .map when returning from empty strings.
-            if(e) { return e; }
-        })
+            query = query.filter( e => {
+                //eliminates undefined returned by .map when returning from empty strings.
+                if(e) { return e; }
+            })
 
-        //probably can just chain that .filter to the .map
+            //probably can just chain that .filter to the .map
 
-        console.log("QUERY ARRAY", query);
-        let queryExpression = query.join("&");
+            console.log("QUERY ARRAY", query);
+            let queryExpression = query.join("&");
 
-        console.log("QUERY EXP", queryExpression);
+            console.log("QUERY EXP", queryExpression);
 
-        fetch("/get_info?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                console.log("RESP", response);
+            return fetch("/get_chilecompra_data?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
+                .then(response => response.json())
+                .then(json => {
+                    console.log("RESP", json);
+                    dispatch(receiveChileCompraData(json)); //Once again, this is temp.
+                // context.props.onSubmit(response);
+                    } 
 
-                context.props.onSubmit(response);
-                })
-
+                )
+                //catch errors here!!!!!
+                //
+                //
+                //
+                
+        }
 }
+
+
+//I should be able to refactor this into just one function, but I'll do it later when I'm more familiarized with the whole setup.
 
 const FETCH_ESTADOS_LICITACION = (context = this) => {
 
