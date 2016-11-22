@@ -26,24 +26,7 @@ showSearchResults = (results) => {
 }
 
 componentDidMount = () => {
-            {
-        var self = this;
-        fetch("/get_misc_info?info=organismos_publicos", {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                self.setState({organismosPublicos: response});
-                })
-            
-        }
-        {
-        var self = this;
-        fetch("/get_misc_info?info=estados_licitacion", {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                self.setState({estadosLicitacion: response});
-                })
-            
-        }
+
 }
 
 render = () => {

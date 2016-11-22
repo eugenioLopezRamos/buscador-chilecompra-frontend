@@ -13,7 +13,7 @@ class Main extends React.Component {
                 <Header appName={this.props.appName} />
                 <div className="jumbotron">         
                     <div className="container">
-                    <LoginComponent />
+                        <Content login={true} />  
                     </div>                  
                 </div>
                 <Footer />
@@ -27,4 +27,4 @@ class Main extends React.Component {
     }
 
 export default Main;
-  //       <Content login={true} />       
+  //                                <LoginComponent />

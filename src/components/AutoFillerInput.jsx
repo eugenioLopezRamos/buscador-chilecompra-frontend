@@ -124,30 +124,11 @@ class AutoFillerInput extends React.Component {
 
 
     render = () => {
-        var self = this;
-        var defaultValueKey = this.state.selected.toString();
-        var defaultValue = this.props.organismosPublicos[defaultValueKey];
-        var keys = this.state.choices.map ( (e, i) => {
 
-            if(Object.keys(e)[0] === self.state.selected) {
-                return i;
-            }
+        // let newVal = NewValueAction.js
 
-
-        });
-        var newVal ="";
-        var placeholder = keys.filter (e => {
-            if(e) {return e}
-        })
-
-        if(!placeholder) {
-            return;
-        }else {
-            if(self.state.choices[placeholder]) {
-                newVal = self.state.choices[placeholder][defaultValueKey];
-            }
-            
-        }
+        //change newVal to selectDefaultValue ^
+        let newVal="";
 
         return(
             <div className="selection-container">

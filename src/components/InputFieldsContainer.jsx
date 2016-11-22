@@ -1,8 +1,14 @@
 import React from 'react';
-import SearchField from './SearchField.jsx'
-import SelectionField from './SelectionField.jsx'
-import AutoFillerInput from './AutoFillerInput.jsx'
-import DateField from './DateField.jsx'
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import * as FetchActions from '../actions/FetchActions';
+import * as SelectPreselectValue from '../actions/SelectPreselectValueAction';
+
+import SearchField from './SearchField.jsx';
+import SelectionField from './SelectionField.jsx';
+import AutoFillerInput from './AutoFillerInput.jsx';
+import DateField from './DateField.jsx';
 
 class InputFieldsContainer extends React.Component {
     constructor(state, props) {
@@ -51,40 +57,45 @@ class InputFieldsContainer extends React.Component {
     }
 
     sendParameters= () => {
-        let self = this;
-       // let parameters = JSON.stringify(this.state);
-     //   console.log("parameters", parameters);
-    //    console.log("STATE OBJECT KEYS", Object.keys(this.state));
 
-        //This should be destructuring to form the params
+        //So, here I should call the fetch action with something like this:
 
-        let query = Object.keys(self.state).map( e => {
-            let stateKeyValue = self.state[e];
-            if(stateKeyValue === "" || stateKeyValue.trim().length === 0) {
-                return;
-            }else {
-                let returnValue = (e + "=" + stateKeyValue).toString();
-                return returnValue;
-            }
-        })
+        // FetchActions.FETCH_CHILECOMPRA_DATA();
 
-        query = query.filter( e => {
-            //eliminates undefined returned by .map when returning from empty strings.
-            if(e) { return e; }
-        })
+        // let self = this;
+        //             // let parameters = JSON.stringify(this.state);
+        //             //   console.log("parameters", parameters);
+        //             //    console.log("STATE OBJECT KEYS", Object.keys(this.state));
 
-        console.log("QUERY ARRAY", query);
-        let queryExpression = query.join("&");
+        //                 //This should be destructuring to form the params
 
-        console.log("QUERY EXP", queryExpression);
+        // let query = Object.keys(self.state).map( e => {
+        //     let stateKeyValue = self.state[e];
+        //     if(stateKeyValue === "" || stateKeyValue.trim().length === 0) {
+        //         return;
+        //     }else {
+        //         let returnValue = (e + "=" + stateKeyValue).toString();
+        //         return returnValue;
+        //     }
+        // })
 
-        fetch("/get_info?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
-            .then(function(response) {
-                console.log("RESP", response);
+        // query = query.filter( e => {
+        //     //eliminates undefined returned by .map when returning from empty strings.
+        //     if(e) { return e; }
+        // })
 
-                self.props.onSubmit(response);
-                })
+        // console.log("QUERY ARRAY", query);
+        // let queryExpression = query.join("&");
+
+        // console.log("QUERY EXP", queryExpression);
+
+        // fetch("/get_info?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
+        //     .then(function(response) { return response.json()})
+        //     .then(function(response) {
+        //         console.log("RESP", response);
+
+        //         self.props.onSubmit(response);
+        //         })
     }
 
 

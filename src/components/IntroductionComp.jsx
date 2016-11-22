@@ -14,6 +14,8 @@ class IntroductionComp extends React.Component {
         }
     }
 
+
+
     handleSubmit = (data) => {
        // console.log("THE FOLLOWING DATA WILL BE SENT TO THE SERVER", data); //is going to be put in InputFieldsContainer since thats the comp that should
        //be reused on all views with search functionality
