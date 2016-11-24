@@ -1,6 +1,7 @@
-import * as types from '../constants/actionTypes';
+//import * as types from '../constants/actionTypes';
 
-const SELECT_PRESELECT_VALUE = (context = this) =>  {
+const SELECT_PRESELECTED_VALUE = 'SELECT_PRESELECTED_VALUE';
+const selectPreselectedValue = (context = this) =>  {
 
         let newVal ="";
 
@@ -26,8 +27,13 @@ const SELECT_PRESELECT_VALUE = (context = this) =>  {
                 newVal = context.state.choices[placeholder][defaultValueKey];
             }
         }
-        return newVal;
+
+        //final action to be returned
+        return {
+            type: SELECT_PRESELECTED_VALUE,
+            value: newVal
+        }
 }
 
 
-export {SELECT_PRESELECT_VALUE}
+export {selectPreselectedValue}

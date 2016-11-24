@@ -4,12 +4,34 @@ import React from 'react';
 class AutoFillerInput extends React.Component {
     constructor(state, props){
         super(state, props);
+            console.log("before props");
+        console.log(this.props.organismosPublicos);  
+
+
+                var choiceNames = [];
+                var orgs = this.props.organismosPublicos;
+                // if(orgs) {
+                //     Object.keys(orgs).forEach ((element,index,array) => {
+                //         //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
+                //         // I should just push the whole object and in the <select> push ["6918"] 
+                //         let key = element.toString();
+                //         let value = (orgs[element] + " (" + element + ")").toString();
+                //         let object = {};
+                //         object[key] = value;
+                //         choiceNames.push(object);
+                //     })
+                // }
+                Object.keys(orgs).forEach (e => {
+                    choiceNames.push(orgs[e]);
+                })
+
         this.state = ({
             selection: [],
-            selectionResults: [],
-            choices: [],
+            selectionResults: choiceNames,
+            choices: choiceNames,
             selected: []
         })
+        console.log("estado de la app", this.state);
     }
 
     handleChange = (event) => {
@@ -81,45 +103,45 @@ class AutoFillerInput extends React.Component {
 
 
 
-    componentWillReceiveProps = (nextProps) => {//this updates the state of the parent when the component receives the async props
-            //via fetch from the rails API
+    // componentWillReceiveProps = (nextProps) => {//this updates the state of the parent when the component receives the async props
+    //         //via fetch from the rails API
 
-                var choiceNames = [];
-                if(this.props.organismosPublicos != nextProps.organismosPublicos) {
-                    Object.keys(nextProps["organismosPublicos"]).forEach ((element,index,array) => {
-                        //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
-                        // I should just push the whole object and in the <select> push ["6918"] 
-                        let key = element.toString();
-                        let value = (nextProps["organismosPublicos"][element] + " (" + element + ")").toString();
-                        let object = {};
-                        object[key] = value;
-                        choiceNames.push(object);
-                    })
+    //             var choiceNames = [];
+    //             if(this.props.organismosPublicos != nextProps.organismosPublicos) {
+    //                 Object.keys(nextProps["organismosPublicos"]).forEach ((element,index,array) => {
+    //                     //so, here instead of pushing the key's value (e.g. ["orgPub"]["6918"] => "Hospital Calvo Mackenna")
+    //                     // I should just push the whole object and in the <select> push ["6918"] 
+    //                     let key = element.toString();
+    //                     let value = (nextProps["organismosPublicos"][element] + " (" + element + ")").toString();
+    //                     let object = {};
+    //                     object[key] = value;
+    //                     choiceNames.push(object);
+    //                 })
 
-                this.setState({choices: choiceNames, 
-                                selectionResults: choiceNames
-                                });
+    //             this.setState({choices: choiceNames, 
+    //                             selectionResults: choiceNames
+    //                             });
 
-                var setInitialValue = new Promise(function(resolve, reject) {
-                    if(document.querySelectorAll(".options")) {
-                        resolve();
-                    }else {
-                        throw error;
-                    }
-                });
+    //             var setInitialValue = new Promise(function(resolve, reject) {
+    //                 if(document.querySelectorAll(".options")) {
+    //                     resolve();
+    //                 }else {
+    //                     throw error;
+    //                 }
+    //             });
 
-                var self = this;
+    //             var self = this;
 
-                setInitialValue.then(
-                    function success() {
-                        self.props.onChange(Object.keys(self.state.choices[0])[0])
-                    },
-                    function fail() {
-                        console.log("autofiller promise failed");
-                    }
-                )
-                }    
-    }
+    //             setInitialValue.then(
+    //                 function success() {
+    //                     self.props.onChange(Object.keys(self.state.choices[0])[0])
+    //                 },
+    //                 function fail() {
+    //                     console.log("autofiller promise failed");
+    //                 }
+    //             )
+    //             }    
+    // }
 
 
 
@@ -138,8 +160,11 @@ class AutoFillerInput extends React.Component {
                 <select className="autofiller select col-xs-12 col-md-10 col-lg-4 no-gutter" id="opselect" onChange={this.handleChangeSelect} value={newVal}>
                 {   
                     this.state.selectionResults.map ( (e, i) => {
-                        let key = Object.keys(self.state.selectionResults[i])[0];
-                        let value = self.state.selectionResults[i][key];
+                        // let key = Object.keys(self.state.selectionResults[i])[0];
+                        // let value = self.state.selectionResults[i][key];
+                        let key = i;
+                        let value = e;
+                        
                         return <option className="options" key={"selection-" + (i+1) }>{value}</option>
                     })
                 }

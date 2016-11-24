@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+//import * as types from '../constants/actionTypes';
 // import utility functions from '..utils/xxxxx';
 
 
@@ -54,17 +54,16 @@ import * as types from '../constants/actionTypes';
 // }
 
 
-const FETCH_CHILECOMPRA_DATA = (context = this) => {
+// export const FETCH_CHILECOMPRA_DATA = 'FETCH_CHILECOMPRA_DATA';
+// export const FETCH_ESTADOS_LICITACION = 'FETCH_ESTADOS_LICITACION';
+// export const FETCH_ORGANISMOS_PUBLICOS = 'FETCH_ORGANISMOS_PUBLICOS';
+// export const SELECT_PRESELECT_VALUE = 'SELECT_PRESELECT_VALUE';
 
-    //use a context parameter to replace context=context; !
-      //  let context = context;
-             
-       // let parameters = JSON.stringify(context.state);
-     //   console.log("parameters", parameters);
-    //    console.log("STATE OBJECT KEYS", Object.keys(context.state));
+const FETCH_CHILECOMPRA_DATA = 'FETCH_CHILECOMPRA_DATA';
 
+const fetchChileCompraData = (context = this) => {
         //context should be destructured to form the params - Perhaps later.
-        
+
         return function(dispatch) {
 
             dispatch(requestData("Obteniendo datos")); // obteniendo datos = temporal, a modificarse luego:
@@ -94,14 +93,17 @@ const FETCH_CHILECOMPRA_DATA = (context = this) => {
             console.log("QUERY EXP", queryExpression);
 
             return fetch("/get_chilecompra_data?" + queryExpression, {accept: 'application/json', contentType: 'application/json'})
-                .then(response => response.json())
-                .then(json => {
-                    console.log("RESP", json);
-                    dispatch(receiveChileCompraData(json)); //Once again, this is temp.
-                // context.props.onSubmit(response);
-                    } 
+                .then(response => dispatch(showSearchResults(response.json())),
+                      error => dispatch(showSearchResults("Error")));
+                // .then(json => {
+                //     console.log("RESP", json);
 
-                )
+
+                //     dispatch(receiveChileCompraData(json)); //Once again, this is temp.
+                // // context.props.onSubmit(response);
+                //     } 
+
+                // )
                 //catch errors here!!!!!
                 //
                 //
@@ -112,26 +114,33 @@ const FETCH_CHILECOMPRA_DATA = (context = this) => {
 
 
 //I should be able to refactor this into just one function, but I'll do it later when I'm more familiarized with the whole setup.
+const FETCH_ESTADOS_LICITACION = 'FETCH_ESTADOS_LICITACION';
 
-const FETCH_ESTADOS_LICITACION = (context = this) => {
+const fetchEstadosLicitacion = (context = this) => {
 
       // var context = context;
         fetch("/get_misc_info?info=estados_licitacion", {accept: 'application/json', contentType: 'application/json'})
             .then(function(response) { return response.json()})
             .then(function(response) {
 
-                context.setState({estadosLicitacion: response});
+                //context.setState({estadosLicitacion: response});
                 //If I understand correctly I will have to change context from .setState to store.dispatch!                
                 })
             
         }
-        
-const FETCH_ORGANISMOS_PUBLICOS = (context = this) => {
+
+
+
+
+
+const FETCH_ORGANISMOS_PUBLICOS = 'FETCH_ORGANISMOS_PUBLICOS';     
+
+const fetchOrganismosPublicos = (context = this) => {
         var context = context;
         fetch("/get_misc_info?info=organismos_publicos", {accept: 'application/json', contentType: 'application/json'})
             .then(function(response) { return response.json()})
             .then(function(response) {
-                context.setState({organismosPublicos: response});
+//                context.setState({organismosPublicos: response});
 
 
                 //If I understand correctly I will have to change context from .setState to store.dispatch!
@@ -139,4 +148,4 @@ const FETCH_ORGANISMOS_PUBLICOS = (context = this) => {
             
         }
 
-export {FETCH_CHILECOMPRA_DATA, FETCH_ORGANISMOS_PUBLICOS, FETCH_ESTADOS_LICITACION}
+export {fetchChileCompraData, fetchEstadosLicitacion, fetchOrganismosPublicos}

@@ -13,7 +13,25 @@ constructor(props, state) {
         login: state.login,
         searchValue: "",
         searchResults: [],
-        organismosPublicos: ""
+        organismosPublicos: { 
+                                "1034640": "CORPORACION MUNICIPAL DE PEÑALOLEN PARA EL DESARROLLO SOCIAL ", 
+                                "1224636": "Agencia Chilena de Eficiencia Energética", 
+                                "7086": "Agencia de Cooperación Internacional de Chile - AGCI", 
+                                "7193": "Agencia de Promoción de la Inversión Extranjera", 
+                                "7212": "Agencia Nacional de Inteligencia", 
+                                "111875": "ARMADA DE CHILE"
+                            },
+        estadosLicitacion: {
+                                "Todos": "",
+                                "Publicada": 5,
+                                "Cerrada": 6,
+                                "Desierta": 7,
+                                "Adjudicada": 8,
+                                "Revocada": 18,
+                                "Suspendida": 19
+                            }
+
+
     }
 
 

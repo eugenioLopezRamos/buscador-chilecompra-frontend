@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
-import Header from './Header.jsx';
-import Content from './Content.jsx';
-import Footer from './Footer.jsx';
+import Header from '../components/Header.jsx';
+import Content from '../components/Content.jsx';
+import Footer from '../components/Footer.jsx';
 import {render} from 'react-dom';
-import LoginComponent from './LoginComponent.jsx';
+import LoginComponent from '../components/LoginComponent.jsx';
 
 class Main extends React.Component {
 
@@ -22,9 +22,9 @@ class Main extends React.Component {
             }
 }
 
-    Main.propTypes = {
-        appName: PropTypes.string.isRequired
-    }
+    // Main.propTypes = {
+    //     appName: PropTypes.string.isRequired
+    // }
 
 export default Main;
   //                                <LoginComponent />

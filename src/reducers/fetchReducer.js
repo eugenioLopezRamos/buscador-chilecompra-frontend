@@ -11,6 +11,7 @@ const fetchReducer = (state = initialState, action) =>  {
 
         case 'estadosLicitacion':
             let getEstadosLicitacion = FETCH_ESTADOS_LICITACION();
+
             //etc etc para ajustar el estado y dejar newState.estadosLicitacion = resultado del fetch...
             return newState;
 

@@ -12,7 +12,7 @@ import './css/bootstrap/sb-admin-2.css';
 import './css/main.css';
 
 import { syncHistoryWithStore } from 'react-router-redux';
-import Main from './components/Main.jsx';
+//import Main from './components/Main.jsx';
 
 
 const store = configureStore();
@@ -27,3 +27,4 @@ render(
         <Router history={history} routes={routes} />
     </Provider>, document.getElementById("app")
     );
+
