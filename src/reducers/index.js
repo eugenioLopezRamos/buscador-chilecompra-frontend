@@ -2,12 +2,13 @@
 import { combineReducers } from 'redux';
  //import XXXXREDUCER from '.myReducerName';
 import {routerReducer} from 'react-router-redux';
-import selectPreselectedValue from './selectPreselectedValueReducer';
+// import * as types from '../actions/types'; //to be created
+
 
 const rootReducer = combineReducers({
     //XXXREDUCER,
-    routing: routerReducer,
-    selectPreselectedValue
+    routing: routerReducer
+    
 })
 
  export default rootReducer;
