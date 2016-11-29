@@ -4,9 +4,10 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
  
 const App = ({ children }) => 
-
+   
     <div>
         <Header />
+        
             {children}
         <Footer />
     </div>

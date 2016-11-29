@@ -1,14 +1,16 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import mockResults from '../mocks/mockResults';
-import emptyMockResults from '../mocks/emptyMockResults';
+//import mockResults from '../mocks/mockResults';
+//import emptyMockResults from '../mocks/emptyMockResults';
 import SearchResults from './SearchResults.jsx';
 
 
 class InputFieldsContainer extends React.Component {
 
    render = () => {
+    const test = this.props.test;
+    console.log("test", test, "props", this.props);
     
     return (
                 <div className="container inputfields jumbotron">
@@ -28,7 +30,7 @@ class InputFieldsContainer extends React.Component {
                     <label>Según palabras clave</label>
 
                     <div className="col-md-8">
-                      <SearchResults results={this.props.results}/>
+                      <SearchResults results={test} />
                     </div>
                 </div>        
     );
@@ -37,13 +39,15 @@ class InputFieldsContainer extends React.Component {
 
 InputFieldsContainer.propTypes = {
     //prop1: PropTypes.{TYPE}.isRequired
-    results: PropTypes.object.isRequired
+    //results: PropTypes.object.isRequired,
+    test: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
-
+   // console.log("store", this.props.store)
     return {
-        results: state.results
+      //  results: state.results,
+        test: state.test
         // ownprop1: state.prop1,
         // ownprop1: state.prop2
         //...

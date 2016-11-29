@@ -95,7 +95,7 @@ const fetchChileCompraData = () => {
     return function(dispatch) {
 
         return fetch("/get_misc_info?info=organismos_publicos", {accept: 'application/json', contentType: 'application/json'})
-            .then(function(response) { return response.json()})
+            .then(function(response) { return response.json() } )
 
     }
 

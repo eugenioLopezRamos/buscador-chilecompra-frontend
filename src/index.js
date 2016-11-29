@@ -27,6 +27,7 @@ import {loadTest} from './actions/loadTestActions';
 const store = configureStore();
 //to be uncommented later, these need to load anyway
 //store.dispatch(fetchOrganismosPublicos)
+window.store = store;
 store.dispatch(loadTest())
 
 // Create an enhanced history that syncs navigation events with the store

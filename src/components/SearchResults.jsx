@@ -1,6 +1,9 @@
 import React from 'react';
 
 const SearchResults = ({results}) => {
+    console.log("params", results);
+    console.log("RESULTS", results);
+    if(results){
     return(
         <ul>
             {    
@@ -10,6 +13,10 @@ const SearchResults = ({results}) => {
             }
         </ul>
     )
+    }
+    else{
+        return null;
+    }
 }
 
 export default SearchResults;

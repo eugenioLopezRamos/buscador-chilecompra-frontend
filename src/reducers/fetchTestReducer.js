@@ -1,9 +1,10 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 
-const fetchTestReducer = (state = initialState.results, action) => {
+export default function fetchTestReducer(state = initialState, action){
     switch(action.type) {
         case types.FETCH_TEST_SUCCESS:
+            console.log("ac test", action.test);
             return action.test
         default:
             return state
@@ -11,4 +12,4 @@ const fetchTestReducer = (state = initialState.results, action) => {
     }
 }
 
-export default fetchTestReducer;
+//export default fetchTestReducer;

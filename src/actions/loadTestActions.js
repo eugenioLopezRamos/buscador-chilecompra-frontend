@@ -27,7 +27,6 @@ export const loadTest = () => {
     return function(dispatch) {
         return fetchTestApi.getTestResults()
             .then(test => {
-                console.log(test);
                 dispatch(fetchTestSuccess(test));
             })
             .catch( error => {throw(error)} )
