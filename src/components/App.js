@@ -10,9 +10,10 @@ const App = ({ children }) =>
             {children}
         <Footer />
     </div>
-    
+
 App.PropTypes = {
     children: PropTypes.object
 }
+ 
  
 export default App;

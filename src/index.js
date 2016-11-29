@@ -19,11 +19,15 @@ require('./favicon.ico'); // Tell webpack to load favicon.ico
 import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.css';
+import {loadTest} from './actions/loadTestActions';
 
 //import Main from './components/Main.jsx';
 
 
 const store = configureStore();
+//to be uncommented later, these need to load anyway
+//store.dispatch(fetchOrganismosPublicos)
+store.dispatch(loadTest())
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);

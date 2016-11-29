@@ -21,14 +21,11 @@ import Login from './Login.jsx';
 // }
 
 const CollapsibleNavBar = () => {
-
-  //  render = () => {
-        return  (<div id="navbar" className="navbar-collapse">
-                             < Login />
-                         </div>) 
-    // }  
-    
-
+  return  (
+    <div id="navbar" className="navbar-collapse">
+        < Login />
+    </div>
+    ) 
 }
 
 

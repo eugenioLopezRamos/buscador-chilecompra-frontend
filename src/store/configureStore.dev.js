@@ -5,7 +5,7 @@
 import {createStore, compose, applyMiddleware} from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from '../reducers';
+//import rootReducer from '../reducers/rootReducer.js';
 
 export default function configureStore(initialState) {
   const middlewares = [

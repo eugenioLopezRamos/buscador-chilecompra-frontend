@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+//import InputFieldsContainer from './InputFieldsContainer.jsx';
 
 const Introduction = () => {
+   
         return (
-            <div className="container">
+            <div className="container jumbotron">
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
                 <br />
                 <div className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.
@@ -11,7 +13,8 @@ const Introduction = () => {
                 Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
                 <br />
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
-
+              
+                <p className="text-center">O regístrate</p>
                 <div className="inputs">
                     <label>Mail</label>
                     <input type="email" />
