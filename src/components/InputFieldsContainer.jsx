@@ -48,10 +48,10 @@ class InputFieldsContainer extends React.Component {
                             <SelectionField />
 
                         <label>Según comprador (código organismo público)</label>
-                            <AutoFillerInput organismosPublicos={ {"key1": "valor1", "key2": "valor2"} }/>
+                            <AutoFillerInput organismosPublicos={ {"key1": "valor1", "key2": "valor2"} } onChange={this.props.actions.pickOrganismoPublico}/>
 
                         <label>Según RUT proveedor</label>
-                            <input id="rut-proveedor" placeholder="RUT del proveedor" />
+                            <input id="rut-proveedor" placeholder="RUT del proveedor" onChange={this.props.actions.RUTInput}/>
 
                         <label>Según palabras clave</label>
                             <SearchField onChange={this.props.actions.searchFieldInput} />

@@ -6,15 +6,16 @@ import {routerReducer} from 'react-router-redux';
 import login from './loginReducer';
 import test from './fetchTestReducer';
 import inputFieldValues from './inputFieldsReducer';
+import organismosPublicos from './onLoadFetchOrgPubReducer';
 //import codigosLicitacion from './fetchReducer';
 
 const rootReducer = combineReducers({
     //XXXREDUCER,
+    organismosPublicos,
     routing: routerReducer,
     login,
     test,
     inputFieldValues
-
     
 })
 

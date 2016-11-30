@@ -20,6 +20,7 @@ import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You 
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.css';
 import {loadTest} from './actions/loadTestActions';
+import {onLoadFetchOrgPub} from './actions/onLoadFetchOrgPub';
 
 //import Main from './components/Main.jsx';
 
@@ -29,6 +30,7 @@ const store = configureStore();
 //store.dispatch(fetchOrganismosPublicos)
 window.store = store;
 store.dispatch(loadTest())
+store.dispatch(onLoadFetchOrgPub());
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);

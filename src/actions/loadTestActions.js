@@ -15,7 +15,7 @@
 
 // export default loadTest;
 
-import fetchTestApi from '../api/fetchTestApi';
+import fetchApi from '../api/fetchApi';
 import * as types from './actionTypes';
 
 export const fetchTestSuccess = (test) => {
@@ -25,11 +25,13 @@ export const fetchTestSuccess = (test) => {
 export const loadTest = () => {
 
     return function(dispatch) {
-        return fetchTestApi.getTestResults()
+
+        return fetchApi.getTestResults()
             .then(test => {
                 dispatch(fetchTestSuccess(test));
             })
             .catch( error => {throw(error)} )
+
     }
     
 }
