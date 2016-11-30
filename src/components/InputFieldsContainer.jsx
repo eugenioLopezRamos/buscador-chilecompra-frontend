@@ -1,39 +1,67 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import * as actions from '../actions/InputFieldActions';
 import {bindActionCreators} from 'redux';
-//import mockResults from '../mocks/mockResults';
-//import emptyMockResults from '../mocks/emptyMockResults';
 import SearchResults from './SearchResults.jsx';
-
+import DatePicker from './inputs/DateField.jsx';
+import SelectionField from './inputs/SelectionField.jsx';
+import AutoFillerInput from './inputs/AutoFillerInput.jsx';
+import SearchField from './inputs/SearchField.jsx';
 
 class InputFieldsContainer extends React.Component {
+    constructor(state, props) {
+        console.log("props", props);
+        console.log("state", state);
+        console.log("actions", actions);
+        super(state,props);
+    //    const test = this.props.test
+    }
 
-   render = () => {
-    const test = this.props.test;
-    console.log("test", test, "props", this.props);
-    
-    return (
-                <div className="container inputfields jumbotron">
+    onSearchFieldChange = (event) => {
+        console.log("event", event.target.value);
 
-                    <label>Selecciona una fecha</label>
+    }
 
-                    <label>Código de licitación</label>
-                    <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="cod-licitacion" placeholder="Buscar código de licitación" />
+    render = () => {
+        //const test = this.props.test;
+       // console.log("test", test, "props", this.props);
 
-                    <label>Estado de la licitación (código)</label>
-                 
-                    <label>Según comprador (código organismo público)</label>
+        // const handleSearchClick= () => {
+        //     console.log("SEARCH CLICK");
+        // }
+        
+        // const handleSearchSubmit = () => {
 
-                    <label>Según RUT proveedor</label>
-                    <input id="rut-proveedor" />
+        //     console.log("SEARCH SUBMIT");
+        // }
+        
+        return (
+                    <div className="container inputfields jumbotron">
 
-                    <label>Según palabras clave</label>
+                        <label>Selecciona una fecha</label>
+                            <DatePicker />
 
-                    <div className="col-md-8">
-                      <SearchResults results={test} />
-                    </div>
-                </div>        
-    );
+                        <label>Código de licitación</label>
+                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="cod-licitacion" placeholder="Buscar código de licitación" />
+
+                        <label>Estado de la licitación (código)</label>
+                            <SelectionField />
+
+                        <label>Según comprador (código organismo público)</label>
+                            <AutoFillerInput organismosPublicos={ {"key1": "valor1", "key2": "valor2"} }/>
+
+                        <label>Según RUT proveedor</label>
+                            <input id="rut-proveedor" placeholder="RUT del proveedor" />
+
+                        <label>Según palabras clave</label>
+                            <SearchField onChange={this.props.actions.searchFieldInput} />
+
+                        <div className="col-xs-12">
+                        <SearchResults results={this.props.test} />
+                        </div>
+
+                    </div>        
+        );
    }
 }
 
@@ -55,9 +83,14 @@ function mapStateToProps(state, ownProps) {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+}
 
 
 
-export default connect(mapStateToProps)(InputFieldsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
 
 
