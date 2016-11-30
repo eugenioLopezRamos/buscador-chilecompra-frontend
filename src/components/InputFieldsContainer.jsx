@@ -23,18 +23,7 @@ class InputFieldsContainer extends React.Component {
     }
 
     render = () => {
-        //const test = this.props.test;
-       // console.log("test", test, "props", this.props);
 
-        // const handleSearchClick= () => {
-        //     console.log("SEARCH CLICK");
-        // }
-        
-        // const handleSearchSubmit = () => {
-
-        //     console.log("SEARCH SUBMIT");
-        // }
-        
         return (
                     <div className="container inputfields jumbotron">
 
@@ -42,13 +31,13 @@ class InputFieldsContainer extends React.Component {
                             <DatePicker />
 
                         <label>Código de licitación</label>
-                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="cod-licitacion" placeholder="Buscar código de licitación" />
+                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="cod-licitacion" placeholder="Buscar por código de licitación" />
 
-                        <label>Estado de la licitación (código)</label>
-                            <SelectionField />
+                        <label>Estado de la licitación (código estado)</label>
+                            <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
 
                         <label>Según comprador (código organismo público)</label>
-                            <AutoFillerInput organismosPublicos={ {"key1": "valor1", "key2": "valor2"} } onChange={this.props.actions.pickOrganismoPublico}/>
+                            <AutoFillerInput organismosPublicos={this.props.organismosPublicos} onChange={this.props.actions.pickOrganismoPublico}/>
 
                         <label>Según RUT proveedor</label>
                             <input id="rut-proveedor" placeholder="RUT del proveedor" onChange={this.props.actions.RUTInput}/>
@@ -75,7 +64,9 @@ function mapStateToProps(state, ownProps) {
    // console.log("store", this.props.store)
     return {
       //  results: state.results,
-        test: state.test
+        test: state.test,
+        organismosPublicos: state.organismosPublicos,
+        estadosLicitacion: state.estadosLicitacion
         // ownprop1: state.prop1,
         // ownprop1: state.prop2
         //...

@@ -1,14 +1,11 @@
 export default {
-    organismosPublicos: {"1": "No hay organismos públicos disponibles en este momento"},
-    codigosLicitacion: {"1": "No hay códigos disponibles en este momento"},
+    organismosPublicos: {},
+    estadosLicitacion: {},
     login: false,
     user: {name: ""},
     results: {"empty": "emptyval"},
     test: {
-            "Cantidad": "0",
-            "FechaCreacion": "N/A",
-            "Version": "N/A",
-            "Listado": ["vacio"]
+            "Cantidad": "0"
         },
     inputFieldValues: {
         // //organismosPublicosFilter se utiliza en el AutoFillerInput para mostrar solo un subarray de los organismos.
@@ -19,8 +16,8 @@ export default {
         selectedOrganismoPublico: "",
         date: "",
         palabrasClave: "",
-        seleccionEstadoLicitacion: "",
-        rut: ""
+        selectedEstadoLicitacion: "",
+        rutProveedor: ""
     }
     //here goes the initial state
 }

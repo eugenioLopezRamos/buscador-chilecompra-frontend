@@ -18,7 +18,7 @@ const AutoFillerInput = ({organismosPublicos}) => {
            { 
                orgs.map( (e,i) => {
 
-                return <option key={i}>{e}</option>
+                return <option key={i}>{organismosPublicos[e]}</option>
 
                 })
            }

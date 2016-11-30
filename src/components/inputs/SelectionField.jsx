@@ -1,6 +1,10 @@
 import React from 'react';
 
-const SelectionField = ({estadosLicitacion, handleChange}) => {
+const SelectionField = ({estadosLicitacion, onChange}) => {
+
+        const handleChange = (event) => {
+            onChange(event);
+        }
 
         var values = []
         var self = this;

@@ -18,9 +18,9 @@ export const searchFieldInput = (value) => {
 
 }
 
-export const selectionFieldSelect = (value) => {
+export const selectionFieldSelect = (event) => {
 
-    return {type: types.SELECTION_FIELD_SELECT, value}
+    return {type: types.SELECTION_FIELD_SELECT, value: event.target.value}
 
 }
 

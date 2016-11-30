@@ -21,16 +21,15 @@ import './css/bootstrap/sb-admin-2.css';
 import './css/main.css';
 import {loadTest} from './actions/loadTestActions';
 import {onLoadFetchOrgPub} from './actions/onLoadFetchOrgPub';
-
+import {onLoadFetchEstLic} from './actions/onLoadFetchEstLic';
 //import Main from './components/Main.jsx';
 
 
 const store = configureStore();
-//to be uncommented later, these need to load anyway
-//store.dispatch(fetchOrganismosPublicos)
 window.store = store;
 store.dispatch(loadTest())
 store.dispatch(onLoadFetchOrgPub());
+store.dispatch(onLoadFetchEstLic());
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
