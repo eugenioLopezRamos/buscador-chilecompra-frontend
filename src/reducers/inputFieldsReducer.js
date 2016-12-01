@@ -21,6 +21,12 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
 
         case types.PICK_ORGANISMO_PUBLICO:
             return objectAssign({}, state, { selectedOrganismoPublico: action.value })
+        
+        case types.COD_LIC_INPUT_CHANGE:
+            return objectAssign({}, state, { codigoLicitacion: action.value })
+        
+        case types.AUTOFILLER_INPUT_CHANGE:
+            return objectAssign({}, state, { organismosPublicosFilter: action.value, selectedOrganismoPublico: action.selectedOrganismoPublico })
 
         default:
             return state;

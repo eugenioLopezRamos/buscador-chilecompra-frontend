@@ -1,5 +1,5 @@
 export default {
-    organismosPublicos: {},
+    organismosPublicos: [],
     estadosLicitacion: {},
     login: false,
     user: {name: ""},
@@ -14,6 +14,7 @@ export default {
         // y es la que se envia al servidor una vez que se realiza la acción "Submit"
         organismosPublicosFilter: "",
         selectedOrganismoPublico: "",
+        codigoLicitacion: "",
         date: "",
         palabrasClave: "",
         selectedEstadoLicitacion: "",

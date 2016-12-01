@@ -7,6 +7,7 @@ import inputFieldValues from './inputFieldsReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
 
+
 const rootReducer = combineReducers({
     //XXXREDUCER,
     organismosPublicos,
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
     routing: routerReducer,
     login,
     test,
-    inputFieldValues
+    inputFieldValues,
     
 })
 
