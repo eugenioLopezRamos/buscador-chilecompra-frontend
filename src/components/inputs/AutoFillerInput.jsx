@@ -3,7 +3,7 @@ import React from 'react';
 class AutoFillerInput extends React.Component {//= ({organismosPublicos, organismosPublicosFilter, onSelectionChange, onInputChange }) => {
     constructor(props) {
         super(props);
-    // }
+     }
 
     componentWillReceiveProps = (nextProps) => {
         let self = this;
@@ -15,7 +15,7 @@ class AutoFillerInput extends React.Component {//= ({organismosPublicos, organis
 
     handleSelectionChange = (event) => {
         this.props.onSelectionChange(event);
-    } 
+    }
 
     handleInputChange = (event) => {
 
