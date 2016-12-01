@@ -1,4 +1,4 @@
-export default {
+let initialState = {
     organismosPublicos: [],
     estadosLicitacion: {},
     login: false,
@@ -14,6 +14,7 @@ export default {
         // y es la que se envia al servidor una vez que se realiza la acción "Submit"
         organismosPublicosFilter: "",
         selectedOrganismoPublico: "",
+        organismosPublicosFilteredSubset: [],
         codigoLicitacion: "",
         date: "",
         palabrasClave: "",
@@ -22,3 +23,5 @@ export default {
     }
     //here goes the initial state
 }
+
+export default initialState;

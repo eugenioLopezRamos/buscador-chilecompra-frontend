@@ -9,7 +9,7 @@ import estadosLicitacion from './onLoadFetchEstLicReducer';
 
 
 const rootReducer = combineReducers({
-    //XXXREDUCER,
+    
     organismosPublicos,
     estadosLicitacion,
     routing: routerReducer,

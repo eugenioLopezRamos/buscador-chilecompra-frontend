@@ -44,7 +44,7 @@ export const codigoLicitacionInputChange = (event) => {
     
 }
 
-export const autoFillerInputChange = (event, selected) => {
+export const autoFillerInputChange = (value) => {
     // y event deberia pasar a ser el valor solamente en vez del evento en si
     // selected vendria a ser la option[0] o bien el que se seleccione a mano (por lo cual se podría eliminar esa otra acción)
     // ...Change = (event, subArray) => {
@@ -52,7 +52,7 @@ export const autoFillerInputChange = (event, selected) => {
     // }
 
 
-    return {type: types.AUTOFILLER_INPUT_CHANGE, value: event, selectedOrganismoPublico: selected }
+    return {type: types.AUTOFILLER_INPUT_CHANGE, value }
 }
 
                                 // onSelectionChange={this.props.actions.pickOrganismoPublico}

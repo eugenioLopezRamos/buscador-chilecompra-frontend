@@ -10,22 +10,10 @@ import SearchField from './inputs/SearchField.jsx';
 
 class InputFieldsContainer extends React.Component {
     constructor(state, props) {
-        console.log("props", props);
-        console.log("state", state);
-        console.log("actions", actions);
         super(state,props);
-    //    const test = this.props.test
-    }
-
-    onSearchFieldChange = (event) => {
-        console.log("event", event.target.value);
-
     }
 
     render = () => {
-        //in theory, autofiller input should have 3 props. One to handle the inputbox, one to handle selecting an gov.institution
-        // and another one to pass the filtered gov. institutions back
-      //  console.log("PROPS CONTAINER", this.props)
         return (
                     <div className="container inputfields jumbotron">
 
@@ -45,11 +33,11 @@ class InputFieldsContainer extends React.Component {
                         <label>Según comprador (código organismo público)</label>
                             <AutoFillerInput 
                                 organismosPublicos={this.props.organismosPublicos}
-                                organismosPublicosFilter={this.props.organismosPublicosFilter} 
+                                organismosPublicosFilter={this.props.organismosPublicosFilter}
+                                organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
+                                selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
                                 onSelectionChange={this.props.actions.pickOrganismoPublico}
                                 onInputChange={this.props.actions.autoFillerInputChange}
-
-                            
                             />
                             
                         <label>Según RUT proveedor</label>
@@ -83,7 +71,9 @@ function mapStateToProps(state, ownProps) {
         test: state.test,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
-        organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter
+        organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
+        organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
+        selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico
         // ownprop1: state.prop1,
         // ownprop1: state.prop2
         //...
