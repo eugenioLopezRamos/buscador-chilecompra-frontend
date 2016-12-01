@@ -14,60 +14,25 @@ import React from 'react';
 class AutoFillerInput extends React.Component {//= ({organismosPublicos, organismosPublicosFilter, onSelectionChange, onInputChange }) => {
     constructor(props) {
         super(props);
-    
-
     }
 
     componentWillReceiveProps = (nextProps) => {
-
         let self = this;
         if(nextProps.organismosPublicos.length != this.props.organismosPublicos.length) {
-            //console.log("FIRED");
-
-          //  console.log("nextProps", nextProps);
-            let newValue = ""
-            let firstValue = nextProps.organismosPublicos[0];
-            //console.log("firsval", firstValue);
-            // let selectedValue = ""
-            // if(Object.keys(firstValue)[0]){
-            //     selectedValue = Object.keys(firstValue)[0];
-            // } 
-            //console.log("newval props", newValue, "selec val", selectedValue);
-            self.props.onInputChange(newValue);
+            self.props.onInputChange(""); //sets an empty filter, which in turn populates the organismosPublicosFilteredSubset with all the items in state.organismosPublicos.
         }
-      //  this.props.onInputChange(this.refs.inputBox.value, this.refs.selectBox.value) // this triggers 2 effects when the only thing we need to do
-      // is getting a default value on fetch success
     }
 
     handleSelectionChange = (event) => {
         this.props.onSelectionChange(event);
     }
     handleInputChange = (event) => {
-        let newValue = event.target.value;
-       // console.log("THIS REFS SELBOX", this.refs.selectBox.value);
-       // let selectedValue = this.refs.selectBox.value;
-        //console.log("evt handler values NEW", newValue, "evt hand SELC", selectedValue);
-        this.props.onInputChange(newValue);
+
+        this.props.onInputChange(event.target.value);
     }
   
     render = () => {
          let items = this.props.organismosPublicosFilteredSubset;
-        // let defaultValue = "";
-        // let testRegex = new RegExp(this.props.organismosPublicosFilter.toLowerCase());
-        
-        // selectionResults = this.props.organismosPublicos.filter( (e, i) => {
-
-        //     let key = Object.keys(e)[0];
-        //     if(i === 0) {
-        //         defaultValue = key;
-        //     }
-
-        //     if(testRegex.test(e[key].toLowerCase())) {
-        //         return e[key];
-        //     }
-        // })
-        
-
         return(
                 <div className="selection-container">
                     <
@@ -78,7 +43,7 @@ class AutoFillerInput extends React.Component {//= ({organismosPublicos, organis
                      onChange={this.handleInputChange}
                      />
                 
-                    <select value={this.props.selectedOrganismoPublico} ref="selectBox"onChange={this.handleSelectionChange}>
+                    <select value={this.props.selectedOrganismoPublico} ref="selectBox" onChange={this.handleSelectionChange}>
                         { 
                             items.map( (e,i) => {
 
