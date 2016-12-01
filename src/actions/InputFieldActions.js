@@ -31,7 +31,7 @@ export const RUTInput = (event) => {
 }
 
 export const pickOrganismoPublico = (event) => {
-    console.log("picked value", event.target.value);
+
     //^ setting evt.target.value doesnt work correctly, however that's work that's already done in the older/bad (but still working!)
     //version of the app. So, I'll adapt the code later.
     return {type: types.PICK_ORGANISMO_PUBLICO, value: event.target.value }
@@ -44,7 +44,7 @@ export const codigoLicitacionInputChange = (event) => {
     
 }
 
-export const autoFillerInputChange = (value) => {
+export const autoFillerInputChange = (organismosPublicos, value) => {
     // y event deberia pasar a ser el valor solamente en vez del evento en si
     // selected vendria a ser la option[0] o bien el que se seleccione a mano (por lo cual se podría eliminar esa otra acción)
     // ...Change = (event, subArray) => {
@@ -52,7 +52,7 @@ export const autoFillerInputChange = (value) => {
     // }
 
 
-    return {type: types.AUTOFILLER_INPUT_CHANGE, value }
+    return {type: types.AUTOFILLER_INPUT_CHANGE, value, organismosPublicos }
 }
 
                                 // onSelectionChange={this.props.actions.pickOrganismoPublico}

@@ -2,7 +2,7 @@ import React from 'react';
 
 const SearchField = (props) => {
 
-    console.log("change handler prop", props);
+    console.log("change handler prop in <SearchField />", props);
 
     const handleChange = (event) => {
 
