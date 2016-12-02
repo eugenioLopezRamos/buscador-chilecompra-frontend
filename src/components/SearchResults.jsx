@@ -1,10 +1,19 @@
 import React from 'react';
+import {Link} from 'react-router'; //these will later be links to the query that searches a particular licitacion, which gives more detailed info about it (on the
+// "codigo licitacion" tab)
 
-const SearchResults = ({results}) => {
+const SearchResults = ({results, estadosLicitacion}) => {
 
-        let resultsArray;
+        let resultsArray; //letting this be undefined instead of Array.new is intended.
         let extCodesArray = [];
         let codigoEstadoArray = [];
+        let estLicArray = Object.keys(estadosLicitacion); //<- array of estadosLicitacion keys so we can swap keys/values
+        //returns a new object with the keys/values of store.estadosLicitacion swapped, so {"Publicada": "6"} becomes {"6": "Publicada"}
+        let swappedEstadosLicitacion = estLicArray.reduce((accum, currVal) => {
+            let newKey = estadosLicitacion[currVal];
+            accum[newKey] = currVal;
+            return accum;
+        }, {})
 
         Object.keys(results).forEach( key => {
             if(results["Cantidad"] === 0) {
@@ -18,8 +27,7 @@ const SearchResults = ({results}) => {
                     resultsArray.push( {key: assignedKey, Nombre: e.Nombre});
                     extCodesArray.push( {key: assignedKey, CodigoExterno: e.CodigoExterno } );
 
-                    let valorEstado = e.CodigoEstado; // need to put the text value instead of code value
-                    valorEstado += " (" + e.CodigoEstado + ")"; 
+                    let valorEstado = `${swappedEstadosLicitacion[e.CodigoEstado]} (${e.CodigoEstado})`;
                     codigoEstadoArray.push({ key: assignedKey, CodigoEstado: valorEstado} );
                 })
             }
@@ -28,10 +36,11 @@ const SearchResults = ({results}) => {
 
         if(resultsArray && resultsArray.length > 0) {
         return (<ul>
+                <span className="cantidad-resultados">Se encontraron {results.Cantidad} resultados:</span>
                 <div className="title-container">
                     <span className="search nombre title">Nombre</span>
                     <span className="search codigo-externo title">Código Licitación (código externo)</span>
-                    <span className="search codigo-estado title">Código Estado</span>
+                    <span className="search codigo-estado title">Estado (código)</span>
                 </div> 
                 {
 

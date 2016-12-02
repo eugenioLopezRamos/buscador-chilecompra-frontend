@@ -37,8 +37,14 @@ export default {
         removeComments: true,
         collapseWhitespace: true
       },
-      inject: true
+      inject: true,
+
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'API_HOST': JSON.stringify('http://localhost:3000')
+      } 
+    })
   //  new BundleAnalyzerPlugin()
   ],
   module: {

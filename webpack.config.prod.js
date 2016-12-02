@@ -64,7 +64,12 @@ export default {
     new webpack.optimize.DedupePlugin(),
 
     // Minify JS
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'API_HOST': JSON.stringify('http://localhost:3000')//change me?
+      } 
+    }),
   ],
   module: {
     loaders: [

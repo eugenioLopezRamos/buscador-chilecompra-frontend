@@ -26,8 +26,8 @@ import {onLoadFetchEstLic} from './actions/onLoadFetchEstLic';
 
 
 const store = configureStore();
-window.store = store;
-store.dispatch(loadTest())
+//window.store = store; //this one is useful for debugging
+
 store.dispatch(onLoadFetchOrgPub());
 store.dispatch(onLoadFetchEstLic());
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AutoFillerInput extends React.Component {//= ({organismosPublicos, organismosPublicosFilter, onSelectionChange, onInputChange }) => {
+class AutoFillerInput extends React.Component {
     constructor(props) {
         super(props);
      }
@@ -10,6 +10,8 @@ class AutoFillerInput extends React.Component {//= ({organismosPublicos, organis
         if(nextProps.organismosPublicos != this.props.organismosPublicos) {
             //sets an empty filter, which in turn populates the organismosPublicosFilteredSubset with all the items in state.organismosPublicos.    
             self.props.onInputChange(nextProps.organismosPublicos, ""); 
+            //this is a bit less performant than having the fetchOrganismosPublicos reducer set this, but that would mean a reducer would affect two parts of the state 
+            //(or me having to restructure the whole state to manage this very specific case, which only happens once per browser pageload)
         }
     }
 

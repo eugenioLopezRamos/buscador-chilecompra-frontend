@@ -1,8 +1,9 @@
 let initialState = {
     organismosPublicos: [{"*": "Todos"}],
-    estadosLicitacion: {},
+    estadosLicitacion: {"Todos": ""},
     login: false,
-    user: {name: ""},
+    userData: {"name": ""},
+    token: "",
     results: {"empty": "emptyval"},
     searchResults: {
             "Cantidad": "0"
@@ -21,7 +22,6 @@ let initialState = {
         selectedEstadoLicitacion: "",
         rutProveedor: ""
     }
-    //here goes the initial state
 }
 
 export default initialState;
