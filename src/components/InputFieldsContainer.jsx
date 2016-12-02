@@ -47,7 +47,7 @@ class InputFieldsContainer extends React.Component {
                             <SearchField onChange={this.props.actions.searchFieldInput} />
 
                         <div className="col-xs-12">
-                            <SearchResults results={this.props.test} />
+                            <SearchResults results={this.props.searchResults} />
                         </div>
 
                     </div>        
@@ -58,7 +58,12 @@ class InputFieldsContainer extends React.Component {
 InputFieldsContainer.propTypes = {
     //prop1: PropTypes.{TYPE}.isRequired
     //results: PropTypes.object.isRequired,
-    test: PropTypes.object.isRequired
+    searchResults: PropTypes.object.isRequired,
+    organismosPublicos: PropTypes.array.isRequired,
+    estadosLicitacion: PropTypes.object.isRequired,
+    organismosPublicosFilter: PropTypes.string.isRequired,
+    organismosPublicosFilteredSubset: PropTypes.array.isRequired,
+    selectedOrganismoPublico: PropTypes.string.isRequired
     // organismoSPublicos: PropTypes.object.isRequired
     // estaadosLicitacion: PropTypes.object.isRequired
     // results: PropTypes.array
@@ -68,12 +73,12 @@ function mapStateToProps(state, ownProps) {
 
     return {
       //  results: state.results,
-        test: state.test,
+        searchResults: state.searchResults,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
         organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
         organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
-        selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico
+        selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
         // ownprop1: state.prop1,
         // ownprop1: state.prop2
         //...

@@ -13,7 +13,7 @@ import objectAssign from 'object-assign';
 export default function onLoadFetchEstLicReducer(state = initialState.estadosLicitacion, action){
     switch(action.type) {
         case types.ONLOAD_FETCH_EST_LIC_SUCCESS:
-            console.log("EST LIC", action.value);
+            //console.log("EST LIC", action.value);
             return objectAssign({}, state, action.value )
         default:
             return state

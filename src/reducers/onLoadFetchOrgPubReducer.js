@@ -11,7 +11,7 @@ export default function onLoadFetchOrgPubReducer(state = initialState.organismos
                 newObj[e] = action.value[e];
                 return newObj;
             }) 
-
+            toArray.unshift({"*": "Todos"});
             //return objectAssign({}, state, toArray) // hard to use since I need to filter them before rendering
             return toArray;
         default:

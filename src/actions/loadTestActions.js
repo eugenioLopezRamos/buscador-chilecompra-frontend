@@ -24,9 +24,9 @@ export const fetchTestSuccess = (test) => {
 
 export const loadTest = () => {
 
-    return function(dispatch) {
-
-        return fetchApi.getTestResults()
+    return function(dispatch, getState) {
+        const state = {getState}
+        return fetchApi.getTestResults(state)
             .then(test => {
                 dispatch(fetchTestSuccess(test));
             })

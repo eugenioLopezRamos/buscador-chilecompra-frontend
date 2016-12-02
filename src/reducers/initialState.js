@@ -1,10 +1,10 @@
 let initialState = {
-    organismosPublicos: [],
+    organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {},
     login: false,
     user: {name: ""},
     results: {"empty": "emptyval"},
-    test: {
+    searchResults: {
             "Cantidad": "0"
         },
     inputFieldValues: {
@@ -13,8 +13,8 @@ let initialState = {
         // selectedOrganismoPublico => el organismoPublico seleccionado en el campo <select> (o sea la <option>[0] al cargarse, o la que sea seleccionada por el usuario).
         // y es la que se envia al servidor una vez que se realiza la acción "Submit"
         organismosPublicosFilter: "",
-        selectedOrganismoPublico: "",
-        organismosPublicosFilteredSubset: [],
+        selectedOrganismoPublico: "*",
+        organismosPublicosFilteredSubset: [{"*":"Todos"}],
         codigoLicitacion: "",
         date: "",
         palabrasClave: "",

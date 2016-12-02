@@ -9,10 +9,16 @@ const SelectionField = ({estadosLicitacion, onChange}) => {
         var values = []
         var self = this;
         if(typeof estadosLicitacion != "undefined") {
-            Object.keys(estadosLicitacion).forEach(key => {
+            //Object format = {"suspendida": "19"}. Will look into it later if this format is still the most appropiate one (instead of {"19": "suspendida"});
+            Object.keys(estadosLicitacion).forEach(nombreEstado => {
                 let codigo;
-                ["", undefined].includes(estadosLicitacion[key]) ? codigo = "" : codigo = " (" + estadosLicitacion[key] +")" ;
-                values.push(key + codigo);
+                ["", undefined].includes(estadosLicitacion[nombreEstado]) ? codigo = "" : codigo = " (" + estadosLicitacion[nombreEstado] +")" ;
+
+                let newObject = {};
+                let newKey = estadosLicitacion[nombreEstado];
+                newObject[newKey] = nombreEstado + codigo;
+
+                values.push(newObject);
 
             })
         }
@@ -22,7 +28,12 @@ const SelectionField = ({estadosLicitacion, onChange}) => {
                 <select className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="estadosLicitacion-select" onChange={handleChange} >
                   {
                       values.map( (e, i) => {
-                          return <option key={i}>{e}</option>
+
+                          let valorKey = Object.keys(e)[0];
+                          let valorTexto = e[valorKey];
+
+                          return <option value={valorKey} key={i}>{valorTexto}</option>
+
                         })
                   }      
                 </select>
