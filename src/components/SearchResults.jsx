@@ -35,27 +35,27 @@ const SearchResults = ({results, estadosLicitacion}) => {
         })
 
         if(resultsArray && resultsArray.length > 0) {
-        return (<ul>
+        return (<ul className="col-xs-12 col-m-8 col-xl-6 no-gutter">
                 <span className="cantidad-resultados">Se encontraron {results.Cantidad} resultados:</span>
                 <div className="title-container">
-                    <span className="search nombre title">Nombre</span>
-                    <span className="search codigo-externo title">Código Licitación (código externo)</span>
-                    <span className="search codigo-estado title">Estado (código)</span>
+                    <span className="search nombre title col-xs-6">Nombre</span>
+                    <span className="search codigo-externo title col-xs-3">Código Licitación (código externo)</span>
+                    <span className="search codigo-estado title col-xs-3">Estado (código)</span>
                 </div> 
                 {
 
                 resultsArray.map( (e, i) => {
                     return <li className="search-results" key={e.key}>
 
-                                <span className="search nombre" key={"nombre key" + e.key} >
+                                <span className="search nombre col-xs-6" key={"nombre key" + e.key} >
                                     {e.Nombre}
                                 </span>
 
-                                <span className="search codigo-externo" key={"codigoExterno key " + extCodesArray[i].key} >
+                                <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + extCodesArray[i].key} >
                                     {extCodesArray[i].CodigoExterno}
                                 </span>
 
-                                <span className="search codigo-estado" key={"codigoEstado key " + codigoEstadoArray[i].key} >
+                                <span className="search codigo-estado col-xs-3" key={"codigoEstado key " + codigoEstadoArray[i].key} >
                                     {codigoEstadoArray[i].CodigoEstado}
                                 </span>
 

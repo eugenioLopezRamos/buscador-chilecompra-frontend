@@ -8,19 +8,26 @@ import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
+import SearchTypesPicker from './searchTypes/SearchTypesPicker.jsx';
 
 class InputFieldsContainer extends React.Component {
     constructor(props) {
         super(props);
+        console.log("this props date", this.props.date);
     }
 
     render = () => {
         return (
                     <div className="container inputfields jumbotron">
+                        <SearchTypesPicker />
 
                         <label>Selecciona una fecha</label>
-                            <DatePicker />
-
+                            <DatePicker
+                                startDate={this.props.date} 
+                                setDate={this.props.actions.dateFieldSelect}
+                            
+                            />
+    
                         <label>Código de licitación</label>
                             <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 id="cod-licitacion" 
@@ -47,7 +54,7 @@ class InputFieldsContainer extends React.Component {
                         <label>Según palabras clave</label>
                             <SearchField onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
 
-                        <div className="col-xs-12">
+                        <div className="col-xs-12 no-gutter">
                             <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
                         </div>
 
@@ -63,7 +70,8 @@ InputFieldsContainer.propTypes = {
     estadosLicitacion: PropTypes.object.isRequired,
     organismosPublicosFilter: PropTypes.string.isRequired,
     organismosPublicosFilteredSubset: PropTypes.array.isRequired,
-    selectedOrganismoPublico: PropTypes.string.isRequired
+    selectedOrganismoPublico: PropTypes.string.isRequired,
+    date: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -75,6 +83,7 @@ function mapStateToProps(state, ownProps) {
         organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
         organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
         selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
+        date: state.inputFieldValues.date
     }
 }
 

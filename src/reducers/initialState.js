@@ -1,3 +1,6 @@
+import moment from 'moment';
+let initialDate = Object.freeze(moment()); //otherwise redux detects a change in the object when passing to the view 
+
 let initialState = {
     organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {"Todos": ""},
@@ -18,7 +21,7 @@ let initialState = {
         selectedOrganismoPublico: "*",
         organismosPublicosFilteredSubset: [{"*":"Todos"}],
         codigoLicitacion: "",
-        date: "",
+        date: initialDate,
         palabrasClave: "",
         selectedEstadoLicitacion: "",
         rutProveedor: ""

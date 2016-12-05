@@ -74,6 +74,10 @@ select {
    
 }
 
+.search {
+    word-wrap: break-word;
+}
+
 .search.codigo-externo.title, .search.codigo-estado.title, .search.nombre.title {
     border-top: 1px solid black;
 
@@ -106,19 +110,19 @@ select {
 }
 
 .search.nombre{
-    width: 75%;
+    //width: 75%;
     border-bottom: 1px solid black;
  
 }
 
 .search.codigo-externo {
-    width: 15%;
+    //width: 15%;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
 
 }
 .search.codigo-estado {
-    width: 10%;
+    //width: 10%;
     border-left: 1px solid black;
 
     border-bottom: 1px solid black;
@@ -137,6 +141,27 @@ select {
 .no-gutter {
     padding: 0;
 }
+
+.searchtypes-picker{
+    font-size: 1.5em;
+}
+
+
+
+.searchtypes-picker-icon {
+    display: flex;
+    flex-direction: column;
+    margin:auto;
+    height: 100%;
+    text-align: center;
+    background-color: rgba(230, 230 ,230, 0.2)
+}
+
+.searchtypes-picker-icon:hover {
+    opacity: 0.7;
+}
+
+
 
 @media all and (min-width: 700px) {
     .container.inputfields {
