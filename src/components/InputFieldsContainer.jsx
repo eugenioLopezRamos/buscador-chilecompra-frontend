@@ -13,7 +13,6 @@ import SearchTypesPicker from './searchTypes/SearchTypesPicker.jsx';
 class InputFieldsContainer extends React.Component {
     constructor(props) {
         super(props);
-        console.log("this props date", this.props.date);
     }
 
     render = () => {

@@ -35,13 +35,14 @@ const SearchResults = ({results, estadosLicitacion}) => {
         })
 
         if(resultsArray && resultsArray.length > 0) {
-        return (<ul className="col-xs-12 col-m-8 col-xl-6 no-gutter">
+        return (<ul className="col-xs-12 col-m-8 col-xl-6 no-gutter search-results-ul">
                 <span className="cantidad-resultados">Se encontraron {results.Cantidad} resultados:</span>
                 <div className="title-container">
                     <span className="search nombre title col-xs-6">Nombre</span>
                     <span className="search codigo-externo title col-xs-3">Código Licitación (código externo)</span>
                     <span className="search codigo-estado title col-xs-3">Estado (código)</span>
-                </div> 
+                </div>
+
                 {
 
                 resultsArray.map( (e, i) => {
@@ -68,6 +69,7 @@ const SearchResults = ({results, estadosLicitacion}) => {
        }else if(!resultsArray) {
            return null;
        }
+                             
 }
 
 export default SearchResults;

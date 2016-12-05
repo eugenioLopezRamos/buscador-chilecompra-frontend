@@ -3,11 +3,23 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+@keyframes searchResultsFadeIn {
+    0% {opacity: 0.2}
+    100% {opacity: 1; animation: none}
+}
+@keyframes noAnim {
+    0% {animation: none}
+    100% {animation: none}
+}
+
 $main-jumbotron-margintop: 60px;
+$searchtype-picker-font-size: 1.5em;
 
 select {
     max-width: 100%;
 }
+
 .navbar {
     margin-bottom: 0;
 
@@ -143,7 +155,7 @@ select {
 }
 
 .searchtypes-picker{
-    font-size: 1.5em;
+    font-size: $searchtype-picker-font-size;
 }
 
 
@@ -151,16 +163,39 @@ select {
 .searchtypes-picker-icon {
     display: flex;
     flex-direction: column;
-    margin:auto;
-    height: 100%;
+    justify-content: center;
+    margin:2% auto 2% auto;
+    height: 3 * $searchtype-picker-font-size;
     text-align: center;
-    background-color: rgba(230, 230 ,230, 0.2)
+    background-color: rgba(230, 230 ,230, 0.2);
+    cursor: default;
+}
+
+.searchtypes-picker-icon.active {
+    background-color: #333333;
+    color: rgb(200,200,200);
+    border-radius: 5%;
+    pointer-events: none;
 }
 
 .searchtypes-picker-icon:hover {
     opacity: 0.7;
 }
+.search-res {
+    animation: none;
+}
 
+.search-results-ul {
+
+    animation-name: searchResultsFadeIn;
+    animation-duration: 1s;
+    animation-direction: forwards;
+     
+    animation-delay: 5s;
+    animation-iteration-count: 1;
+   // animation-delay: 1s;
+    //opacity: 0.2;
+}
 
 
 @media all and (min-width: 700px) {
@@ -169,6 +204,12 @@ select {
         flex-direction: column;
         width: 70%;
         
+    }
+    .searchtypes-picker-icon {
+        margin:auto;
+        height: 3 * $searchtype-picker-font-size;
+        text-align: center;
+        background-color: rgba(230, 230 ,230, 0.2)
     }
 }
 
