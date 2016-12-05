@@ -1,18 +1,21 @@
 import React from 'react'
 
  
-class ToggleNavBarButton extends React.Component {
+const ToggleNavBarButton = ({onClick}) => {
 
-render() {return(
+    const handleClick = () => {
 
-    <button type="button" className="btn navbar-toggle" onClick={this.props.onClick} data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">        
-        <i className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
-        <span className="sr-only">Toggle navigation</span>
-    </button>
+        onClick();
 
-)}
-
-
+    }
+    return(
+        <button type="button" className="btn navbar-toggle"  data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
+         onClick={handleClick}
+        >        
+            <i className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
+            <span className="sr-only">Mostrar/esconder navegación</span>
+        </button>
+    );
 }
 
 export default ToggleNavBarButton;

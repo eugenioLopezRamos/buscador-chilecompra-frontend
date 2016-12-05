@@ -8,7 +8,7 @@ const DateField = ({startDate, handleChange}) => {
 
     return <
              DatePicker 
-                className="col-xs-12 col-md-10 col-lg-4 no-gutter"
+                className="col-xs-12 col-md-10 col-lg-8 no-gutter"
                 dateFormat="DD-MM-YYYY"
                 selected={startDate}
                 onChange={handleChange}

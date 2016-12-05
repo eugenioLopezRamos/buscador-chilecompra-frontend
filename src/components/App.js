@@ -7,7 +7,6 @@ const App = ({ children }) =>
    
     <div>
         <Header />
-        
             {children}
         <Footer />
     </div>

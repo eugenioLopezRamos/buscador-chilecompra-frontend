@@ -2,6 +2,7 @@ let initialState = {
     organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {"Todos": ""},
     login: false,
+    showNavbar: false,
     userData: {"name": ""},
     token: "",
     results: {"empty": "emptyval"},

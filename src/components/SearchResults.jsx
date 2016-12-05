@@ -61,7 +61,7 @@ const SearchResults = ({results, estadosLicitacion}) => {
 
                           </li>
                 })
-                }</ul>)
+                }</ul>);
        }
        else if(resultsArray && resultsArray.length === 0){
            return <span>No se encontraron resultados</span>;

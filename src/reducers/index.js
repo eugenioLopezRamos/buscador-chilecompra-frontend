@@ -6,6 +6,7 @@ import searchResults from './fetchReducer';
 import inputFieldValues from './inputFieldsReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
+import showNavbar from './navbarReducer';
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     login,
     searchResults,
     inputFieldValues,
+    showNavbar
     
 })
 

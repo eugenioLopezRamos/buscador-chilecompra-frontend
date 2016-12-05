@@ -1,11 +1,6 @@
 import React from 'react'
 
-
-
-function Login(state, props) {
-
-
-    
+const Login = (props) => {
     return (
             <form className="navbar-form navbar-right" role="form">
                 <div className="form-group">
@@ -16,8 +11,7 @@ function Login(state, props) {
                 </div>
                 <button type="submit" className="btn btn-success">Ingresar</button>
             </form>
-    )
+    );
+};
 
-}
-
-module.exports = Login;
+export default Login;
