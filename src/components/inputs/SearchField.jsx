@@ -16,14 +16,11 @@ const SearchField = (props) => {
 
     return (
         <div>
-            <input className="col-xs-8 col-md-10" type="search" onChange={handleChange}/>
+            <input className="col-xs-10 col-md-10" type="search" onChange={handleChange}/>
             <button className="col-xs-2 fullheight-btn align-right" type="submit" onSubmit={handleSubmit} onClick={handleClick} >
                 <span className="glyphicon glyphicon-search"></span>
             </button>
         </div>
     )
-
 }
-
-
 export default SearchField;

@@ -109,35 +109,25 @@ select {
     list-style-type: none;
     font-size: 1em;
     width: 100%;
-
-  /*  border-bottom: 1px solid black;*/
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-
-
+    border-left: 1px solid black;
+    border-right: 1px solid black;
     display: flex;
-
 }
 .search-results:first-of-type {
     border-top: 1px solid black;
 }
 
 .search.nombre{
-    //width: 75%;
     border-bottom: 1px solid black;
- 
 }
 
 .search.codigo-externo {
-    //width: 15%;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
-
 }
 .search.codigo-estado {
-    //width: 10%;
-    border-left: 1px solid black;
 
+    border-left: 1px solid black;
     border-bottom: 1px solid black;
 }
 
@@ -159,8 +149,6 @@ select {
     font-size: $searchtype-picker-font-size;
 }
 
-
-
 .searchtypes-picker-icon {
     display: flex;
     flex-direction: column;
@@ -174,69 +162,19 @@ select {
 
 .searchtypes-picker-icon.active {
     background-color: #333333;
-    color: rgb(200,200,200);
+    color: white;
     border-radius: 5%;
     pointer-events: none;
 }
 
-.searchtypes-picker-icon:hover {
-    opacity: 0.7;
-}
-.search-res {
-    animation: none;
-}
-
-.search-results-ul-enter {
-    opacity: 0.1;
-}
 
 .search-results-ul1 {
-    animation-name: searchResultsFadeIn1;
-    animation-duration: 1s;
-    animation-direction: forwards;
-    // animation-name: searchResultsFadeIn;
-    // animation-duration: 1s;
-    // animation-direction: forwards;
-    // animation-delay: 0.5s;
-     
-    //animation-delay: 0.5s;
- //   animation-iteration-count: 1;
-   // animation-delay: 1s;
-    //opacity: 0.2;
+    animation-name: searchResultsFadeIn1 1s forwards;
+    padding: 0;
 }
 .search-results-ul2 {
-    animation-name: searchResultsFadeIn2;
-    animation-duration: 1s;
-    animation-direction: forwards;
-    // animation-name: searchResultsFadeIn;
-    // animation-duration: 1s;
-    // animation-direction: forwards;
-    // animation-delay: 0.5s;
-     
-    //animation-delay: 0.5s;
- //   animation-iteration-count: 1;
-   // animation-delay: 1s;
-    //opacity: 0.2;
-}
-.search-results-ul-enter-active {
-
-    animation-name: searchResultsFadeIn;
-    animation-duration: 1s;
-    animation-direction: forwards;
-     
-    //animation-delay: 0.5s;
- //   animation-iteration-count: 1;
-   // animation-delay: 1s;
-    //opacity: 0.2;
-}
-.search-results-ul-appear {
-    opacity: 0.1;
-}
-
-.search-results-ul-appear-active {
-    animation-name: searchResultsFadeIn;
-    animation-duration: 1s;
-    animation-direction: forwards
+    animation: searchResultsFadeIn2 1s forwards;
+    padding: 0;
 }
 
 
@@ -262,6 +200,13 @@ select {
         width: 50%;
         
     }
+    .searchtypes-picker{
+        font-size: $searchtype-picker-font-size;
+        width: 40%;
+        margin: auto;
+    }
+
+
 }
 
 

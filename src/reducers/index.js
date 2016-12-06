@@ -6,8 +6,8 @@ import searchResults from './fetchReducer';
 import inputFieldValues from './inputFieldsReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
-import showNavbar from './navbarReducer';
-
+import * as displayReducers from './displayActionsReducer';
+//import searchTypeReducer from './displayActionsReducer';
 
 const rootReducer = combineReducers({
     
@@ -17,8 +17,9 @@ const rootReducer = combineReducers({
     login,
     searchResults,
     inputFieldValues,
-    showNavbar
+    showNavbar: displayReducers.showNavbarReducer,
+    searchType: displayReducers.searchTypeReducer
     
-})
+});
 
  export default rootReducer;

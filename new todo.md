@@ -1,10 +1,10 @@
 ## TO DO ##
 
-
-
 - Need to set a debouncer for fetches!
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
-- Make the inputFields component have 3 tabs: "List" (listing all licitaciones), "Proveedor" (showing licitaciones by svc provider), "Licitacion" (a singple licitacion, which is much more detailed)
+- Make the inputFields component have 3 tabs: "List" (listing all licitaciones), "Proveedor" (showing licitaciones by svc provider), 
+"Licitacion" (a singple licitacion, which is much more detailed)
+- Break up the fetch query according to the current searchType ("listado" or "codigo" or "proveedor"), and only send the correct one
 
 ## DONE ##
 - Need to separate the logic in some of the stateless functional components into actions

@@ -1,5 +1,6 @@
 import moment from 'moment';
-let initialDate = Object.freeze(moment()); //otherwise redux detects a change in the object when passing to the view 
+let initialDate = Object.freeze(moment()); //otherwise redux console.logs a warning due to 
+//detecting a change in the object
 
 let initialState = {
     organismosPublicos: [{"*": "Todos"}],
@@ -25,7 +26,8 @@ let initialState = {
         palabrasClave: "",
         selectedEstadoLicitacion: "",
         rutProveedor: ""
-    }
+    },
+    searchType: "listado"
 }
 
 export default initialState;

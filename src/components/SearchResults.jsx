@@ -13,7 +13,6 @@ class SearchResults extends React.PureComponent {
             }
         }
 
-
         render = () => {
             let resultsArray; //letting this be undefined instead of Array.new is intended.
             let extCodesArray = [];
@@ -26,7 +25,7 @@ class SearchResults extends React.PureComponent {
                 return accum;
             }, {})
 
-            Object.keys(this.props.results).forEach( key => {
+            Object.keys(this.props.results).forEach(key => {
                 if(this.props.results["Cantidad"] === 0) {
                     resultsArray = [];
                     return;
@@ -42,10 +41,10 @@ class SearchResults extends React.PureComponent {
                         codigoEstadoArray.push({ key: assignedKey, CodigoEstado: valorEstado} );
                     })
                 }
-
             })
 
             if(resultsArray && resultsArray.length > 0) {
+
             return (<ul className={this.animClass}>
                     <span className="cantidad-resultados">Se encontraron {this.props.results.Cantidad} resultados:</span>
                     <div className="title-container">

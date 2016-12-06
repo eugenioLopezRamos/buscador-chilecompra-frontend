@@ -15,6 +15,22 @@ class fetchApi {
         //let loginStatus = estado.login
         //let loginToken = estado.loginToken 
         let queryVals = estado.inputFieldValues; //queryValues
+        let searchType = estado.searchType;
+       // "selectedDate","palabrasClave"
+        let fieldsPerSearchType = {
+                                    "listado": ["estadoLicitacion", "organismoPublico"],
+                                    "proveedor": ["rutProveedor"],
+                                    "codigo": ["codigoLicitacion"]
+                                    };
+        (() => { //adds common parameters to all of those ^
+            Object.keys(fieldsPerSearchType).map (e => {
+                fieldsPerSearchType[e].push("selectedDate")
+                fieldsPerSearchType[e].push("palabrasClave");
+            })
+        })();
+
+        console.log("fpst", fieldsPerSearchType);
+
         let queryFields = [
             `estadoLicitacion=${queryVals.selectedEstadoLicitacion}`,
             `codigoLicitacion=${queryVals.codigoLicitacion}`,
@@ -22,9 +38,10 @@ class fetchApi {
             `organismoPublico=${queryVals.selectedOrganismoPublico}`,
             `rutProveedor=${queryVals.rutProveedor}`,
             `palabrasClave=${queryVals.palabrasClave}`
-        ];
+            ]
 
         let query = queryFields.join("&");
+        console.log("THIS IS MY QUERY", query);
 
         return fetch(`${process.env.API_HOST}/api/get_chilecompra_data?${query}`)
             .then(response => response.json() )
