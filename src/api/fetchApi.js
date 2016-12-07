@@ -16,7 +16,6 @@ class fetchApi {
         //let loginToken = estado.loginToken 
         let queryVals = estado.inputFieldValues; //queryValues
         let searchType = estado.searchType;
-       // "selectedDate","palabrasClave"
         let fieldsPerSearchType = {
                                     "listado": ["estadoLicitacion", "organismoPublico"],
                                     "proveedor": ["rutProveedor"],
@@ -29,8 +28,6 @@ class fetchApi {
             })
         })();
 
-        console.log("fpst", fieldsPerSearchType);
-
         let queryFields = [
             `estadoLicitacion=${queryVals.selectedEstadoLicitacion}`,
             `codigoLicitacion=${queryVals.codigoLicitacion}`,
@@ -40,8 +37,21 @@ class fetchApi {
             `palabrasClave=${queryVals.palabrasClave}`
             ]
 
-        let query = queryFields.join("&");
-        console.log("THIS IS MY QUERY", query);
+        let appropiateFields = fieldsPerSearchType[searchType];
+        let query = appropiateFields.map(elem => { //extracts the corresponding chunks of the query from queryFields
+                let filter = new RegExp(elem);
+                return queryFields.filter(queryChunk => {
+                    if(filter.test(queryChunk)) {
+                        return queryChunk;
+                    }
+            })
+        });
+
+        query = query.reduce((prev, curr) => { //concats them all (since the map returns an array of arrays)
+           return prev.concat(curr);
+        });
+
+        query = query.join("&"); //joins them to form the query string.
 
         return fetch(`${process.env.API_HOST}/api/get_chilecompra_data?${query}`)
             .then(response => response.json() )

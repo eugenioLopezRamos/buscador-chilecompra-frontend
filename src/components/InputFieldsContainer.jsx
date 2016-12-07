@@ -53,7 +53,7 @@ class InputFieldsContainer extends React.Component {
                             <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="cod-licitacion" 
                                 placeholder="Buscar por código de licitación"
-                                defaultValues={this.props.codigoLicitacion} 
+                                defaultValue={this.props.codigoLicitacion} 
                                 onChange={this.props.actions.codigoLicitacionInputChange}
                             />
                         </div>
