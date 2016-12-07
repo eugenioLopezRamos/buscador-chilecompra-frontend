@@ -5,10 +5,12 @@ let initialDate = Object.freeze(moment()); //otherwise redux console.logs a warn
 let initialState = {
     organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {"Todos": ""},
-    login: false,
     showNavbar: false,
-    userData: {"name": ""},
-    token: "",
+    isAuthenticated: false,
+    authToken: "",
+    userData: {"name": "Desconocido", "email":"" },
+    signupData: {"name": "", "email": "", "password": "", "passwordConf":""},
+    signupResult: "",
     results: {"empty": "emptyval"},
     searchResults: {
             "Cantidad": "0"

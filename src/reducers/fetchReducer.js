@@ -4,12 +4,13 @@ import initialState from './initialState';
 export default function fetchReducer(state = initialState.searchResults, action){
     switch(action.type) {
         case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
-           // let newState;
-            // newState = Object.assign({}, state, {test: action.test});
-            // return newState;
-            return action.data
+            return action.data;
+
+        case types.FETCH_CHILECOMPRA_DATA_FAILURE:
+            return action.error;
+
         default:
-            return state
+            return state;
 
     }
 }

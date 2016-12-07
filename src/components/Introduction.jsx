@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+import SignupForm from './SignupForm.jsx';
 //import InputFieldsContainer from './InputFieldsContainer.jsx';
 
 const Introduction = () => {
@@ -15,13 +16,7 @@ const Introduction = () => {
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
               
                 <p className="text-center">O regístrate</p>
-                <div className="inputs">
-                    <label>Mail</label>
-                    <input type="email" />
-                    <label>Pass</label>
-                    <input type="password" />
-                </div>
-                
+                <SignupForm />
             </div>
         )
 }

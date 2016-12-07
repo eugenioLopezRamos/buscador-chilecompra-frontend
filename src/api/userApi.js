@@ -1,0 +1,9 @@
+class userApi {
+
+
+    static sendLoginInfo() {
+
+    }
+
+
+}

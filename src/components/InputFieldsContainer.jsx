@@ -41,7 +41,7 @@ class InputFieldsContainer extends React.Component {
                                 <input
                                     className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                     key="rut-proveedor" 
-                                    placeholder="RUT del proveedor"
+                                    placeholder="Ejemplo: 1.111.111-1"
                                     defaultValue={this.props.rutProveedor} 
                                     onChange={this.props.actions.RUTInput}/>
                             </div>

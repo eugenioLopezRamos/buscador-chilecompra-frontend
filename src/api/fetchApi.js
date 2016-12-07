@@ -11,7 +11,7 @@ class fetchApi {
 
     static getChileCompraData(state) {
         let estado = state.getState();
-        // These two are yet to be implemented! 
+        // These two are yet to be implemented! - Maybe not even here.
         //let loginStatus = estado.login
         //let loginToken = estado.loginToken 
         let queryVals = estado.inputFieldValues; //queryValues

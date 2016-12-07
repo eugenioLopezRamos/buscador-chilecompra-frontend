@@ -176,6 +176,10 @@ select {
     animation: searchResultsFadeIn2 1s forwards;
     padding: 0;
 }
+.signup-form * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 
 
 @media all and (min-width: 700px) {
