@@ -24,17 +24,14 @@ const SignupForm = (props) => {
         event.preventDefault();
     }
 
-    const successMessage = "Felicitaciones, te has registrado con éxito. Por favor visita tu correo para finalizar el registro";
-    const failureMessage = `Lo sentimos, ha habido un error en el registro: ${props.signupResult.message}`
-    let flashMessage = null;
+    let flashMessage = props.signupResult.message;
     let flashType = "";
 
     if(props.signupResult.result === "success") {
-        flashMessage = successMessage;
         flashType = "alert alert-success";
     }
     if(props.signupResult.result === "failure") {
-        flashMessage = failureMessage;
+
         flashType = "alert alert-danger";
     }
 

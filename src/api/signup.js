@@ -17,8 +17,8 @@ class signup {
             },
             body: JSON.stringify({signup_data}),
             method: "POST"
-        }).then(response => {console.log("FETCH RESP", response); return response})
-          .catch(error => {console.log("ERROR", error); return error});
+        }).then(response => {return response.json()})
+          .catch(error => {return error.json()});
     }
 }
 export default signup;

@@ -7,7 +7,7 @@ const Flash = (props) => {
         alert("clicked"); // THIS HAS TO BE CHANGED LATER, CURRENTLY JUST A TEST
         //maybe something like actions.clearFlash() ?
     }
-    console.log("FLASHPROPS", props);
+    //console.log("FLASHPROPS", props);
     if(props.message){
         return (
             <div className={`flash-type-${props.type}`} >
