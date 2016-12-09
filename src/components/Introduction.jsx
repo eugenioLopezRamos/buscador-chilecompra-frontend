@@ -27,8 +27,10 @@ class Introduction extends React.Component {
 
                 <SignupForm 
                     inputActions={this.props.signupInputActions} 
-                    signupResult={this.props.signupResult} 
+                    signupResult={this.props.signupResult}
+                    signupInfo={this.props.signupInfo}
                     resultsActions={this.props.signupResultsActions}
+
                 />
 
             </div>
@@ -44,16 +46,18 @@ Introduction.propTypes = {
     signupPassword: PropTypes.string,
     signupPasswordConf: PropTypes.string,
     //results
-    signupResults: PropTypes.string
+    signupResults: PropTypes.object,
+    signupInfo: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        signupName: state.signupData.name,
-        signupEmail: state.signupData.email,
-        signupPassword: state.signupData.password,
-        signupPasswordConf: state.signupData.password_confirmation,
-        signupResult: state.signupResult
+        signupName: state.signup.info.name,
+        signupEmail: state.signup.info.email,
+        signupPassword: state.signup.info.password,
+        signupPasswordConf: state.signup.info.password_confirmation,
+        signupResult: state.signup.result,
+        signupInfo: state.signup.info
     }
 } 
 function mapDispatchToProps(dispatch) {

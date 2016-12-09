@@ -11,14 +11,19 @@ let initialState = {
     auth_token: null,
     //same name as the rails param
     userData: null,
-    signupData: {
-                 name: "", 
-                 email: "", 
-                 password: "", 
-                 password_confirmation:""
+    signup: {   info: {
+                    name: "", 
+                    email: "", 
+                    password: "", 
+                    password_confirmation:""
+                },
+                result: {
+                    message: null, 
+                    result: null
+                    }
                 },
     //using the same format as the rails params so it's less work
-    signupResult: {message: null, result: null},
+ //   signupResult: {message: null, result: null},
     searchResults: {
             "Cantidad": "0"
         },

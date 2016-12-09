@@ -24,7 +24,6 @@ const SignupForm = (props) => {
         event.preventDefault();
     }
 
-    let flashMessage = props.signupResult.message;
     let flashType = "";
 
     if(props.signupResult.result === "success") {
@@ -35,23 +34,22 @@ const SignupForm = (props) => {
         flashType = "alert alert-danger";
     }
 
-    
     return (
-
+        
         <div className="signup-form col-xs-12 col-md-8">
-            <Flash type={flashType} className="signup-flash" message={flashMessage}/>
+            <Flash type={flashType} className="signup-flash" message={props.signupResult.message}/>
 
             <label className="col-xs-12 col-md-8 text-center">Nombre</label>
-            <input className="col-xs-12 col-md-8" type="textarea" placeholder="Nombre" onChange={handleChangeName}/>
+            <input value={props.signupInfo.name} className="col-xs-12 col-md-8" type="textarea" placeholder="Nombre" onChange={handleChangeName}/>
 
             <label className="col-xs-12 col-md-8  text-center">Mail</label>
-            <input className="col-xs-12 col-md-8" type="email" placeholder="Email" onChange={handleChangeEmail} />
+            <input value={props.signupInfo.email} className="col-xs-12 col-md-8" type="email" placeholder="Email" onChange={handleChangeEmail} />
 
             <label className="col-xs-12 col-md-8 text-center">Contraseña - mínimo 8 caracteres</label>
-            <input className="col-xs-12 col-md-8" type="password" placeholder="******" onChange={handleChangePassword}/>
+            <input value={props.signupInfo.password} className="col-xs-12 col-md-8" type="password" placeholder="********" onChange={handleChangePassword}/>
 
             <label className="col-xs-12 col-md-8 text-center">Confirmar contraseña</label>
-            <input className="col-xs-12 col-md-8 " type="password" placeholder="******" onChange={handleChangePasswordConf}/>
+            <input value={props.signupInfo.password_confirmation} className="col-xs-12 col-md-8 " type="password" placeholder="********" onChange={handleChangePasswordConf}/>
             
             <button 
                 className="btn btn-primary btn-lg col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4"

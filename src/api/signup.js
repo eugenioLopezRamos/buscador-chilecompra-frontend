@@ -1,7 +1,7 @@
 class signup {
     static sendSignupInfo(state) {
 
-        let signup_data = state.getState().signupData;
+        let signup_data = state.getState().signup.info;
         // let name = signupData.name;
         // let email = signupData.email;
         // let password = signupData.password;

@@ -7,11 +7,12 @@ const Flash = (props) => {
         alert("clicked"); // THIS HAS TO BE CHANGED LATER, CURRENTLY JUST A TEST
         //maybe something like actions.clearFlash() ?
     }
-    //console.log("FLASHPROPS", props);
+
     if(props.message){
         return (
-            <div className={`flash-type-${props.type}`} >
-                <span className="close-flash">{props.message}</span><div className="close-flash" onClick={handleClick}>X</div>
+            <div className={`${props.type} message-wrap`} >
+                <div className={`flash-close-${props.type}`} onClick={handleClick}>X</div>
+                <div className="flash-message">{props.message}</div>
             </div>
         )
     }
