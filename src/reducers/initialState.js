@@ -7,11 +7,18 @@ let initialState = {
     estadosLicitacion: {"Todos": ""},
     showNavbar: false,
     isAuthenticated: false,
-    authToken: "",
-    userData: {"name": "Desconocido", "email":"" },
-    signupData: {"name": "", "email": "", "password": "", "passwordConf":""},
-    signupResult: "",
-    results: {"empty": "emptyval"},
+    //should be changed with an action on first load(similar to the orgPublicos one) that checks if a cookie with a valid token exists
+    auth_token: null,
+    //same name as the rails param
+    userData: null,
+    signupData: {
+                 name: "", 
+                 email: "", 
+                 password: "", 
+                 password_confirmation:""
+                },
+    //using the same format as the rails params so it's less work
+    signupResult: {message: null, result: null},
     searchResults: {
             "Cantidad": "0"
         },

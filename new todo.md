@@ -4,6 +4,8 @@
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
 - Make the login work
 - Make it so the user can save search queries and save search results
+- When the date is deleted the datepicker fails irreversibly
+- change rails routes (and thus the routes used in this app) from /api/:whatever to /api/v1/:whatever
 
 
 ## DONE ##

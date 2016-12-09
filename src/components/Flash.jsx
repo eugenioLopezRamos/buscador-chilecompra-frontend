@@ -7,11 +7,11 @@ const Flash = (props) => {
         alert("clicked"); // THIS HAS TO BE CHANGED LATER, CURRENTLY JUST A TEST
         //maybe something like actions.clearFlash() ?
     }
-
+    console.log("FLASHPROPS", props);
     if(props.message){
         return (
             <div className={`flash-type-${props.type}`} >
-                <span>{props.message}</span><div className="close-flash" onClick={handleClick}>X</div>
+                <span className="close-flash">{props.message}</span><div className="close-flash" onClick={handleClick}>X</div>
             </div>
         )
     }

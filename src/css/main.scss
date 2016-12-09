@@ -177,8 +177,13 @@ select {
     padding: 0;
 }
 .signup-form * {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin: 5px auto 5px auto;
+}
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    float: none;
+    margin: auto;
 }
 
 
