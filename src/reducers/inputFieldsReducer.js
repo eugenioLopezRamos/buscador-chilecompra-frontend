@@ -49,6 +49,8 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
                                 state, { organismosPublicosFilter: action.value, 
                                          selectedOrganismoPublico: defaultSelectedValue,
                                          organismosPublicosFilteredSubset: selectionResults})
+        case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:
+            return objectAssign({}, state, {organismosPublicosFilter: ""}, {organismosPublicosFilteredSubset: action.value});
 
         default:
             return state;

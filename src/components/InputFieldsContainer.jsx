@@ -35,6 +35,7 @@ class InputFieldsContainer extends React.Component {
                                 />
                         </div>
                         );
+
             case "proveedor":
                 return (    <div>
                                 <label>Según RUT proveedor</label>
@@ -46,6 +47,7 @@ class InputFieldsContainer extends React.Component {
                                     onChange={this.props.actions.RUTInput}/>
                             </div>
                 )
+
             case "codigo":
                 return (
                         <div>
@@ -58,6 +60,7 @@ class InputFieldsContainer extends React.Component {
                             />
                         </div>
                 )
+                
             default:
                 return null;
                 

@@ -22,7 +22,9 @@ class Introduction extends React.Component {
                 Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
                 <br />
                 <p className="text-center">¡Intenta hacer una búsqueda!</p>
-                <div>LINK A BUSQUEDAS</div>
+                <Link to='/fields'>
+                    Buscar Licitaciones.
+                </Link>
                 <p className="text-center">O regístrate</p>
 
                 <SignupForm 

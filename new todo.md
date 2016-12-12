@@ -6,7 +6,8 @@
 - Make it so the user can save search queries and save search results
 - When the date is deleted the datepicker fails irreversibly
 - change rails routes (and thus the routes used in this app) from /api/:whatever to /api/v1/:whatever
-
+- add validations for requiredness of user data when signing up, and for formatting (email), length & equalness (passwords)
+- add tests for everything
 
 ## DONE ##
 - Need to separate the logic in some of the stateless functional components into actions
