@@ -12,7 +12,7 @@ const initialState = {
     //same name as the rails param
     userData: null,
     //used when inputting data to login.
-    loginData: {email: "", password: "", message: null},
+    loginData: {email: "", password: "", message: null, result: null},
     signup: {   info: {
                     name: "", 
                     email: "", 

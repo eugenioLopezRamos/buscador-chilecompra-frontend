@@ -2,23 +2,6 @@ import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 import objectAssign from 'object-assign';
 
-
-// export const handleInputs = (state = initialState, action) => {
-//     let newState = {};
-//     switch(action.type) {
-
-
-//         // case types.USER_SEND_LOGIN_INFO_SUCCESS:
-//         //     return objectAssign({}, state, {loginData: {email: "", password: ""}});
-
-//         // case types.USER_SEND_LOGIN_INFO_FAILURE:
-//         //     return objectAssign({}, state, {loginData: {email: "", password: ""}});
-//         default:
-//             return state;
-
-//     }
-// }
-
 export const loginDataSetter = (state = initialState.loginData, action) => {
     let newState = {};
 
@@ -33,7 +16,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
             newState = objectAssign({}, 
                                     state, 
-                                    {email: "", password: "", message: "Bienvenido!"});
+                                    {email: "", password: "", message: "Bienvenido!", result: "success"});
 
             return newState;
 
@@ -42,16 +25,17 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
                                     state, 
                                     {email: "", 
                                      password: "", 
-                                     message: "Hubo un error al ingresar tus datos. Por favor intentalo de nuevo"});
+                                     message: "Hubo un error al ingresar tus datos. Por favor intentalo de nuevo",
+                                     result: "failure"});
             return newState;
 
         case types.USER_LOGOUT_SUCCESS:
         //In this scenario we have to destroy the JWT token, but probably shouldn't be here since that'd be impure.
-            newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente"});
+            newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente", result: "logout-success"});
             return newState;
 
         case types.USER_LOGOUT_FAILURE:
-            newState = objectAssign({}, state, {email: "", password: "", message: "Hubo un error, favor intentar de nuevo"});
+            newState = objectAssign({}, state, {email: "", password: "", message: "Hubo un error, favor intentar de nuevo", result: "logout-failure"});
             return newState;
 
         default:
@@ -65,7 +49,7 @@ export const auth_tokenSetter = (state = initialState.auth_token, action) => {
     switch(action.type) {
 
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return action.auth_token;
+            return action.response.auth_token;
 
         case types.USER_SEND_LOGIN_INFO_FAILURE:
             return null;
@@ -78,9 +62,6 @@ export const auth_tokenSetter = (state = initialState.auth_token, action) => {
 
         default:
             return state;
-    //   {auth_token: "zzzz"}, {isAuthenticated: true},
-    // {userData: {name: "perico", email: "mail@email.mail"}}
-
 
     } 
 
@@ -112,7 +93,7 @@ export const userDataSetter = (state = initialState.userData, action) => {
     switch(action.type) {
 
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return action.userData;
+            return action.response.user;
 
         case types.USER_SEND_LOGIN_INFO_FAILURE:
             return null;

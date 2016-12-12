@@ -4,6 +4,7 @@ import Login from './Login.jsx';
 
 import * as displayActions from '../actions/DisplayActions';
 import * as authInfoInputsActions from '../actions/authInfoInputsActions';
+import * as authInfoResultsActions from '../actions/authInfoResultsActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -32,8 +33,7 @@ class CollapsibleNavBar extends React.Component {
                     <Login loginData={self.props.loginData} 
                            handleChangeEmail={self.props.authInfoInputsActions.loginInputEmail}
                            handleChangePassword={self.props.authInfoInputsActions.loginInputPassword}
-                           
-                    
+                           handleClickSubmit={self.props.authInfoResultsActions.submitLoginInfo}
                     />
                 </div>
             </div>
@@ -58,7 +58,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     displayActions: bindActionCreators(displayActions, dispatch),
-    authInfoInputsActions: bindActionCreators(authInfoInputsActions, dispatch)
+    authInfoInputsActions: bindActionCreators(authInfoInputsActions, dispatch),
+    authInfoResultsActions: bindActionCreators(authInfoResultsActions, dispatch)
 
   };
 };
