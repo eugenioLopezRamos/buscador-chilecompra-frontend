@@ -1,8 +1,8 @@
 import moment from 'moment';
-let initialDate = Object.freeze(moment()); //otherwise redux console.logs a warning due to 
-//detecting a change in the object
+const initialDate = Object.freeze(moment()); //otherwise redux console.logs a warning due to 
+//detecting a change in the object. I assume passing moment() reinstances the object everytime it's called.
 
-let initialState = {
+const initialState = {
     organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {"Todos": ""},
     showNavbar: false,
@@ -11,6 +11,8 @@ let initialState = {
     auth_token: null,
     //same name as the rails param
     userData: null,
+    //used when inputting data to login.
+    loginData: {email: "", password: "", message: null},
     signup: {   info: {
                     name: "", 
                     email: "", 
@@ -20,10 +22,8 @@ let initialState = {
                 result: {
                     message: null, 
                     result: null
-                    }
-                },
-    //using the same format as the rails params so it's less work
- //   signupResult: {message: null, result: null},
+                }
+            },
     searchResults: {
             "Cantidad": "0"
         },

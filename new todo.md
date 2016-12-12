@@ -7,6 +7,9 @@
 - change rails routes (and thus the routes used in this app) from /api/:whatever to /api/v1/:whatever
 - add validations for requiredness of user data when signing up, and for formatting (email), length & equalness (passwords)
 - add tests for everything
+- Logins
+- Links to a single licitacion
+- make the signup errors flash able to be closed.
 
 ## DONE ##
 - Need to separate the logic in some of the stateless functional components into actions

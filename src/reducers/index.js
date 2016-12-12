@@ -6,6 +6,7 @@ import inputFieldValues from './inputFieldsReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
 import * as displayReducers from './displayActionsReducer';
+import * as authenticationReducers from './authenticationActionsReducer';
 //import signupInputsReducer from './signupInputsReducer';
 import signupReducer from './signupReducer';
 //import searchTypeReducer from './displayActionsReducer';
@@ -14,11 +15,16 @@ const rootReducer = combineReducers({
     
     organismosPublicos,
     estadosLicitacion,
+    showNavbar: displayReducers.showNavbarReducer,
+    // isAuthenticated: authenticationReducer,
+    // auth_token: authenticationReducer,
+    // userData: authenticationReducer,
+    // loginData: authenticationReducer,
     routing: routerReducer,
     signup: signupReducer,
     searchResults,
     inputFieldValues,
-    showNavbar: displayReducers.showNavbarReducer,
+
     searchType: displayReducers.searchTypeReducer
     
 });
