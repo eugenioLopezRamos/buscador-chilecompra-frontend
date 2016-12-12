@@ -18,3 +18,5 @@
 - Break up the fetch query according to the current searchType ("listado" or "codigo" or "proveedor"), and only send the correct one
 - Make the inputFields component have 3 tabs: "List" (listing all licitaciones), "Proveedor" (showing licitaciones by svc provider), 
 "Licitacion" (a singple licitacion, which is much more detailed)
+- Fixed a small bug when loading AutoFillerInput organismos publicos from a <Link />
+- Turned AutoFillerInput from Class component to stateless functional component
