@@ -4,7 +4,6 @@
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
 - Make the login work
 - Make it so the user can save search queries and save search results
-- When the date is deleted the datepicker fails irreversibly
 - change rails routes (and thus the routes used in this app) from /api/:whatever to /api/v1/:whatever
 - add validations for requiredness of user data when signing up, and for formatting (email), length & equalness (passwords)
 - add tests for everything
@@ -17,6 +16,7 @@
 - A loading anim so it isn't so confusing when stuff updates to the same result - Did a very basic fadeIn anim, works but def improvable.
 - Break up the fetch query according to the current searchType ("listado" or "codigo" or "proveedor"), and only send the correct one
 - Make the inputFields component have 3 tabs: "List" (listing all licitaciones), "Proveedor" (showing licitaciones by svc provider), 
-"Licitacion" (a singple licitacion, which is much more detailed)
+"Licitacion" (a single licitacion, which is much more detailed)
 - Fixed a small bug when loading AutoFillerInput organismos publicos from a <Link />
 - Turned AutoFillerInput from Class component to stateless functional component
+- When the date is deleted the datepicker fails irreversibly. Fixed by adding date._isValid check in the reducer.

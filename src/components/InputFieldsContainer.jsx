@@ -14,6 +14,7 @@ import SearchTypesPicker from './searchTypes/SearchTypesPicker.jsx';
 class InputFieldsContainer extends React.Component {
     constructor(props) {
         super(props);
+        this.getAppropiateInputFields = this.getAppropiateInputFields.bind(this);
     }
 
     getAppropiateInputFields = () => {
@@ -72,7 +73,7 @@ class InputFieldsContainer extends React.Component {
     }
 
     render = () => {
-        this.getAppropiateInputFields = this.getAppropiateInputFields.bind(this);
+
         return (    
                     
                     <div className="container inputfields jumbotron"> 

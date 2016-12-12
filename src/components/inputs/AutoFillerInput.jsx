@@ -10,6 +10,7 @@ const AutoFillerInput = (props) => {
 
         props.onInputChange(props.organismosPublicos, event.target.value);
     }
+
     return(
             <div className="selection-container">
                 <input 
@@ -21,7 +22,7 @@ const AutoFillerInput = (props) => {
                     onChange={handleInputChange}
                     />
             
-                <select value={props.selectedOrganismoPublico} onChange={handleSelectionChange} key="autofiller-select" >
+                <select value={props.selectedOrganismoPublico} onChange={handleSelectionChange} key="autofiller-select">
                     { 
                         props.organismosPublicosFilteredSubset.map((e,i) => {
 

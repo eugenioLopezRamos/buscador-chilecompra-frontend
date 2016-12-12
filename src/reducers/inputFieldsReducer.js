@@ -1,6 +1,7 @@
 import * as types from '../actions/actionTypes';
 import initialState from './initialState';
 import objectAssign from 'object-assign';
+import moment from 'moment';
 
 export default function InputFieldsReducer(state = initialState.inputFieldValues, action) {
 
@@ -9,7 +10,8 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
             return objectAssign({}, state, { organismosPublicosFilter: action.value } );
 
         case types.DATE_FIELD_SELECT:
-            return objectAssign({}, state, { date: action.value });
+            let newDate = action.value._isValid ? action.value : state.date;
+            return objectAssign({}, state, { date: newDate });
         
         case types.SEARCH_FIELD_INPUT:
             return objectAssign({}, state, { palabrasClave: action.value });
@@ -48,7 +50,8 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
             return objectAssign({}, 
                                 state, { organismosPublicosFilter: action.value, 
                                          selectedOrganismoPublico: defaultSelectedValue,
-                                         organismosPublicosFilteredSubset: selectionResults})
+                                         organismosPublicosFilteredSubset: selectionResults});
+
         case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:
             return objectAssign({}, state, {organismosPublicosFilter: ""}, {organismosPublicosFilteredSubset: action.value});
 
