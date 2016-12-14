@@ -17,7 +17,6 @@ const rootReducer = combineReducers({
     estadosLicitacion,
     showNavbar: displayReducers.showNavbarReducer,
     isAuthenticated: authenticationReducers.isAuthenticatedSetter,
-    auth_token: authenticationReducers.auth_tokenSetter,
     userData: authenticationReducers.userDataSetter,
     loginData: authenticationReducers.loginDataSetter,
     routing: routerReducer,

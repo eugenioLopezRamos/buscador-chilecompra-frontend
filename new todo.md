@@ -10,6 +10,7 @@
 - Logins
 - Links to a single licitacion
 - make the signup errors flash able to be closed.
+- Need to fix the errors flash due to the new format because of devise_token_auth
 
 ## DONE ##
 - Need to separate the logic in some of the stateless functional components into actions

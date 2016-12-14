@@ -7,8 +7,6 @@ const initialState = {
     estadosLicitacion: {"Todos": ""},
     showNavbar: false,
     isAuthenticated: false,
-    //should be changed with an action on first load(similar to the orgPublicos one) that checks if a cookie with a valid token exists
-    auth_token: null,
     //same name as the rails param
     userData: null,
     //used when inputting data to login.

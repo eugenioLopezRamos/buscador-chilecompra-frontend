@@ -22,6 +22,7 @@ import './css/main.scss';
 // import {loadTest} from './actions/loadTestActions';
 import {onLoadFetchOrgPub} from './actions/onLoadFetchOrgPub';
 import {onLoadFetchEstLic} from './actions/onLoadFetchEstLic';
+import {validateToken} from './actions/authInfoResultsActions';
 //import Main from './components/Main.jsx';
 
 
@@ -30,6 +31,10 @@ const store = configureStore();
 
 store.dispatch(onLoadFetchOrgPub());
 store.dispatch(onLoadFetchEstLic());
+store.dispatch(validateToken());
+// I can probably make these 2 load when displaying the inputFieldsContainer instead of now...
+
+
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);

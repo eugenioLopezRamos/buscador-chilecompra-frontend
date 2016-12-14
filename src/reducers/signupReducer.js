@@ -9,7 +9,7 @@ const signupReducer = (state = initialState.signup, action) => {
     let newResult = objectAssign({}, state.result);
 
     switch(action.type) {
-
+        ////////////// FIRST THE INPUT HANDLERS
         case types.USER_SIGNUP_INPUT_NAME:
 
 
@@ -37,6 +37,8 @@ const signupReducer = (state = initialState.signup, action) => {
             newState = objectAssign({}, state, {info:newInfo});
             return newState
 
+            
+        /////////////////// AND NOW THE RESULT HANDLERS
         case types.USER_SEND_SIGNUP_INFO_SUCCESS:
             [newInfo.name, newInfo.email, newInfo.password, newInfo.password_confirmation] = ["", "","", ""];
             newState = objectAssign({}, state, {info: newInfo},{result: {message: action.message, result: action.value}});

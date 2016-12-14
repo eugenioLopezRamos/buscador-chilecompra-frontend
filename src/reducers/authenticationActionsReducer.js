@@ -14,6 +14,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
             return objectAssign({}, state,  {password: action.value});
 
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
+
             newState = objectAssign({}, 
                                     state, 
                                     {email: "", password: "", message: "Bienvenido!", result: "success"});
@@ -31,6 +32,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
 
         case types.USER_LOGOUT_SUCCESS:
         //In this scenario we have to destroy the JWT token, but probably shouldn't be here since that'd be impure.
+            localStorage.removeItem({auth})
             newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente", result: "logout-success"});
             return newState;
 
@@ -42,28 +44,6 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
             return state;
     }
 
-
-}
-
-export const auth_tokenSetter = (state = initialState.auth_token, action) => {
-    switch(action.type) {
-
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return action.response.auth_token;
-
-        case types.USER_SEND_LOGIN_INFO_FAILURE:
-            return null;
-
-        case types.USER_LOGOUT_SUCCESS:
-            return null;
-
-        case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
-            return state;
-
-        default:
-            return state;
-
-    } 
 
 }
 
@@ -82,18 +62,21 @@ export const isAuthenticatedSetter = (state = initialState.isAuthenticated, acti
 
         case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
             return state;
-
+        case types.USER_VALIDATE_TOKEN_SUCCESS:
+            return true;
+        case types.USER_VALIDATE_TOKEN_FAILURE:
+            return false;
         default:
             return state;
     }
-
 }
 
 export const userDataSetter = (state = initialState.userData, action) => {
+
     switch(action.type) {
 
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return action.response.user;
+            return action.response;
 
         case types.USER_SEND_LOGIN_INFO_FAILURE:
             return null;

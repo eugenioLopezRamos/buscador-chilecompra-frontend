@@ -7,6 +7,8 @@ import * as authInfoInputsActions from '../actions/authInfoInputsActions';
 import * as authInfoResultsActions from '../actions/authInfoResultsActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import * as utils from '../utils/authUtils';
+import UserDropdown from './user/UserDropdown';
 
 class CollapsibleNavBar extends React.Component {
     constructor(props) {
@@ -30,11 +32,12 @@ class CollapsibleNavBar extends React.Component {
                 </button>
 
                 <div className={self.props.showNavbar ? "navbar-collapse" : "navbar-collapse collapse"}>
-                    <Login loginData={self.props.loginData} 
-                           handleChangeEmail={self.props.authInfoInputsActions.loginInputEmail}
-                           handleChangePassword={self.props.authInfoInputsActions.loginInputPassword}
-                           handleClickSubmit={self.props.authInfoResultsActions.submitLoginInfo}
-                    />
+                    
+                   { this.props.isAuthenticated ? <UserDropdown />: <Login loginData={self.props.loginData} 
+                                                                        handleChangeEmail={self.props.authInfoInputsActions.loginInputEmail}
+                                                                        handleChangePassword={self.props.authInfoInputsActions.loginInputPassword}
+                                                                        handleClickSubmit={self.props.authInfoResultsActions.submitLoginInfo} 
+                                                                    />}
                 </div>
             </div>
             ); 
@@ -43,14 +46,16 @@ class CollapsibleNavBar extends React.Component {
 
 CollapsibleNavBar.propTypes = {
     showNavbar: PropTypes.bool.isRequired,
-    loginData: PropTypes.object.isRequired
+    loginData: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 
 function mapStateToProps(state, ownProps) {
   return {
     showNavbar: state.showNavbar,
-    loginData: state.loginData
+    loginData: state.loginData,
+    isAuthenticated: state.isAuthenticated
   };
 };
 
