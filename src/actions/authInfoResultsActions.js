@@ -37,6 +37,7 @@ export const submitLoginInfo = () => {
                             if(response.result === "success") {
                                 //her i can use response.headers to set the corresponding tokens to localStorage/cookie
                                 console.log("HEADEDER", response.headers);
+                           
                                 utils.saveToStorage(response.headers);
                                 dispatch(loginSuccess(response));
                             }else {
@@ -64,6 +65,7 @@ export const validateToken = () => {
             return userAPI.validateToken()
                 .then(response => {
                     if(response.result === "success") {
+                        console.log("validate token response", response);
                         console.log("validate token resp heade", response.headers);
                         utils.saveToStorage(response.headers);
                         dispatch(validateTokenSuccess(response));

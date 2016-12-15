@@ -11,6 +11,8 @@
 - Links to a single licitacion
 - make the signup errors flash able to be closed.
 - Need to fix the errors flash due to the new format because of devise_token_auth
+- I think relog bug happens when you reload so fast the promise can't resolve itself so it crashes and then
+doesnt get to write the new token to localstorage
 
 ## DONE ##
 - Need to separate the logic in some of the stateless functional components into actions

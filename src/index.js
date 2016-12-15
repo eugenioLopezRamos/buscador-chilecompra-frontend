@@ -31,7 +31,11 @@ const store = configureStore();
 
 store.dispatch(onLoadFetchOrgPub());
 store.dispatch(onLoadFetchEstLic());
-store.dispatch(validateToken());
+
+if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
+	store.dispatch(validateToken());
+}
+
 // I can probably make these 2 load when displaying the inputFieldsContainer instead of now...
 
 
