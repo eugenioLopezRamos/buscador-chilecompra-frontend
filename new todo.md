@@ -10,6 +10,7 @@
 - Need to fix the errors flash due to the new format because of devise_token_auth
 - Make the user menu not be behind a click in non mobile viewports
 - polish the USER_VALIDATION_TOKEN_SUCCESS responding reducers (in particular, userData)
+- 
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
