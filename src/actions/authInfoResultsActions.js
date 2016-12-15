@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import userAPI from '../api/userApi';
-import * as utils from '../utils/authUtils';
+import utils from '../utils/authUtils';
 
 
 export const loginSuccess = (response) => {

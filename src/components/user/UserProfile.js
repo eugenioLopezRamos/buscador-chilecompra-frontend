@@ -4,10 +4,10 @@ const UserProfile = ({user}) => {
 
     return(
         <div>
-            <h3>{user.name}</h3>
+            <h2>Tus datos</h2>
             {
                 Object.keys(user).map( (e,i) => {
-                    return <h2 className="user-h2" key={i+1}>user.e</h2>
+                    return <h4 className="user-h2" key={i+1}>{e} = {user[e]}</h4>
                 })
             }
         </div>

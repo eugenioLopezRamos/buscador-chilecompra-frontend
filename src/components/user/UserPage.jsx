@@ -1,14 +1,17 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../actions/loginActions';
+//import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
 
 class UserPage extends React.Component {
 
     render = () => {
+        if(this.props.user === null) {
+            return null
+        }
         return(
-            <div>
-                <h2 className="username-title">Your very own user page!</h2>
+            <div className="jumbotron">
+                <h2 className="username-title">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user}/>
             </div>
         )
@@ -16,14 +19,14 @@ class UserPage extends React.Component {
 }
 
 UserPage.propTypes = {
-    login: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired
+   // login: PropTypes.bool.isRequired,
+    user: PropTypes.object
     //tbi
 
 }
 
 function mapStateToProps(state, ownProps) {
-
+    return {user: state.userData}
     //ownProp1: state.ownProp1,
     //ownProp2: state.ownProp2, 
     //...

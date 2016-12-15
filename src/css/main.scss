@@ -205,6 +205,17 @@ select {
     padding-right: 10px;
     border-bottom: 1px solid limegreen;
 }
+.dropdown-visible {
+    display: block;
+}
+
+.dropdown-container {
+    height: 50px;
+    padding-top: 7px;
+    float:right;
+
+}
+
 @media all and (min-width: 700px) {
     .container.inputfields {
         display:flex;

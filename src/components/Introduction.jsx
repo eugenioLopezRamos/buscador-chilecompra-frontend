@@ -9,9 +9,26 @@ import {connect} from 'react-redux';
 //import InputFieldsContainer from './InputFieldsContainer.jsx';
 
 class Introduction extends React.Component {
-       // console.log("intro props", props);
 
-       // ahora hay que pasar los props a SignupForm
+    signup = () => {
+        let signup = null
+        if(!this.props.isAuthenticated) {
+            signup = <div>
+                        <p className="text-center">O regístrate</p>
+
+                        <SignupForm 
+                            inputActions={this.props.signupInputActions} 
+                            signupResult={this.props.signupResult}
+                            signupInfo={this.props.signupInfo}
+                            resultsActions={this.props.signupResultsActions}
+
+                        />
+                    </div>
+        }
+        return signup;
+    }
+
+
     render = () => {
         return (
             <div className="container jumbotron">
@@ -26,16 +43,8 @@ class Introduction extends React.Component {
                 <Link to='/busqueda'>
                     <p className="lead text-center">Buscar Licitaciones.</p>
                 </Link>
-                
-                <p className="text-center">O regístrate</p>
+                {this.signup()}
 
-                <SignupForm 
-                    inputActions={this.props.signupInputActions} 
-                    signupResult={this.props.signupResult}
-                    signupInfo={this.props.signupInfo}
-                    resultsActions={this.props.signupResultsActions}
-
-                />
 
             </div>
         )
@@ -49,7 +58,7 @@ Introduction.propTypes = {
     signupEmail: PropTypes.string,
     signupPassword: PropTypes.string,
     signupPasswordConf: PropTypes.string,
-    //results
+    isAuthenticated: PropTypes.bool,
     signupResults: PropTypes.object,
     signupInfo: PropTypes.object
 }
@@ -61,7 +70,8 @@ function mapStateToProps(state, ownProps) {
         signupPassword: state.signup.info.password,
         signupPasswordConf: state.signup.info.password_confirmation,
         signupResult: state.signup.result,
-        signupInfo: state.signup.info
+        signupInfo: state.signup.info,
+        isAuthenticated: state.isAuthenticated
     }
 } 
 function mapDispatchToProps(dispatch) {

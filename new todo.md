@@ -1,20 +1,18 @@
 ## TO DO ##
 
 - Need to set a debouncer for fetches!
-- Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
-- Make the login work
 - Make it so the user can save search queries and save search results
 - change rails routes (and thus the routes used in this app) from /api/:whatever to /api/v1/:whatever
 - add validations for requiredness of user data when signing up, and for formatting (email), length & equalness (passwords)
 - add tests for everything
-- Logins
 - Links to a single licitacion
 - make the signup errors flash able to be closed.
 - Need to fix the errors flash due to the new format because of devise_token_auth
-- I think relog bug happens when you reload so fast the promise can't resolve itself so it crashes and then
-doesnt get to write the new token to localstorage
+- Make the user menu not be behind a click in non mobile viewports
+- polish the USER_VALIDATION_TOKEN_SUCCESS responding reducers (in particular, userData)
 
 ## DONE ##
+- Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
 - Need to separate the logic in some of the stateless functional components into actions
 - Add dates, currently <DateField /> does not alter state so you cant actually pick a date meaningfully
 - Need to see  how to pass value of stateless functional components to container so it gets turned into state <- this was done with actions/reducers etc (the redux way)
@@ -26,3 +24,6 @@ doesnt get to write the new token to localstorage
 - Fixed a small bug when loading AutoFillerInput organismos publicos from a <Link />
 - Turned AutoFillerInput from Class component to stateless functional component
 - When the date is deleted the datepicker fails irreversibly. Fixed by adding date._isValid check in the reducer.
+- Make the login work
+- I think relog bug happens when you reload so fast the promise can't resolve itself so it crashes and then
+doesnt get to write the new token to localstorage - Fixed, it was receiving no new token due to the default option of devise_token_auth

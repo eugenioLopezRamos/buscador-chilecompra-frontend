@@ -86,6 +86,10 @@ export const userDataSetter = (state = initialState.userData, action) => {
 
         case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
             return state;
+        case types.USER_VALIDATE_TOKEN_SUCCESS:
+            return action.response.body.data;
+        case types.USER_VALIDATE_TOKEN_FAILURE:
+            return null;
 
         default:
             return state;

@@ -1,5 +1,5 @@
 
-import * as utils from '../utils/authUtils';
+import utils from '../utils/authUtils';
 
 class userApi {
     constructor(utils) {
@@ -31,24 +31,8 @@ class userApi {
     }
 
     static validateToken() {
-        // this is get...
 
-        console.log("LOCALSTORAGE", localStorage.length === 0);
-
-            let params = utils.getFromStorage();
-            console.log("PARAMS", params);
-            let query = Object.keys(params).reduce((prev, curr) => {
-                if(curr === "expiry") {
-                    return prev;
-                }
-                let queryChunk = `${curr}=${params[curr]}`;
-                prev.push(queryChunk);
-                return prev;
-
-            }, new Array).join("&");
-
-
-
+            let query = utils.setQueryParams();
             return fetch(`${process.env.API_HOST}/api/auth/validate_token?${query}`)
                         .then(response => {
                             if(response.status >= 200 && response.status < 300) {
@@ -56,13 +40,23 @@ class userApi {
                             }
                             })
                         .catch(error => {return error});
-        
-
     }
 
     static sendLogoutInfo() {
 
-
+        let headers = utils.setHeaders();
+        console.log("headers logut", headers);
+        return fetch(`${process.env.API_HOST}/api/auth/sign_out`, {
+            headers: headers,
+            body: "", 
+            method: "DELETE"
+            })
+            .then(response => {
+                if(response.status >= 200 && response.status < 300) {
+                    return this.receiveNewAuthData(response);
+                }
+                })
+            .catch(error => {return error});
 
 
 
@@ -72,7 +66,6 @@ class userApi {
     static receiveNewAuthData(response) {
 
         let headers = utils.headerToObject(response);
-
         let result = "failure";
         if (response.status >= 200 && response.status < 300) {
             result = "success";

@@ -15,29 +15,53 @@ class CollapsibleNavBar extends React.Component {
         super(props);
     
     }
-
     handleClick = () => {
         this.props.displayActions.toggleNavbarDisplay();
     }
 
+    dropdown = () => {
+        //sets a default button
+        let button = <button type="button" className="btn navbar-toggle"  data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
+                      onClick={this.handleClick}>        
+                            <i className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
+                            <span className="sr-only">Mostrar/esconder navegación</span>
+                     </button>;
+        //changes it to the correct button if the user is authenticated
+        if(this.props.isAuthenticated){
+
+               button =  <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                         onClick={this.handleClick}>
+                            Menú
+                            <span className="caret"></span>
+                        </button>
+
+        }
+        //sets a default menu to allow logins
+        let menu = <Login loginData={this.props.loginData} 
+                        handleChangeEmail={this.props.authInfoInputsActions.loginInputEmail}
+                        handleChangePassword={this.props.authInfoInputsActions.loginInputPassword}
+                        handleClickSubmit={this.props.authInfoResultsActions.submitLoginInfo} 
+                    />
+        //changes to the user menu if authenticated
+        if(this.props.isAuthenticated) {
+
+            menu = <UserDropdown visible={this.props.showNavbar} />
+
+        }
+
+        return {button, menu}
+
+
+    }
+    
     render = () => {
         let self = this;
+        console.log("HANDLECLICK", self.handleClick);
         return  (
-            <div>
-                <button type="button" className="btn navbar-toggle"  data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
-                    onClick={self.handleClick}
-                >        
-                        <i className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
-                        <span className="sr-only">Mostrar/esconder navegación</span>
-                </button>
-
-                <div className={self.props.showNavbar ? "navbar-collapse" : "navbar-collapse collapse"}>
-                    
-                   { this.props.isAuthenticated ? <UserDropdown />: <Login loginData={self.props.loginData} 
-                                                                        handleChangeEmail={self.props.authInfoInputsActions.loginInputEmail}
-                                                                        handleChangePassword={self.props.authInfoInputsActions.loginInputPassword}
-                                                                        handleClickSubmit={self.props.authInfoResultsActions.submitLoginInfo} 
-                                                                    />}
+            <div className="dropdown-container">
+                {self.dropdown().button}
+                <div className={self.props.showNavbar ? "navbar-collapse no-gutter" : "navbar-collapse collapse no-gutter"}>
+                {self.dropdown().menu}
                 </div>
             </div>
             ); 
