@@ -13,7 +13,6 @@ const Login = (props) => {
     }
     const handleClickSubmit = (event) => {
         event.preventDefault();
-        console.log("click submit");
         props.handleClickSubmit();
     }
 

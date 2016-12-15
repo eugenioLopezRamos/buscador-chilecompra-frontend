@@ -1,8 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-
 const UserDropdown = (props) => {
+
+    const handleLogout = () => {
+        props.handleLogout();
+    }
 
     return (
         <div className="dropdown">
@@ -11,7 +14,7 @@ const UserDropdown = (props) => {
                 <li><a href="#">Tu perfil</a></li>
                 <li><Link to="/busqueda">Buscar</Link></li>
                 <li role="separator" className="divider"></li>
-                <li><Link to="/logout">Salir de la aplicación</Link></li>
+                <li onClick={handleLogout}><Link to="/">Salir de la aplicación</Link></li>
             </ul>        
         </div>
 

@@ -43,9 +43,10 @@ class CollapsibleNavBar extends React.Component {
                         handleClickSubmit={this.props.authInfoResultsActions.submitLoginInfo} 
                     />
         //changes to the user menu if authenticated
+  
         if(this.props.isAuthenticated) {
 
-            menu = <UserDropdown visible={this.props.showNavbar} />
+            menu = <UserDropdown visible={this.props.showNavbar} handleLogout={this.props.authInfoResultsActions.sendLogoutInfo} />
 
         }
 
@@ -56,7 +57,6 @@ class CollapsibleNavBar extends React.Component {
     
     render = () => {
         let self = this;
-        console.log("HANDLECLICK", self.handleClick);
         return  (
             <div className="dropdown-container">
                 {self.dropdown().button}

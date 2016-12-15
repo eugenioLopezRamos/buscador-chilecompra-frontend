@@ -32,7 +32,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
 
         case types.USER_LOGOUT_SUCCESS:
         //In this scenario we have to destroy the JWT token, but probably shouldn't be here since that'd be impure.
-            localStorage.removeItem({auth})
+        
             newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente", result: "logout-success"});
             return newState;
 

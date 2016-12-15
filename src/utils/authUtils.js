@@ -2,7 +2,6 @@
 let utils = {
         
         saveToStorage: (header) => {
-            console.log("SAVE TO STORAGE HEADER", header);
             
             if(!header["access-token"] || !header["uid"] || !header["client"] || !header["expiry"]) {
                 // all of these headers must exist, otherwise if we refresh the localStorage the app will logout client side but not server side
@@ -16,10 +15,7 @@ let utils = {
                                                     uid: header.uid,
                                                     client: header.client, 
                                                     expiry: header.expiry}));
-                console.log("saved localstorage =", localStorage.getItem("session"));
             }
-
-
         },
 
         clearStorage: () => {
@@ -62,7 +58,6 @@ let utils = {
                 if(curr === "expiry") {
                     return prev;
                 }
-               // let queryChunk = `${curr}=${params[curr]}`;
                 prev[curr] = params[curr];
                 return prev;
 

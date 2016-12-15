@@ -30,7 +30,7 @@ class userApi {
           .catch(error => {return error.json()});
     }
 
-    static validateToken() {
+    static requestTokenValidation() {
 
             let query = utils.setQueryParams();
             return fetch(`${process.env.API_HOST}/api/auth/validate_token?${query}`)
@@ -45,7 +45,6 @@ class userApi {
     static sendLogoutInfo() {
 
         let headers = utils.setHeaders();
-        console.log("headers logut", headers);
         return fetch(`${process.env.API_HOST}/api/auth/sign_out`, {
             headers: headers,
             body: "", 
@@ -53,13 +52,10 @@ class userApi {
             })
             .then(response => {
                 if(response.status >= 200 && response.status < 300) {
-                    return this.receiveNewAuthData(response);
+                    return response;
                 }
                 })
             .catch(error => {return error});
-
-
-
     }
 
 
@@ -73,6 +69,7 @@ class userApi {
 
         return response.json()
                 .then(response => {
+
                     return {headers, body: response, result}
                 });
     }
