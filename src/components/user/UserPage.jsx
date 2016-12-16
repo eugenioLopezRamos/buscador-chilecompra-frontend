@@ -11,7 +11,7 @@ class UserPage extends React.Component {
         }
         return(
             <div className="jumbotron">
-                <h2 className="username-title">Bienvenido {this.props.user.name}</h2>
+                <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user}/>
             </div>
         )

@@ -2,32 +2,30 @@ import React, {PropTypes} from 'react';
 
 const UserProfile = ({user}) => {
 
-    return(
-        <div>
-            <h2>Tus datos</h2>
-            <div className="perfil-datos">
-            {
-                Object.keys(user).map( (e,i) => {
-                    return <h4 className="user-h2" key={i+1}>{e} = {user[e]}</h4>
-                })
-            }
-            </div>
-            <div className="perfil-notificaciones">
-            
-                <h2>Notificaciones</h2>
-                {
-                    Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-                        let val = <li key={"numero" + e}>{`notificacion ${e}`}</li>
+    let notificaciones = Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
+                        let val = <li className="list-group-item no-show" key={"numero" + e}>{`notificacion ${e}`}</li>
                         return val;
                     })
 
-                }
+    return(
+        <div className="perfil-container">
+
+            <div className="list-group perfil-notificaciones">
+                <span className="list-group-item">
+                    Notificaciones
+                    <span className="badge">
+                        {notificaciones.length}
+                    </span>
+                </span>
+                {notificaciones}
             </div>
+
+
             <div className="perfil-busquedas-guardadas">
                 <h2>Búsquedas guardadas</h2>
                 {
                     Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-                    let val = <li key={"search" + e}>{`busqueda ${e}`}</li>
+                    let val = <li className="list-group-item saved-items" key={"search" + e}><span className="saved-items-description">{`busqueda ${e}`}</span><button type="button" className="btn btn-primary pull-right no-gutter">Ejecutar búsqueda</button></li>
                         return val;
                     })                    
                 }
@@ -54,3 +52,12 @@ UserProfile.propTypes = {
 }
 
 export default UserProfile;
+
+            // <span className="perfil-datos-title">Tus datos</span>
+            // <div className="list-group">
+            // {
+            //     Object.keys(user).map( (e,i) => {
+            //         return <li className="list-group-item" key={i+1}>{e} = {user[e]}</li>
+            //     })
+            // }
+            // </div>
