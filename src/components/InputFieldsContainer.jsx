@@ -94,6 +94,8 @@ class InputFieldsContainer extends React.Component {
                             <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
                         </div>
 
+                        <button type="button" className="btn btn-primary">Guardar parámetros de búsqueda (TBI)</button>
+
                     </div>        
         );
    }

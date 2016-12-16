@@ -6,7 +6,8 @@ import objectAssign from 'object-assign';
 export function showNavbarReducer(state = initialState.showNavbar, action) {
     switch(action.type) {
         case types.TOGGLE_VISIBILITY:
-            return !state;
+        return !state;
+
         default:
             return state;
     };

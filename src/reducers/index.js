@@ -9,6 +9,7 @@ import * as displayReducers from './displayActionsReducer';
 import * as authenticationReducers from './authenticationActionsReducer';
 //import signupInputsReducer from './signupInputsReducer';
 import signupReducer from './signupReducer';
+import modifiedUserDataReducer from './modifiedUserDataReducer';
 //import searchTypeReducer from './displayActionsReducer';
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     showNavbar: displayReducers.showNavbarReducer,
     isAuthenticated: authenticationReducers.isAuthenticatedSetter,
     userData: authenticationReducers.userDataSetter,
+    modifiedUserData: modifiedUserDataReducer,
     loginData: authenticationReducers.loginDataSetter,
     routing: routerReducer,
     signup: signupReducer,

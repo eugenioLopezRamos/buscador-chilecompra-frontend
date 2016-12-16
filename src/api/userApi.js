@@ -74,6 +74,24 @@ class userApi {
                 });
     }
 
+    static updateUserInfo(body) {
+
+        let headers = utils.setHeaders();
+        return fetch(`${process.env.API_HOST}/api/auth/`, {
+            headers,
+            body,
+            method: "PUT"
+        })
+        .then(response => {
+            if(response.status >= 200 && response.status < 300) {
+                return response
+            }
+        })
+        .catch(error => {return error});
+
+
+    }
+
 
 
 }

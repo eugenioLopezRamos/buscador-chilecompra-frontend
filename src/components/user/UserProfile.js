@@ -25,7 +25,12 @@ const UserProfile = ({user}) => {
                 <h2>Búsquedas guardadas</h2>
                 {
                     Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-                    let val = <li className="list-group-item saved-items" key={"search" + e}><span className="saved-items-description">{`busqueda ${e}`}</span><button type="button" className="btn btn-primary pull-right no-gutter">Ejecutar búsqueda</button></li>
+                        
+                    let val = <li className="list-group-item saved-items" key={"search" + e}>
+                                <span className="saved-items-description">{`busqueda ${e}`}</span>
+                                <button type="button" className="btn btn-primary pull-right">Ejecutar búsqueda</button>
+                              </li>
+
                         return val;
                     })                    
                 }
@@ -35,7 +40,12 @@ const UserProfile = ({user}) => {
                 <h2>Resultados guardados</h2>
                 {
                     Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-                    let val = <li key={"result" + e}>{`resultado ${e}`}</li>
+
+                    let val = <li className="list-group-item saved-items" key={"result" + e}>
+                                <span className="saved-items-description">{`resultado ${e}`}</span>
+                                <button type="button" className="btn btn-primary pull-right">Ver resultado</button>
+                              </li>
+
                         return val;
                     })                    
                 }            

@@ -12,6 +12,8 @@
 - polish the USER_VALIDATION_TOKEN_SUCCESS responding reducers (in particular, userData)
 - Need to restructure the SearchResults rendering so it can adapt to single licitacion and proveedor search types
 - Pagination for saved searches/saved results
+- Login on mobile looks weird, needs fix
+- Password resets
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
