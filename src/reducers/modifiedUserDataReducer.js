@@ -15,10 +15,13 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
         case types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL:
             return objectAssign({}, state, {email: action.value});
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_PASSWORD:
+        case types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD:
+            return objectAssign({}, state, {current_password: action.value});
+
+        case types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD:
             return objectAssign({}, state, {password: action.value});
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_PASSWORD_CONFIRMATION:
+        case types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION:
             return objectAssign({}, state, {password_confirmation: action.value});
 
 
@@ -32,15 +35,30 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
                                  email: action.response.email,
                                 image: action.response.image});
 
-         case types.USER_LOGOUT_SUCCESS:
+        case types.USER_VALIDATE_TOKEN_SUCCESS:
+            console.log("login", action)
+
             return objectAssign({}, 
                                 state, 
-                                {name: "", 
-                                 email: "",
-                                 password: "",
+                                {
+                                 name: action.response.body.data.name,
+                                 current_password: "",
+                                 password: "", 
                                  password_confirmation: "",
-                                 image: ""
+                                 email: action.response.body.data.email,
+                                 image: action.response.body.data.image
                                 });
+
+         case types.USER_VALIDATE_TOKEN_FAILURE:
+            return objectAssign({}, 
+                                state, 
+                                {
+                                 current_password: ""
+                                });
+
+        case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
+        console.log("SUCCSESS ACTION", action);
+            return objectAssign({}, state, {current_password: ""})
 
         default:
             return state;

@@ -3,13 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as UserProfileActions from '../../actions/UserActions';
 import {capitalize} from '../../utils/miscUtils';
+import Flash from '../Flash.jsx';
 
 class UserProfileData extends React.Component {
 
     constructor(props) {
 
         super(props);
-        this.showParams = [{name: "Nombre"},{image:"Imagen"}, {email: "Email"}, {password: "Contraseña"}, {passwordConfirmation: "Confirmar contraseña"}];
+        this.showParams = [{name: "Nombre"},{image:"Imagen"}, {email: "Email"}, {currentPassword: "Contraseña actual"}, 
+                            {newPassword: "Nueva contraseña"}, {newPasswordConfirmation: "Confirmar nueva contraseña"}];
+
         this.capitalize = (string) => { return capitalize(string); }
     }
 
@@ -20,15 +23,21 @@ class UserProfileData extends React.Component {
                                     return Object.keys(e)[0]
 
                                 });
-   
-
         let field = allowedFields.filter(e => {
             return event.target === this.refs[e];
         }).join("");
       
         let action = "modifyUserProfileDataInput" + this.capitalize(field) ;
-        this.props.UserProfileActions[action](event.target.value);
+
+
+        this.props.userProfileActions[action](event.target.value);
     }
+
+    handleClick = () => {
+        event.preventDefault();
+        this.props.userProfileActions.modifyUserProfileData();
+    }
+
 
     userData = () => {
         let user = this.props.user;
@@ -36,14 +45,19 @@ class UserProfileData extends React.Component {
             return null;
         }
 
-
-
         let fields = this.showParams.map(e => {
                 let currentKey = Object.keys(e)[0];
+                let inputType = "input";
+
+                if(currentKey.match(/password|email/i)) {
+                    //inputType becomes password or email, according to what was found.
+                    inputType = currentKey.match(/password|email/i)[0];
+                }
+
 
                 return (<div key={currentKey}>
                             <label className="title full-width">{e[currentKey]}</label>
-                            <input key={currentKey} ref={currentKey} defaultValue={user[currentKey]} onChange={this.handleChange}/>
+                            <input key={currentKey} ref={currentKey} defaultValue={user[currentKey]} onChange={this.handleChange} type={inputType}/>
                         </div>)
             });
 
@@ -59,9 +73,10 @@ class UserProfileData extends React.Component {
 
         return (
             <div className="jumbotron text-center">
+               
                 <label>Aquí puedes editar los datos de tu perfil</label>
                 {this.userData()}
-                <button className="btn btn-primary info">Enviar datos</button>
+                <button className="btn btn-primary info" onClick={this.handleClick}>Enviar datos</button>
             </div>
             
             
@@ -71,19 +86,21 @@ class UserProfileData extends React.Component {
 
 }
 UserProfileData.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    messages: PropTypes.object
 }
 
 
 function mapStateToProps(state, ownProps) {
     return {
-        user: state.userData
+        user: state.userData,
+        messages: state.messages
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        UserProfileActions: bindActionCreators(UserProfileActions, dispatch)
+        userProfileActions: bindActionCreators(UserProfileActions, dispatch)
     }
 }
 

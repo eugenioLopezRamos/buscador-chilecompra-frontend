@@ -10,6 +10,7 @@ import * as displayReducers from './displayActionsReducer';
 import * as authenticationReducers from './authenticationActionsReducer';
 import signupReducer from './signupReducer';
 import modifiedUserDataReducer from './modifiedUserDataReducer';
+import messagesReducer from './messagesReducer';
 
 
 const rootReducer = combineReducers({
@@ -25,7 +26,7 @@ const rootReducer = combineReducers({
     signup: signupReducer,
     searchResults,
     inputFieldValues,
-
+    messages: messagesReducer,
     searchType: displayReducers.searchTypeReducer
     
 });

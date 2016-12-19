@@ -7,6 +7,8 @@ class UserPage extends React.Component {
 
     render = () => {
         if(this.props.user === null) {
+            //probably set initialState of userData to empty fields and then use an onEnter handler in react-router to 
+            // redirect the user to login if not logged in.
             return null
         }
         return(

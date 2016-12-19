@@ -2,7 +2,7 @@
 let utils = {
         
         saveToStorage: (header) => {
-            
+            console.log("header", header);
             if(!header["access-token"] || !header["uid"] || !header["client"] || !header["expiry"]) {
                 // all of these headers must exist, otherwise if we refresh the localStorage the app will logout client side but not server side
                 // These properties not existing happens because devise_token_auth has a default setting of minimum 5 seconds between token change
@@ -10,13 +10,17 @@ let utils = {
 
                 return
             }else {
+                console.log("localstorage", localStorage.getItem("session"))
+                localStorage.removeItem("session");
                 localStorage.setItem("session", 
                                     JSON.stringify({"access-token": header["access-token"],
                                                     uid: header.uid,
                                                     client: header.client, 
                                                     expiry: header.expiry}));
             }
+            console.log("localstorage AFTER", localStorage.getItem("session"));
         },
+
 
         clearStorage: () => {
             localStorage.clear();
@@ -24,22 +28,20 @@ let utils = {
 
         getNextAuthHeader: () => {
 
-
-
-
         },
 
-        getFromStorage: () => {
+
+        getCredsFromStorage: () => {
 
             return JSON.parse(localStorage.getItem("session"));
         },
 
         setQueryParams: () => {
 
-            let params = utils.getFromStorage();
+            let params = utils.getCredsFromStorage();
 
             let query = Object.keys(params).reduce((prev, curr) => {
-                if(curr === "expiry") {
+                if(curr === "expiry") { //if included => unauthorized parameter.
                     return prev;
                 }
                 let queryChunk = `${curr}=${params[curr]}`;
@@ -52,7 +54,7 @@ let utils = {
 
         setHeaders: () => {
 
-            let params = utils.getFromStorage();
+            let params = utils.getCredsFromStorage();
 
             let headers = Object.keys(params).reduce((prev, curr) => {
                 if(curr === "expiry") {
@@ -62,6 +64,8 @@ let utils = {
                 return prev;
 
             }, new Object);
+            headers["Content-Type"] = "application/json";
+            headers["Accept"] = "application/json";
             return headers;
 
         },

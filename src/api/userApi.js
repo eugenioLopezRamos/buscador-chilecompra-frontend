@@ -21,7 +21,7 @@ class userApi {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
             },
-            body: JSON.stringify({email: login_data.email, password: login_data.password}),
+            body: JSON.stringify(login_data),
             method: "POST"
         }).then(response => {
             
@@ -75,16 +75,19 @@ class userApi {
     }
 
     static updateUserInfo(body) {
-
+        let reqBody = JSON.stringify(body);
         let headers = utils.setHeaders();
         return fetch(`${process.env.API_HOST}/api/auth/`, {
             headers,
-            body,
+            body:reqBody,
             method: "PUT"
         })
         .then(response => {
             if(response.status >= 200 && response.status < 300) {
                 return response
+            }else {
+                console.log("RESPONSE FAIL", response);
+                throw response.json();
             }
         })
         .catch(error => {return error});

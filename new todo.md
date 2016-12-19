@@ -15,7 +15,9 @@
 - Login on mobile looks weird, needs fix
 - Password resets
 - Handle redirects when accessing unauthorized parts of the site (instead of just rendering blank pages)
-
+- Implement flash messages on all components that need it (such as modify user data etc);
+- Make a reducer for messages so they can be more easily integrated into flashes?
+- Flash formatting (using the new reducer...)
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service

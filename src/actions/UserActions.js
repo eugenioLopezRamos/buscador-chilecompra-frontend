@@ -1,9 +1,10 @@
 import * as types from './actionTypes';
-
+import userAPI from '../api/userApi';
+import utils from '../utils/authUtils';
 // API CALLS
 
-export const modifyUserProfileDataSuccess = () => {
-    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
+export const modifyUserProfileDataSuccess = (value) => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value}
 };
 
 export const modifyUserProfileDataFailure = (error) => {
@@ -11,16 +12,21 @@ export const modifyUserProfileDataFailure = (error) => {
 };
 
 export const modifyUserProfileData = () => {
-    return (dispatch, {state}) => {
+    return (dispatch, getState) => {
+        let state = {getState};
+        let body = state.getState().modifiedUserData;
+        console.log("MODIFY BODY", body);
 
-        let body = state.getState().updateUser
-
-        userAPI.updateUserInfo()
+        userAPI.updateUserInfo(body)
             .then(response => {
+                console.log("RESPONSE MODIFY DATA", response);
+
                 if(response.status >= 200 && response.status < 300) {
-                    return dispatch(modifyUserProfileDataSuccess());
+                    let headers = utils.headerToObject(response.headers);
+                    utils.saveToStorage(header);
+                    return dispatch(modifyUserProfileDataSuccess(response.json()));
                 }else {
-                    return dispatch(modifyUserProfileDataFailure(response.status));
+                    return dispatch(modifyUserProfileDataFailure(response));
                 };
             })
             .catch(error => {dispatch(modifyUserProfileDataFailure(error))});
@@ -43,11 +49,14 @@ export const modifyUserProfileDataInputImage = (value) => {
 export const modifyUserProfileDataInputEmail = (value) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL, value};
 }
-
-export const modifyUserProfileDataInputPassword = (value) => {
-    return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_PASSWORD, value};
+export const modifyUserProfileDataInputCurrentPassword = (value) => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value }
 }
 
-export const modifyUserProfileDataInputPasswordConfirmation = (value) => {
-    return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_PASSWORD_CONFIRMATION, value}
+export const modifyUserProfileDataInputNewPassword = (value) => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD, value};
+}
+
+export const modifyUserProfileDataInputNewPasswordConfirmation = (value) => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value}
 }
