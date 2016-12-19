@@ -213,11 +213,32 @@ select {
 }
 
 .dropdown-container {
-    height: 50px;
-    padding-top: 7px;
-    float:right;
-
+    // height: 50px;
+    // padding-top: 7px;
+    // float:right;
+    // display:flex;
+    &.logged-in {
+        display:flex;
+        justify-content: flex-end;
+        margin-top: 7px;
+        flex-direction: column;
+    }
 }
+
+
+.btn.btn-default.dropdown-toggle{
+    margin: auto 0 auto auto;
+}
+// .dropdown {
+//     position:relative;
+// }
+.dropdown-menu-right {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+}
+
+
 
 @media all and (min-width: 700px) {
     .container.inputfields {

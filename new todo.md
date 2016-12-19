@@ -14,6 +14,8 @@
 - Pagination for saved searches/saved results
 - Login on mobile looks weird, needs fix
 - Password resets
+- Handle redirects when accessing unauthorized parts of the site (instead of just rendering blank pages)
+
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service

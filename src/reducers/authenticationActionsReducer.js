@@ -88,6 +88,7 @@ export const userDataSetter = (state = initialState.userData, action) => {
             return state;
         case types.USER_VALIDATE_TOKEN_SUCCESS:
             return action.response.body.data;
+            
         case types.USER_VALIDATE_TOKEN_FAILURE:
             return null;
 

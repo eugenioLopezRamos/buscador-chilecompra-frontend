@@ -58,7 +58,7 @@ class CollapsibleNavBar extends React.Component {
     render = () => {
         let self = this;
         return  (
-            <div className="dropdown-container">
+            <div className={this.props.isAuthenticated ? "dropdown-container logged-in" : "dropdown-container"}>
                 {self.dropdown().button}
                 <div className={self.props.showNavbar ? "navbar-collapse no-gutter" : "navbar-collapse collapse no-gutter"}>
                 {self.dropdown().menu}
