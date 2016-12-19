@@ -22,14 +22,14 @@ export const modifyUserProfileData = () => {
                 console.log("RESPONSE MODIFY DATA", response);
 
                 if(response.status >= 200 && response.status < 300) {
-                    let headers = utils.headerToObject(response.headers);
-                    utils.saveToStorage(header);
+                    let headers = utils.headerToObject(response);
+                    utils.saveToStorage(headers);
                     return dispatch(modifyUserProfileDataSuccess(response.json()));
                 }else {
                     return dispatch(modifyUserProfileDataFailure(response));
                 };
             })
-            .catch(error => {dispatch(modifyUserProfileDataFailure(error))});
+            .catch(error => {console.log("error", error);dispatch(modifyUserProfileDataFailure(error))});
 
     };
 };

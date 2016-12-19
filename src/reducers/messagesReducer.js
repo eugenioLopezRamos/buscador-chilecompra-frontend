@@ -12,6 +12,9 @@ const messagesReducer = (state = initialState.messages, action) => {
             newMessages = action.error.errors.full_messages;
             return objectAssign({}, state, {info: newMessages});
 
+        case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
+            return objectAssign({}, state, {info: "Datos actualizados exitosamente"});
+
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
            // newMessages = action.error.errors.full_messages;
             return objectAssign({}, state, {errors: newMessages});
@@ -26,3 +29,7 @@ const messagesReducer = (state = initialState.messages, action) => {
 }
 
 export default messagesReducer;
+
+
+
+

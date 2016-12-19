@@ -48,16 +48,18 @@ class UserProfileData extends React.Component {
         let fields = this.showParams.map(e => {
                 let currentKey = Object.keys(e)[0];
                 let inputType = "input";
-
-                if(currentKey.match(/password|email/i)) {
+                let isPasswordOrMail = currentKey.match(/password|email/i);
+                if(isPasswordOrMail) {
                     //inputType becomes password or email, according to what was found.
-                    inputType = currentKey.match(/password|email/i)[0];
+                    inputType = isPasswordOrMail[0];
                 }
 
+                console.log("ispaas", isPasswordOrMail)
+                console.log("USERCURRKEY", user[currentKey]);
 
                 return (<div key={currentKey}>
                             <label className="title full-width">{e[currentKey]}</label>
-                            <input key={currentKey} ref={currentKey} defaultValue={user[currentKey]} onChange={this.handleChange} type={inputType}/>
+                            <input key={currentKey} ref={currentKey} defaultValue={""} value={user[currentKey]} onChange={this.handleChange} type={inputType}/>
                         </div>)
             });
 
@@ -93,7 +95,7 @@ UserProfileData.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        user: state.userData,
+        user: state.modifiedUserData,
         messages: state.messages
     }
 }

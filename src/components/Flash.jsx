@@ -7,8 +7,9 @@ const Flash = (props) => {
         alert("clicked"); // THIS HAS TO BE CHANGED LATER, CURRENTLY JUST A TEST
         //maybe something like actions.clearFlash() ?
     }
+    console.log("FLAHSPROPS", props);
 
-    if((props.message.info.length + props.message.errors.length) > 0){
+    if(props.message && (props.message.info.length + props.message.errors.length) > 0){
 
         let messages = Object.keys(props.message).map(e => {
             if(e.length > 0) { return props.message[e] }
