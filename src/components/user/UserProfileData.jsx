@@ -11,7 +11,7 @@ class UserProfileData extends React.Component {
 
         super(props);
         this.showParams = [{name: "Nombre"},{image:"Imagen"}, {email: "Email"}, {currentPassword: "Contraseña actual"}, 
-                            {newPassword: "Nueva contraseña"}, {newPasswordConfirmation: "Confirmar nueva contraseña"}];
+                            {password: "Nueva contraseña"}, {passwordConfirmation: "Confirmar nueva contraseña"}];
 
         this.capitalize = (string) => { return capitalize(string); }
     }
@@ -23,6 +23,7 @@ class UserProfileData extends React.Component {
                                     return Object.keys(e)[0]
 
                                 });
+
         let field = allowedFields.filter(e => {
             return event.target === this.refs[e];
         }).join("");
@@ -55,6 +56,7 @@ class UserProfileData extends React.Component {
                 }
 
                 console.log("ispaas", isPasswordOrMail)
+                console.log("currentKey", currentKey)
                 console.log("USERCURRKEY", user[currentKey]);
 
                 return (<div key={currentKey}>

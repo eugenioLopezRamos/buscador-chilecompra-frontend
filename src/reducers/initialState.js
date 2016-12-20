@@ -9,7 +9,7 @@ const initialState = {
     isAuthenticated: false,
     //same name as the rails param
     userData: null,
-    modifiedUserData: {name: "", email:"", current_password: "", password:"", password_confirmation: "", image: ""},
+    modifiedUserData: {name: "", email:"", currentPassword: "", password:"", passwordConfirmation: "", image: ""},
     //used when inputting data to login.
     loginData: {email: "", password: "", message: null, result: null},
     signup: {   info: {

@@ -13,13 +13,20 @@ export const modifyUserProfileDataFailure = (error) => {
 
 export const modifyUserProfileData = () => {
     return (dispatch, getState) => {
-        let state = {getState};
-        let body = state.getState().modifiedUserData;
-        console.log("MODIFY BODY", body);
+        let state = {getState}.getState().modifiedUserData;
+        let body = {
+                    name: state.name,
+                    email: state.email,
+                    current_password: state.currentPassword,
+                    password: state.password,
+                    password_confirmation: state.passwordConfirmation,
+                    image: state.iamge
+        }
+
+
 
         userAPI.updateUserInfo(body)
             .then(response => {
-                console.log("RESPONSE MODIFY DATA", response);
 
                 if(response.status >= 200 && response.status < 300) {
                     let headers = utils.headerToObject(response);
@@ -53,10 +60,10 @@ export const modifyUserProfileDataInputCurrentPassword = (value) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value }
 }
 
-export const modifyUserProfileDataInputNewPassword = (value) => {
+export const modifyUserProfileDataInputPassword = (value) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD, value};
 }
 
-export const modifyUserProfileDataInputNewPasswordConfirmation = (value) => {
+export const modifyUserProfileDataInputPasswordConfirmation = (value) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value}
 }
