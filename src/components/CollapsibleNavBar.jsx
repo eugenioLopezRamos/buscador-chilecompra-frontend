@@ -29,7 +29,7 @@ class CollapsibleNavBar extends React.Component {
         //changes it to the correct button if the user is authenticated
         if(this.props.isAuthenticated){
 
-               button =  <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+               button =  <button className="btn btn-default dropdown-toggle user-menu" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
                          onClick={this.handleClick}>
                             Menú
                             <span className="caret"></span>

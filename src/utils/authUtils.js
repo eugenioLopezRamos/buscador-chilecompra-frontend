@@ -2,7 +2,7 @@
 let utils = {
         
         saveToStorage: (header) => {
-            console.log("header", header);
+            //console.log("header", header);
             if(!header["access-token"] || !header["uid"] || !header["client"] || !header["expiry"]) {
                 // all of these headers must exist, otherwise if we refresh the localStorage the app will logout client side but not server side
                 // These properties not existing happens because devise_token_auth has a default setting of minimum 5 seconds between token change
@@ -10,7 +10,7 @@ let utils = {
 
                 return
             }else {
-                console.log("localstorage", localStorage.getItem("session"))
+          //      console.log("localstorage", localStorage.getItem("session"))
                 localStorage.removeItem("session");
                 localStorage.setItem("session", 
                                     JSON.stringify({"access-token": header["access-token"],
@@ -18,7 +18,7 @@ let utils = {
                                                     client: header.client, 
                                                     expiry: header.expiry}));
             }
-            console.log("localstorage AFTER", localStorage.getItem("session"));
+        //    console.log("localstorage AFTER", localStorage.getItem("session"));
         },
 
 

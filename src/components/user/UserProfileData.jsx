@@ -54,14 +54,9 @@ class UserProfileData extends React.Component {
                     //inputType becomes password or email, according to what was found.
                     inputType = isPasswordOrMail[0];
                 }
-
-                console.log("ispaas", isPasswordOrMail)
-                console.log("currentKey", currentKey)
-                console.log("USERCURRKEY", user[currentKey]);
-
                 return (<div key={currentKey}>
                             <label className="title full-width">{e[currentKey]}</label>
-                            <input key={currentKey} ref={currentKey} defaultValue={""} value={user[currentKey]} onChange={this.handleChange} type={inputType}/>
+                            <input key={currentKey} ref={currentKey} value={user[currentKey]} onChange={this.handleChange} type={inputType}/>
                         </div>)
             });
 
@@ -77,7 +72,7 @@ class UserProfileData extends React.Component {
 
         return (
             <div className="jumbotron text-center">
-               
+                <Flash messages={this.props.messages}/>
                 <label>Aquí puedes editar los datos de tu perfil</label>
                 {this.userData()}
                 <button className="btn btn-primary info" onClick={this.handleClick}>Enviar datos</button>

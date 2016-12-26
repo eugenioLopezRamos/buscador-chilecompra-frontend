@@ -9,11 +9,12 @@ const messagesReducer = (state = initialState.messages, action) => {
     switch(action.type) {
 
         case types.MESSAGES_ADD_MESSAGES:
+            //TO BE IMPLEMENTED.... since errors do not always follow the same format...
             newMessages = action.error.errors.full_messages;
             return objectAssign({}, state, {info: newMessages});
 
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-            return objectAssign({}, state, {info: "Datos actualizados exitosamente"});
+            return objectAssign({}, state, {info: ["Datos actualizados exitosamente"]});
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
            // newMessages = action.error.errors.full_messages;

@@ -18,6 +18,9 @@
 - Implement flash messages on all components that need it (such as modify user data etc);
 - Make a reducer for messages so they can be more easily integrated into flashes?
 - Flash formatting (using the new reducer...)
+- utils.headerToObject should take response.headers instead of response as input...
+- Mejorar estilos del flash
+
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service
