@@ -260,7 +260,9 @@ select {
     position: absolute;
     flex-direction: column;
 }
-
+.save-search-buttons {
+    margin:auto;
+}
 
 
 @media all and (min-width: 700px) {

@@ -3,8 +3,6 @@ import utils from '../utils/authUtils';
 
 class userApi {
     constructor(utils) {
-       
-       
 
     }
         
@@ -91,6 +89,46 @@ class userApi {
         })
         .catch(error => {return error});
 
+
+    }
+
+    static getResults() {
+
+        let headers = utils.setHeaders();
+
+        return fetch(`${process.env.API_HOST}/api/results/`, {
+            headers,
+            method: "GET"
+        })
+
+    }
+
+    static saveResults() {
+
+    }
+
+    static updateResults() {
+
+    }
+
+    static deleteResults() {
+
+    }
+
+    static getQueries() {
+
+    }
+
+    static saveQueries() {
+
+    }
+
+    static updateQueries() {
+
+
+    }
+
+    static deleteQueries() {
 
     }
 

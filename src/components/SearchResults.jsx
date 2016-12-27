@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router'; //these will later be links to the query that searches a particular licitacion, which gives more detailed info about it (on the
 // "codigo licitacion" tab)
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
 
 class SearchResults extends React.PureComponent {
         constructor(props) {
@@ -73,21 +73,8 @@ class SearchResults extends React.PureComponent {
                     })
                     }</ul>);
         }
-
-
-
-
-
     }                     
 }
 
-function mapStateToProps(state, ownProps) {
-    return {
-        results: state.searchResults,
-        estadosLicitacion: state.estadosLicitacion
-    }
-}
 
-
-
-export default connect(mapStateToProps)(SearchResults);
+export default SearchResults; //connect(mapStateToProps)(SearchResults);

@@ -23,8 +23,6 @@ export const modifyUserProfileData = () => {
                     image: state.iamge
         }
 
-
-
         userAPI.updateUserInfo(body)
             .then(response => {
 
