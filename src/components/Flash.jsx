@@ -8,7 +8,6 @@ const Flash = (props) => {
         //maybe something like actions.clearFlash() ?
     }
 
-    console.log("FLASHPROPS", props);
     if(props.messages) {
         let info = Object.values(props.messages.info).join("\n");
         let errors = Object.values(props.messages.errors).join("\n");

@@ -86,7 +86,6 @@ class userApi {
             if(response.status >= 200 && response.status < 300) {
                 return response
             }else {
-                console.log("RESPONSE FAIL", response);
                 throw response.json();
             }
         })

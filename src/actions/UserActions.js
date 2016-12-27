@@ -36,7 +36,7 @@ export const modifyUserProfileData = () => {
                     return dispatch(modifyUserProfileDataFailure(response));
                 };
             })
-            .catch(error => {console.log("error", error);dispatch(modifyUserProfileDataFailure(error))});
+            .catch(error => {dispatch(modifyUserProfileDataFailure(error))});
 
     };
 };
@@ -45,7 +45,6 @@ export const modifyUserProfileData = () => {
 // INPUTS
 
 export const modifyUserProfileDataInputName = (value) => {
-    console.log("value", value);
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NAME, value};
 }
 

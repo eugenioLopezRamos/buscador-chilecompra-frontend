@@ -23,6 +23,7 @@ function configureStoreDev(initialState) {
     // Add other middleware on this line...
 
     // Redux middleware that spits an error on you when you try to mutate your state either inside a dispatch or between dispatches.
+    // DO NOT USE IN PRODUCTION. makes the app incredibly slow
     reduxImmutableStateInvariant(),
 
     // thunk middleware can also accept an extra argument to be passed to each thunk action

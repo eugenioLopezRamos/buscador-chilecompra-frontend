@@ -2,7 +2,6 @@ import React from 'react'
 
 const Login = (props) => {
 
-   // console.log("LOGINPROPS", props);
 
     const handleChangeEmail = (event) => {
         props.handleChangeEmail(event.target.value);

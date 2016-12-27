@@ -120,6 +120,17 @@ select {
     border-top: 1px solid black;
 }
 
+.search.fecha {
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    &.title {
+        border-bottom: none;
+        border-right: none;
+        border-top: 1px solid black;
+        border-left: 1px solid black;
+    }
+}
+
 .search.nombre{
     border-bottom: 1px solid black;
 }
@@ -171,14 +182,14 @@ select {
 }
 
 
-.search-results-ul1 {
+.search-results-ul1, .search-results-ul2 {
     animation-name: searchResultsFadeIn1 1s forwards;
     padding: 0;
 }
-.search-results-ul2 {
-    animation: searchResultsFadeIn2 1s forwards;
-    padding: 0;
-}
+//  .search-results-ul2 {
+//     animation: searchResultsFadeIn2 1s forwards;
+//     padding: 0;
+// }
 .signup-form * {
     margin: 5px auto 5px auto;
 }

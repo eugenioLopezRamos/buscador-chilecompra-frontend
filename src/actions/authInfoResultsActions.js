@@ -60,13 +60,10 @@ export const validateToken = () => {
         return userAPI.requestTokenValidation()
             .then(response => {
                 if(response.result === "success") {
-                    // console.log("validate token response", response);
-                    // console.log("validate token resp heade", response.headers);
                     utils.saveToStorage(response.headers);
                     dispatch(validateTokenSuccess(response));
                 } else {
                     utils.clearStorage();
-                    // console.log("POST CLEAR", localStorage);
                     dispatch(validateTokenFailure("failure"));
                 }
             })

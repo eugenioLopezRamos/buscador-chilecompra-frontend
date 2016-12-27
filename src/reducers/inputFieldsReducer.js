@@ -10,7 +10,7 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
             return objectAssign({}, state, { organismosPublicosFilter: action.value } );
 
         case types.DATE_FIELD_SELECT:
-            let newDate = action.value._isValid ? action.value : state.date;
+            let newDate = action.value._isValid ? action.value : "";
             return objectAssign({}, state, { date: newDate });
         
         case types.SEARCH_FIELD_INPUT:
@@ -33,8 +33,7 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
             let selectionResults = [];
             let defaultSelectedValue = "";
             let testRegex = new RegExp(action.value.toLowerCase());
-            
-            selectionResults = action.organismosPublicos.filter( (e, i) => {
+            selectionResults = action.organismosPublicos.filter((e, i) => {
 
                 let key = Object.keys(e)[0]; // O sea que en el objeto {"1337": "Ministerio del interior"}, key === "1337"
 
@@ -42,6 +41,7 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
                     return e[key]; // Y aqui retorna el nombre ("Ministerio del interior")
                 }
             })
+
 
             if(selectionResults[0]) {
                 defaultSelectedValue = Object.keys(selectionResults[0])[0];

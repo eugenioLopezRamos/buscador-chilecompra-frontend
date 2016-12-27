@@ -21,7 +21,8 @@ class fetchApi {
                                     "proveedor": ["rutProveedor"],
                                     "codigo": ["codigoLicitacion"]
                                     };
-        (() => { //adds common parameters to all of those ^
+                                    
+        (() => { //adds parameters shared by all of those ^
             Object.keys(fieldsPerSearchType).map (e => {
                 fieldsPerSearchType[e].push("selectedDate")
                 fieldsPerSearchType[e].push("palabrasClave");
@@ -53,7 +54,7 @@ class fetchApi {
 
         query = query.join("&"); //joins them to form the query string.
 
-        return fetch(`${process.env.API_HOST}/api/get_chilecompra_data?${query}`)
+        return fetch(`${process.env.API_HOST}/api/get_info?${query}`)
             .then(response => response.json() )
             .catch(error => {return error })
 
@@ -70,6 +71,29 @@ class fetchApi {
         .then(function(response) { return response.json() })
         .catch( error => { return error } )   
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // static get_info(state) {
+
+
+    //     return fetch(`${process.env.API_HOST}/api/get_info`)
+    //         .then(response => response.json())
+    //         .catch(error => {return error})
+    // }
+
+
+    
     
 }
 

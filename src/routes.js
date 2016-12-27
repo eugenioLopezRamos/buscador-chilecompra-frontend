@@ -12,7 +12,7 @@ import UserProfileData from './components/user/UserProfileData.jsx';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Introduction}/>
-    <Route path="/busqueda" component={InputFieldsContainer} />
+    <Route path="/busqueda" component={InputFieldsContainer}/>
     <Route path="/inicio" component={UserPage} />
     <Route path="/perfil" component={UserProfileData} />
 

@@ -11,13 +11,14 @@ import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
 import SearchTypesPicker from './searchTypes/SearchTypesPicker.jsx';
 
-class InputFieldsContainer extends React.Component {
+class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.getAppropiateInputFields = this.getAppropiateInputFields.bind(this);
     }
 
     getAppropiateInputFields = () => {
+         
         switch(this.props.searchType){
             case "listado":
                 return (
@@ -66,33 +67,29 @@ class InputFieldsContainer extends React.Component {
                 return null;
                 
         }
-
-
-
-
     }
 
     render = () => {
 
         return (    
-                    
+                
                     <div className="container inputfields jumbotron"> 
                         <SearchTypesPicker 
                             searchType={this.props.searchType}
                             onClick={this.props.displayActions.changeSearchType}
                         /> 
-                        <label>Selecciona una fecha</label>
+                        <label>Selecciona una fecha (vacio=todas)</label>
                         <DatePicker
                             startDate={this.props.date} 
                             setDate={this.props.actions.dateFieldSelect}
                         />
                         {this.getAppropiateInputFields()}
                         <label>Según palabras clave</label>
-                            <SearchField onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
+                            <SearchField value={this.props.palabrasClave} onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
+                            <div className="col-xs-12 no-gutter">
+                                <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
+                            </div>
 
-                        <div className="col-xs-12 no-gutter">
-                            <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
-                        </div>
 
                         <button type="button" className="btn btn-primary">Guardar parámetros de búsqueda (TBI)</button>
 
@@ -103,13 +100,13 @@ class InputFieldsContainer extends React.Component {
 
 InputFieldsContainer.propTypes = {
 
-    searchResults: PropTypes.object.isRequired,
+    searchResults: PropTypes.array,
     organismosPublicos: PropTypes.array.isRequired,
     estadosLicitacion: PropTypes.object.isRequired,
     organismosPublicosFilter: PropTypes.string.isRequired,
     organismosPublicosFilteredSubset: PropTypes.array.isRequired,
     selectedOrganismoPublico: PropTypes.string.isRequired,
-    date: PropTypes.object.isRequired,
+  //  date: PropTypes.object.isRequired,
     searchType: PropTypes.string.isRequired,
     rutProveedor: PropTypes.string.isRequired,
     codigoLicitacion: PropTypes.string.isRequired
@@ -127,6 +124,7 @@ function mapStateToProps(state, ownProps) {
         date: state.inputFieldValues.date,
         searchType: state.searchType,
         rutProveedor: state.inputFieldValues.rutProveedor,
+        palabrasClave: state.inputFieldValues.palabrasClave,
         codigoLicitacion: state.inputFieldValues.codigoLicitacion
     };
 };
@@ -144,3 +142,6 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
 
 
+                        // <div className="col-xs-12 no-gutter">
+                        //     <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
+                        // </div>

@@ -20,6 +20,7 @@
 - Flash formatting (using the new reducer...)
 - utils.headerToObject should take response.headers instead of response as input...
 - Mejorar estilos del flash
+- make fieldsPerSearchType a const and import it into fetchApi instead of hardcoding
 
 
 ## DONE ##

@@ -56,7 +56,6 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
                                 });
 
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-        console.log("SUCCSESS ACTION", action);
             return objectAssign({}, state, {currentPassword: ""})
 
         default:

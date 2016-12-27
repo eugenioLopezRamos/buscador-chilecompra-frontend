@@ -1,39 +1,47 @@
 import React from 'react';
 
-const AutoFillerInput = (props) => {
-
-    const handleSelectionChange = (event) => {
-        props.onSelectionChange(event);
+class AutoFillerInput extends React.PureComponent {
+    constructor(props) {
+        super(props);
     }
 
-    const handleInputChange = (event) => {
-
-        props.onInputChange(props.organismosPublicos, event.target.value);
+    handleSelectionChange = (event) => {
+        this.props.onSelectionChange(event);
     }
 
-    return(
-            <div className="selection-container">
-                <input 
-                    value={props.organismosPublicosFilter}
-            
-                    className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                    placeholder="Busca un organismo público (código o nombre)" 
-                    id="opinput" 
-                    onChange={handleInputChange}
-                    />
-            
-                <select value={props.selectedOrganismoPublico} onChange={handleSelectionChange} key="autofiller-select">
-                    { 
-                        props.organismosPublicosFilteredSubset.map((e,i) => {
+    handleInputChange = (event) => {
 
-                            let key = Object.keys(e)[0]
-                            return <option value={key} key={key}>{e[key]} ({key})</option>
+        this.props.onInputChange(this.props.organismosPublicos, event.target.value);
+    }
+    
+    render = () => {
+        let self = this;
+        return(
+        
+                <div className="selection-container">
+                    <input 
+                        value={this.props.organismosPublicosFilter}
+                
+                        className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                        placeholder="Busca un organismo público (código o nombre)" 
+                        id="opinput" 
+                        onChange={this.handleInputChange}
+                        />
+                    <select value={this.props.selectedOrganismoPublico} onChange={this.handleSelectionChange} key="autofiller-select">
+                        {   
+                    
+                            this.props.organismosPublicosFilteredSubset.map((e,i) => {
+                           
+                                let key = Object.keys(e)[0]
+                                return <option value={key} key={key}>{e[key]} ({key})</option>
 
-                            })
-                    }
-                </select>
-            </div>  
-    )
+                                })
+                        }
+                    </select>
+                </div>  
+              
+        )
+    }
 }
 export default AutoFillerInput;
 

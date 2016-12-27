@@ -39,5 +39,5 @@ export const codigoLicitacionInputChange = (event) => {
 }
 
 export const autoFillerInputChange = (organismosPublicos, value) => {
-    return {type: types.AUTOFILLER_INPUT_CHANGE, value, organismosPublicos };
+    return {type: types.AUTOFILLER_INPUT_CHANGE, value, organismosPublicos};
 }

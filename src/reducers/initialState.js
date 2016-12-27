@@ -23,9 +23,7 @@ const initialState = {
                     result: null
                 }
             },
-    searchResults: {
-            "Cantidad": "0"
-        },
+    searchResults: null,
     inputFieldValues: {
         // //organismosPublicosFilter se utiliza en el AutoFillerInput para mostrar solo un subarray de los organismos.
         // o sea, { organismosPublicosFilter: "minister" } solo mostrará => ["ministerio del trabajo", "ministerio de hacienda" .... etc]
