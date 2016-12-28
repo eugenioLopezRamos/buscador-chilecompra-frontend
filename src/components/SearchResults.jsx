@@ -67,19 +67,19 @@ class SearchResults extends React.PureComponent {
                     this.props.results.map((e, i) => {
                         return <li className="search-results" key={i}>
 
-                                    <span className="search fecha col-xs-3" key={"fecha key" + e.FechaCreacion }>
-                                        {e.FechaCreacion}
+                                    <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
+                                        {e.value.FechaCreacion}
                                     </span>
-                                    <span className="search nombre col-xs-3" key={"nombre key" + e["Listado"][0].Nombre } >
-                                        { e["Listado"][0].Nombre}
-                                    </span>
-
-                                    <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + e["Listado"][0].CodigoExterno } >         
-                                        { e["Listado"][0].CodigoExterno }
+                                    <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
+                                        { e.value["Listado"][0].Nombre}
                                     </span>
 
-                                    <span className="search codigo-estado col-xs-3" key={"codigoEstado key " + e["Listado"][0].CodigoEstado } >
-                                        { `${self.returnNombreEstado(e["Listado"][0].CodigoEstado)} (${e["Listado"][0].CodigoEstado})`}
+                                    <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
+                                        { e.value["Listado"][0].CodigoExterno }
+                                    </span>
+
+                                    <span className="search codigo-estado col-xs-3" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
+                                        { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
                                     </span>
 
                                 </li>

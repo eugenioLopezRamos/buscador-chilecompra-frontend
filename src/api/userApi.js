@@ -1,6 +1,6 @@
 
 import utils from '../utils/authUtils';
-import userDataFetcher from '../utils/userApiUtils';
+import {userDataFetcher} from '../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
@@ -112,23 +112,26 @@ class userApi {
 
     }
 
-    static createResults(result) {
-        let headers = utils.setHeaders();
-        let body = JSON.stringify(result);
+    static createResults(results) {
+        // let headers = utils.setHeaders();
+        // let body = JSON.stringify(result);
 
-        return fetch(`${process.env.API_HOST}/api/results/`, {
-            headers,
-            body,
-            method: "POST"
-        })
-        .then(response => {
-            if(response.status >= 200 & response.status < 300) {
-                return response;
-            }else {
-                throw response.json()
-            }
-        })
-        .catch(error => {return error});
+        // return fetch(`${process.env.API_HOST}/api/results/`, {
+        //     headers,
+        //     body,
+        //     method: "POST"
+        // })
+        // .then(response => {
+        //     if(response.status >= 200 & response.status < 300) {
+        //         return response;
+        //     }else {
+        //         throw response.json()
+        //     }
+        // })
+        // .catch(error => {return error});
+        return userDataFetcher("results", "POST", results);
+
+
     }
 
     static updateResults(result) {
@@ -187,7 +190,7 @@ class userApi {
         //     }
         // })
         // .catch(error => {return error});
-        userDataFetcher('searches', 'GET');
+        return userDataFetcher('searches', 'GET');
     }
 
     static createSearches(searches) {
