@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router'; //these will later be links to the query that searches a particular licitacion, which gives more detailed info about it (on the
 // "codigo licitacion" tab)
-//import {connect} from 'react-redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from  'redux';
+import * as types from '../actions/actionTypes';
+import {createUserResults as createResults} from '../actions/UserActions';
+import {createUserSearches as createSearches} from '../actions/UserActions';
+
+
 
 class SearchResults extends React.PureComponent {
+    //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
             super(props);
+  
             this.animClass = "";
         }
 
@@ -23,8 +31,11 @@ class SearchResults extends React.PureComponent {
             });
 
             return swappedEstLic[codigoEstado];
-
         }
+
+        handleCreateResults = () => {
+            this.props.createResults();
+        } 
 
         render = () => {
   
@@ -39,7 +50,11 @@ class SearchResults extends React.PureComponent {
         else {
             let self = this;
             return (<ul className={this.animClass}>
-                    <span className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</span>
+                    <div className="col-xs-12 no-gutter save-search-buttons">
+                        <button type="button" className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2" onClick={this.handleCreateResults}>Guardar parámetros de búsqueda (TBI)</button>
+                        <button type="button" className="btn btn-primary col-xs-6 col-md-4 ">Guardar resultado de búsqueda (TBI)</button>
+                    </div>
+                    <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
                         <span className="search fecha title col-xs-3">Fecha creación</span>
                         <span className="search nombre title col-xs-3">Nombre</span>
@@ -59,9 +74,7 @@ class SearchResults extends React.PureComponent {
                                         { e["Listado"][0].Nombre}
                                     </span>
 
-                                    <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + e["Listado"][0].CodigoExterno } >
-         
-                                        
+                                    <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + e["Listado"][0].CodigoExterno } >         
                                         { e["Listado"][0].CodigoExterno }
                                     </span>
 
@@ -69,12 +82,26 @@ class SearchResults extends React.PureComponent {
                                         { `${self.returnNombreEstado(e["Listado"][0].CodigoEstado)} (${e["Listado"][0].CodigoEstado})`}
                                     </span>
 
-                            </li>
+                                </li>
                     })
                     }</ul>);
         }
     }                     
 }
 
+function mapStateToProps(state, ownProps) {
+    return {
+        results: state.searchResults,
+        estadosLicitacion: state.estadosLicitacion
+    }
 
-export default SearchResults; //connect(mapStateToProps)(SearchResults);
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        createResults: bindActionCreators(createResults, dispatch),
+        createSearches: bindActionCreators(createSearches, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

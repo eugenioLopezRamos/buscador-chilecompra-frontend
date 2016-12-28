@@ -11,7 +11,8 @@ import * as authenticationReducers from './authenticationActionsReducer';
 import signupReducer from './signupReducer';
 import modifiedUserDataReducer from './modifiedUserDataReducer';
 import messagesReducer from './messagesReducer';
-
+import {userSearchesReducer as userSearches} from './userSearchesReducer';
+import {userResultsReducer as userResults} from './userResultsReducer';
 
 const rootReducer = combineReducers({
     
@@ -20,6 +21,8 @@ const rootReducer = combineReducers({
     showNavbar: displayReducers.showNavbarReducer,
     isAuthenticated: authenticationReducers.isAuthenticatedSetter,
     userData: authenticationReducers.userDataSetter,
+    userSearches,
+    userResults,
     modifiedUserData: modifiedUserDataReducer,
     loginData: authenticationReducers.loginDataSetter,
     routing: routerReducer,

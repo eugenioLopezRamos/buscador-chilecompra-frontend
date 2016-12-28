@@ -86,12 +86,9 @@ class InputFieldsContainer extends React.PureComponent {
                         {this.getAppropiateInputFields()}
                         <label>Según palabras clave</label>
                             <SearchField value={this.props.palabrasClave} onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
-                            <div className="col-xs-12 col-md-8 no-gutter save-search-buttons">
-                                <button type="button" className="btn btn-primary col-xs-6">Guardar parámetros de búsqueda (TBI)</button>
-                                <button type="button" className="btn btn-primary col-xs-6">Guardar resultado de búsqueda (TBI)</button>
-                            </div>
+
                             <div className="col-xs-12 no-gutter">
-                                <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
+                                <SearchResults/>
                             </div>
                         
                     </div>        

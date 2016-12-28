@@ -80,6 +80,8 @@ export const getUserResults = () => {
     return (dispatch) => {
 
         userAPI.getResults().then(response => {
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
                                     dispatch(getUserResultsSuccess(response.json()));
                                 })
                             .catch(error => {
@@ -90,18 +92,20 @@ export const getUserResults = () => {
 
     //CREATE RESULTS (POST)
 export const createUserResultsSuccess = (value) => {
-    return {type: types.USER_POST_RESULTS_SUCCESS, value}
+    return {type: types.USER_CREATE_RESULTS_SUCCESS, value}
 };
 
 export const createUserResultsFailure = (value) => {
-    return {type: types.USER_POST_RESULTS_FAILURE, value}
+    return {type: types.USER_CREATE_RESULTS_FAILURE, value}
 };
 
 export const createUserResults = () => {
 
-    return (dispatch, state) => {
-        let result = {state}.getState(state).userResults.new;
+    return (dispatch, getState) => {
+        let result = {getState}.getState().searchResults;
         userAPI.createResults(result).then(response => {
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
                                     dispatch(createUserResultsSuccess(response.json()));
                                 })
                             .catch(error => {
@@ -124,6 +128,8 @@ export const updateUserResults = () => {
     return (dispatch, state) => {
         let result = state.getState().userResults.update;
         userAPI.updateResults(result).then(response => {
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
                                     dispatch(updateUserResultsSuccess(response.json()));
                                 })
                             .catch(error => {
@@ -144,10 +150,12 @@ export const deleteUserResults = () => {
     return (dispatch, state) => {
         let result = state.getState().userResults.delete;
         userAPI.updateResults(result).then(response => {
-                                    dispatch(updateUserResultsSuccess(response.json()));
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
+                                    dispatch(deleteUserResultsSuccess(response.json()));
                                 })
                             .catch(error => {
-                                dispatch(updateUserResultsFailure(error));
+                                dispatch(deleteUserResultsFailure(error));
                             });
     }
 
@@ -169,6 +177,8 @@ export const getUserSearches = () => {
     return (dispatch) => {
   
         userAPI.getSearches().then(response => {
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
                                     dispatch(getUserSearchesSuccess(response.json()));
                                 })
                             .catch(error => {
@@ -188,12 +198,17 @@ export const createUserSearchesFailure = (value) => {
 
 export const createUserSearches = () => {
     return (dispatch, state) => {
+
+        //TODO: hacer igual que el fetcher de la api antiguo
+        
         let searches = state.getState().userSearches.new;
         userAPI.createSearches(searches).then(response => {
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
                                     dispatch(createUserSearchesSuccess(response.json()));
                                 })
                             .catch(error => {
-                                dispatch(getUserSearchesFailure(error));
+                                dispatch(createUserSearchesFailure(error));
                             });
     }
 }
@@ -212,10 +227,12 @@ export const updateUserSearches = () => {
     return (dispatch, state) => {
         let searches = state.getState().userSearches.update;
         userAPI.updateSearches(searches).then(response => {
-                                    dispatch(createUserSearchesSuccess(response.json()));
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
+                                    dispatch(updateUserSearchesSuccess(response.json()));
                                 })
                             .catch(error => {
-                                dispatch(getUserSearchesFailure(error));
+                                dispatch(updateUserSearchesFailure(error));
                             });
     }
 }
@@ -228,14 +245,16 @@ export const deleteUserSearchesSuccess = (value) => {
 export const deleteUserSearchesFailure = (value) => {
     return {type: types.USER_DELETE_RESULTS_FAILURE, value};
 }
-export const deletUserSearches = () => {
+export const deleteUserSearches = () => {
     return (dispatch, state) => {
         let searches = state.getState().userSearches.delete;
         userAPI.deleteSearches(searches).then(response => {
-                                    dispatch(createUserSearchesSuccess(response.json()));
+                                    let headers = utils.headerToObject(response);
+                                    utils.saveToStorage(headers);
+                                    dispatch(deleteUserSearchesSuccess(response.json()));
                                 })
                             .catch(error => {
-                                dispatch(getUserSearchesFailure(error));
+                                dispatch(deleteSearchesFailure(error));
                             });
     }
 }
