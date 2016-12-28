@@ -21,7 +21,7 @@
 - utils.headerToObject should take response.headers instead of response as input...
 - Mejorar estilos del flash
 - make fieldsPerSearchType a const and import it into fetchApi instead of hardcoding
-
+- Clean up the updateUserInfo code, checking twice for resp.status >= 200 & <300
 
 ## DONE ##
 - Clean up the actions/reducers/etc related to the test fetcher, and thank it for its service

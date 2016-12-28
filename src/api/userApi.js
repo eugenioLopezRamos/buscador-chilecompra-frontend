@@ -1,5 +1,6 @@
 
 import utils from '../utils/authUtils';
+import userDataFetcher from '../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
@@ -82,7 +83,7 @@ class userApi {
         })
         .then(response => {
             if(response.status >= 200 && response.status < 300) {
-                return response
+                return response;
             }else {
                 throw response.json();
             }
@@ -100,36 +101,121 @@ class userApi {
             headers,
             method: "GET"
         })
+        .then(response => {
+            if(response.status >= 200 & response.status < 300) {
+                return response;
+            }else {
+                throw response.json()
+            }
+        })
+        .catch(error => {return error});
 
     }
 
-    static saveResults() {
+    static createResults(result) {
+        let headers = utils.setHeaders();
+        let body = JSON.stringify(result);
 
+        return fetch(`${process.env.API_HOST}/api/results/`, {
+            headers,
+            body,
+            method: "POST"
+        })
+        .then(response => {
+            if(response.status >= 200 & response.status < 300) {
+                return response;
+            }else {
+                throw response.json()
+            }
+        })
+        .catch(error => {return error});
     }
 
-    static updateResults() {
+    static updateResults(result) {
 
+        let headers = utils.setHeaders();
+        let body = JSON.stringify(result);
+
+        return fetch(`${process.env.API_HOST}/api/results/`, {
+            headers,
+            body,
+            method: "PUT"
+        })
+        .then(response => {
+            if(response.status >= 200 & response.status < 300) {
+                return response;
+            }else {
+                throw response.json()
+            }
+        })
+        .catch(error => {return error});
     }
+
+
 
     static deleteResults() {
+        let headers = utils.setHeaders();
+        let body = JSON.stringify(result);
 
+        return fetch(`${process.env.API_HOST}/api/results/`, {
+            headers,
+            body,
+            method: "DELETE"
+        })
+        .then(response => {
+            if(response.status >= 200 & response.status < 300) {
+                return response;
+            }else {
+                throw response.json()
+            }
+        })
+        .catch(error => {return error});
     }
 
-    static getQueries() {
+    static getSearches() {
+        // let headers = utils.setHeaders();
 
+        // return fetch(`${process.env.API_HOST}/api/searches/`, {
+        //     headers,
+        //     method: "GET"
+        // })
+        // .then(response => {
+        //     if(response.status >= 200 & response.status < 300) {
+        //         return response;
+        //     }else {
+        //         throw response.json()
+        //     }
+        // })
+        // .catch(error => {return error});
+        userDataFetcher('searches', 'GET');
     }
 
-    static saveQueries() {
+    static createSearches(searches) {
+        // let headers = utils.setHeaders();
+        // let body = JSON.stringify(searches);
 
+        // return fetch(`${process.env.API_HOST}/api/searches/`, {
+        //     headers,
+        //     body,
+        //     method: "POST"
+        // })
+        // .then(response => {
+        //     if(response.status >= 200 & response.status < 300) {
+        //         return response;
+        //     }else {
+        //         throw response.json()
+        //     }
+        // })
+        // .catch(error => {return error});
+        return userDataFetcher('searches', 'POST', searches);
     }
 
-    static updateQueries() {
-
-
+    static updateSearches(searches) {
+        return userDataFetcher('searches', 'PUT', searches);
     }
 
-    static deleteQueries() {
-
+    static deleteSearches(searches) {
+        return userDataFetcher('searches', 'DELETE', searches);
     }
 
 
