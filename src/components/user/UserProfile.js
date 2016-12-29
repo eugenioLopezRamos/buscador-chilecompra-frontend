@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
-const UserProfile = ({user}) => {
-
+const UserProfile = (props) => {
+ 
     let notificaciones = Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
                         let val = <li className="list-group-item no-show" key={"numero" + e}>{`notificacion ${e}`}</li>
                         return val;
@@ -20,8 +20,14 @@ const UserProfile = ({user}) => {
                 {notificaciones}
             </div>
 
-
+      
             <div className="perfil-busquedas-guardadas">
+
+
+   
+
+
+
                 <h2>Búsquedas guardadas</h2>
                 {
                     Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {

@@ -78,10 +78,9 @@ export const getUserResultsFailure = (value) => {
 export const getUserResults = () => {
 
     return (dispatch) => {
-
+        dispatch({type: types.USER_GET_RESULTS});
         userAPI.getResults().then(response => {
-  
-                                    dispatch(getUserResultsSuccess(response.json()));
+                                dispatch(getUserResultsSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(getUserResultsFailure(error));

@@ -6,7 +6,7 @@ import {bindActionCreators} from  'redux';
 import * as types from '../actions/actionTypes';
 import {createUserResults as createResults} from '../actions/UserActions';
 import {createUserSearches as createSearches} from '../actions/UserActions';
-
+import ResultsSaver from './ResultsSaver';
 
 
 class SearchResults extends React.PureComponent {
@@ -50,10 +50,9 @@ class SearchResults extends React.PureComponent {
         else {
             let self = this;
             return (<ul className={this.animClass}>
-                    <div className="col-xs-12 no-gutter save-search-buttons">
-                        <button type="button" className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2" onClick={this.handleCreateResults}>Guardar parámetros de búsqueda (TBI)</button>
-                        <button type="button" className="btn btn-primary col-xs-6 col-md-4 ">Guardar resultado de búsqueda (TBI)</button>
-                    </div>
+
+                    <ResultsSaver handleResults={this.handleCreateResults}/>
+
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
                         <span className="search fecha title col-xs-3">Fecha creación</span>

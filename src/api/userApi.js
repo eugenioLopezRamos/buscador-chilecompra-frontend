@@ -89,37 +89,25 @@ class userApi {
             }
         })
         .catch(error => {return error});
-
-
     }
 
     static getResults() {
-
-        let headers = utils.setHeaders();
-
-        return fetch(`${process.env.API_HOST}/api/results/`, {
-            headers,
-            method: "GET"
-        })
-        .then(response => {
-            if(response.status >= 200 & response.status < 300) {
-                return response;
-            }else {
-                throw response.json()
-            }
-        })
-        .catch(error => {return error});
-
+        return userDataFetcher("results", "get");
     }
 
     static createResults(results) {
+        return userDataFetcher("results", "POST", results);
+    }
+
+    static updateResults(results) {
+
         // let headers = utils.setHeaders();
         // let body = JSON.stringify(result);
 
         // return fetch(`${process.env.API_HOST}/api/results/`, {
         //     headers,
         //     body,
-        //     method: "POST"
+        //     method: "PUT"
         // })
         // .then(response => {
         //     if(response.status >= 200 & response.status < 300) {
@@ -129,87 +117,36 @@ class userApi {
         //     }
         // })
         // .catch(error => {return error});
-        return userDataFetcher("results", "POST", results);
-
-
-    }
-
-    static updateResults(result) {
-
-        let headers = utils.setHeaders();
-        let body = JSON.stringify(result);
-
-        return fetch(`${process.env.API_HOST}/api/results/`, {
-            headers,
-            body,
-            method: "PUT"
-        })
-        .then(response => {
-            if(response.status >= 200 & response.status < 300) {
-                return response;
-            }else {
-                throw response.json()
-            }
-        })
-        .catch(error => {return error});
+        return userDataFetcher("results", "PUT", results);
     }
 
 
 
-    static deleteResults() {
-        let headers = utils.setHeaders();
-        let body = JSON.stringify(result);
+    static deleteResults(results) {
+        // let headers = utils.setHeaders();
+        // let body = JSON.stringify(result);
 
-        return fetch(`${process.env.API_HOST}/api/results/`, {
-            headers,
-            body,
-            method: "DELETE"
-        })
-        .then(response => {
-            if(response.status >= 200 & response.status < 300) {
-                return response;
-            }else {
-                throw response.json()
-            }
-        })
-        .catch(error => {return error});
+        // return fetch(`${process.env.API_HOST}/api/results/`, {
+        //     headers,
+        //     body,
+        //     method: "DELETE"
+        // })
+        // .then(response => {
+        //     if(response.status >= 200 & response.status < 300) {
+        //         return response;
+        //     }else {
+        //         throw response.json()
+        //     }
+        // })
+        // .catch(error => {return error});
+        return userDataFetcher('results', "DELETE", results);
     }
 
     static getSearches() {
-        // let headers = utils.setHeaders();
-
-        // return fetch(`${process.env.API_HOST}/api/searches/`, {
-        //     headers,
-        //     method: "GET"
-        // })
-        // .then(response => {
-        //     if(response.status >= 200 & response.status < 300) {
-        //         return response;
-        //     }else {
-        //         throw response.json()
-        //     }
-        // })
-        // .catch(error => {return error});
         return userDataFetcher('searches', 'GET');
     }
 
     static createSearches(searches) {
-        // let headers = utils.setHeaders();
-        // let body = JSON.stringify(searches);
-
-        // return fetch(`${process.env.API_HOST}/api/searches/`, {
-        //     headers,
-        //     body,
-        //     method: "POST"
-        // })
-        // .then(response => {
-        //     if(response.status >= 200 & response.status < 300) {
-        //         return response;
-        //     }else {
-        //         throw response.json()
-        //     }
-        // })
-        // .catch(error => {return error});
         return userDataFetcher('searches', 'POST', searches);
     }
 

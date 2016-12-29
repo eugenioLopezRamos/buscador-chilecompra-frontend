@@ -1,9 +1,23 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
+import {getUserResults} from '../../actions/UserActions';
 
 class UserPage extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount = () => {
+        this.props.getUserResults();
+    }
+
+    requestResults = () => {
+        this.props.getUserResults();
+    }
+
 
     render = () => {
         if(this.props.user === null) {
@@ -14,7 +28,7 @@ class UserPage extends React.Component {
         return(
             <div className="jumbotron">
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
-                <UserProfile user={this.props.user}/>
+                <UserProfile user={this.props.user} />
             </div>
         )
     } 
@@ -28,11 +42,19 @@ UserPage.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
-    return {user: state.userData}
+    return {
+            user: state.userData
+        }
     //ownProp1: state.ownProp1,
     //ownProp2: state.ownProp2, 
     //...
     //ownPropN : state.ownPropN
 }
 
-export default connect(mapStateToProps)(UserPage);
+function mapDispatchToProps(dispatch) {
+    return {
+        getUserResults: bindActionCreators(getUserResults, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

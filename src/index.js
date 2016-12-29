@@ -11,7 +11,7 @@ import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore} from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 import configureStore from './store/configureStore';
 import Root from './containers/Root';
@@ -20,21 +20,22 @@ import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You 
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
 // import {loadTest} from './actions/loadTestActions';
-import {onLoadFetchOrgPub} from './actions/onLoadFetchOrgPub';
-import {onLoadFetchEstLic} from './actions/onLoadFetchEstLic';
-import {validateToken} from './actions/authInfoResultsActions';
+// import {onLoadFetchOrgPub} from './actions/onLoadFetchOrgPub';
+// import {onLoadFetchEstLic} from './actions/onLoadFetchEstLic';
+// import {validateToken} from './actions/authInfoResultsActions';
+//import {syncHistoryWithStore} from 'react-router-redux'
 //import Main from './components/Main.jsx';
 
 
 const store = configureStore();
 //window.store = store; //this one is useful for debugging
 
-store.dispatch(onLoadFetchOrgPub());
-store.dispatch(onLoadFetchEstLic());
+// store.dispatch(onLoadFetchOrgPub());
+// store.dispatch(onLoadFetchEstLic());
 
-if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
-	store.dispatch(validateToken());
-}
+// if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
+// 	store.dispatch(validateToken());
+// }
 
 // I can probably make these 2 load when displaying the inputFieldsContainer instead of now...
 

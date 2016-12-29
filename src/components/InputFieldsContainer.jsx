@@ -9,7 +9,6 @@ import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
-import SearchTypesPicker from './searchTypes/SearchTypesPicker.jsx';
 
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
@@ -39,7 +38,8 @@ class InputFieldsContainer extends React.PureComponent {
                         );
 
             case "proveedor":
-                return (    <div>
+                return (    
+                            <div>
                                 <label>Según RUT proveedor</label>
                                 <input
                                     className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
@@ -74,16 +74,48 @@ class InputFieldsContainer extends React.PureComponent {
         return (    
                 
                     <div className="container inputfields jumbotron"> 
-                        <SearchTypesPicker 
-                            searchType={this.props.searchType}
-                            onClick={this.props.displayActions.changeSearchType}
-                        /> 
+ 
                         <label>Selecciona una fecha (vacio=todas)</label>
                         <DatePicker
                             startDate={this.props.date} 
                             setDate={this.props.actions.dateFieldSelect}
                         />
-                        {this.getAppropiateInputFields()}
+
+                     
+                            <label>Estado de la licitación (código estado)</label>
+                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
+
+                            <label>Según comprador (código organismo público)</label>
+                                <AutoFillerInput 
+                                    organismosPublicos={this.props.organismosPublicos}
+                                    organismosPublicosFilter={this.props.organismosPublicosFilter}
+                                    organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
+                                    selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
+                                    onSelectionChange={this.props.actions.pickOrganismoPublico}
+                                    onInputChange={this.props.actions.autoFillerInputChange}
+                                />
+                    
+
+                      
+                            <label>Según RUT proveedor</label>
+                            <input
+                                className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                                key="rut-proveedor" 
+                                placeholder="Ejemplo: 1.111.111-1"
+                                defaultValue={this.props.rutProveedor} 
+                                onChange={this.props.actions.RUTInput}/>
+                  
+
+                       
+                            <label>Código de licitación</label>
+                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                                key="cod-licitacion" 
+                                placeholder="Buscar por código de licitación"
+                                defaultValue={this.props.codigoLicitacion} 
+                                onChange={this.props.actions.codigoLicitacionInputChange}
+                            />
+                        
+                        
                         <label>Según palabras clave</label>
                             <SearchField value={this.props.palabrasClave} onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
 

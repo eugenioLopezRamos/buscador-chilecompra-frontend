@@ -4,11 +4,18 @@ export const userDataFetcher = (endpoint, method, body) => {
         
         let headers = utils.setHeaders();
         let reqBody = method.toUpperCase() === 'GET' ? null : body;
-        return fetch(`${process.env.API_HOST}/api/${endpoint}`, {
-            headers,
-            body: JSON.stringify({results: reqBody}),
-            method: `${method.toUpperCase()}`
-        })
+
+        let request = {
+                        headers,
+                        method: `${method.toUpperCase()}`   
+                    }
+                    
+        if(reqBody !== null) {
+            request.body = requestBody;
+        } 
+
+
+        return fetch(`${process.env.API_HOST}/api/${endpoint}`, request)
         .then(response => {
             if(response.status >= 200 & response.status < 300) {
                 let headers = utils.headerToObject(response);
