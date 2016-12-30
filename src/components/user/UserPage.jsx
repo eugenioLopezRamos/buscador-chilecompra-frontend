@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
-import {getUserResults} from '../../actions/UserActions';
+import {getUserResults, deleteUserResults, getUserSearches, deleteUserSearches} from '../../actions/UserActions';
 
 class UserPage extends React.Component {
     constructor(props) {
@@ -11,7 +11,9 @@ class UserPage extends React.Component {
     }
 
     componentDidMount = () => {
+
         this.props.getUserResults();
+        this.props.getUserSearches();
     }
 
     requestResults = () => {
@@ -28,7 +30,11 @@ class UserPage extends React.Component {
         return(
             <div className="jumbotron">
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
-                <UserProfile user={this.props.user} />
+                <UserProfile user={this.props.user} 
+                             userResults={this.props.fetchedUserResults}
+                             getUserSearches={this.props.fetchedUserSearches}
+                
+                />
             </div>
         )
     } 
@@ -36,24 +42,27 @@ class UserPage extends React.Component {
 
 UserPage.propTypes = {
    // login: PropTypes.bool.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object.isRequired,
+    fetchedUserResults: PropTypes.object,
+    fetchedUserSearches: PropTypes.object
     //tbi
 
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-            user: state.userData
+            user: state.userData,
+            fetchedUserResults: state.userResults.fetched,
+            fetchedUserSearches: state.userSearches.fetched
         }
-    //ownProp1: state.ownProp1,
-    //ownProp2: state.ownProp2, 
-    //...
-    //ownPropN : state.ownPropN
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserResults: bindActionCreators(getUserResults, dispatch)
+        getUserResults: bindActionCreators(getUserResults, dispatch),
+        deleteUserResults: bindActionCreators(deleteUserResults, dispatch),
+        getUserSearches: bindActionCreators(getUserSearches, dispatch),
+        deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch)
     }
 }
 

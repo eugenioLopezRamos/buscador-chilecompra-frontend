@@ -1,7 +1,7 @@
 import utils from './authUtils';
 
 export const userDataFetcher = (endpoint, method, body) => {
-        
+        console.log("BODY", body)
         let headers = utils.setHeaders();
         let reqBody = method.toUpperCase() === 'GET' ? null : body;
 
@@ -11,7 +11,7 @@ export const userDataFetcher = (endpoint, method, body) => {
                     }
                     
         if(reqBody !== null) {
-            request.body = requestBody;
+            request.body = JSON.stringify(reqBody);
         } 
 
 

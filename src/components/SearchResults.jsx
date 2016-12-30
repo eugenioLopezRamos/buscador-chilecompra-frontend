@@ -35,7 +35,11 @@ class SearchResults extends React.PureComponent {
 
         handleCreateResults = () => {
             this.props.createResults();
-        } 
+        }
+
+        handleCreateSearches = () => {
+            this.props.createSearches();
+        }
 
         render = () => {
   
@@ -51,7 +55,7 @@ class SearchResults extends React.PureComponent {
             let self = this;
             return (<ul className={this.animClass}>
 
-                    <ResultsSaver handleResults={this.handleCreateResults}/>
+                    <ResultsSaver handleResults={this.handleCreateResults} handleSearches={this.handleCreateSearches} />
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">

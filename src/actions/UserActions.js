@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import userAPI from '../api/userApi';
 import utils from '../utils/authUtils';
+import objectAssign from 'object-assign';
 // MODIFIY USER DATA API CALLS
 
 export const modifyUserProfileDataSuccess = (value) => {
@@ -93,6 +94,7 @@ export const createUserResultsSuccess = (value) => {
     return {type: types.USER_CREATE_RESULTS_SUCCESS, value}
 };
 
+
 export const createUserResultsFailure = (value) => {
 
 
@@ -102,9 +104,10 @@ export const createUserResultsFailure = (value) => {
 export const createUserResults = () => {
 
     return (dispatch, getState) => {
-        let result = {getState}.getState().searchResults.map(e => {return e.id});
+        
+        let results = {getState}.getState().searchResults.map(e => {return e.id});
 
-        userAPI.createResults(result).then(response => {
+        userAPI.createResults({results}).then(response => {
                                     dispatch(createUserResultsSuccess(response));
                                 })
                             .catch(error => {
@@ -124,10 +127,10 @@ export const updateUserResultsFailure = (value) => {
 
 export const updateUserResults = () => {
 
-    return (dispatch, state) => {
-        let result = state.getState().userResults.update;
+    return (dispatch, getState) => {
+        let result = {getState}.getState().userResults.update;
         userAPI.updateResults(result).then(response => {
-                                    dispatch(updateUserResultsSuccess(response.json()));
+                                    dispatch(updateUserResultsSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(updateUserResultsFailure(error));
@@ -144,10 +147,13 @@ export const destroyUserResultsFailure = (value) => {
 
 export const deleteUserResults = () => {
 
-    return (dispatch, state) => {
-        let result = state.getState().userResults.delete;
+    return (dispatch, getState) => {
+        let resultValues = {getState}.getState().userResults.delete;
+
+        let result = {results: resultValues};
+
         userAPI.updateResults(result).then(response => {
-                                    dispatch(deleteUserResultsSuccess(response.json()));
+                                    dispatch(deleteUserResultsSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(deleteUserResultsFailure(error));
@@ -172,7 +178,7 @@ export const getUserSearches = () => {
     return (dispatch) => {
   
         userAPI.getSearches().then(response => {
-                                    dispatch(getUserSearchesSuccess(response.json()));
+                                    dispatch(getUserSearchesSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(getUserSearchesFailure(error));
@@ -190,13 +196,13 @@ export const createUserSearchesFailure = (value) => {
 }
 
 export const createUserSearches = () => {
-    return (dispatch, state) => {
+    return (dispatch, getState) => {
 
-        //TODO: hacer igual que el fetcher de la api antiguo
+        let searches = objectAssign({}, {getState}.getState().inputFieldValues)
+        delete searches.organismosPublicosFilteredSubset;
 
-        let searches = state.getState().userSearches.new;
-        userAPI.createSearches(searches).then(response => {
-                                    dispatch(createUserSearchesSuccess(response.json()));
+        userAPI.createSearches({searches}).then(response => {
+                                    dispatch(createUserSearchesSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(createUserSearchesFailure(error));
@@ -215,10 +221,10 @@ export const updateUserSearchesFailure = (value) => {
 
 export const updateUserSearches = () => {
 
-    return (dispatch, state) => {
-        let searches = state.getState().userSearches.update;
+    return (dispatch, getState) => {
+        let searches = {getState}.getState().userSearches.update;
         userAPI.updateSearches(searches).then(response => {
-                                    dispatch(updateUserSearchesSuccess(response.json()));
+                                    dispatch(updateUserSearchesSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(updateUserSearchesFailure(error));
@@ -235,10 +241,10 @@ export const deleteUserSearchesFailure = (value) => {
     return {type: types.USER_DELETE_RESULTS_FAILURE, value};
 }
 export const deleteUserSearches = () => {
-    return (dispatch, state) => {
-        let searches = state.getState().userSearches.delete;
+    return (dispatch, getState) => {
+        let searches = {getState}.getState().userSearches.delete;
         userAPI.deleteSearches(searches).then(response => {
-                                    dispatch(deleteUserSearchesSuccess(response.json()));
+                                    dispatch(deleteUserSearchesSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(deleteSearchesFailure(error));

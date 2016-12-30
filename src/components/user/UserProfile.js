@@ -45,16 +45,13 @@ const UserProfile = (props) => {
             <div className="perfil-resultados-guardados">
                 <h2>Resultados guardados</h2>
                 {
-                    Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-
-                    let val = <li className="list-group-item saved-items" key={"result" + e}>
-                                <span className="saved-items-description">{`resultado ${e}`}</span>
-                                <button type="button" className="btn btn-primary pull-right">Ver resultado</button>
-                              </li>
-
-                        return val;
-                    })                    
-                }            
+                    Object.keys(props.userResults).map(e => {
+                        return <li className="list-group-item saved-items" key={"results" + e}>
+                                <span className="saved-items-description">{e}</span>
+                                <button type="button" className="btn btn-primary pull-right">Mostrar resultado</button>
+                               </li>
+                    })
+                }
             </div>
         </div>
     )
