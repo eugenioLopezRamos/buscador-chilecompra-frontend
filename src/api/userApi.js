@@ -91,6 +91,8 @@ class userApi {
         .catch(error => {return error});
     }
 
+
+
     static getResults() {
         return userDataFetcher("results", "get");
     }

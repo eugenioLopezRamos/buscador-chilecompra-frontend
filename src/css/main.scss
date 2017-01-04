@@ -265,6 +265,59 @@ select {
 }
 
 
+.prompt-background {
+    background-color: rgba(238, 238 ,238, 0.7);
+    position: fixed;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    min-height: 300px;
+    min-width: 300px;
+    z-index: 9001;
+    display:flex;
+}
+
+.no-display {
+    display: none;
+}
+
+.prompt {
+    //position: flex;
+    height: auto;
+    min-height: 160px;
+    width: 20vh;
+    min-width: 360px;
+    background-color: #eee;
+    margin:auto;
+    z-index: 9001;
+    left: 25%;
+    border-radius: 5px;
+    border: 1px solid lightskyblue;
+
+    & > input {
+        margin: auto auto 2.5% 15%;
+        width: 70%;
+    }
+
+    & > button {
+
+        width: 40%;
+        margin-bottom: 5%;
+        &:first-of-type {
+            margin-left: 10%;
+
+        }
+        &:last-of-type {
+            margin-right: 10%;
+        }
+    }
+}
+.allow-wrap {
+    white-space: initial;
+}
+
+
 @media all and (min-width: 700px) {
     .container.inputfields {
         display:flex;

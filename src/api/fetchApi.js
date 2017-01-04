@@ -54,7 +54,12 @@ class fetchApi {
 
         query = query.join("&"); //joins them to form the query string.
 
-        return fetch(`${process.env.API_HOST}/api/get_info?${query}`)
+        return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
+        {headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json"
+        }}
+        )
             .then(response => response.json() )
             .catch(error => {return error })
 

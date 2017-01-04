@@ -33,16 +33,16 @@ class SearchResults extends React.PureComponent {
             return swappedEstLic[codigoEstado];
         }
 
-        handleCreateResults = () => {
-            this.props.createResults();
+        handleCreateResults = (name) => {
+            this.props.createResults(name);
         }
 
-        handleCreateSearches = () => {
-            this.props.createSearches();
+        handleCreateSearches = (name) => {
+            this.props.createSearches(name);
         }
 
         render = () => {
-  
+            console.log("RESULTS PROPS", this.props)
         if(!this.props.results){
             return null;
         }
@@ -68,6 +68,7 @@ class SearchResults extends React.PureComponent {
                     {
                         
                     this.props.results.map((e, i) => {
+                        e = JSON.parse(e);
                         return <li className="search-results" key={i}>
 
                                     <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>

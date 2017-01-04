@@ -32,7 +32,7 @@ class UserPage extends React.Component {
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user} 
                              userResults={this.props.fetchedUserResults}
-                             getUserSearches={this.props.fetchedUserSearches}
+                             userSearches={this.props.fetchedUserSearches}
                 
                 />
             </div>

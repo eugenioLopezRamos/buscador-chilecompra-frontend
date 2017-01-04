@@ -101,13 +101,13 @@ export const createUserResultsFailure = (value) => {
     return {type: types.USER_CREATE_RESULTS_FAILURE, value}
 };
 
-export const createUserResults = () => {
+export const createUserResults = (name) => {
 
     return (dispatch, getState) => {
         
-        let results = {getState}.getState().searchResults.map(e => {return e.id});
+        let results = {getState}.getState().searchResults.map(e => {return JSON.parse(e).id});
 
-        userAPI.createResults({results}).then(response => {
+        userAPI.createResults({results, name}).then(response => {
                                     dispatch(createUserResultsSuccess(response));
                                 })
                             .catch(error => {
@@ -195,13 +195,14 @@ export const createUserSearchesFailure = (value) => {
     return {type: types.USER_CREATE_SEARCHES_FAILURE, value};
 }
 
-export const createUserSearches = () => {
+export const createUserSearches = (name) => {
     return (dispatch, getState) => {
 
-        let searches = objectAssign({}, {getState}.getState().inputFieldValues)
-        delete searches.organismosPublicosFilteredSubset;
+        let value = objectAssign({}, {getState}.getState().inputFieldValues)
+        delete value.organismosPublicosFilteredSubset;
+        let search = {value, name};
 
-        userAPI.createSearches({searches}).then(response => {
+        userAPI.createSearches({search}).then(response => {
                                     dispatch(createUserSearchesSuccess(response));
                                 })
                             .catch(error => {
