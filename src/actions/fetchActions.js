@@ -14,7 +14,7 @@ export const loadChilecompraData = () => {
         const state = {getState};
         return fetchApi.getChileCompraData(state)
             .then(data => {dispatch(fetchChilecompraDataSuccess(data));})
-            //.catch( error => {debugger; dispatch(fetchChilecompraDataFailure(error));} );
+            .catch( error => {dispatch(fetchChilecompraDataFailure(error));} );
     };  
 };
 

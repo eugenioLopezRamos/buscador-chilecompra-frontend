@@ -1,50 +1,42 @@
 import React from 'react';
+import {getObjectPropsWithValues} from '../utils/miscUtils';
+import {deleteMessages} from '../actions/messageActions';
 
+const Flash = (props, {store}) =>  {
 
-const Flash = (props) => {
-    
     const handleClick = () => {
-        alert("clicked"); // THIS HAS TO BE CHANGED LATER, CURRENTLY JUST A TEST
-        //maybe something like actions.clearFlash() ?
+        store.dispatch(deleteMessages());
     }
-
-    if(props.messages) {
-        let info = Object.values(props.messages.info).join("\n");
-        let errors = Object.values(props.messages.errors).join("\n");
-
-        let infoMessages = null;
-        let errorMessages = null;
-        let messagesContainer = null;
-
-        if(info.length > 0) {
-            infoMessages = <div className="info message-wrap">
-                                <div>Información:</div>
-                                {info}
-                           </div>
-        }
-        if(errors.length > 0) {
-            let title = "Error";
-            errors.length > 1 ? title = "Errores" : "";
-
-            errorMessages = <div className="error message-wrap"><div>{title}:</div>{errors}</div>
-        }
-
-        if(info.length > 0 || errors.length > 0) {
-            messagesContainer = <div className="message-wrap">
-                                 {infoMessages} 
-                                 {errorMessages}
-                                </div>
-        }
-        
-        return messagesContainer;
-
-    }
-    else {
+    //needs json stringify because [] == [] => false
+    if(JSON.stringify(props.messages.info) === JSON.stringify([]) && 
+        JSON.stringify(props.messages.errors) === JSON.stringify([]) ){
         return null;
     }
+    else {
+        // get only the properties that have values (instead of just containing objects which themselves have more properties.)
+        let messages = getObjectPropsWithValues(props.messages)
+        return(
+                <div className="flash-center" onClick={handleClick}>
+                    <div className="message-wrap">
+                    {
+                        Object.keys(messages).map(e => {
+                            return(<div className="info">
+                                        <div>{`${e}:`}</div>
+                                        <span>{messages[e].length}</span>
+                            </div>) 
+                        })
+                    }
+                    </div>
+                </div>
+        )
 
 
+    }
 
+}
+
+Flash.contextTypes = {
+    store: React.PropTypes.object
 }
 
 export default Flash;

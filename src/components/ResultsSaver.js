@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './inputs/Modal.jsx';
-
+import Flash from './Flash.jsx';
 
 class ResultsSaver extends React.Component {
 
@@ -22,10 +22,12 @@ class ResultsSaver extends React.Component {
     }
 
     handleSearches = () => {
+        this.setState({showModal: {show: false}})
         this.props.handleSearches(this.state.enteredSearchName)
     }
 
     handleResults = () => {
+        this.setState({showModal: {show: false}})
         this.props.handleResults(this.state.enteredResultName)        
     }
 

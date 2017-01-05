@@ -8,6 +8,12 @@ export function showNavbarReducer(state = initialState.showNavbar, action) {
         case types.TOGGLE_VISIBILITY:
         return !state;
 
+        case types.USER_SEND_LOGIN_INFO_SUCCESS:
+            return false;
+        
+        case types.USER_LOGOUT_SUCCESS:
+            return false;
+
         default:
             return state;
     };

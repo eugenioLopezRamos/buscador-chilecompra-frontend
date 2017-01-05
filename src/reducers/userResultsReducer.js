@@ -11,6 +11,8 @@ export const userResultsReducer = (state = initialState.userResults, action) => 
 
         case types.USER_GET_RESULTS_FAILURE:
             return objectAssign({}, newState, initialState.userResults);
+        
+        // USER_CREATE... doesnt case here since it only returns a message, that goes into the messages reducer
 
         case types.USER_UPDATE_RESULTS_SUCCESS:
             return objectAssign({}, newState, initialState.userResults);

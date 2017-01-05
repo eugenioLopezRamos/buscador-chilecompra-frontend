@@ -4,7 +4,6 @@ import React from 'react';
 const Modal = (props) => {
 
     const confirmAction = () => {
-        console.log("props", props);
         props.handler();
     }
 

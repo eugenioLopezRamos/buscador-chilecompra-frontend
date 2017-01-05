@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
 import {getUserResults, deleteUserResults, getUserSearches, deleteUserSearches} from '../../actions/UserActions';
+import Flash from '../Flash.jsx';
 
 class UserPage extends React.Component {
     constructor(props) {
@@ -29,6 +30,12 @@ class UserPage extends React.Component {
         }
         return(
             <div className="jumbotron">
+
+            
+                <Flash type={info} message={props.messages} />
+
+
+
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user} 
                              userResults={this.props.fetchedUserResults}
@@ -44,7 +51,8 @@ UserPage.propTypes = {
    // login: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     fetchedUserResults: PropTypes.object,
-    fetchedUserSearches: PropTypes.object
+    fetchedUserSearches: PropTypes.object,
+    messages: PropTypes.object
     //tbi
 
 }
@@ -53,7 +61,8 @@ function mapStateToProps(state, ownProps) {
     return {
             user: state.userData,
             fetchedUserResults: state.userResults.fetched,
-            fetchedUserSearches: state.userSearches.fetched
+            fetchedUserSearches: state.userSearches.fetched,
+            messages: state.messages
         }
 }
 

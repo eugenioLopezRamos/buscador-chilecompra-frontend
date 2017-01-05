@@ -7,7 +7,7 @@ import * as types from '../actions/actionTypes';
 import {createUserResults as createResults} from '../actions/UserActions';
 import {createUserSearches as createSearches} from '../actions/UserActions';
 import ResultsSaver from './ResultsSaver';
-
+import Flash from './Flash.jsx';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -56,6 +56,7 @@ class SearchResults extends React.PureComponent {
             return (<ul className={this.animClass}>
 
                     <ResultsSaver handleResults={this.handleCreateResults} handleSearches={this.handleCreateSearches} />
+                    <Flash type="info" messages={this.props.messages} />
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
@@ -96,7 +97,8 @@ class SearchResults extends React.PureComponent {
 function mapStateToProps(state, ownProps) {
     return {
         results: state.searchResults,
-        estadosLicitacion: state.estadosLicitacion
+        estadosLicitacion: state.estadosLicitacion,
+        messages: state.messages
     }
 
 }

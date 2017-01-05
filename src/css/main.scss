@@ -200,12 +200,42 @@ select {
     margin: auto;
 }
 
-.message-wrap {
-    white-space: pre-wrap;
+.flash-center {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
     margin: auto;
+    display: flex;
+    justify-content: center;
+    top: 0%;
+    z-index: 9001;
+   // pointer-events: none;
+}
+
+.message-wrap {
+    // white-space: pre-wrap;
+    // position: absolute;
+    // z-index: 9001;
+    // min-height: 300px;
+    // min-width: 300px;
+    // margin: auto;
+    // text-align: center;
+    // padding: 5px 20px 5px 20px;
+    // border-radius: 5px;
+    white-space: pre-wrap;
+    position: absolute;
+  //  z-index: 9001;
+    min-height: 200px;
+    min-width: 300px;
+    margin: auto;
+    margin-top: 70px;
     text-align: center;
     padding: 5px 20px 5px 20px;
     border-radius: 5px;
+    background-color: #eee;
+    border: 2px solid lightblue;
+    pointer-events: all;
 }
 // .flash-close-alert.alert-danger {
 //     margin: -5px -20px 0px -20px;
