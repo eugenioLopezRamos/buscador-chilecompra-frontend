@@ -41,8 +41,11 @@ class SearchResults extends React.PureComponent {
             this.props.createSearches(name);
         }
 
+        countArray = (arr) => {
+            return arr.length;
+        }
+
         render = () => {
-            console.log("RESULTS PROPS", this.props)
         if(!this.props.results){
             return null;
         }
@@ -56,7 +59,7 @@ class SearchResults extends React.PureComponent {
             return (<ul className={this.animClass}>
 
                     <ResultsSaver handleResults={this.handleCreateResults} handleSearches={this.handleCreateSearches} />
-                    <Flash type="info" messages={this.props.messages} />
+                    <Flash type="info" messages={this.props.messages} messagesHandler={this.countArray}/>
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">

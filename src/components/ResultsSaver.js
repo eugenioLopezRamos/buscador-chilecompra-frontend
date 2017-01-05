@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './inputs/Modal.jsx';
-import Flash from './Flash.jsx';
+//import Flash from './Flash.jsx';
 
 class ResultsSaver extends React.Component {
 
@@ -22,12 +22,13 @@ class ResultsSaver extends React.Component {
     }
 
     handleSearches = () => {
-        this.setState({showModal: {show: false}})
+
+        this.setState({showModal: {show: false}, enteredSearchName: "", enteredResultName: ""})
         this.props.handleSearches(this.state.enteredSearchName)
     }
 
     handleResults = () => {
-        this.setState({showModal: {show: false}})
+        this.setState({showModal: {show: false}, enteredSearchName: "", enteredResultName: ""})
         this.props.handleResults(this.state.enteredResultName)        
     }
 
@@ -44,6 +45,7 @@ class ResultsSaver extends React.Component {
             <div className="col-xs-12 no-gutter save-search-buttons">
                 <Modal 
                     isModalShown={this.state.showModal.show} 
+                    modalValue={this.state.showModal.type === "search" ? this.state.enteredSearchName : this.state.enteredResultName}
                     handler={this.state.showModal.type === "search" ? this.handleSearches : this.handleResults }
                     hideModal={this.hideModal}
                     onInput={this.state.showModal.type === "search" ? this.onSearchNameInput : this.onResultNameInput }

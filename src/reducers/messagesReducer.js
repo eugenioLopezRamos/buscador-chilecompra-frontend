@@ -24,7 +24,6 @@ const messagesReducer = (state = initialState.messages, action) => {
             return objectAssign({}, state, initialState.messages);
         
         case types.USER_CREATE_RESULTS_SUCCESS:
-            console.log("ACTION MESAGE RED", action);
             return objectAssign({}, state, {info: action.value.message.info, errors: action.value.message.errors})
 
         case types.USER_CREATE_SEARCHES_SUCCESS:

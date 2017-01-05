@@ -39,3 +39,7 @@ export const getObjectPropsWithValues = (object) =>  {
     transverseProps(object);
     return response;
 }
+
+export const toJSON = (value) => {
+    return JSON.stringify(value);
+}
