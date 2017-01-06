@@ -18,13 +18,15 @@ export const capitalize = (string) => {
 export const getObjectPropsWithValues = (object) =>  {
     //Check every property of an object. If the property is an object, run the function again
     // else, add the values to the response object
-    // So {"nested1": {
+    // So, for example:
+    // let nestedObj = {"nested1": {
         //                 "nested2": {
         //                             "nested3": "my value is here"
         //                             }
         //              }
         // }
-    // becomes response: {nested3: "my value is here"}
+    // then
+    //getObjectPropsWithValues(nestedObj) returns: {nested3: "my value is here"}
 
     let response = {}
 	

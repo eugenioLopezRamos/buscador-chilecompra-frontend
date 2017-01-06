@@ -37,7 +37,7 @@ const SignupForm = (props) => {
     return (
         
         <div className="signup-form col-xs-12 col-md-8">
-            <Flash type={flashType} className="signup-flash" message={props.signupResult.message}/>
+ 
 
             <label className="col-xs-12 col-md-8 text-center">Nombre</label>
             <input value={props.signupInfo.name} className="col-xs-12 col-md-8" type="textarea" placeholder="Nombre" onChange={handleChangeName}/>
@@ -61,3 +61,5 @@ const SignupForm = (props) => {
 }
 
 export default SignupForm;
+         //TODO: Make this flash usse the messages reducer
+         //  <Flash type={flashType} className="signup-flash" messages={props.signupResult.message}/>

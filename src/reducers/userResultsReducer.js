@@ -10,21 +10,21 @@ export const userResultsReducer = (state = initialState.userResults, action) => 
             return objectAssign({}, newState, {fetched: action.value});
 
         case types.USER_GET_RESULTS_FAILURE:
-            return objectAssign({}, newState, initialState.userResults);
+            return objectAssign({}, newState);
         
         // USER_CREATE... doesnt case here since it only returns a message, that goes into the messages reducer
 
         case types.USER_UPDATE_RESULTS_SUCCESS:
-            return objectAssign({}, newState, initialState.userResults);
+            return objectAssign({}, newState, {fetched: action.value.results});
 
         case types.USER_UPDATE_RESULTS_FAILURE:
-            return objectAssign({}, newState, initialState.userResults);
+            return objectAssign({}, newState, {fetched: action.value.results});
 
         case types.USER_DELETE_RESULTS_SUCCESS:
-            return objectAssign({}, newState, initialState.userResults);
+            return objectAssign({}, newState, {fetched: action.value.results});
 
         case types.USER_DELETE_RESULTS_FAILURE:
-            return objectAssign({}, newState, initialState.userResults);
+            return objectAssign({}, newState, {fetched: action.value.results});
 
         default:
             return state;

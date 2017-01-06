@@ -18,14 +18,14 @@ const Flash = (props, {store}) =>  {
     else {
         // get only the properties that have values (instead of just containing objects which themselves have more properties.)
         let messages = getObjectPropsWithValues(props.messages)
-        console.log("messages", messages)
         return(
                 <div className="flash-center" onClick={handleClick}>
                     <div className="message-wrap">
                     {
                         Object.keys(messages).map((e) => {
                             //usar el valor de e para el handler q le voy a pasar a la function!
-                            // "errores", "guardado con exito", "repetido"
+                            // ej: "errores", "guardado con exito", "repetido"
+                            if(messages[e].length === 0) { return null}
                             return(<div key={`${e}-title`} className="info">
                                         <div>{`${e}:`}</div>
                                         <span>{messagesHandler ? messagesHandler(messages[e]) : messages[e]}</span>

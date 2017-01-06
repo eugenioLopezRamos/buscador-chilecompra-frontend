@@ -137,22 +137,23 @@ export const updateUserResults = () => {
                             });
     }
 };
-    // DESTROY RESULTS (DELETE)
-export const destroyUserResultsSuccess = (value) => {
+    // DELETE RESULTS
+export const deleteUserResultsSuccess = (value) => {
     return {type: types.USER_DELETE_RESULTS_SUCCESS, value};
 }
-export const destroyUserResultsFailure = (value) => {
+export const deleteUserResultsFailure = (value) => {
     return {type: types.USER_DELETE_RESULTS_FAILURE, value};
 }
 
-export const deleteUserResults = () => {
+export const deleteUserResults = (index) => {
 
     return (dispatch, getState) => {
-        let resultValues = {getState}.getState().userResults.delete;
+        let name = Object.keys({getState}.getState().userResults.fetched)[index]
+       // let resultValues = {getState}.getState().userResults.delete;
 
-        let result = {results: resultValues};
+    
 
-        userAPI.updateResults(result).then(response => {
+        userAPI.deleteResults({results: {name}}).then(response => {
                                     dispatch(deleteUserResultsSuccess(response));
                                 })
                             .catch(error => {
@@ -236,19 +237,21 @@ export const updateUserSearches = () => {
     //DESTROY SEARCHES (DELETE)
 
 export const deleteUserSearchesSuccess = (value) => {
-    return {type: types.USER_DELETE_RESULTS_SUCCESS, value};
+    return {type: types.USER_DELETE_SEARCHES_SUCCESS, value};
 }
 export const deleteUserSearchesFailure = (value) => {
-    return {type: types.USER_DELETE_RESULTS_FAILURE, value};
+    return {type: types.USER_DELETE_SEARCHES_FAILURE, value};
 }
-export const deleteUserSearches = () => {
+export const deleteUserSearches = (index) => {
+  
     return (dispatch, getState) => {
-        let searches = {getState}.getState().userSearches.delete;
-        userAPI.deleteSearches(searches).then(response => {
+        //gets the id of the UserSearch that was clicked according to its index, from the redux store
+       let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
+        userAPI.deleteSearches({search: {id}}).then(response => {
                                     dispatch(deleteUserSearchesSuccess(response));
                                 })
                             .catch(error => {
-                                dispatch(deleteSearchesFailure(error));
+                                dispatch(deleteUserSearchesFailure(error));
                             });
     }
 }

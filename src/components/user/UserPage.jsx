@@ -3,16 +3,23 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
-import {getUserResults, deleteUserResults, getUserSearches, deleteUserSearches} from '../../actions/UserActions';
+import {getUserResults, deleteUserResults, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
+        this.actions = {
+                        getUserResults: props.getUserResults,
+                        deleteUserResults: props.deleteUserResults,
+                        getUserSearches: props.getUserSearches,
+                        updateUserSearches: props.updateUserSearches,
+                        deleteUserSearches: props.deleteUserSearches
+                        }
     }
 
     componentDidMount = () => {
-
+        
         this.props.getUserResults();
         this.props.getUserSearches();
     }
@@ -21,7 +28,7 @@ class UserPage extends React.Component {
         this.props.getUserResults();
     }
 
-
+     
     render = () => {
         if(this.props.user === null) {
             //probably set initialState of userData to empty fields and then use an onEnter handler in react-router to 
@@ -30,17 +37,12 @@ class UserPage extends React.Component {
         }
         return(
             <div className="jumbotron">
-
-            
-                <Flash type={info} message={props.messages} />
-
-
-
+                <Flash type={"info"} messages={this.props.messages} />
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user} 
                              userResults={this.props.fetchedUserResults}
                              userSearches={this.props.fetchedUserSearches}
-                
+                             actions={this.actions}
                 />
             </div>
         )
