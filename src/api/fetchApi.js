@@ -10,7 +10,7 @@ class fetchApi {
     }
 
     static getChileCompraData(state) {
-        let estado = state.getState();
+        let estado = state;
         // These two are yet to be implemented! - Maybe not even here.
         //let loginStatus = estado.login
         //let loginToken = estado.loginToken 
@@ -78,6 +78,35 @@ class fetchApi {
     }
 
 
+    static shortGetChileCompraData(state) {
+        console.log("estado", state);
+
+
+        let queryFields = [
+            `estadoLicitacion=${state.selectedEstadoLicitacion}`,
+            `codigoLicitacion=${state.codigoLicitacion}`,
+            `selectedDate=${state.date}`,
+            `organismoPublico=${state.selectedOrganismoPublico}`,
+            `rutProveedor=${state.rutProveedor}`,
+            `palabrasClave=${state.palabrasClave}`
+            ];
+        
+        let query = queryFields.join("&");
+
+
+        return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
+        {headers: {
+                'Content-Type': "application/json",
+                'Accept': "application/json"
+        }}
+        )
+            .then(response => response.json() )
+            .catch(error => {return error }) 
+
+
+
+
+    }
 
 
 

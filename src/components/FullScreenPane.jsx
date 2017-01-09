@@ -4,7 +4,9 @@ const FullScreenPane = (props) => {
 
     //not needed, but React gives a warning if I make these just render null and then call them on the return statement
     // "React.createElement: type should not be null, undefined, boolean, or number."
-    const component = props.component ? <props.component /> : null;
+    //console.log("props", props);
+    const component = props.component ? <props.component {...props.componentProps} /> : null;
+  //  console.log("COMPONENT", component);
     const menu = props.menu ? <props.menu index={props.index}/> : null ;
     const show = props.show || false;
 

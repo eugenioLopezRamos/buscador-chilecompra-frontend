@@ -13,7 +13,7 @@ class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
             super(props);
-  
+          
             this.animClass = "";
         }
 
@@ -99,7 +99,8 @@ class SearchResults extends React.PureComponent {
 
 function mapStateToProps(state, ownProps) {
     return {
-        results: state.searchResults,
+     //now is given as an external prop so it can be more versatile   
+    //    results: state.searchResults,
         estadosLicitacion: state.estadosLicitacion,
         messages: state.messages
     }

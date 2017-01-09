@@ -8,14 +8,18 @@ import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import ModifySearchMenu from '../ModifySearchMenu.jsx';
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
+import SearchResults from '../SearchResults.jsx';
+import {shortLoadChilecompraData} from '../../actions/fetchActions';
 
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
+
         this.components = {
             InputFieldsContainer: InputFieldsContainer,
-            ModifySearchMenu: ModifySearchMenu
+            ModifySearchMenu: ModifySearchMenu,
+            SearchResults: SearchResults
         }
 
 
@@ -30,7 +34,9 @@ class UserPage extends React.Component {
         this.state = {
             showFullScreenPane: false,
             FullScreenPaneComponent: null,
-            index: 0
+            componentProps: {},
+            menu: null,
+            menuProps: {},
         }
     }
 
@@ -47,10 +53,33 @@ class UserPage extends React.Component {
     hideFullScreenPane = () => {
         this.setState({showFullScreenPane: false});
     }
+
     showFullScreenPane = (component, index) => {
-        this.setState({showFullScreenPane: true, FullScreenPaneComponent: component, index})
+        this.setState({showFullScreenPane: true, FullScreenPaneComponent: component})
     }
-     
+    
+    executeStoredSearch = (component, index) => {
+      //  console.log("comp", component);
+        this.setState({
+                        showFullScreenPane:true, 
+                        FullScreenPaneComponent: component
+                        });
+
+        let data = Object.assign({}, this.props.fetchedUserSearches.value[index]);
+
+        data.date = Date.parse(data.date);
+
+        this.props.loadChilecompraData(data)
+            .then(response => {
+                                this.setState({
+                                                showFullScreenPane: true, 
+                                                FullScreenPaneComponent: component, 
+                                                componentProps: {results: response }
+                                            });
+                                });
+    }
+
+
     render = () => {
         if(this.props.user === null) {
             //probably set initialState of userData to empty fields and then use an onEnter handler in react-router to 
@@ -59,7 +88,7 @@ class UserPage extends React.Component {
         }
 
         return(
-            <div className="jumbotron">
+            <div className="jumbotron" style={{"min-height": document.documentElement.clientHeight}}>
 
                 <FullScreenPane 
                     show={this.state.showFullScreenPane} 
@@ -67,6 +96,7 @@ class UserPage extends React.Component {
                     hide={this.hideFullScreenPane}
                     menu={this.components.ModifySearchMenu}
                     index={this.state.index}
+                    componentProps={this.state.componentProps}
                     
                 />
 
@@ -82,6 +112,7 @@ class UserPage extends React.Component {
                              actions={this.actions}
                              showPane={this.showFullScreenPane}
                              components={this.components}
+                             executeStoredSearch={this.executeStoredSearch}
                 />
             </div>
         )
@@ -112,7 +143,8 @@ function mapDispatchToProps(dispatch) {
         getUserResults: bindActionCreators(getUserResults, dispatch),
         deleteUserResults: bindActionCreators(deleteUserResults, dispatch),
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
-        deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch)
+        deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
+        loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch)
     }
 }
 

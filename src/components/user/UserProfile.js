@@ -20,6 +20,13 @@ const UserProfile = (props) => {
     const showFullScreenPane = (component, index) => {
         props.showPane(component, index);
     }
+
+    const executeStoredSearch = (component, index) => {
+        console.log("hi");
+        props.executeStoredSearch(component, index);
+    }
+
+
     //console.log("USERPROF PROPS", props);
     return(
         <div className="perfil-container">
@@ -45,7 +52,7 @@ const UserProfile = (props) => {
                                 <span className="saved-items-description">{e}</span>
                                 
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {showFullScreenPane(props.components.InputFieldsContainer, i)}}>Modificar</button>
-                                <button type="button" className="btn btn-primary pull-right">Ejecutar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {executeStoredSearch(props.components.SearchResults, i)}}>Ejecutar</button>
                                 <button type="button" className="btn btn-primary pull-right"onClick={ () => handleSearchDelete(i) } >Eliminar</button>
                             </li>
                     }) : <li className="list-group-item saved-items" key={"search-empty"}>

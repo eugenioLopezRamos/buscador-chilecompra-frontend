@@ -9,13 +9,15 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as utils from '../utils/authUtils';
 import UserDropdown from './user/UserDropdown';
+/* DO NOTE THAT THIS GETS HIDDEN BY AN ACTION DISPATCHED ON <APP /> WHEN CLICKING, SINCE OTHERWISE IT WOULD BE VERY CUMBERSOME TO DO */
 
 class CollapsibleNavBar extends React.Component {
     constructor(props) {
         super(props);
-    
+
     }
-    handleClick = () => {
+    handleClick = (event) => {
+        event.stopPropagation();
         this.props.displayActions.toggleNavbarDisplay();
     }
 

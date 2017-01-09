@@ -4,12 +4,10 @@ import {userDataFetcher} from '../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
-
+        
     }
         
     static sendLoginInfo(state) {
-
-
         let login_data = {
                             email: state.getState().loginData.email,
                             password: state.getState().loginData.password
@@ -91,8 +89,6 @@ class userApi {
         .catch(error => {return error});
     }
 
-
-
     static getResults() {
         return userDataFetcher("results", "get");
     }
@@ -102,45 +98,10 @@ class userApi {
     }
 
     static updateResults(results) {
-
-        // let headers = utils.setHeaders();
-        // let body = JSON.stringify(result);
-
-        // return fetch(`${process.env.API_HOST}/api/results/`, {
-        //     headers,
-        //     body,
-        //     method: "PUT"
-        // })
-        // .then(response => {
-        //     if(response.status >= 200 & response.status < 300) {
-        //         return response;
-        //     }else {
-        //         throw response.json()
-        //     }
-        // })
-        // .catch(error => {return error});
         return userDataFetcher("results", "PUT", results);
     }
 
-
-
     static deleteResults(results) {
-        // let headers = utils.setHeaders();
-        // let body = JSON.stringify(result);
-
-        // return fetch(`${process.env.API_HOST}/api/results/`, {
-        //     headers,
-        //     body,
-        //     method: "DELETE"
-        // })
-        // .then(response => {
-        //     if(response.status >= 200 & response.status < 300) {
-        //         return response;
-        //     }else {
-        //         throw response.json()
-        //     }
-        // })
-        // .catch(error => {return error});
         return userDataFetcher('results', "DELETE", results);
     }
 
@@ -159,8 +120,6 @@ class userApi {
     static deleteSearches(searches) {
         return userDataFetcher('searches', 'DELETE', searches);
     }
-
-
 
 }
 

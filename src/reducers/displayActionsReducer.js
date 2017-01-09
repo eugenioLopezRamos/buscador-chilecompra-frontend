@@ -7,6 +7,9 @@ export function showNavbarReducer(state = initialState.showNavbar, action) {
     switch(action.type) {
         case types.TOGGLE_VISIBILITY:
         return !state;
+        
+        case types.NAVBAR_OFF:
+            return false;
 
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
             return false;
