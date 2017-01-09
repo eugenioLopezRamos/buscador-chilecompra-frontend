@@ -5,10 +5,20 @@ import {bindActionCreators} from 'redux';
 import UserProfile from './UserProfile';
 import {getUserResults, deleteUserResults, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
+import FullScreenPane from '../FullScreenPane.jsx';
+import ModifySearchMenu from '../ModifySearchMenu.jsx';
+import InputFieldsContainer from '../InputFieldsContainer.jsx';
+
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
+        this.components = {
+            InputFieldsContainer: InputFieldsContainer,
+            ModifySearchMenu: ModifySearchMenu
+        }
+
+
         this.actions = {
                         getUserResults: props.getUserResults,
                         deleteUserResults: props.deleteUserResults,
@@ -16,6 +26,12 @@ class UserPage extends React.Component {
                         updateUserSearches: props.updateUserSearches,
                         deleteUserSearches: props.deleteUserSearches
                         }
+
+        this.state = {
+            showFullScreenPane: false,
+            FullScreenPaneComponent: null,
+            index: 0
+        }
     }
 
     componentDidMount = () => {
@@ -28,21 +44,44 @@ class UserPage extends React.Component {
         this.props.getUserResults();
     }
 
+    hideFullScreenPane = () => {
+        this.setState({showFullScreenPane: false});
+    }
+    showFullScreenPane = (component, index) => {
+        this.setState({showFullScreenPane: true, FullScreenPaneComponent: component, index})
+    }
      
     render = () => {
         if(this.props.user === null) {
             //probably set initialState of userData to empty fields and then use an onEnter handler in react-router to 
             // redirect the user to login if not logged in.
-            return null
+            return null;
         }
+
         return(
             <div className="jumbotron">
-                <Flash type={"info"} messages={this.props.messages} />
+
+                <FullScreenPane 
+                    show={this.state.showFullScreenPane} 
+                    component={this.state.FullScreenPaneComponent} 
+                    hide={this.hideFullScreenPane}
+                    menu={this.components.ModifySearchMenu}
+                    index={this.state.index}
+                    
+                />
+
+                <Flash 
+                    type={"info"} 
+                    messages={this.props.messages} 
+                />
+
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user} 
                              userResults={this.props.fetchedUserResults}
                              userSearches={this.props.fetchedUserSearches}
                              actions={this.actions}
+                             showPane={this.showFullScreenPane}
+                             components={this.components}
                 />
             </div>
         )

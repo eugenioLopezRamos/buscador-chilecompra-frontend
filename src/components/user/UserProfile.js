@@ -2,8 +2,6 @@ import React, {PropTypes} from 'react';
 
 const UserProfile = (props) => {
     
-
-    console.log("PROPS USPROF", props);
     let notificaciones = Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
                         let val = <li className="list-group-item no-show" key={"numero" + e}>{`notificacion ${e}`}</li>
                         return val;
@@ -19,10 +17,12 @@ const UserProfile = (props) => {
         props.actions.deleteUserResults(index);
     }
 
-
+    const showFullScreenPane = (component, index) => {
+        props.showPane(component, index);
+    }
+    //console.log("USERPROF PROPS", props);
     return(
         <div className="perfil-container">
-
             <div className="list-group perfil-notificaciones">
                 <span className="list-group-item">
                     Notificaciones
@@ -44,9 +44,9 @@ const UserProfile = (props) => {
                     return <li className="list-group-item saved-items" key={"search" + e}>
                                 <span className="saved-items-description">{e}</span>
                                 
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {alert(i)}}>Modificar búsqueda</button>
-                                <button type="button" className="btn btn-primary pull-right">Ejecutar búsqueda</button>
-                                <button type="button" className="btn btn-primary pull-right"onClick={ () => handleSearchDelete(i) } >Eliminar búsqueda</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showFullScreenPane(props.components.InputFieldsContainer, i)}}>Modificar</button>
+                                <button type="button" className="btn btn-primary pull-right">Ejecutar</button>
+                                <button type="button" className="btn btn-primary pull-right"onClick={ () => handleSearchDelete(i) } >Eliminar</button>
                             </li>
                     }) : <li className="list-group-item saved-items" key={"search-empty"}>
                             <span className="saved-items-description">No hay búsquedas guardadas</span>
@@ -61,8 +61,8 @@ const UserProfile = (props) => {
                     props.userResults && Object.keys(props.userResults).length > 0 ? Object.keys(props.userResults).map( (e, i) => {
                         return <li className="list-group-item saved-items" key={"results" + e}>
                                 <span className="saved-items-description">{e}</span>
-                                <button type="button" className="btn btn-primary pull-right">Mostrar resultado</button>
-                                <button type="button" className="btn btn-primary pull-right" onClick={()=> {handleResultsDelete(i)}}>Eliminar resultado</button>
+                                <button type="button" className="btn btn-primary pull-right">Mostrar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={()=> {handleResultsDelete(i)}}>Eliminar</button>
                                </li>
                     }) :  <li className="list-group-item saved-items" key={"results-empty"}>
                             <span className="saved-items-description">No hay resultados guardados</span>

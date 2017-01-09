@@ -13,61 +13,62 @@ import SearchField from './inputs/SearchField.jsx';
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.getAppropiateInputFields = this.getAppropiateInputFields.bind(this);
+        //this.getAppropiateInputFields = this.getAppropiateInputFields.bind(this);
+        //this.defaults = props.defaults;
     }
 
-    getAppropiateInputFields = () => {
+    // getAppropiateInputFields = () => {
          
-        switch(this.props.searchType){
-            case "listado":
-                return (
-                        <div>
-                            <label>Estado de la licitación (código estado)</label>
-                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
+    //     switch(this.props.searchType){
+    //         case "listado":
+    //             return (
+    //                     <div>
+    //                         <label>Estado de la licitación (código estado)</label>
+    //                             <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
 
-                            <label>Según comprador (código organismo público)</label>
-                                <AutoFillerInput 
-                                    organismosPublicos={this.props.organismosPublicos}
-                                    organismosPublicosFilter={this.props.organismosPublicosFilter}
-                                    organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
-                                    selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
-                                    onSelectionChange={this.props.actions.pickOrganismoPublico}
-                                    onInputChange={this.props.actions.autoFillerInputChange}
-                                />
-                        </div>
-                        );
+    //                         <label>Según comprador (código organismo público)</label>
+    //                             <AutoFillerInput 
+    //                                 organismosPublicos={this.props.organismosPublicos}
+    //                                 organismosPublicosFilter={this.props.organismosPublicosFilter}
+    //                                 organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
+    //                                 selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
+    //                                 onSelectionChange={this.props.actions.pickOrganismoPublico}
+    //                                 onInputChange={this.props.actions.autoFillerInputChange}
+    //                             />
+    //                     </div>
+    //                     );
 
-            case "proveedor":
-                return (    
-                            <div>
-                                <label>Según RUT proveedor</label>
-                                <input
-                                    className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                                    key="rut-proveedor" 
-                                    placeholder="Ejemplo: 1.111.111-1"
-                                    defaultValue={this.props.rutProveedor} 
-                                    onChange={this.props.actions.RUTInput}/>
-                            </div>
-                )
+    //         case "proveedor":
+    //             return (    
+    //                         <div>
+    //                             <label>Según RUT proveedor</label>
+    //                             <input
+    //                                 className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+    //                                 key="rut-proveedor" 
+    //                                 placeholder="Ejemplo: 1.111.111-1"
+    //                                 defaultValue={this.props.rutProveedor} 
+    //                                 onChange={this.props.actions.RUTInput}/>
+    //                         </div>
+    //             )
 
-            case "codigo":
-                return (
-                        <div>
-                            <label>Código de licitación</label>
-                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                                key="cod-licitacion" 
-                                placeholder="Buscar por código de licitación"
-                                defaultValue={this.props.codigoLicitacion} 
-                                onChange={this.props.actions.codigoLicitacionInputChange}
-                            />
-                        </div>
-                )
+    //         case "codigo":
+    //             return (
+    //                     <div>
+    //                         <label>Código de licitación</label>
+    //                         <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+    //                             key="cod-licitacion" 
+    //                             placeholder="Buscar por código de licitación"
+    //                             defaultValue={this.props.codigoLicitacion} 
+    //                             onChange={this.props.actions.codigoLicitacionInputChange}
+    //                         />
+    //                     </div>
+    //             )
                 
-            default:
-                return null;
+    //         default:
+    //             return null;
                 
-        }
-    }
+    //     }
+    // }
 
     render = () => {
 
@@ -94,9 +95,7 @@ class InputFieldsContainer extends React.PureComponent {
                                     onSelectionChange={this.props.actions.pickOrganismoPublico}
                                     onInputChange={this.props.actions.autoFillerInputChange}
                                 />
-                    
-
-                      
+                                
                             <label>Según RUT proveedor</label>
                             <input
                                 className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
@@ -111,7 +110,7 @@ class InputFieldsContainer extends React.PureComponent {
                             <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="cod-licitacion" 
                                 placeholder="Buscar por código de licitación"
-                                defaultValue={this.props.codigoLicitacion} 
+                                defaultValue={this.props.codigoLicitacion}
                                 onChange={this.props.actions.codigoLicitacionInputChange}
                             />
                         
@@ -167,11 +166,4 @@ function mapDispatchToProps(dispatch) {
   };
 };
 
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
-
-
-                        // <div className="col-xs-12 no-gutter">
-                        //     <SearchResults results={this.props.searchResults} estadosLicitacion={this.props.estadosLicitacion}/>
-                        // </div>

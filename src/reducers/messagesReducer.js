@@ -52,13 +52,9 @@ const messagesReducer = (state = initialState.messages, action) => {
             return objectAssign({}, state, {info, errors}); 
 
         case types.USER_DELETE_RESULTS_SUCCESS:
-                 console.log("actionRED", action)
-            console.log("info msgRED", info, "errors", errors)
             return objectAssign({}, state, {info, errors});
 
         case types.USER_DELETE_RESULTS_FAILURE:
-            console.log("actionRED", action)
-            console.log("info msgRED", info, "errors", errors)
             return objectAssign({}, state, {info, errors});    
 
             //SEARCHES
