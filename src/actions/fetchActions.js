@@ -20,17 +20,7 @@ export const loadChilecompraData = () => {
 };
 
 export const shortLoadChilecompraData = (data) => {
-    console.log("DATAAAA", data);
-    console.log("moment", moment(data.date));
-    let mom = moment;
-
-    //debugger;
-    let modifiedData = data;
-
-    //  let artificialState = {};
-    //  artificialState["inputFieldValues"] = data;
       return function(dispatch) {
-    //      console.log("dataaaa2", artificialState);
         return fetchApi.shortGetChileCompraData(modifiedData);
     };  
 }

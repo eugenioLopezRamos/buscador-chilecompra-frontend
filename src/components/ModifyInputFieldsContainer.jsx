@@ -28,10 +28,12 @@ class ModifyInputFieldsContainer extends React.PureComponent {
         }
         //These actions are used directly as imported, as they do not need to be dispatched to the redux store (since they're independent from the rest of the app)
         // the only one that goes through redux is saveModifications, which will go through the whole redux process 
+        
+        //TODO: export these to a module? its a lot of code
         this.actions = {
             setDate: (value) => {this.setState({date: actions.dateFieldSelect(value).value}, console.log("nuevo date", this.state.date)) }, //sets date
             pickOrganismoPublico: (event) => { this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico(event).value}) }, //when <select>'ing the org publico
-            autoFillerInputChange: (event) => { let result = actions.autoFillerInputChange(event.target.value);
+            autoFillerInputChange: (organismosPublicos, value) => { let result = actions.autoFillerInputChange(organismosPublicos, value);
                                                 this.setState({
                                                   organismosPublicosFilter: result.value,
                                                   selectedOrganismoPublico: result.defaultSelectedValue,
@@ -50,7 +52,6 @@ class ModifyInputFieldsContainer extends React.PureComponent {
         }
 
         this.updateSearch = () => {
-            console.log("hi", this.state);
             props.updateSearch(this.state, props.searchId, props.searchName);
         }
 

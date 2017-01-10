@@ -14,7 +14,8 @@ export const userSearchesReducer = (state = initialState.userSearches, action) =
             return objectAssign({}, newState, initialState.userSearches);
 
         case types.USER_UPDATE_SEARCHES_SUCCESS:
-            return objectAssign({}, newState, {fetched: action.value});
+
+            return objectAssign({}, newState, {fetched: action.value.searches});
 
         case types.USER_UPDATE_SEARCHES_FAILURE:
             return objectAssign({}, newState);

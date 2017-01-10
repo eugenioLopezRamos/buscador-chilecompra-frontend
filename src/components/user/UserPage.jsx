@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
 import {getUserResults, deleteUserResults, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
+import {noReduxGetStoredUserResults} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import ModifySearchMenu from '../ModifySearchMenu.jsx';
@@ -40,6 +41,7 @@ class UserPage extends React.Component {
 
         this.actions = {
                         getUserResults: props.getUserResults,
+                        noReduxGetStoredUserResults,
                         deleteUserResults: props.deleteUserResults,
                         getUserSearches: props.getUserSearches,
                         updateUserSearches: props.updateUserSearches,
@@ -69,7 +71,7 @@ class UserPage extends React.Component {
         this.setState({showFullScreenPane: false});
     }
 
-    showFullScreenPane = (component, index) => {
+    showStoredSearch = (component, index) => {
        // console.log("defaults", this.props.fetchedUserResults);
        // console.log("correct", this.props.fetchedUserSearches.value[index]);
         let searchId = this.props.fetchedUserSearches.id[index];
@@ -114,6 +116,21 @@ class UserPage extends React.Component {
                                 });
     }
 
+    showStoredResult = (component, index) => {
+
+        let name = Object.keys(this.props.fetchedUserResults)[index];
+        this.actions.noReduxGetStoredUserResults(name)
+            .then(response => {
+                    this.setState({
+                        showFullScreenPane:true,
+                        FullScreenPaneComponent: component,
+                        componentProps: {results: response},
+                        menu: this.getMenu(component)
+                    })
+                })
+            .catch(error => {alert(error)})
+    }
+
 
     render = () => {
         if(this.props.user === null) {
@@ -145,9 +162,10 @@ class UserPage extends React.Component {
                              userResults={this.props.fetchedUserResults}
                              userSearches={this.props.fetchedUserSearches}
                              actions={this.actions}
-                             showPane={this.showFullScreenPane}
-                             components={this.components}
+                             showStoredSearch={this.showStoredSearch}
                              executeStoredSearch={this.executeStoredSearch}
+                             components={this.components}
+                             showStoredResult={this.showStoredResult}
                 />
             </div>
         )

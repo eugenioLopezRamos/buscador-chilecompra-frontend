@@ -79,8 +79,6 @@ class fetchApi {
 
 
     static shortGetChileCompraData(state) {
-        console.log("estado", state);
-
 
         let queryFields = [
             `estadoLicitacion=${state.selectedEstadoLicitacion}`,
@@ -94,7 +92,7 @@ class fetchApi {
         let query = queryFields.join("&");
 
 
-        return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
+        return fetch(`${process.env.API_HOST}/api/user_results?${query}`,
         {headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
@@ -102,32 +100,7 @@ class fetchApi {
         )
             .then(response => response.json() )
             .catch(error => {return error }) 
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-    // static get_info(state) {
-
-
-    //     return fetch(`${process.env.API_HOST}/api/get_info`)
-    //         .then(response => response.json())
-    //         .catch(error => {return error})
-    // }
-
-
-    
+    }   
     
 }
 

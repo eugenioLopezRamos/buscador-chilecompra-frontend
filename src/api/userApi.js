@@ -93,6 +93,10 @@ class userApi {
         return userDataFetcher("results", "get");
     }
 
+    static getStoredResults(name) {
+        console.log("getstored", name);
+        return userDataFetcher(`user_results?name=${name}`, "get")
+    }
     static createResults(results) {
         return userDataFetcher("results", "POST", results);
     }
@@ -120,6 +124,10 @@ class userApi {
     static deleteSearches(searches) {
         return userDataFetcher('searches', 'DELETE', searches);
     }
+
+
+
+
 
 }
 

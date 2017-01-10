@@ -67,7 +67,7 @@ export const modifyUserProfileDataInputPasswordConfirmation = (value) => {
 }
 
 // CRUD RESULTS
-    //GET RESULTS
+    //GET A LIST OF STORED RESULTS (JUST IDs)
 export const getUserResultsSuccess = (value) => {
     return {type: types.USER_GET_RESULTS_SUCCESS, value}
 };
@@ -88,6 +88,39 @@ export const getUserResults = () => {
                             });
     }
 };
+
+
+    //GET THE DETAIL OF ONE OF THE IDs
+export const getStoredResultsSuccess = (value) => {
+    return {type: types.USER_GET_STORED_RESULTS_SUCCESS, value}
+};
+
+export const getStoredResultsFailure = (value) => {
+    return {type: types.USER_GET_STORED_RESULTS_FAILURE, value}
+};
+
+export const getStoredUserResults = (resultName) => {
+
+    return function(dispatch) {
+        return userAPI.getStoredResults(resultName)
+    }.then(response => {
+                        dispatch(getStoredResultsSuccess(response)
+                        )}
+        )
+     .catch(error => {
+                        dispatch(getStoredResultsFailure(error)
+                        )}
+            )
+}
+    //used on the user's profile, no need to pass through redux since its
+    //merely presentational and irrelevant to the rest of the app
+export const noReduxGetStoredUserResults = (resultName) => {
+
+   // return (dispatch) => {
+   //     console.log("resultname2", resultName);
+        return userAPI.getStoredResults(resultName)
+    //}
+}
 
     //CREATE RESULTS (POST)
 export const createUserResultsSuccess = (value) => {

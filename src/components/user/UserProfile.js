@@ -17,12 +17,16 @@ const UserProfile = (props) => {
         props.actions.deleteUserResults(index);
     }
 
-    const showFullScreenPane = (component, index) => {
-        props.showPane(component, index);
+    const showStoredSearch = (component, index) => {
+        props.showStoredSearch(component, index);
     }
 
     const executeStoredSearch = (component, index) => {
         props.executeStoredSearch(component, index);
+    }
+
+    const showStoredResult = (component, index) => {
+        props.showStoredResult(component, index);
     }
 
 
@@ -50,7 +54,7 @@ const UserProfile = (props) => {
                     return <li className="list-group-item saved-items" key={"search" + e}>
                                 <span className="saved-items-description">{e}</span>
                                 
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showFullScreenPane(props.components.ModifyInputFieldsContainer, i)}}>Modificar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredSearch(props.components.ModifyInputFieldsContainer, i)}}>Modificar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {executeStoredSearch(props.components.SearchResults, i)}}>Ejecutar</button>
                                 <button type="button" className="btn btn-primary pull-right"onClick={ () => handleSearchDelete(i) } >Eliminar</button>
                             </li>
@@ -67,8 +71,8 @@ const UserProfile = (props) => {
                     props.userResults && Object.keys(props.userResults).length > 0 ? Object.keys(props.userResults).map( (e, i) => {
                         return <li className="list-group-item saved-items" key={"results" + e}>
                                 <span className="saved-items-description">{e}</span>
-                                <button type="button" className="btn btn-primary pull-right">Mostrar</button>
-                                <button type="button" className="btn btn-primary pull-right" onClick={()=> {handleResultsDelete(i)}}>Eliminar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredResult(props.components.SearchResults, i) }}>Mostrar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleResultsDelete(i)}}>Eliminar</button>
                                </li>
                     }) :  <li className="list-group-item saved-items" key={"results-empty"}>
                             <span className="saved-items-description">No hay resultados guardados</span>
