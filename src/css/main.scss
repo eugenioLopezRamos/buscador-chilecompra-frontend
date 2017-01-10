@@ -309,13 +309,6 @@ select {
     display:flex;
 }
 
-// .prompt-background > div {
- 
-//     border: 3px solid #bce8f1;
-//     border-radius: 10px;
-//     max-height: 90%;
-// }
-
 .prompt-background-container {
     margin: 5% auto;
     background-color: #eee;
@@ -324,7 +317,7 @@ select {
     //max-height: 90%;
     height:auto;
     max-width:100%;
-    overflow-y:scroll;
+    overflow:auto;
 
     & > div:first-of-type {
         width:100% !important;
@@ -333,6 +326,7 @@ select {
     }
     .prompt-buttons-container {
         display:flex;
+        padding: 5px;
         button {
             display:flex;
             margin:auto;

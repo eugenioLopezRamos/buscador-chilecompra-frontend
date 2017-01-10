@@ -112,7 +112,7 @@ class userApi {
     static createSearches(searches) {
         return userDataFetcher('searches', 'POST', searches);
     }
-
+    
     static updateSearches(searches) {
         return userDataFetcher('searches', 'PUT', searches);
     }

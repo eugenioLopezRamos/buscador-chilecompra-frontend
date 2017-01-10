@@ -29,22 +29,29 @@ class ModifyInputFieldsContainer extends React.PureComponent {
         //These actions are used directly as imported, as they do not need to be dispatched to the redux store (since they're independent from the rest of the app)
         // the only one that goes through redux is saveModifications, which will go through the whole redux process 
         this.actions = {
-            //setDate: () => {this.setState({date: actions.dateFieldSelect.value}) }, //sets date
-            pickOrganismoPublico: () => { this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico.value}) }, //when <select>'ing the org publico
-            autoFillerInputChange: () => {this.setState({
-                                                  organismosPublicosFilter: actions.autoFillerInputChange.value,
-                                                  selectedOrganismoPublico: actions.autoFillerInputChange.defaultSelectedValue,
-                                                  organismosPublicosFilteredSubset: actions.autoFillerInputChange.selectionResult
-                                            })}, //when typing the name of the org publico in the input
-            RUTInput: () => {this.setState({rutProveedor: actions.RUTInput.value})}, // typing the RUT...
-            codigoLicitacionInputChange: () => {this.setState({codigoLicitacion: actions.codigoLicitacionInputChange.value}) }, //typing the codigoLicitacion
-            searchFieldInput: () => {this.setState({palabrasClave: actions.palabrasClave.value})}, //typing the palabrasClave
-            saveModifications: () => {this.setState({})},//save modifications
+            setDate: (value) => {this.setState({date: actions.dateFieldSelect(value).value}, console.log("nuevo date", this.state.date)) }, //sets date
+            pickOrganismoPublico: (event) => { this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico(event).value}) }, //when <select>'ing the org publico
+            autoFillerInputChange: (event) => { let result = actions.autoFillerInputChange(event.target.value);
+                                                this.setState({
+                                                  organismosPublicosFilter: result.value,
+                                                  selectedOrganismoPublico: result.defaultSelectedValue,
+                                                  organismosPublicosFilteredSubset: result.selectionResult
+                                                })
+                                        }, //when typing the name of the org publico in the input
+            RUTInput: (event) => {this.setState({rutProveedor: actions.RUTInput(event).value})}, // typing the RUT...
+            codigoLicitacionInputChange: (event) => {this.setState({codigoLicitacion: actions.selectionFieldSelect(event).value}) }, //typing the codigoLicitacion
+            searchFieldInput: (event) => {this.setState({palabrasClave: actions.searchFieldInput(event).value})} //typing the palabrasClave
+        //    saveModifications: () => {this.setState({})},//save modifications
         }
 
         this.getFilteredOrganismosPublicos = () => {
             let organismosPublicos = actions.autoFillerInputChange(props.organismosPublicos, this.state.organismosPublicosFilter);
             return organismosPublicos.selectionResults;
+        }
+
+        this.updateSearch = () => {
+            console.log("hi", this.state);
+            props.updateSearch(this.state, props.searchId, props.searchName);
         }
 
     }
@@ -58,7 +65,7 @@ class ModifyInputFieldsContainer extends React.PureComponent {
 
                         <DatePicker
                             startDate={moment(this.state.date)} 
-                            setDate={this.actions.dateFieldSelect}
+                            setDate={this.actions.setDate}
                         />
                         <label>Estado de la licitación (código estado)</label>
                             <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.actions.selectionFieldSelect} />
@@ -68,9 +75,8 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                                 organismosPublicos={this.props.organismosPublicos}
                                 organismosPublicosFilter={this.props.organismosPublicosFilter}
                                 organismosPublicosFilteredSubset={this.getFilteredOrganismosPublicos()}
-                                selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
+                                selectedOrganismoPublico={this.state.selectedOrganismoPublico} 
 
-                                //modify these
                                 onSelectionChange={this.actions.pickOrganismoPublico}
                                 onInputChange={this.actions.autoFillerInputChange}
                             />
@@ -101,6 +107,11 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                                 onChange={this.actions.searchFieldInput} 
                                 onSubmit={this.actions.saveModifications} 
                             />
+
+                        <div className="prompt-buttons-container">
+                            <button type="button" className="btn btn-primary prompt-menu-button" onClick={this.updateSearch} >Guardar cambios</button>
+                        </div>
+
                     </div>        
         );
    }

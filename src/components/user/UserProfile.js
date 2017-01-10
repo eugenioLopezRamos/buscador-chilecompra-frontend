@@ -22,7 +22,6 @@ const UserProfile = (props) => {
     }
 
     const executeStoredSearch = (component, index) => {
-        console.log("hi");
         props.executeStoredSearch(component, index);
     }
 

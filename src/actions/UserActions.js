@@ -214,18 +214,22 @@ export const createUserSearches = (name) => {
 
     // UPDATE SEARCHES (PUT)
 export const updateUserSearchesSuccess = (value) => {
-    return {type: types.USER_UPDATE_RESULTS_SUCCESS, value};
+    return {type: types.USER_UPDATE_SEARCHES_SUCCESS, value};
 }
 
 export const updateUserSearchesFailure = (value) => {
-    return {type: types.USER_UPDATE_RESULTS_FAILURE, value};
+    return {type: types.USER_UPDATE_SEARCHES_FAILURE, value};
 }
 
-export const updateUserSearches = () => {
-
+export const updateUserSearches = (newValues, searchId, searchName) => {
+           // props.updateSearch(this.state, props.searchId, props.searchName);
     return (dispatch, getState) => {
-        let searches = {getState}.getState().userSearches.update;
-        userAPI.updateSearches(searches).then(response => {
+        let search = {
+            newValues,
+            searchId,
+            searchName
+        }
+        userAPI.updateSearches({search}).then(response => {
                                     dispatch(updateUserSearchesSuccess(response));
                                 })
                             .catch(error => {

@@ -1,5 +1,9 @@
 import * as types from './actionTypes';
 
+//TODO: Need to make the (value) or (event) value more consistent
+// eg autoFillerInput is (value) => {type: ...., value}
+// whereas RUTInput is (event) => {type: ..., value: event.target.value} <- inconsistent
+
 export const autoFillerInput = (value) => {
 
     return {type: types.AUTOFILLER_INPUT, value};

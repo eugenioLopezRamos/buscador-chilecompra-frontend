@@ -31,7 +31,7 @@ class UserPage extends React.Component {
                 case this.components.SearchResults:
                     return null;
                 case this.components.ModifyInputFieldsContainer:
-                    return this.components.ModifySearchMenu
+                    return null;
                 default:
                     return null;
 
@@ -70,16 +70,23 @@ class UserPage extends React.Component {
     }
 
     showFullScreenPane = (component, index) => {
-        console.log("defaults", this.props.fetchedUserResults);
-        console.log("correct", this.props.fetchedUserSearches.value[index]);
+       // console.log("defaults", this.props.fetchedUserResults);
+       // console.log("correct", this.props.fetchedUserSearches.value[index]);
+        let searchId = this.props.fetchedUserSearches.id[index];
+        let searchName = this.props.fetchedUserSearches.name[index];
+        
 
         this.setState({
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
                         componentProps: {
-                            defaults: this.props.fetchedUserSearches.value[index]
+                            defaults: this.props.fetchedUserSearches.value[index],
+                            searchId,
+                            searchName,
+                            updateSearch: this.props.updateUserSearches
                         },
-                        menu: this.getMenu(component)
+                        menu: this.getMenu(component),
+                     //   menuProps: {actions: this.updateSearches()}
                     })
     }
     
@@ -93,7 +100,7 @@ class UserPage extends React.Component {
                         });
 
         let data = Object.assign({}, this.props.fetchedUserSearches.value[index]);
-
+    
         data.date = Date.parse(data.date);
 
         this.props.loadChilecompraData(data)
@@ -101,8 +108,8 @@ class UserPage extends React.Component {
                                 this.setState({
                                                 showFullScreenPane: true, 
                                                 FullScreenPaneComponent: component, 
-                                                menu: this.getMenu(component),
-                                                componentProps: {results: response }
+                                                componentProps: {results: response },
+                                                menu: this.getMenu(component)
                                             });
                                 });
     }
@@ -171,6 +178,7 @@ function mapDispatchToProps(dispatch) {
         getUserResults: bindActionCreators(getUserResults, dispatch),
         deleteUserResults: bindActionCreators(deleteUserResults, dispatch),
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
+        updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
         loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch)
     }
