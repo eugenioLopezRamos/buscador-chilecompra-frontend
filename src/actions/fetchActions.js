@@ -21,6 +21,6 @@ export const loadChilecompraData = () => {
 
 export const shortLoadChilecompraData = (data) => {
       return function(dispatch) {
-        return fetchApi.shortGetChileCompraData(modifiedData);
+        return fetchApi.shortGetChileCompraData(data);
     };  
 }

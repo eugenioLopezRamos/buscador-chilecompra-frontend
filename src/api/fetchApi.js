@@ -92,7 +92,7 @@ class fetchApi {
         let query = queryFields.join("&");
 
 
-        return fetch(`${process.env.API_HOST}/api/user_results?${query}`,
+        return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
         {headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
