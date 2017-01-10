@@ -1,23 +1,25 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/InputFieldActions';
-import * as API from '../actions/fetchActions';
-import * as displayActions from '../actions/DisplayActions';
+//import * as API from '../actions/fetchActions';
+//import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
-import SearchResults from './SearchResults.jsx';
+//import SearchResults from './SearchResults.jsx';
 import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
+import moment from 'moment';
 
 class ModifyInputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
+        console.log("Porps modify", props);
 
         this.state = {
 
             date: props.defaults.date,
-            rutProveedor: props.default.rutProveedor,
+            rutProveedor: props.defaults.rutProveedor,
             palabrasClave: props.defaults.palabrasClave,
             codigoLicitacion: props.defaults.codigoLicitacion,
             organismosPublicosFilter: props.defaults.organismosPublicosFilter,
@@ -25,51 +27,53 @@ class ModifyInputFieldsContainer extends React.PureComponent {
             selectedOrganismoPublico: props.defaults.selectedOrganismoPublico
 
         }
-
+        //These actions are used directly as imported, as they do not need to be dispatched to the redux store (since they're independent from the rest of the app)
+        // the only one that goes through redux is saveModifications, which will go through the whole redux process 
         this.actions = {
-            setDate: this.setState({date: actions.dateFieldSelect.value}), //sets date
-            pickOrganismoPublico: this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico.value}), //when <select>'ing the org publico
-            autoFillerInputChange: this.setState({}), //when typing the name of the org publico in the input
-            RUTInput: this.setState({rutProveedor: actions.RUTInput.value}), // typing the RUT...
-            codigoLicitacionInputChange: this.setState({codigoLicitacion: actions.codigoLicitacionInputChange.value}) , //typing the codigoLicitacion
-            searchFieldInput: this.setState({palabrasClave: actions.palabrasClave.value}), //typing the palabrasClave
-            saveModifications: this.setState({}),//save modifications
+            //setDate: () => {this.setState({date: actions.dateFieldSelect.value}) }, //sets date
+            pickOrganismoPublico: () => { this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico.value}) }, //when <select>'ing the org publico
+            autoFillerInputChange: () => {this.setState({
+                                                  organismosPublicosFilter: actions.autoFillerInputChange.value,
+                                                  selectedOrganismoPublico: actions.autoFillerInputChange.defaultSelectedValue,
+                                                  organismosPublicosFilteredSubset: actions.autoFillerInputChange.selectionResult
+                                            })}, //when typing the name of the org publico in the input
+            RUTInput: () => {this.setState({rutProveedor: actions.RUTInput.value})}, // typing the RUT...
+            codigoLicitacionInputChange: () => {this.setState({codigoLicitacion: actions.codigoLicitacionInputChange.value}) }, //typing the codigoLicitacion
+            searchFieldInput: () => {this.setState({palabrasClave: actions.palabrasClave.value})}, //typing the palabrasClave
+            saveModifications: () => {this.setState({})},//save modifications
         }
 
-            // setDate={this.props.actions.dateFieldSelect}
-            // onSelectionChange={this.props.actions.pickOrganismoPublico}
-            // onInputChange={this.props.actions.autoFillerInputChange}
-            // onChange={this.props.actions.RUTInput}
-            // onChange={this.props.actions.codigoLicitacionInputChange}
-            // onChange={this.props.actions.searchFieldInput} 
-            // onSubmit={this.props.API.loadChilecompraData} 
+        this.getFilteredOrganismosPublicos = () => {
+            let organismosPublicos = actions.autoFillerInputChange(props.organismosPublicos, this.state.organismosPublicosFilter);
+            return organismosPublicos.selectionResults;
+        }
 
     }
     render = () => {
 
         return (    
                 
-                    <div className="container inputfields jumbotron"  style={{"min-height": document.documentElement.clientHeight}}> 
+                    <div className="container inputfields jumbotron"  style={{"minHeight": 0.5 * document.documentElement.clientHeight}}> 
  
                         <label>Selecciona una fecha (vacio=todas)</label>
-                        <DatePicker
-                            startDate={this.state.date} 
-                            setDate={this.actions.setDate}
-                        />
 
+                        <DatePicker
+                            startDate={moment(this.state.date)} 
+                            setDate={this.actions.dateFieldSelect}
+                        />
                         <label>Estado de la licitación (código estado)</label>
-                            <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
+                            <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.actions.selectionFieldSelect} />
 
                         <label>Según comprador (código organismo público)</label>
                             <AutoFillerInput 
                                 organismosPublicos={this.props.organismosPublicos}
                                 organismosPublicosFilter={this.props.organismosPublicosFilter}
-                                organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
+                                organismosPublicosFilteredSubset={this.getFilteredOrganismosPublicos()}
                                 selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
 
                                 //modify these
-                                onSelectionChange={this.props.actions.pickOrganismoPublico}
-                                onInputChange={this.props.actions.autoFillerInputChange}
+                                onSelectionChange={this.actions.pickOrganismoPublico}
+                                onInputChange={this.actions.autoFillerInputChange}
                             />
 
                         <label>Según RUT proveedor</label>
@@ -78,7 +82,7 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                             key="rut-proveedor" 
                             placeholder="Ejemplo: 1.111.111-1"
                             defaultValue={this.state.rutProveedor} 
-                            onChange={this.props.actions.RUTInput}
+                            onChange={this.actions.RUTInput}
                         />
                     
                         <label>Código de licitación</label>
@@ -88,55 +92,50 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                             defaultValue={this.state.codigoLicitacion}
 
 
-                            onChange={this.props.actions.codigoLicitacionInputChange}
+                            onChange={this.actions.codigoLicitacionInputChange}
                         />
                         
                         
                         <label>Según palabras clave</label>
                             <SearchField 
                                 value={this.state.palabrasClave} 
-                                onChange={this.props.actions.searchFieldInput} 
-                                onSubmit={this.props.API.loadChilecompraData} 
+                                onChange={this.actions.searchFieldInput} 
+                                onSubmit={this.actions.saveModifications} 
                             />
-
-                            <div className="col-xs-12 no-gutter">
-                                <SearchResults results={this.props.results}/>
-                            </div>
-                        
                     </div>        
         );
    }
 }
 
-InputFieldsContainer.propTypes = {
+ModifyInputFieldsContainer.propTypes = {
 
-    searchResults: PropTypes.array,
+   // searchResults: PropTypes.array,
     organismosPublicos: PropTypes.array.isRequired,
     estadosLicitacion: PropTypes.object.isRequired,
-    organismosPublicosFilter: PropTypes.string.isRequired,
-    organismosPublicosFilteredSubset: PropTypes.array.isRequired,
-    selectedOrganismoPublico: PropTypes.string.isRequired,
+   // organismosPublicosFilter: PropTypes.string.isRequired,
+   // organismosPublicosFilteredSubset: PropTypes.array.isRequired,
+  //  selectedOrganismoPublico: PropTypes.string.isRequired,
   //  date: PropTypes.object.isRequired,
-    searchType: PropTypes.string.isRequired,
-    rutProveedor: PropTypes.string.isRequired,
-    codigoLicitacion: PropTypes.string.isRequired
+  //  searchType: PropTypes.string.isRequired,
+  //  rutProveedor: PropTypes.string.isRequired,
+  //  codigoLicitacion: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
 
     return {
-        searchResults: state.searchResults,
+       // searchResults: state.searchResults,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
-        organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
-        organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
-        selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
+    //    organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
+    //    organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
+    //    selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
        // date: state.inputFieldValues.date,
        // searchType: state.searchType,
        // rutProveedor: state.inputFieldValues.rutProveedor,
        // palabrasClave: state.inputFieldValues.palabrasClave,
        // codigoLicitacion: state.inputFieldValues.codigoLicitacion,
-        results: state.searchResults
+     //   results: state.searchResults
     };
 };
 

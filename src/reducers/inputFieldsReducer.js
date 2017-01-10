@@ -29,28 +29,9 @@ export default function InputFieldsReducer(state = initialState.inputFieldValues
             return objectAssign({}, state, { codigoLicitacion: action.value })
         
         case types.AUTOFILLER_INPUT_CHANGE:
-
-            // let selectionResults = [];
-            // let defaultSelectedValue = "";
-            // let testRegex = new RegExp(action.value.toLowerCase());
-            // selectionResults = action.organismosPublicos.filter((e, i) => {
-
-            //     let key = Object.keys(e)[0]; // O sea que en el objeto {"1337": "Ministerio del interior"}, key === "1337"
-
-            //     if(testRegex.test(e[key].toLowerCase())) {
-            //         return e[key]; // Y aqui retorna el nombre ("Ministerio del interior")
-            //     }
-            // })
-
-
-            // if(selectionResults[0]) {
-            //     defaultSelectedValue = Object.keys(selectionResults[0])[0];
-            // }
-            console.log("reducer values", action);
-            return objectAssign({}, 
-                                state, { organismosPublicosFilter: action.value, 
-                                         selectedOrganismoPublico: action.defaultSelectedValue,
-                                         organismosPublicosFilteredSubset: action.selectionResults});
+            return objectAssign({}, state, { organismosPublicosFilter: action.value, 
+                                             selectedOrganismoPublico: action.defaultSelectedValue,
+                                             organismosPublicosFilteredSubset: action.selectionResults});
 
         case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:
             return objectAssign({}, state, {organismosPublicosFilter: ""}, {organismosPublicosFilteredSubset: action.value});

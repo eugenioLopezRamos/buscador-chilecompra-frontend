@@ -7,7 +7,7 @@ import {getUserResults, deleteUserResults, getUserSearches, updateUserSearches, 
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import ModifySearchMenu from '../ModifySearchMenu.jsx';
-import InputFieldsContainer from '../InputFieldsContainer.jsx';
+import ModifyInputFieldsContainer from '../ModifyInputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
 
@@ -17,7 +17,7 @@ class UserPage extends React.Component {
         super(props);
 
         this.components = {
-            InputFieldsContainer: InputFieldsContainer,
+            ModifyInputFieldsContainer: ModifyInputFieldsContainer,
             ModifySearchMenu: ModifySearchMenu,
             SearchResults: SearchResults
         }
@@ -55,7 +55,15 @@ class UserPage extends React.Component {
     }
 
     showFullScreenPane = (component, index) => {
-        this.setState({showFullScreenPane: true, FullScreenPaneComponent: component})
+        console.log("defaults", this.props.fetchedUserResults);
+        console.log("correct", this.props.fetchedUserSearches.value[index]);
+        this.setState({
+                        showFullScreenPane: true, 
+                        FullScreenPaneComponent: component,
+                        componentProps: {
+                            defaults: this.props.fetchedUserSearches.value[index]
+                        }   
+                    })
     }
     
     executeStoredSearch = (component, index) => {
@@ -88,7 +96,7 @@ class UserPage extends React.Component {
         }
 
         return(
-            <div className="jumbotron" style={{"min-height": document.documentElement.clientHeight}}>
+            <div className="jumbotron" style={{"minHeight": document.documentElement.clientHeight}}>
 
                 <FullScreenPane 
                     show={this.state.showFullScreenPane} 

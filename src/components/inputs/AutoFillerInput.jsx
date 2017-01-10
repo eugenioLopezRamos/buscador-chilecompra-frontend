@@ -2,7 +2,6 @@ import React from 'react';
 
 const AutoFillerInput = (props) => {
 
-
     const handleSelectionChange = (event) => {
         props.onSelectionChange(event);
     }

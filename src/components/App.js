@@ -9,17 +9,18 @@ import * as types from '../actions/actionTypes';
 const App = ({ children}, {store}) => {
 
     const hideNavbar = () => {
-        store.dispatch({type: types.NAVBAR_OFF})
+        let navbar = store.getState().showNavbar;
+        if(navbar) {
+            store.dispatch({type: types.NAVBAR_OFF});
+        }
     }
-
    return( 
-            <div style={{"background-color": "#eee", "min-height": "50vmax"} } onClick={hideNavbar}>
+            <div style={{"backgroundColor": "#eee", "minHeight": "50vmax"} } onClick={hideNavbar}>
                 <Header />
                     {children}
                 <Footer />
             </div>
    )
-
 }
    
 
