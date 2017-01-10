@@ -14,7 +14,6 @@ import moment from 'moment';
 class ModifyInputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-        console.log("Porps modify", props);
 
         this.state = {
 

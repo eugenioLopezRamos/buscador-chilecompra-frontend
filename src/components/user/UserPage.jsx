@@ -17,11 +17,26 @@ class UserPage extends React.Component {
         super(props);
 
         this.components = {
+            //TODO: probably can make this like: ModifyInputFields:{component: ModifyInputFieldsContainer, menu: ModifySearchMenu}
+            // and then pass that object as a prop to the FullScreenPane...
             ModifyInputFieldsContainer: ModifyInputFieldsContainer,
             ModifySearchMenu: ModifySearchMenu,
             SearchResults: SearchResults
         }
 
+        this.getMenu = (component) => {
+
+            //return menu according to component
+            switch(component) {
+                case this.components.SearchResults:
+                    return null;
+                case this.components.ModifyInputFieldsContainer:
+                    return this.components.ModifySearchMenu
+                default:
+                    return null;
+
+            }
+        }
 
         this.actions = {
                         getUserResults: props.getUserResults,
@@ -57,12 +72,14 @@ class UserPage extends React.Component {
     showFullScreenPane = (component, index) => {
         console.log("defaults", this.props.fetchedUserResults);
         console.log("correct", this.props.fetchedUserSearches.value[index]);
+
         this.setState({
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
                         componentProps: {
                             defaults: this.props.fetchedUserSearches.value[index]
-                        }   
+                        },
+                        menu: this.getMenu(component)
                     })
     }
     
@@ -70,7 +87,9 @@ class UserPage extends React.Component {
       //  console.log("comp", component);
         this.setState({
                         showFullScreenPane:true, 
-                        FullScreenPaneComponent: component
+                        FullScreenPaneComponent: component,
+                      
+                        menu: this.getMenu(component)
                         });
 
         let data = Object.assign({}, this.props.fetchedUserSearches.value[index]);
@@ -82,6 +101,7 @@ class UserPage extends React.Component {
                                 this.setState({
                                                 showFullScreenPane: true, 
                                                 FullScreenPaneComponent: component, 
+                                                menu: this.getMenu(component),
                                                 componentProps: {results: response }
                                             });
                                 });
@@ -99,13 +119,13 @@ class UserPage extends React.Component {
             <div className="jumbotron" style={{"minHeight": document.documentElement.clientHeight}}>
 
                 <FullScreenPane 
-                    show={this.state.showFullScreenPane} 
-                    component={this.state.FullScreenPaneComponent} 
+                    show={this.state.showFullScreenPane}
                     hide={this.hideFullScreenPane}
-                    menu={this.components.ModifySearchMenu}
-                    index={this.state.index}
+                    component={this.state.FullScreenPaneComponent} 
                     componentProps={this.state.componentProps}
-                    
+
+                    menu={this.state.menu}
+                 //   index={this.state.index}             
                 />
 
                 <Flash 
