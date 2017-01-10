@@ -39,5 +39,34 @@ export const codigoLicitacionInputChange = (event) => {
 }
 
 export const autoFillerInputChange = (organismosPublicos, value) => {
-    return {type: types.AUTOFILLER_INPUT_CHANGE, value, organismosPublicos};
+
+            let selectionResults = [];
+            let defaultSelectedValue = "";
+            let testRegex = new RegExp(value.toLowerCase());
+            selectionResults = organismosPublicos.filter((e, i) => {
+
+                let key = Object.keys(e)[0]; // O sea que en el objeto {"1337": "Ministerio del interior"}, key === "1337"
+
+                if(testRegex.test(e[key].toLowerCase())) {
+                    return e[key]; // Y aqui retorna el nombre ("Ministerio del interior")
+                }
+            })
+
+
+            if(selectionResults[0]) {
+                defaultSelectedValue = Object.keys(selectionResults[0])[0];
+            }
+
+    return {type: types.AUTOFILLER_INPUT_CHANGE, 
+            value,
+            defaultSelectedValue, 
+            selectionResults
+            };
+
+
+
+                        // return objectAssign({}, 
+                        //         state, { organismosPublicosFilter: action.value, 
+                        //                  selectedOrganismoPublico: action.defaultSelectedValue,
+                        //                  organismosPublicosFilteredSubset: action.selectionResults});
 }
