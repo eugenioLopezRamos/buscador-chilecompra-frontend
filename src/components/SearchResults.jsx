@@ -16,8 +16,6 @@ class SearchResults extends React.PureComponent {
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "";
-            //Passes an optional handler function to the <Flash /> messages
-            this.state = {messagesHandler: null};
         }
 
         componentWillReceiveProps(nextProps) {
@@ -35,24 +33,6 @@ class SearchResults extends React.PureComponent {
 
             return swappedEstLic[codigoEstado];
         }
-
-        // countArray = (arr) => {
-        //     return arr.length;
-        // }
-
-        // handleCreateResults = (name) => {
-        //    // this.props.createResults(name)
-        //     this.setState({messagesHandler: this.countArray}
-
-        //     );
-        // }
-
-        // handleCreateSearches = (name) => {
-
-        //     this.setState({messagesHandler: null},
-        //     this.props.createSearches(name)
-        //     );
-        // }
 
         render = () => {
         if(!this.props.results){
@@ -105,27 +85,13 @@ class SearchResults extends React.PureComponent {
 
 function mapStateToProps(state, ownProps) {
     return {
-     //now is given as an external prop so it can be more versatile   
-    //    results: state.searchResults,
         estadosLicitacion: state.estadosLicitacion,
-        messages: state.messages
+
     }
 
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        createResults: bindActionCreators(createResults, dispatch),
-        createSearches: bindActionCreators(createSearches, dispatch)
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default connect(mapStateToProps)(SearchResults);
 
 
-
-                    // <Flash type="info" messages={this.props.messages} messagesHandler={this.state.messagesHandler}/>
-                    // <ResultsSaver 
-                    //     handleResults={this.handleCreateResults} 
-                    //     handleSearches={this.handleCreateSearches} 
-                    // />

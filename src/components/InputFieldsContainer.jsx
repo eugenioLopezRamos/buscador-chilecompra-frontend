@@ -18,7 +18,7 @@ import Flash from './Flash.jsx';
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-
+        //Passes an optional handler to the <Flash />
         this.state = {messagesHandler: null};
     }
 
