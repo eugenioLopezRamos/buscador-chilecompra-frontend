@@ -9,17 +9,57 @@ import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
+import {createUserResults as createResults} from '../actions/UserActions';
+import {createUserSearches as createSearches} from '../actions/UserActions';
+import ResultsSaver from './ResultsSaver';
+import Flash from './Flash.jsx';
+
 
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-    }
-    render = () => {
 
+        this.state = {messagesHandler: null};
+    }
+
+
+    handleCreateSearches = (name) => {
+        this.props.createSearches(name);
+    }
+
+    disableButtons = () => {
+        let disable = [];
+        if(this.props.results === null || this.props.results === [] || this.props.results === undefined) {
+            disable.push("results");
+        }
+
+        return disable;
+    }
+
+    countArray = (arr) => {
+        return arr.length;
+    }
+
+    handleCreateResults = (name) => {
+        this.setState({messagesHandler: this.countArray}, this.props.createResults(name))
+    }
+
+    handleCreateSearches = (name) => {
+
+        this.setState({messagesHandler: null}, this.props.createSearches(name));
+    }
+
+    
+    render = () => {
         return (    
-                
-                    <div className="container inputfields jumbotron"  style={{"min-height": document.documentElement.clientHeight}}> 
- 
+              
+                    <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 
+                        <Flash 
+                            type="info" 
+                            messages={this.props.messages}
+                            messagesHandler={this.state.messagesHandler}
+                        />
+
                         <label>Selecciona una fecha (vacio=todas)</label>
                         <DatePicker
                             startDate={this.props.date} 
@@ -57,7 +97,17 @@ class InputFieldsContainer extends React.PureComponent {
                         
                         
                         <label>Según palabras clave</label>
-                            <SearchField value={this.props.palabrasClave} onChange={this.props.actions.searchFieldInput} onSubmit={this.props.API.loadChilecompraData} />
+                            <SearchField 
+                                value={this.props.palabrasClave} 
+                                onChange={this.props.actions.searchFieldInput} 
+                                onSubmit={this.props.API.loadChilecompraData} 
+                            />
+
+                            <ResultsSaver 
+                                handleResults={this.handleCreateResults} 
+                                handleSearches={this.handleCreateSearches}
+                                disableButtons={this.disableButtons()}
+                            />
 
                             <div className="col-xs-12 no-gutter">
                                 <SearchResults results={this.props.results}/>
@@ -96,7 +146,8 @@ function mapStateToProps(state, ownProps) {
         rutProveedor: state.inputFieldValues.rutProveedor,
         palabrasClave: state.inputFieldValues.palabrasClave,
         codigoLicitacion: state.inputFieldValues.codigoLicitacion,
-        results: state.searchResults
+        results: state.searchResults,
+        messages: state.messages
     };
 };
 
@@ -104,7 +155,9 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
     API: bindActionCreators(API, dispatch),
-    displayActions: bindActionCreators(displayActions, dispatch)
+    displayActions: bindActionCreators(displayActions, dispatch),
+    createSearches: bindActionCreators(createSearches, dispatch),
+    createResults: bindActionCreators(createResults, dispatch),
   };
 };
 

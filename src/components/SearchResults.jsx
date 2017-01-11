@@ -13,8 +13,11 @@ class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
             super(props);
-          
+            //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
+            // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "";
+            //Passes an optional handler function to the <Flash /> messages
+            this.state = {messagesHandler: null};
         }
 
         componentWillReceiveProps(nextProps) {
@@ -22,7 +25,7 @@ class SearchResults extends React.PureComponent {
                 this.animClass = this.animClass === "search-results-ul1" ? "search-results-ul2" : "search-results-ul1";
             }
         }
-
+        //Normally this.props.estadosLicitacion is a number (the codigo_estado)
         returnNombreEstado = (codigoEstado) => {
             let swappedEstLic = {}
 
@@ -33,17 +36,23 @@ class SearchResults extends React.PureComponent {
             return swappedEstLic[codigoEstado];
         }
 
-        handleCreateResults = (name) => {
-            this.props.createResults(name);
-        }
+        // countArray = (arr) => {
+        //     return arr.length;
+        // }
 
-        handleCreateSearches = (name) => {
-            this.props.createSearches(name);
-        }
+        // handleCreateResults = (name) => {
+        //    // this.props.createResults(name)
+        //     this.setState({messagesHandler: this.countArray}
 
-        countArray = (arr) => {
-            return arr.length;
-        }
+        //     );
+        // }
+
+        // handleCreateSearches = (name) => {
+
+        //     this.setState({messagesHandler: null},
+        //     this.props.createSearches(name)
+        //     );
+        // }
 
         render = () => {
         if(!this.props.results){
@@ -57,9 +66,6 @@ class SearchResults extends React.PureComponent {
         else {
             let self = this;
             return (<ul className={this.animClass}>
-
-                    <ResultsSaver handleResults={this.handleCreateResults} handleSearches={this.handleCreateSearches} />
-                    <Flash type="info" messages={this.props.messages} messagesHandler={this.countArray}/>
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
@@ -115,3 +121,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+
+
+
+                    // <Flash type="info" messages={this.props.messages} messagesHandler={this.state.messagesHandler}/>
+                    // <ResultsSaver 
+                    //     handleResults={this.handleCreateResults} 
+                    //     handleSearches={this.handleCreateSearches} 
+                    // />

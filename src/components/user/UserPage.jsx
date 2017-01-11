@@ -117,8 +117,13 @@ class UserPage extends React.Component {
     }
 
     showStoredResult = (component, index) => {
+        //TODO: añadir un loading aqui (y en todas las otras actions async)
+        this.setState({
+                showFullScreenPane:true,
+        })
 
         let name = Object.keys(this.props.fetchedUserResults)[index];
+
         this.actions.noReduxGetStoredUserResults(name)
             .then(response => {
                     this.setState({

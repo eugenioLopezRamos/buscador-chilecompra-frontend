@@ -50,8 +50,22 @@ class ResultsSaver extends React.Component {
                     hideModal={this.hideModal}
                     onInput={this.state.showModal.type === "search" ? this.onSearchNameInput : this.onResultNameInput }
                 />
-                <button type="button" className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2 allow-wrap" onClick={() => {this.showModal("search")}}>Guardar parámetros de búsqueda (TBI)</button>
-                <button type="button" className="btn btn-primary col-xs-6 col-md-4 allow-wrap" onClick={() => {this.showModal("result")}}>Guardar resultado de búsqueda (TBI)</button>
+                <button 
+                    type="button"
+                    disabled={this.props.disableButtons.indexOf("search") > -1}
+                    className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2 allow-wrap" 
+                    onClick={() => {this.showModal("search")}}>
+                    Guardar parámetros de búsqueda (TBI)
+                </button>
+
+                <button 
+                    type="button"
+                    disabled={this.props.disableButtons.indexOf("results") > -1}
+                    className="btn btn-primary col-xs-6 col-md-4 allow-wrap" 
+                    onClick={() => {this.showModal("result")}}>
+                        Guardar resultado de búsqueda (TBI)
+                </button>
+
             </div>
             )
     }
