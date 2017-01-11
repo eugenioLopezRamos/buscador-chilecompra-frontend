@@ -51,8 +51,9 @@ class SearchResults extends React.PureComponent {
                     <div className="title-container">
                         <span className="search fecha title col-xs-3">Fecha creación</span>
                         <span className="search nombre title col-xs-3">Nombre</span>
-                        <span className="search codigo-externo title col-xs-3">Código Licitación (código externo)</span>
-                        <span className="search codigo-estado title col-xs-3">Estado (código)</span>
+                        <span className="search codigo-externo title col-xs-2">Código Licitación (código externo)</span>
+                        <span className="search codigo-estado title col-xs-2">Estado (código estado)</span>
+                        <span className="search subscription title col-xs-2">Recibir actualizaciones</span>
                     </div>
 
                     {
@@ -68,12 +69,17 @@ class SearchResults extends React.PureComponent {
                                         { e.value["Listado"][0].Nombre}
                                     </span>
 
-                                    <span className="search codigo-externo col-xs-3" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
+                                    <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
                                         { e.value["Listado"][0].CodigoExterno }
                                     </span>
 
-                                    <span className="search codigo-estado col-xs-3" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
+                                    <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
                                         { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
+                                    </span>
+                                    <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
+                                        <button className="btn btn-primary col-xs-12 subscription-button" >
+                                            Suscribirse
+                                        </button>
                                     </span>
 
                                 </li>

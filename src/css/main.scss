@@ -145,6 +145,19 @@ select {
     border-left: 1px solid black;
     border-bottom: 1px solid black;
 }
+.search.subscription {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+.search.subscription-button-container {
+
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    display: flex;
+}
+.subscription-button {
+    margin:auto;
+}
 
 .autofiller.select {
     width: 100%;

@@ -71,7 +71,7 @@ class UserProfileData extends React.Component {
     render = () =>  {
 
         return (
-            <div className="jumbotron text-center" style={{"min-height": document.documentElement.clientHeight}}>
+            <div className="jumbotron text-center" style={{"minHeight": document.documentElement.clientHeight}}>
                 <Flash messages={this.props.messages}/>
                 <label>Aquí puedes editar los datos de tu perfil</label>
                 {this.userData()}
