@@ -55,7 +55,7 @@ class ResultsSaver extends React.Component {
                     disabled={this.props.disableButtons.indexOf("search") > -1}
                     className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2 allow-wrap" 
                     onClick={() => {this.showModal("search")}}>
-                    Guardar parámetros de búsqueda (TBI)
+                    Guardar parámetros de búsqueda
                 </button>
 
                 <button 
@@ -63,13 +63,12 @@ class ResultsSaver extends React.Component {
                     disabled={this.props.disableButtons.indexOf("results") > -1}
                     className="btn btn-primary col-xs-6 col-md-4 allow-wrap" 
                     onClick={() => {this.showModal("result")}}>
-                        Guardar resultado de búsqueda (TBI)
+                        Guardar resultado de búsqueda
                 </button>
 
             </div>
             )
     }
-
 }
 
 export default ResultsSaver;
