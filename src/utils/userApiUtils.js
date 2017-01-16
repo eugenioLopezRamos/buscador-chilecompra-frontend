@@ -13,12 +13,11 @@ export const userDataFetcher = (endpoint, method, body) => {
             request.body = JSON.stringify(reqBody);
         } 
 
-
         return fetch(`${process.env.API_HOST}/api/${endpoint}`, request)
         .then(response => {
+            let headers = utils.headerToObject(response);
+            utils.saveToStorage(headers);
             if(response.status >= 200 & response.status < 300) {
-                let headers = utils.headerToObject(response);
-                utils.saveToStorage(headers);
                 return response.json();
             }else {
                 throw response.json();

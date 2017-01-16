@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import userAPI from '../api/userApi';
+import userApi from '../api/userApi';
 import utils from '../utils/authUtils';
 import objectAssign from 'object-assign';
 // MODIFIY USER DATA API CALLS
@@ -24,12 +24,12 @@ export const modifyUserProfileData = () => {
                     image: state.image
         }
 
-        userAPI.updateUserInfo(body)
+        userApi.updateUserInfo(body)
             .then(response => {
                 //TODO
+                let headers = utils.headerToObject(response);
+                utils.saveToStorage(headers);
                 if(response.status >= 200 && response.status < 300) {
-                    let headers = utils.headerToObject(response);
-                    utils.saveToStorage(headers);
                     return dispatch(modifyUserProfileDataSuccess(response.json()));
                 }else {
                     return dispatch(modifyUserProfileDataFailure(response));
@@ -66,131 +66,92 @@ export const modifyUserProfileDataInputPasswordConfirmation = (value) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value}
 }
 
-// CRUD RESULTS
-    //GET A LIST OF STORED RESULTS (JUST IDs)
-export const getUserResultsSuccess = (value) => {
-    return {type: types.USER_GET_RESULTS_SUCCESS, value}
+// // CRUD RESULTS
+//     //GET A LIST OF STORED RESULTS (JUST IDs)
+export const getUserSubscriptionsSuccess = (value) => {
+    return {type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS, value}
 };
 
-export const getUserResultsFailure = (value) => {
-    return {type: types.USER_GET_RESULTS_FAILURE, value}
+export const getUserSubscriptionsFailure = (value) => {
+    return {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE, value}
 };
 
-export const getUserResults = () => {
+export const getUserSubscriptions = () => {
 
     return (dispatch) => {
-        dispatch({type: types.USER_GET_RESULTS});
-        userAPI.getResults().then(response => {
-                                dispatch(getUserResultsSuccess(response));
+        dispatch({type: types.USER_GET_RESULT_SUBSCRIPTIONS });
+
+        userApi.getSubscriptions().then(response => {
+                                dispatch(getUserSubscriptionsSuccess(response));
                                 })
                             .catch(error => {
-                                dispatch(getUserResultsFailure(error));
+                                dispatch(getUserSubscriptionsFailure(error));
                             });
     }
 };
 
-
-    //GET THE DETAIL OF ONE OF THE IDs
-export const getStoredResultsSuccess = (value) => {
-    return {type: types.USER_GET_STORED_RESULTS_SUCCESS, value}
+export const createUserSubscriptionSuccess = (value) => {
+    return {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value}
 };
 
-export const getStoredResultsFailure = (value) => {
-    return {type: types.USER_GET_STORED_RESULTS_FAILURE, value}
+export const createUserSubscriptionFailure = (value) => {
+    return {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, value}
 };
 
-export const getStoredUserResults = (resultName) => {
-
-    return function(dispatch) {
-        return userAPI.getStoredResults(resultName)
-    }.then(response => {
-                        dispatch(getStoredResultsSuccess(response)
-                        )}
-        )
-     .catch(error => {
-                        dispatch(getStoredResultsFailure(error)
-                        )}
-            )
-}
-    //used on the user's profile, no need to pass through redux since its
-    //merely presentational and irrelevant to the rest of the app
-export const noReduxGetStoredUserResults = (resultName) => {
-
-   // return (dispatch) => {
-   //     console.log("resultname2", resultName);
-        return userAPI.getStoredResults(resultName)
-    //}
-}
-
-    //CREATE RESULTS (POST)
-export const createUserResultsSuccess = (value) => {
-    return {type: types.USER_CREATE_RESULTS_SUCCESS, value}
-};
-
-
-export const createUserResultsFailure = (value) => {
-
-
-    return {type: types.USER_CREATE_RESULTS_FAILURE, value}
-};
-
-export const createUserResults = (name) => {
-
-    return (dispatch, getState) => {
-        
-        let results = {getState}.getState().searchResults.map(e => {return JSON.parse(e).id});
-
-        userAPI.createResults({results, name}).then(response => {
-                                    dispatch(createUserResultsSuccess(response));
+export const createUserSubscription = (result_id, name) => {
+    
+    return (dispatch) => {
+        let create_subscription = {result_id, name}
+        dispatch({type: types.USER_CREATE_RESULT_SUBSCRIPTION });
+        userApi.createSubscription({create_subscription}).then(response => {
+                                dispatch(createUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
-                                dispatch(createUserResultsFailure(error));
+                                dispatch(createUserSubscriptionFailure(error));
                             });
     }
 };
 
     // UPDATE RESULTS (PUT)
-export const updateUserResultsSuccess = (value) => {
-    return {type: types.USER_UPDATE_RESULTS_SUCCESS, value};
+export const updateUserSubscriptionSuccess = (value) => {
+    return {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value};
 };
 
-export const updateUserResultsFailure = (value) => {
-    return {type: types.USER_UPDATE_RESULTS_FAILURE, value};
+export const updateUserSubscriptionFailure = (value) => {
+    return {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value};
 };
 
-export const updateUserResults = () => {
+export const updateUserSubscription = (old_name, name) => {
 
-    return (dispatch, getState) => {
-        let result = {getState}.getState().userResults.update;
-        userAPI.updateResults(result).then(response => {
-                                    dispatch(updateUserResultsSuccess(response));
+
+    return (dispatch) => {
+        dispatch({type: types.USER_UPDATE_RESULT_SUBSCRIPTION})
+        userApi.updateSubscription({update_subscription: {old_name, name}}).then(response => {
+                                    dispatch(updateUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
-                                dispatch(updateUserResultsFailure(error));
+                                dispatch(updateUserSubscriptionFailure(error));
                             });
     }
 };
     // DELETE RESULTS
-export const deleteUserResultsSuccess = (value) => {
-    return {type: types.USER_DELETE_RESULTS_SUCCESS, value};
+export const deleteUserSubscriptionSuccess = (value) => {
+    return {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value};
 }
-export const deleteUserResultsFailure = (value) => {
-    return {type: types.USER_DELETE_RESULTS_FAILURE, value};
+export const deleteUserSubscriptionFailure = (value) => {
+    return {type: types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE, value};
 }
 
-export const deleteUserResults = (index) => {
+export const deleteUserSubscription = (name) => {
+
 
     return (dispatch, getState) => {
-        let name = Object.keys({getState}.getState().userResults.fetched)[index]
-       // let resultValues = {getState}.getState().userResults.delete;
-
-    
-
-        userAPI.deleteResults({results: {name}}).then(response => {
-                                    dispatch(deleteUserResultsSuccess(response));
+        dispatch({type: types.USER_DELETE_RESULT_SUBSCRIPTION});
+        userApi.deleteSubscription({destroy_subscription: {name}}).then(response => {
+                                    dispatch(deleteUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
-                                dispatch(deleteUserResultsFailure(error));
+                                dispatch(deleteUserSubscriptionFailure(error));
                             });
     }
 
@@ -211,7 +172,7 @@ export const getUserSearches = () => {
 
     return (dispatch) => {
   
-        userAPI.getSearches().then(response => {
+        userApi.getSearches().then(response => {
                                     dispatch(getUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -236,7 +197,7 @@ export const createUserSearches = (name) => {
         delete value.organismosPublicosFilteredSubset;
         let search = {value, name};
 
-        userAPI.createSearches({search}).then(response => {
+        userApi.createSearches({search}).then(response => {
                                     dispatch(createUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -262,7 +223,7 @@ export const updateUserSearches = (newValues, searchId, searchName) => {
             searchId,
             searchName
         }
-        userAPI.updateSearches({search}).then(response => {
+        userApi.updateSearches({search}).then(response => {
                                     dispatch(updateUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -284,7 +245,7 @@ export const deleteUserSearches = (index) => {
     return (dispatch, getState) => {
         //gets the id of the UserSearch that was clicked according to its index, from the redux store
        let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
-        userAPI.deleteSearches({search: {id}}).then(response => {
+        userApi.deleteSearches({search: {id}}).then(response => {
                                     dispatch(deleteUserSearchesSuccess(response));
                                 })
                             .catch(error => {

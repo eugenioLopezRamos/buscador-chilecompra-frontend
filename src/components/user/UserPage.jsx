@@ -3,26 +3,39 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
-import {getUserResults, deleteUserResults, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
-import {noReduxGetStoredUserResults} from '../../actions/UserActions';
+import {getUserSubscriptions, updateUserSubscription, deleteUserSubscription, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
+//import {noReduxGetStoredUserSubscriptions} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import ModifySearchMenu from '../ModifySearchMenu.jsx';
 import ModifyInputFieldsContainer from '../ModifyInputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
+import Modal from '../inputs/Modal.jsx';
+import objectAssign from 'object-assign';
 
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            showFullScreenPane: false,
+            FullScreenPaneComponent: null,
+            componentProps: {},
+            menu: null,
+            menuProps: {},
+            showModal: false,
+            enteredNewSubscriptionName: "",
+            modalDefaultName: null
+        }
+
         this.components = {
             //TODO: probably can make this like: ModifyInputFields:{component: ModifyInputFieldsContainer, menu: ModifySearchMenu}
             // and then pass that object as a prop to the FullScreenPane...
-            ModifyInputFieldsContainer: ModifyInputFieldsContainer,
-            ModifySearchMenu: ModifySearchMenu,
-            SearchResults: SearchResults
+            ModifyInputFieldsContainer,
+            ModifySearchMenu,
+            SearchResults,
         }
 
         this.getMenu = (component) => {
@@ -35,36 +48,29 @@ class UserPage extends React.Component {
                     return null;
                 default:
                     return null;
-
             }
         }
 
         this.actions = {
-                        getUserResults: props.getUserResults,
-                        noReduxGetStoredUserResults,
-                        deleteUserResults: props.deleteUserResults,
+                        getUserSubscriptions: props.getUserSubscriptions,
+                        // noReduxGetStoredUserSubscriptions,
+                        updateSubscription: props.updateSubscription,
+                        deleteSubscription: props.deleteSubscription,
                         getUserSearches: props.getUserSearches,
                         updateUserSearches: props.updateUserSearches,
                         deleteUserSearches: props.deleteUserSearches
                         }
 
-        this.state = {
-            showFullScreenPane: false,
-            FullScreenPaneComponent: null,
-            componentProps: {},
-            menu: null,
-            menuProps: {},
-        }
     }
 
     componentDidMount = () => {
         
-        this.props.getUserResults();
+        this.props.getUserSubscriptions();
         this.props.getUserSearches();
     }
 
     requestResults = () => {
-        this.props.getUserResults();
+        this.props.getUserSubscriptions();
     }
 
     hideFullScreenPane = () => {
@@ -72,13 +78,13 @@ class UserPage extends React.Component {
     }
 
     showStoredSearch = (component, index) => {
-       // console.log("defaults", this.props.fetchedUserResults);
+       // console.log("defaults", this.props.fetchedUserSubscriptions);
        // console.log("correct", this.props.fetchedUserSearches.value[index]);
         let searchId = this.props.fetchedUserSearches.id[index];
         let searchName = this.props.fetchedUserSearches.name[index];
         
 
-        this.setState({
+        this.setState({ 
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
                         componentProps: {
@@ -91,6 +97,10 @@ class UserPage extends React.Component {
                      //   menuProps: {actions: this.updateSearches()}
                     })
     }
+
+                    //  handler={this.handleSubscription}
+                    // hideModal={this.hideSubscriptionModal}
+                    // onInput={this.onSubscriptionNameInput}  
     
     executeStoredSearch = (component, index) => {
       //  console.log("comp", component);
@@ -101,7 +111,7 @@ class UserPage extends React.Component {
                         menu: this.getMenu(component)
                         });
 
-        let data = Object.assign({}, this.props.fetchedUserSearches.value[index]);
+        let data = objectAssign({}, this.props.fetchedUserSearches.value[index]);
     
         data.date = Date.parse(data.date);
 
@@ -116,25 +126,47 @@ class UserPage extends React.Component {
                                 });
     }
 
-    showStoredResult = (component, index) => {
-        //TODO: añadir un loading aqui (y en todas las otras actions async)
-        this.setState({
-                showFullScreenPane:true,
-        })
 
-        let name = Object.keys(this.props.fetchedUserResults)[index];
-
-        this.actions.noReduxGetStoredUserResults(name)
-            .then(response => {
-                    this.setState({
-                        showFullScreenPane:true,
-                        FullScreenPaneComponent: component,
-                        componentProps: {results: response},
-                        menu: this.getMenu(component)
-                    })
-                })
-            .catch(error => {alert(error)})
+    updateSubscription = () => {
+        let name = this.state.enteredNewSubscriptionName;
+        let old_name = this.state.modalDefaultName;
+        this.setState({showModal: false, enteredNewSubscriptionName: "", modalDefaultName: null})
+        this.props.updateSubscription(old_name, name);
     }
+
+    onSubscriptionNewNameInput = (event) => {
+        this.setState({enteredNewSubscriptionName: event.target.value});
+    }
+
+    hideModal = () => {
+        this.setState({showModal: false, modalDefaultName: null, enteredNewSubscriptionName: ""});
+    }
+
+    showModal = (name) => {
+        this.setState({showModal: true, modalDefaultName: name, enteredNewSubscriptionName: ""});
+    }
+
+
+
+    // showStoredResult = (component, index) => {
+    //     //TODO: añadir un loading aqui (y en todas las otras actions async)
+    //     this.setState({
+    //             showFullScreenPane:true,
+    //     })
+
+    //     let name = Object.keys(this.props.fetchedUserSubscriptions)[index];
+
+    //     this.actions.noReduxGetStoredUserSubscriptions(name)
+    //         .then(response => {
+    //                 this.setState({
+    //                     showFullScreenPane:true,
+    //                     FullScreenPaneComponent: component,
+    //                     componentProps: {results: response},
+    //                     menu: this.getMenu(component)
+    //                 })
+    //             })
+    //         .catch(error => {alert(error)})
+    // }
 
 
     render = () => {
@@ -152,9 +184,16 @@ class UserPage extends React.Component {
                     hide={this.hideFullScreenPane}
                     component={this.state.FullScreenPaneComponent} 
                     componentProps={this.state.componentProps}
+                    menu={this.state.menu}           
+                />
 
-                    menu={this.state.menu}
-                 //   index={this.state.index}             
+                <Modal 
+                    isModalShown={this.state.showModal} 
+                    modalValue={this.state.enteredNewSubscriptionName}
+                    handler={this.updateSubscription}
+                    hideModal={this.hideModal}
+                    defaultName={this.state.modalDefaultName}
+                    onInput={this.onSubscriptionNewNameInput}           
                 />
 
                 <Flash 
@@ -164,13 +203,15 @@ class UserPage extends React.Component {
 
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user} 
-                             userResults={this.props.fetchedUserResults}
+                             userSubscriptions={this.props.fetchedUserSubscriptions}
                              userSearches={this.props.fetchedUserSearches}
                              actions={this.actions}
                              showStoredSearch={this.showStoredSearch}
                              executeStoredSearch={this.executeStoredSearch}
+                             showModal={this.showModal}
+
                              components={this.components}
-                             showStoredResult={this.showStoredResult}
+                            // showStoredResult={this.showStoredResult}
                 />
             </div>
         )
@@ -180,7 +221,7 @@ class UserPage extends React.Component {
 UserPage.propTypes = {
    // login: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    fetchedUserResults: PropTypes.object,
+    fetchedUserSubscriptions: PropTypes.object,
     fetchedUserSearches: PropTypes.object,
     messages: PropTypes.object
     //tbi
@@ -190,7 +231,7 @@ UserPage.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
             user: state.userData,
-            fetchedUserResults: state.userResults.fetched,
+            fetchedUserSubscriptions: state.userSubscriptions.fetched,
             fetchedUserSearches: state.userSearches.fetched,
             messages: state.messages
         }
@@ -198,8 +239,9 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserResults: bindActionCreators(getUserResults, dispatch),
-        deleteUserResults: bindActionCreators(deleteUserResults, dispatch),
+        getUserSubscriptions: bindActionCreators(getUserSubscriptions, dispatch),
+        updateSubscription: bindActionCreators(updateUserSubscription, dispatch),
+        deleteSubscription: bindActionCreators(deleteUserSubscription, dispatch),
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
         updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),

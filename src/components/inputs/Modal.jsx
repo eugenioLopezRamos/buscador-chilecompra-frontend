@@ -26,7 +26,7 @@ const Modal = (props) => {
    <div className={isHidden()}>           
          <div className="prompt">
                 <div className="modal-header">
-                    <span className="modal-title">Ingresa un nombre (vacío: Fecha actual: ({`${new Date()}`})</span>
+                    <span className="modal-title">Ingresa un nombre {props.defaultName ? `(Por defecto: ${props.defaultName})` : null}</span>
                 </div>
                 <input type="input" placeholder="Nombre" onChange={props.onInput} value={props.modalValue}/>
 

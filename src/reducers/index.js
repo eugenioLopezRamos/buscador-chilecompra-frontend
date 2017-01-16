@@ -12,7 +12,7 @@ import signupReducer from './signupReducer';
 import modifiedUserDataReducer from './modifiedUserDataReducer';
 import messagesReducer from './messagesReducer';
 import {userSearchesReducer as userSearches} from './userSearchesReducer';
-import {userResultsReducer as userResults} from './userResultsReducer';
+import {userSubscriptionsReducer as userSubscriptions} from './userSubscriptionsReducer';
 
 const rootReducer = combineReducers({
     
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
     isAuthenticated: authenticationReducers.isAuthenticatedSetter,
     userData: authenticationReducers.userDataSetter,
     userSearches,
-    userResults,
+    userSubscriptions,
     modifiedUserData: modifiedUserDataReducer,
     loginData: authenticationReducers.loginDataSetter,
     routing: routerReducer,

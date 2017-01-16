@@ -89,26 +89,25 @@ class userApi {
         .catch(error => {return error});
     }
 
-    static getResults() {
-        return userDataFetcher("results", "get");
+    //SUBSCRIPTIONS
+    static getSubscriptions() {
+        return userDataFetcher("results/subscriptions", "GET");
     }
 
-    static getStoredResults(name) {
-        console.log("getstored", name);
-        return userDataFetcher(`user_results?name=${name}`, "get")
-    }
-    static createResults(results) {
-        return userDataFetcher("results", "POST", results);
+    static createSubscription(subscription) {
+        return userDataFetcher("results/subscriptions", "POST", subscription)
     }
 
-    static updateResults(results) {
-        return userDataFetcher("results", "PUT", results);
+    static updateSubscription(subscription) {
+        return userDataFetcher("results/subscriptions", "PUT", subscription)
     }
 
-    static deleteResults(results) {
-        return userDataFetcher('results', "DELETE", results);
+    static deleteSubscription(subscription) {
+        return userDataFetcher("results/subscriptions", "DELETE", subscription)
     }
 
+
+    //SEARCHES
     static getSearches() {
         return userDataFetcher('searches', 'GET');
     }
@@ -124,9 +123,6 @@ class userApi {
     static deleteSearches(searches) {
         return userDataFetcher('searches', 'DELETE', searches);
     }
-
-
-
 
 
 }

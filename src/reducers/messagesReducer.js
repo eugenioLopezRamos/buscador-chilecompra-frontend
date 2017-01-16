@@ -40,22 +40,32 @@ const messagesReducer = (state = initialState.messages, action) => {
            // newMessages = action.error.errors.full_messages;
             return objectAssign({}, state, {errors: newMessages});
             
-
-            //RESULTS
-        case types.USER_CREATE_RESULTS_SUCCESS:
+            //SUBSCRIPTIONS
+        case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
             return objectAssign({}, state, {info, errors});
 
-        case types.USER_CREATE_RESULTS_FAILURE:
+        case types.USER_GET_RESULT_SUBSCRIPTION_FAILURE:
             return objectAssign({}, state, {info, errors});
 
-        case types.USER_UPDATE_RESULTS_SUCCESS:
-            return objectAssign({}, state, {info, errors}); 
-
-        case types.USER_DELETE_RESULTS_SUCCESS:
+        case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
             return objectAssign({}, state, {info, errors});
 
-        case types.USER_DELETE_RESULTS_FAILURE:
-            return objectAssign({}, state, {info, errors});    
+        case types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE:
+            return objectAssign({}, state, {info, errors});
+
+        case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
+            return objectAssign({}, state, {info, errors});
+
+        case types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE:
+            return objectAssign({}, state, {info, errors});
+
+        case types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS:
+            return objectAssign({}, state, {info, errors});
+
+        case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
+            return objectAssign({}, state, {info, errors});
+
+
 
             //SEARCHES
         case types.USER_CREATE_SEARCHES_SUCCESS:

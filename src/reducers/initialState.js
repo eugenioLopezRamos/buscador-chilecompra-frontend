@@ -9,8 +9,8 @@ const initialState = {
     isAuthenticated: false,
     //same name as the rails param
     userData: null,
-    userSearches: {fetched:{}, update: [], delete:[] },
-    userResults: {fetched:{}, update: [], delete: []},
+    userSearches: {fetched:{}},
+    userSubscriptions: {fetched:{}},
     modifiedUserData: {name: "", email:"", currentPassword: "", password:"", passwordConfirmation: "", image: ""},
     //used when inputting data to login.
     loginData: {email: "", password: "", message: null, result: null},

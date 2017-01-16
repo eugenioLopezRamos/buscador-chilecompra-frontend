@@ -38,11 +38,10 @@ export const submitLoginInfo = () => {
         let state = {getState};
         return userAPI.sendLoginInfo(state)
                       .then(response => {
-                        
+                                    //here i can use response.headers to set the corresponding tokens to localStorage/cookie
+                    
+                        utils.saveToStorage(response.headers);            
                             if(response.result === "success") {
-                                //here i can use response.headers to set the corresponding tokens to localStorage/cookie
-                           
-                                utils.saveToStorage(response.headers);
                                 dispatch(loginSuccess(response));
                             }else {
                                 utils.clearStorage();
@@ -59,8 +58,9 @@ export const validateToken = () => {
     return dispatch => {
         return userAPI.requestTokenValidation()
             .then(response => {
+                utils.saveToStorage(response.headers);
+                
                 if(response.result === "success") {
-                    utils.saveToStorage(response.headers);
                     dispatch(validateTokenSuccess(response));
                 } else {
                     utils.clearStorage();

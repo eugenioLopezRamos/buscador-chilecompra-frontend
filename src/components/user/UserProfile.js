@@ -8,13 +8,7 @@ const UserProfile = (props) => {
                     })
     
     const handleSearchDelete = (index) => {
-
         props.actions.deleteUserSearches(index);
-
-    }
-
-    const handleResultsDelete = (index) => {
-        props.actions.deleteUserResults(index);
     }
 
     const showStoredSearch = (component, index) => {
@@ -25,8 +19,20 @@ const UserProfile = (props) => {
         props.executeStoredSearch(component, index);
     }
 
-    const showStoredResult = (component, index) => {
-        props.showStoredResult(component, index);
+    // const showStoredResult = (component, index) => {
+    //     props.showStoredResult(component, index);
+    // }
+
+    const handleSubscriptionDelete = (name) => {
+        props.actions.deleteSubscription(name);   
+    }
+
+    const handleUpdateSubscription = () => {
+        props.actions.updateSubscription
+    }
+
+    const handleShowSubscriptionHistory = (resultId) => {
+        console.log("result", resultId);
     }
 
 
@@ -53,10 +59,9 @@ const UserProfile = (props) => {
                     //which can be done by responding to that action in the userSearches reducer
                     return <li className="list-group-item saved-items" key={"search" + e}>
                                 <span className="saved-items-description">{e}</span>
-                                
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredSearch(props.components.ModifyInputFieldsContainer, i)}}>Modificar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {executeStoredSearch(props.components.SearchResults, i)}}>Ejecutar</button>
-                                <button type="button" className="btn btn-primary pull-right"onClick={ () => handleSearchDelete(i) } >Eliminar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredSearch(props.components.ModifyInputFieldsContainer, i)}}>Modificar</button>
+                                <button type="button" className="btn btn-primary pull-right"onClick={() => {handleSearchDelete(i)}} >Eliminar</button>
                             </li>
                     }) : <li className="list-group-item saved-items" key={"search-empty"}>
                             <span className="saved-items-description">No hay búsquedas guardadas</span>
@@ -65,17 +70,19 @@ const UserProfile = (props) => {
                 }
             </div>
 
-            <div className="perfil-resultados-guardados">
-                <h2>Resultados guardados</h2>
+            <div className="perfil-suscripciones-guardados">
+                <h2>Suscripciones</h2>
                 {
-                    props.userResults && Object.keys(props.userResults).length > 0 ? Object.keys(props.userResults).map( (e, i) => {
+                    props.userSubscriptions && Object.keys(props.userSubscriptions).length > 0 ? Object.keys(props.userSubscriptions).map((e, i) => {
+                        let resultId = props.userSubscriptions[e];
                         return <li className="list-group-item saved-items" key={"results" + e}>
                                 <span className="saved-items-description">{e}</span>
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredResult(props.components.SearchResults, i) }}>Mostrar</button>
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleResultsDelete(i)}}>Eliminar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleShowSubscriptionHistory(resultId)}}>Mostrar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {props.showModal(e)}}>Modificar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleSubscriptionDelete(e)}}>Eliminar</button>
                                </li>
                     }) :  <li className="list-group-item saved-items" key={"results-empty"}>
-                            <span className="saved-items-description">No hay resultados guardados</span>
+                            <span className="saved-items-description">No hay suscripciones</span>
                             <button type="button" className="btn btn-primary pull-right" onClick={() => {alert("deberia ser un link a buscar!!")}}>Buscar</button>
                           </li>
                 }

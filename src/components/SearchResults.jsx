@@ -4,10 +4,11 @@ import {Link} from 'react-router'; //these will later be links to the query that
 import {connect} from 'react-redux';
 import {bindActionCreators} from  'redux';
 import * as types from '../actions/actionTypes';
-import {createUserResults as createResults} from '../actions/UserActions';
-import {createUserSearches as createSearches} from '../actions/UserActions';
-import ResultsSaver from './ResultsSaver';
+//import {createUserSearches as createSearches} from '../actions/UserActions'; //no longer used, moved to <InputFieldsContainer />
+import {createUserSubscription} from '../actions/UserActions';
+import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
+import Modal from './inputs/Modal.jsx';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -16,6 +17,12 @@ class SearchResults extends React.PureComponent {
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "";
+            this.state = {
+                showModal: false,
+                enteredSubscriptionName: "",
+                subscriptionIndex: null
+
+            }
         }
 
         componentWillReceiveProps(nextProps) {
@@ -34,6 +41,27 @@ class SearchResults extends React.PureComponent {
             return swappedEstLic[codigoEstado];
         }
 
+        showSubscriptionModal = (index) => {
+
+            this.setState({showModal: true, subscriptionIndex: index})
+        }
+
+        hideSubscriptionModal = () => {
+            this.setState({showModal: false, subscriptionIndex: null});
+        }
+
+        handleSubscription = () => {
+           let index = this.state.subscriptionIndex;
+           let resultId = JSON.parse(this.props.results[index]).id;
+           let subscriptionName = this.state.enteredSubscriptionName;
+           this.setState({showModal: false, enteredSubscriptionName: ""}) 
+           this.props.createUserSubscription(resultId, subscriptionName)
+        }
+
+        onSubscriptionNameInput = (event) => {
+            this.setState({enteredSubscriptionName: event.target.value});
+         }
+
         render = () => {
         if(!this.props.results){
             return null;
@@ -46,6 +74,14 @@ class SearchResults extends React.PureComponent {
         else {
             let self = this;
             return (<ul className={this.animClass}>
+
+                    <Modal 
+                        isModalShown={this.state.showModal} 
+                        modalValue={this.state.enteredSubscriptionName}
+                        handler={this.handleSubscription}
+                        hideModal={this.hideSubscriptionModal}
+                        onInput={this.onSubscriptionNameInput}           
+                    />
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
@@ -77,7 +113,7 @@ class SearchResults extends React.PureComponent {
                                         { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
                                     </span>
                                     <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
-                                        <button className="btn btn-primary col-xs-12 subscription-button" >
+                                        <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
                                             Suscribirse
                                         </button>
                                     </span>
@@ -94,10 +130,15 @@ function mapStateToProps(state, ownProps) {
         estadosLicitacion: state.estadosLicitacion,
 
     }
-
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    createUserSubscription: bindActionCreators(createUserSubscription, dispatch)
 
-export default connect(mapStateToProps)(SearchResults);
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
 
 

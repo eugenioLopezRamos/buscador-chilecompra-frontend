@@ -9,9 +9,8 @@ import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
-import {createUserResults as createResults} from '../actions/UserActions';
 import {createUserSearches as createSearches} from '../actions/UserActions';
-import ResultsSaver from './ResultsSaver';
+import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 
 
@@ -21,7 +20,6 @@ class InputFieldsContainer extends React.PureComponent {
         //Passes an optional handler to the <Flash />
         this.state = {messagesHandler: null};
     }
-
 
     handleCreateSearches = (name) => {
         this.props.createSearches(name);
@@ -41,11 +39,11 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     handleCreateResults = (name) => {
-        this.setState({messagesHandler: this.countArray}, this.props.createResults(name))
+        alert(name)
+     //   this.setState({messagesHandler: this.countArray}, this.props.createResults(name))
     }
 
     handleCreateSearches = (name) => {
-
         this.setState({messagesHandler: null}, this.props.createSearches(name));
     }
 
@@ -103,7 +101,7 @@ class InputFieldsContainer extends React.PureComponent {
                                 onSubmit={this.props.API.loadChilecompraData} 
                             />
 
-                            <ResultsSaver 
+                            <SearchesSaver 
                                 handleResults={this.handleCreateResults} 
                                 handleSearches={this.handleCreateSearches}
                                 disableButtons={this.disableButtons()}
@@ -157,7 +155,7 @@ function mapDispatchToProps(dispatch) {
     API: bindActionCreators(API, dispatch),
     displayActions: bindActionCreators(displayActions, dispatch),
     createSearches: bindActionCreators(createSearches, dispatch),
-    createResults: bindActionCreators(createResults, dispatch),
+   // createResults: bindActionCreators(createResults, dispatch),
   };
 };
 
