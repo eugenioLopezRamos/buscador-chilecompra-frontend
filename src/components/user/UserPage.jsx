@@ -188,7 +188,7 @@ class UserPage extends React.Component {
                              showModal={this.showModal}
 
                              components={this.components}
-                            // showStoredResult={this.showStoredResult}
+                        
                 />
             </div>
         )

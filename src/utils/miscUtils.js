@@ -130,4 +130,11 @@ export const objectComparer = (object, secondObject, differencesAccumulator) => 
                 }, differencesAccumulator);
 
     return objectAssign({}, diffFirstToSecond, diffSecondToFirst);
-   }
+}
+
+export const arrayObjectProperties = (object, start = 0, end = undefined) => {
+
+    return object.keys.slice(start, end).reduce((accumulator, currentKey) => {       
+            return accumulator.concat({[currentKey]: object[currentKey]});
+        },[])
+}
