@@ -146,29 +146,6 @@ class UserPage extends React.Component {
         this.setState({showModal: true, modalDefaultName: name, enteredNewSubscriptionName: ""});
     }
 
-
-
-    // showStoredResult = (component, index) => {
-    //     //TODO: añadir un loading aqui (y en todas las otras actions async)
-    //     this.setState({
-    //             showFullScreenPane:true,
-    //     })
-
-    //     let name = Object.keys(this.props.fetchedUserSubscriptions)[index];
-
-    //     this.actions.noReduxGetStoredUserSubscriptions(name)
-    //         .then(response => {
-    //                 this.setState({
-    //                     showFullScreenPane:true,
-    //                     FullScreenPaneComponent: component,
-    //                     componentProps: {results: response},
-    //                     menu: this.getMenu(component)
-    //                 })
-    //             })
-    //         .catch(error => {alert(error)})
-    // }
-
-
     render = () => {
         if(this.props.user === null) {
             //probably set initialState of userData to empty fields and then use an onEnter handler in react-router to 
