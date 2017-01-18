@@ -14,6 +14,7 @@ class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
             super(props);
+            console.log("props", props);
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "";

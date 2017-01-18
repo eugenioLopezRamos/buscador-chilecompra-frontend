@@ -3,7 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 //import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
-import {getUserSubscriptions, updateUserSubscription, deleteUserSubscription, getUserSearches, updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
+import {getUserSubscriptions, updateUserSubscription} from '../../actions/UserActions';
+import {deleteUserSubscription, getUserSearches} from '../../actions/UserActions';
+import {updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
+import {getResultHistory} from '../../actions/UserActions';
+import userApi from '../../api/userApi';
 //import {noReduxGetStoredUserSubscriptions} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
@@ -13,6 +17,7 @@ import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
+import ResultComparer from '../ResultComparer.jsx';
 
 
 class UserPage extends React.Component {
@@ -36,6 +41,7 @@ class UserPage extends React.Component {
             ModifyInputFieldsContainer,
             ModifySearchMenu,
             SearchResults,
+            ResultComparer
         }
 
         this.getMenu = (component) => {
@@ -58,7 +64,8 @@ class UserPage extends React.Component {
                         deleteSubscription: props.deleteSubscription,
                         getUserSearches: props.getUserSearches,
                         updateUserSearches: props.updateUserSearches,
-                        deleteUserSearches: props.deleteUserSearches
+                        deleteUserSearches: props.deleteUserSearches,
+                        
                         }
 
     }
@@ -95,7 +102,7 @@ class UserPage extends React.Component {
                         },
                         menu: this.getMenu(component),
                      //   menuProps: {actions: this.updateSearches()}
-                    })
+                    });
     }
 
                     //  handler={this.handleSubscription}
@@ -136,6 +143,28 @@ class UserPage extends React.Component {
 
     onSubscriptionNewNameInput = (event) => {
         this.setState({enteredNewSubscriptionName: event.target.value});
+    }
+
+    getResultHistory = (component, resultId) => {
+        
+           this.setState({
+                        showFullScreenPane:true, 
+                        FullScreenPaneComponent: null,
+                      
+                        menu: this.getMenu(component)
+                        });
+
+
+        userApi.getResultHistory(resultId)
+            .then(response => { 
+                                this.setState({
+                                                showFullScreenPane: true, 
+                                                FullScreenPaneComponent: component, 
+                                                componentProps: {results: response},
+                                                menu: this.getMenu(component)
+                                            });
+                                });
+        
     }
 
     hideModal = () => {
@@ -185,8 +214,9 @@ class UserPage extends React.Component {
                              actions={this.actions}
                              showStoredSearch={this.showStoredSearch}
                              executeStoredSearch={this.executeStoredSearch}
+                             getResultHistory={this.getResultHistory}
                              showModal={this.showModal}
-
+                            
                              components={this.components}
                         
                 />
@@ -222,7 +252,8 @@ function mapDispatchToProps(dispatch) {
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
         updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
-        loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch)
+        loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
+        getResultHistory: bindActionCreators(getResultHistory, dispatch)
     }
 }
 

@@ -240,16 +240,45 @@ export const deleteUserSearchesSuccess = (value) => {
 export const deleteUserSearchesFailure = (value) => {
     return {type: types.USER_DELETE_SEARCHES_FAILURE, value};
 }
-export const deleteUserSearches = (index) => {
+export const deleteUserSearches = (id) => {
   
-    return (dispatch, getState) => {
+    return (dispatch) => {
         //gets the id of the UserSearch that was clicked according to its index, from the redux store
-       let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
-        userApi.deleteSearches({search: {id}}).then(response => {
+      // let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
+        userApi.deleteSearches({search: {id}})
+                            .then(response => {
                                     dispatch(deleteUserSearchesSuccess(response));
                                 })
                             .catch(error => {
                                 dispatch(deleteUserSearchesFailure(error));
                             });
     }
+}
+
+export const getResultHistorySuccess = (value) => {
+    return {type: types.GET_RESULT_HISTORY_SUCCESS, value};
+}
+
+export const getResultHistoryFailure = (value) => {
+    return {type: types.GET_RESULT_HISTORY_FAILURE, value};
+}
+
+export const getResultHistory = (resultId) => {
+
+    return (dispatch) => {
+        
+        dispatch({type: types.GET_RESULT_HISTORY});
+
+        userApi.getResultHistory(resultId)
+            .then(response => {
+                dispatch(getResultHistorySuccess(response));
+            })
+            .catch(error => {
+                dispatch(getResultHistoryFailure(error));
+            })
+
+    }
+
+
+
 }

@@ -19,6 +19,7 @@
 
 $main-jumbotron-margintop: 50px;
 $searchtype-picker-font-size: 1.5em;
+$object-container-padding: 20px;
 
 select {
     max-width: 100%;
@@ -385,6 +386,48 @@ select {
 }
 .allow-wrap {
     white-space: initial;
+}
+
+.original-result-container {
+    display:flex;
+    flex-direction: column;
+    width:40%;
+}
+
+.main-result-comparer-container {
+    display:flex;
+
+}
+
+.all-differences-container {
+    display:flex;
+   // flex-direction: column;
+}
+.primitive {
+    word-wrap: break-word;
+}
+
+.single-difference-container {
+    display:flex;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.difference-item {
+
+}
+
+
+.object-container-name {
+    margin-left: -$object-container-padding;
+}
+.object-container {
+
+    padding-left: $object-container-padding;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+
 }
 
 

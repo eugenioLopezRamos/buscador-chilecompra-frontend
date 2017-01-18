@@ -10,12 +10,12 @@ class fetchApi {
     }
 
     static getChileCompraData(state) {
-        let estado = state;
+        
         // These two are yet to be implemented! - Maybe not even here.
         //let loginStatus = estado.login
         //let loginToken = estado.loginToken 
-        let queryVals = estado.inputFieldValues; //queryValues
-        let searchType = estado.searchType;
+        let queryVals = state.inputFieldValues; //queryValues
+        let searchType = state.searchType;
         let fieldsPerSearchType = {
                                     "listado": ["estadoLicitacion", "organismoPublico"],
                                     "proveedor": ["rutProveedor"],

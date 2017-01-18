@@ -8,6 +8,7 @@ const UserProfile = (props) => {
                     })
     
     const handleSearchDelete = (index) => {
+        let id = Object.values(props.userSearches.id)[index];
         props.actions.deleteUserSearches(index);
     }
 
@@ -19,10 +20,6 @@ const UserProfile = (props) => {
         props.executeStoredSearch(component, index);
     }
 
-    // const showStoredResult = (component, index) => {
-    //     props.showStoredResult(component, index);
-    // }
-
     const handleSubscriptionDelete = (name) => {
         props.actions.deleteSubscription(name);   
     }
@@ -31,8 +28,10 @@ const UserProfile = (props) => {
         props.actions.updateSubscription
     }
 
-    const handleShowSubscriptionHistory = (resultId) => {
-        console.log("result", resultId);
+    const handleShowSubscriptionHistory = (component, resultId) => {
+        // do a request to the API for all records with CodigoExterno equal to Result.where(id: resultId).first.value["Listado"][0]["CodigoExterno"]
+        //
+        props.getResultHistory(component, resultId);
     }
 
 
@@ -77,7 +76,7 @@ const UserProfile = (props) => {
                         let resultId = props.userSubscriptions[e];
                         return <li className="list-group-item saved-items" key={"results" + e}>
                                 <span className="saved-items-description">{e}</span>
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleShowSubscriptionHistory(resultId)}}>Mostrar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleShowSubscriptionHistory(props.components.ResultComparer, resultId)}}>Mostrar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {props.showModal(e)}}>Modificar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {handleSubscriptionDelete(e)}}>Eliminar</button>
                                </li>

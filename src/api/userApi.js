@@ -124,7 +124,10 @@ class userApi {
         return userDataFetcher('searches', 'DELETE', searches);
     }
 
-
+    //RESULT HISTORY
+    static getResultHistory(resultId) {
+        return userDataFetcher(`results/history?id=${resultId}`, 'GET');
+    }
 }
 
 export default userApi;
