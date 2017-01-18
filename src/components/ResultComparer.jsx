@@ -98,55 +98,50 @@ class ResultComparer extends React.Component {
                                             return JSON.stringify(kis) != JSON.stringify(sameAsEmpty)
                                         }
                                     )();
+        let drawDifferences = () => {
+            if(areThereDifferences) {
+                return differences
+                        .map((currentResult) => {
+                            return (
+                                    <div className="single-difference-container">
+                                    {
+                                        Object.keys(currentResult.value).map(currentKey => {
+                                            return (
+                                                    <div className="difference-item">
+                                                        {this.renderValues(currentResult.value[currentKey], currentKey)}
+                                                    </div>
+                                                    );
+                                        })
+                                    }                
+                                    </div>
+                                    )  
+                        })
+            }
+            return <div className="single-difference-container">Sin variaciones</div>;
+        }
     
 
         return (
-        <div className="main-result-comparer-container">
-            <div className="original-result-container">
-            { 
-                Object.keys(firstResult.value).map((currentKey) => {
-                    return this.renderValues(firstResult.value[currentKey], currentKey);
-                })
-            }
+        <div>
+            <span className="">Variaciones del resultado</span>
+            <div className="main-result-comparer-container">
+                
+                <div className="original-result-container">
+                    <div className="original-result-title">Resultado</div>
+                    { 
+                        Object.keys(firstResult.value).map((currentKey) => {
+                            return this.renderValues(firstResult.value[currentKey], currentKey);
+                        })
+                    }
+                </div>
+                <div className="all-differences-container">
+                    <div className="all-differences-title">Detalle de variaciones</div>
+                    <div className="all-differences-each">
+                        {drawDifferences()}
+                    </div>
+                </div>
+            
             </div>
-            <div className="all-differences-container">
-            {   
-                // restOfResults = [
-            //                      {
-        //                           key1: {anterior: "aaa", nuevo: "bbb"},
-        //                           key2: {subKey1: {anterior: "aaa", nuevo: "bbb"}}
-  //                                 removido: {removedKey: "zzzz"}
-//                                   añadido: {addedKey: "yyyy"}
-//                                  },
-//                                  {
-//                                   otroKey1: {....etc}                                      
-//                                   ...etc
-//                                  }
-            //    ]
-                //
-               this.areThereDifferences ? 
-                                        differences.map((currentResult) => {
-                                            return (
-                                                    <div className="single-difference-container">
-                                                    {
-                                                        Object.keys(currentResult.value).map(currentKey => {
-                                                            return (
-                                                                    <div className="difference-item">
-
-                                                                        {this.renderValues(currentResult.value[currentKey], currentKey)}
-                                                                    
-                                                                    </div>
-                                                                    );
-                                                        })
-                                                    }                
-                                                    </div>
-                                                    )  
-                                        })
-                                        :
-                                        <div className="single-difference-container">No hay diferencias</div>
-            }
-            </div>
-        
         </div>
         )
     }
