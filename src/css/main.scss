@@ -387,24 +387,49 @@ select {
 .allow-wrap {
     white-space: initial;
 }
-
+.result-comparer-main-title {
+    text-align:center;
+}
 .original-result-container {
     display:flex;
     flex-direction: column;
     width:40%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.original-result-title {
+    text-align: center;
 }
 
 .main-result-comparer-container {
     display:flex;
+    padding: 10px 25px 10px 25px
 
 }
 
 .all-differences-container {
     display:flex;
-   // flex-direction: column;
+    flex-direction: column;
+    min-width: 55%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
+
+.all-differences-title {
+    text-align: center;
+}
+
+.all-differences-each {
+    display:flex;
+    flex-direction: column;
+}
+
 .primitive {
     word-wrap: break-word;
+    border-left: 1px solid black;
+    padding-left: 10px;
 }
 
 .single-difference-container {
@@ -417,17 +442,36 @@ select {
 }
 
 
+// .original-result-container > .object-data-container-array > .object-container-name {
+
+//         margin-left:0;
+
+ 
+// }
+
 .object-container-name {
     margin-left: -$object-container-padding;
 }
 .object-container {
+    display: flex;
+    flex-direction: column;
+}
+// .object-data-container-array {
+//     padding-left: $object-container-padding;
+// }
+// .original-result-container > .object-data-container-array {
+//     padding-left: 0;
+// }
 
+
+
+
+.object-data-container {
     padding-left: $object-container-padding;
     margin-top: 5px;
     margin-bottom: 5px;
     display: flex;
     flex-direction: column;
-
 }
 
 

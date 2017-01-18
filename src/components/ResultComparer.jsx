@@ -25,14 +25,13 @@ class ResultComparer extends React.Component {
                         return;
                     }
                     let toCompare = this.props.results.slice(index, index+2);
-                    console.log("index", index,"Tocompare", toCompare);
-                    console.log("this props results", this.props.results);
                     return utils.objectComparer(toCompare[0], toCompare[1], {});
                 })
                 .filter(e => e);
     }
 
     renderValues = (object, keyName) => {
+        console.log("rendervalue object", object, "rendervalue keyname", keyName);
         //TODO: refactor this.
         if(utils.isPrimitive(object)) {
             return <span className="primitive">{`${keyName}: ${object}`}</span>;
@@ -40,23 +39,27 @@ class ResultComparer extends React.Component {
         
         let objectType = Object.prototype.toString.call(object);
         if(objectType === "[object Array]") {
-            return (<div className="object-container">
-                        <span className="object-container-name">{keyName}</span>
+            return (<div className="object-data-container">
+                        <span className="object-container-name" onClick={(span) => {alert(`array ${span.target.classList}${document.querySelectorAll(span.target.classList).length}`)}}>{keyName}</span>
+                        <div className="object-container">
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], null);
                             })
                         }
+                        </div>
                     </div>)
         }
         if(objectType === "[object Object]") {
-            return (<div className="object-container">
-                        <span className="object-container-name">{keyName}</span>
+            return (<div className="object-data-container">
+                        <span className="object-container-name" onClick={(span) => {console.log(`object ${keyName} ${span}`, span)}} >{keyName}</span>
+                        <div className="object-container">
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], currentKey);
                             })
                         }
+                        </div>
                     </div>)
         }
 
@@ -78,27 +81,28 @@ class ResultComparer extends React.Component {
         //                    removed: {key3: "this is the third"}
         //                   }
         //
-        let firstResult = this.props.results.slice(0, 1)[0]; //utils.arrayObjectProperties(this.props.results, 0, 1);
-       // let restOfResults = this.props.results.slice(1); //utils.arrayObjectProperties(this.props.results, 1);
+        let firstResult = this.props.results.slice(0, 1)[0];
         let differences = this.differences();
+
         let areThereDifferences = (() => {
                                             //Consider no differences if the only thing that was modified was FechaCreacion
                                             let sameAsEmpty = ["FechaCreacion"];
-                                            let differenceKeys = Object.values(differences)//.map(result => Object.values(differences[result]))
+                                            //let differenceKeys = Object.values(differences)//.map(result => Object.values(differences[result]))
                                          
-                                            let kis = differences.map(result => result.value)
-                                                       .reduce((accumulator, current) => {
-                                                               //  debugger
-                                                            if(accumulator.indexOf(Object.keys(current).join()) > -1){
-                                                                return accumulator;
-
-                                                            }
-                                                            return accumulator.concat(Object.keys(current));
-                                                        }, []);
-                                            return JSON.stringify(kis) != JSON.stringify(sameAsEmpty)
+                                            let differencesUniqueProperties = differences.map(result => result.value)
+                                                                                .reduce((accumulator, current) => {
+                                                                                        //find if the the keys.join() of current are in the accumulator.
+                                                                                        // In case there's more than one key, it's irrelevant since we
+                                                                                        // just care about the end result being ["FechaCreacion"] 
+                                                                                        if(accumulator.indexOf(Object.keys(current).join()) > -1){
+                                                                                            return accumulator;
+                                                                                        }
+                                                                                        return accumulator.concat(Object.keys(current));
+                                                                                    }, []);
+                                            return JSON.stringify(differencesUniqueProperties) != JSON.stringify(sameAsEmpty)
                                         }
                                     )();
-        let drawDifferences = () => {
+        let renderDifferences = () => {
             if(areThereDifferences) {
                 return differences
                         .map((currentResult) => {
@@ -123,7 +127,10 @@ class ResultComparer extends React.Component {
 
         return (
         <div>
-            <span className="">Variaciones del resultado</span>
+            <div className="result-comparer-main-title">
+                Variaciones del resultado
+            </div>
+
             <div className="main-result-comparer-container">
                 
                 <div className="original-result-container">
@@ -137,7 +144,7 @@ class ResultComparer extends React.Component {
                 <div className="all-differences-container">
                     <div className="all-differences-title">Detalle de variaciones</div>
                     <div className="all-differences-each">
-                        {drawDifferences()}
+                        {renderDifferences()}
                     </div>
                 </div>
             
@@ -148,16 +155,6 @@ class ResultComparer extends React.Component {
 
 
 }
-
-
-
-            // {
-            //     differences.value.keys.map((currentKey) => {
-            //         return renderValues(differences[currentKey], currentKey);
-            //     })
-            // }
-
-
 
 ResultComparer.propTypes = {
     results: PropTypes.array.isRequired
