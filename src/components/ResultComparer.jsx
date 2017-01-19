@@ -39,6 +39,7 @@ class ResultComparer extends React.Component {
                         return;
                     }
                     let toCompare = this.props.results.slice(index, index+2);
+                    //console.log("compare 1", toCompare[0], "tocompare 2", toCompare[1]);
                     return utils.objectComparer(toCompare[0], toCompare[1], {});
                 })
                 .filter(e => e);
@@ -47,14 +48,17 @@ class ResultComparer extends React.Component {
     renderValues = (object, keyName) => {
         //TODO: refactor this.
         if(utils.isPrimitive(object)) {
-            return <span className="primitive" key={`${keyName}${object}`}>{`${keyName}: ${object}`}</span>;
+            return <span className="primitive" key={`${keyName}${object}`}>
+                    <span className="inPrimitive-key">{keyName}:</span>
+                    <span className="inPrimitive-value"> {object}</span>
+                  </span>;
         }
         
         let objectType = Object.prototype.toString.call(object);
         if(objectType === "[object Array]") {
             this.counter++
             let number = this.counter;
-            return (<div className="object-data-container" >
+            return (<div className="object-data-container" key={number}>
 
                         <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
                             {keyName}
@@ -62,7 +66,11 @@ class ResultComparer extends React.Component {
                         <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
                             Object.keys(object).map((currentKey) => {
-                                return this.renderValues(object[currentKey], null);
+                                let keyName = null;
+                                if(Object.keys(object).length > 1) {
+                                    keyName = `${parseInt(currentKey,10) + 1})`;
+                                }
+                                return this.renderValues(object[currentKey], keyName);
                             })
                         }
                         </div>
@@ -72,14 +80,15 @@ class ResultComparer extends React.Component {
             this.counter++
             let number = this.counter;
             
-            return (<div className="object-data-container">        
+            return (<div className="object-data-container" key={number}>        
                         <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
                             {keyName}
                         </span>
                         <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
                             Object.keys(object).map((currentKey) => {
-                                return this.renderValues(object[currentKey], currentKey);
+                                let keyName = currentKey;
+                                return this.renderValues(object[currentKey], keyName);
                             })
                         }
                         </div>
@@ -107,6 +116,7 @@ class ResultComparer extends React.Component {
                                                                                         }
                                                                                         return accumulator.concat(Object.keys(current));
                                                                                     }, []);
+                                                                                    console.log("differences", differencesUniqueProperties);
                                             return JSON.stringify(differencesUniqueProperties) != JSON.stringify(sameAsEmpty)
                                         }
                                     )();
@@ -134,35 +144,32 @@ class ResultComparer extends React.Component {
     
 
         return (
-        <div>  
-            <div className="result-comparer-main-title">
-                Variaciones del resultado
-            </div>
+            <div style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
+                <div className="result-comparer-main-title">
+                    Variaciones del resultado
+                </div>
 
-            <div className="main-result-comparer-container">
+                <div className="main-result-comparer-container">
+                    <div className="original-result-container">
+                        <div className="original-result-title">Resultado</div>
+                        { 
+                            Object.keys(firstResult.value).map((currentKey) => {
+                                return this.renderValues(firstResult.value[currentKey], currentKey);
+                            })
+                        }
+                    </div>
+
+                    <div className="all-differences-container">
+                        <div className="all-differences-title">
+                            Detalle de variaciones
+                        </div>
+                        <div className="all-differences-each">
+                            {renderDifferences()}
+                        </div>
+                    </div>
                 
-                <div className="original-result-container">
-                    <div className="original-result-title">Resultado</div>
-                    { 
-                        Object.keys(firstResult.value).map((currentKey) => {
-                            return this.renderValues(firstResult.value[currentKey], currentKey);
-                        })
-                    }
-                     
                 </div>
-
-                <div className="all-differences-container">
-                    <div className="all-differences-title">
-                        Detalle de variaciones
-                    </div>
-                    <div className="all-differences-each">
-                        {renderDifferences()}
-                    </div>
-                </div>
-            
             </div>
-           {console.log("rendered refs", this.objectContainers, "REFS", this.refs, "THIS", this)}
-        </div>
         
         )
         

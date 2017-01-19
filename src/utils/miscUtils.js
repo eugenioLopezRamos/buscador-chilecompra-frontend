@@ -73,6 +73,15 @@ export const objectTransverser = (object) => {
 
 export const objectComparer = (object, secondObject, differencesAccumulator) => {
     //TODO: DRY this up
+    console.log("object", object, "secondobject", secondObject);
+    const baseObject = object || {};
+    const baseSecondObject = secondObject || {};
+
+    console.log("base objects", baseObject, "ANOTHER", baseSecondObject);
+    //if object = null => object = undefined;
+        //ver como tratar el caso en que un object es undefined/null y el otro es [tipo]
+
+
         let diffFirstToSecond = Object.keys(object).reduce((differences, element) => {
                     //check if object[element] exists on both objects.If it does't, return that as a difference
                     if(secondObject[element] === undefined) {                    

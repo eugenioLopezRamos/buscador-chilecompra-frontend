@@ -28,7 +28,6 @@ class fetchApi {
                 fieldsPerSearchType[e].push("palabrasClave");
             })
         })();
-
         let queryFields = [
             `estadoLicitacion=${queryVals.selectedEstadoLicitacion}`,
             `codigoLicitacion=${queryVals.codigoLicitacion}`,
@@ -38,8 +37,8 @@ class fetchApi {
             `palabrasClave=${queryVals.palabrasClave}`
             ]
 
-        let appropiateFields = fieldsPerSearchType[searchType];
-        let query = appropiateFields.map(elem => { //extracts the corresponding chunks of the query from queryFields
+       // let appropiateFields = fieldsPerSearchType[searchType];
+        let query = queryFields.map(elem => { //extracts the corresponding chunks of the query from queryFields
                 let filter = new RegExp(elem);
                 return queryFields.filter(queryChunk => {
                     if(filter.test(queryChunk)) {
