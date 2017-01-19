@@ -11,25 +11,8 @@ import objectAssign from 'object-assign';
 class ResultComparer extends React.Component {
     constructor(props) {
         super(props);
-
-        // this.objectContainersFromArraysAmount = 0;
-        // this.objectContainersFromObjectsAmount = 0;
-        // this.objectContainersNamesObject = 0;
-       // this.objectContainers = {};
-        // this.objectCont = null;
-
-        // this.objectContainers = {
-        //     fromArrays: {
-        //         namesAmount: 0,
-        //         containersAmount:0,
-        //         domElements: {}
-        //     },
-        //     fromObjects: {
-        //         namesAmount: 0,
-        //         containersAmount:0,
-        //         domElements: {}
-        //     }
-        // }
+        this.counter = 0;
+        this.containers = [];
 
     }
         //props.results = {
@@ -37,56 +20,17 @@ class ResultComparer extends React.Component {
   //          result2: {...},
 //            result3: {...},
     //}       result4: {...}
+    toggleOpen = (target) => {
+        let currentDisplayStatus =  target.style.display;
 
-    // createArtificialRefs = (target, type, number) => {
-        
-    //    // console.log("create artificalrefs this", this)
-    //     if(type === "array") {
-    //         this.objectContainers.fromArrays.domElements[`object-${number+1}`] = target
-    //     }
-    //     if(type === "object") {
-        
-    //         this.objectContainers.fromObjects.domElements[`object-${number+1}`] = target
-    //     }
-
-    // }
-
-    // returnClickHandler =  (number, type) => {
-    //                       let self = this;
-    //                      //  let number = this.objectContainersFromObjectsAmount++;
-    //                       let typeString = utils.capitalize(type) + "s";
-    //                         console.log("number return", number);
-
-    //                        return function(){
-    //                             let nameString = `object-${number}`;      
-                            
-    //                             self.toggleOpen(nameString, type);
-    //                         }
-
-
-    // }
-
-    // getArtificialRefs = (target, type) => {
-    //     if(type === "array") {
-    //         return this.objectContainers.fromArrays.domElements[target];
-    //     }
-    //     return this.objectContainers.fromObjects.domElements[target]; 
-    // }
-
-    // toggleOpen = (target, type) => {
-    //     console.log("TOGGLEOPEN TARGET", target)
-
-    //    let currentDisplayStatus =  this.getArtificialRefs(target, type).style.display;
-
-    //    if(currentDisplayStatus === "none"){
-    //         this.getArtificialRefs(target, type).style.display = "flex";
-    //     } else {
-    //         this.getArtificialRefs(target).style.display = "none";
-    //     }
+        if(currentDisplayStatus === "none"){
+            target.style.display = "flex";
+        } 
+        else {
+            target.style.display = "none";
+        }
     
-    // }
-
-
+    }
 
     //differences => [{result1 with result2}, {result2 with result3}, {result3 with result4}]
     differences = () => {
@@ -101,24 +45,21 @@ class ResultComparer extends React.Component {
     }
 
     renderValues = (object, keyName) => {
-       // console.log("rendervalue object", object, "rendervalue keyname", keyName);
         //TODO: refactor this.
         if(utils.isPrimitive(object)) {
             return <span className="primitive" key={`${keyName}${object}`}>{`${keyName}: ${object}`}</span>;
         }
         
         let objectType = Object.prototype.toString.call(object);
-        //voy a crear subcomponentes => 
-        // <ObjectDataContainer objectProp={object}>
-        //  y ahi cada ObjectDatContainer tendrá el clickHandler con refs para cada combinación titulo/contenido
-        // </ObjectDataContainer>
         if(objectType === "[object Array]") {
-            return (<div className="object-data-container">
-                    
-                        <span className="object-container-name">
+            this.counter++
+            let number = this.counter;
+            return (<div className="object-data-container" >
+
+                        <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
                             {keyName}
                         </span>
-                        <div className="object-container">
+                        <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], null);
@@ -128,12 +69,14 @@ class ResultComparer extends React.Component {
                     </div>)
         }
         if(objectType === "[object Object]") {
+            this.counter++
+            let number = this.counter;
             
             return (<div className="object-data-container">        
-                        <span className="object-container-name">
+                        <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
                             {keyName}
                         </span>
-                        <div className="object-container">
+                        <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], currentKey);
@@ -142,7 +85,6 @@ class ResultComparer extends React.Component {
                         </div>
                     </div>)
         }
-
     }
 
     render = () => {
