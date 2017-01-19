@@ -82,26 +82,26 @@ export const objectComparer = (object, secondObject, differencesAccumulator) => 
         //ver como tratar el caso en que un object es undefined/null y el otro es [tipo]
 
 
-        let diffFirstToSecond = Object.keys(object).reduce((differences, element) => {
+        let diffFirstToSecond = Object.keys(baseObject).reduce((differences, element) => {
                     //check if object[element] exists on both objects.If it does't, return that as a difference
-                    if(secondObject[element] === undefined) {                    
-                        differences["removidos"] ? differences["removidos"][element] = object[element] : differences["removidos"] = {[element]: object[element]};
+                    if(baseSecondObject[element] === undefined) {                    
+                        differences["removidos"] ? differences["removidos"][element] = baseObject[element] : differences["removidos"] = {[element]: baseObject[element]};
                         return differences;
                     }
 
                     //value is a primitive? check if values are equal then return the same differences if they are equal or
-                    //differences with key [element] = {anterior: object[element], nuevo: secondObject[element]};
-                    if(isPrimitive(object[element]) && isPrimitive(secondObject[element])) {
-                        if(object[element] === secondObject[element]) {
+                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
+                    if(isPrimitive(baseObject[element]) && isPrimitive(baseSecondObject[element])) {
+                        if(baseObject[element] === baseSecondObject[element]) {
                             return differences;
                         }else {
-                            differences[element] = {anterior: object[element], nuevo: secondObject[element]};
+                            differences[element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
                             return differences;
                         }
                     }
                     //Otherwise, iterate until you find a primitive 
                     else {
-                        let subObjectDifferences = objectComparer(object[element], secondObject[element], {});
+                        let subObjectDifferences = objectComparer(baseObject[element], baseSecondObject[element], {});
                         if(Object.keys(subObjectDifferences).length > 0) {
                             differences[element] = subObjectDifferences;
                         }
@@ -111,26 +111,26 @@ export const objectComparer = (object, secondObject, differencesAccumulator) => 
 /********************************************************************************************************************** */
 /********************************************************************************************************************** */
 /********************************************************************************************************************** */
-        let diffSecondToFirst = Object.keys(secondObject).reduce((differences, element) => {
-                    //check if object[element] exists on both objects.If it does't, return that as a difference
-                    if(object[element] === undefined) {
-                            differences["añadidos"] ? differences["añadidos"][element] = secondOject[element] : differences["añadidos"] = {[element]: secondObject[element]};
+        let diffSecondToFirst = Object.keys(baseSecondObject).reduce((differences, element) => {
+                    //check if baseObject[element] exists on both objects.If it does't, return that as a difference
+                    if(baseObject[element] === undefined) {
+                            differences["añadidos"] ? differences["añadidos"][element] = baseSecondObject[element] : differences["añadidos"] = {[element]: baseSecondObject[element]};
                             return differences;
                     }
 
                     //value is a primitive? check if values are equal then return the same differences if they are equal or
-                    //differences with key [element] = {anterior: object[element], nuevo: secondObject[element]};
-                    if(isPrimitive(object[element]) && isPrimitive(secondObject[element])) {
-                        if(object[element] === secondObject[element]) {
+                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
+                    if(isPrimitive(baseObject[element]) && isPrimitive(baseSecondObject[element])) {
+                        if(baseObject[element] === baseSecondObject[element]) {
                             return differences;
                         }else {
-                            differences[element] = {anterior: object[element], nuevo: secondObject[element]};
+                            differences[element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
                             return differences;
                         }
                     }
                     //Otherwise, iterate until you find a primitive 
                     else {
-                        let subObjectDifferences = objectComparer(object[element], secondObject[element], {});
+                        let subObjectDifferences = objectComparer(baseObject[element], baseSecondObject[element], {});
                         if(Object.keys(subObjectDifferences).length > 0) {
                             differences[element] = subObjectDifferences;
                         }
