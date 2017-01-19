@@ -16,20 +16,20 @@ class ResultComparer extends React.Component {
         // this.objectContainersFromObjectsAmount = 0;
         // this.objectContainersNamesObject = 0;
        // this.objectContainers = {};
-        this.objectCont = null;
+        // this.objectCont = null;
 
-        this.objectContainers = {
-            fromArrays: {
-                namesAmount: 0,
-                containersAmount:0,
-                domElements: {}
-            },
-            fromObjects: {
-                namesAmount: 0,
-                containersAmount:0,
-                domElements: {}
-            }
-        }
+        // this.objectContainers = {
+        //     fromArrays: {
+        //         namesAmount: 0,
+        //         containersAmount:0,
+        //         domElements: {}
+        //     },
+        //     fromObjects: {
+        //         namesAmount: 0,
+        //         containersAmount:0,
+        //         domElements: {}
+        //     }
+        // }
 
     }
         //props.results = {
@@ -38,53 +38,53 @@ class ResultComparer extends React.Component {
 //            result3: {...},
     //}       result4: {...}
 
-    createArtificialRefs = (target, type, number) => {
+    // createArtificialRefs = (target, type, number) => {
         
-       // console.log("create artificalrefs this", this)
-        if(type === "array") {
-            this.objectContainers.fromArrays.domElements[`object-${number+1}`] = target
-        }
-        if(type === "object") {
+    //    // console.log("create artificalrefs this", this)
+    //     if(type === "array") {
+    //         this.objectContainers.fromArrays.domElements[`object-${number+1}`] = target
+    //     }
+    //     if(type === "object") {
         
-            this.objectContainers.fromObjects.domElements[`object-${number+1}`] = target
-        }
+    //         this.objectContainers.fromObjects.domElements[`object-${number+1}`] = target
+    //     }
 
-    }
+    // }
 
-    returnClickHandler =  (number, type) => {
-                          let self = this;
-                         //  let number = this.objectContainersFromObjectsAmount++;
-                          let typeString = utils.capitalize(type) + "s";
-                            console.log("number return", number);
+    // returnClickHandler =  (number, type) => {
+    //                       let self = this;
+    //                      //  let number = this.objectContainersFromObjectsAmount++;
+    //                       let typeString = utils.capitalize(type) + "s";
+    //                         console.log("number return", number);
 
-                           return function(){
-                                let nameString = `object-${number}`;      
+    //                        return function(){
+    //                             let nameString = `object-${number}`;      
                             
-                                self.toggleOpen(nameString, type);
-                            }
+    //                             self.toggleOpen(nameString, type);
+    //                         }
 
 
-    }
+    // }
 
-    getArtificialRefs = (target, type) => {
-        if(type === "array") {
-            return this.objectContainers.fromArrays.domElements[target];
-        }
-        return this.objectContainers.fromObjects.domElements[target]; 
-    }
+    // getArtificialRefs = (target, type) => {
+    //     if(type === "array") {
+    //         return this.objectContainers.fromArrays.domElements[target];
+    //     }
+    //     return this.objectContainers.fromObjects.domElements[target]; 
+    // }
 
-    toggleOpen = (target, type) => {
-        console.log("TOGGLEOPEN TARGET", target)
+    // toggleOpen = (target, type) => {
+    //     console.log("TOGGLEOPEN TARGET", target)
 
-       let currentDisplayStatus =  this.getArtificialRefs(target, type).style.display;
+    //    let currentDisplayStatus =  this.getArtificialRefs(target, type).style.display;
 
-       if(currentDisplayStatus === "none"){
-            this.getArtificialRefs(target, type).style.display = "flex";
-        } else {
-            this.getArtificialRefs(target).style.display = "none";
-        }
+    //    if(currentDisplayStatus === "none"){
+    //         this.getArtificialRefs(target, type).style.display = "flex";
+    //     } else {
+    //         this.getArtificialRefs(target).style.display = "none";
+    //     }
     
-    }
+    // }
 
 
 
@@ -108,25 +108,17 @@ class ResultComparer extends React.Component {
         }
         
         let objectType = Object.prototype.toString.call(object);
+        //voy a crear subcomponentes => 
+        // <ObjectDataContainer objectProp={object}>
+        //  y ahi cada ObjectDatContainer tendrá el clickHandler con refs para cada combinación titulo/contenido
+        // </ObjectDataContainer>
         if(objectType === "[object Array]") {
             return (<div className="object-data-container">
                     
-                        <span className="object-container-name" 
-                        onClick={
-                            (this.returnClickHandler(this.objectContainers.fromArrays.namesAmount++, "array"))
-                        
-                        
-                    
-                        }>
+                        <span className="object-container-name">
                             {keyName}
                         </span>
-                        <div className="object-container" 
-                        ref={(objectContainer) => {
-                            this.objectCont = objectContainer;
-
-                            this.createArtificialRefs(this.objectCont, "object", this.objectContainers.fromArrays.containersAmount++)} 
-                        }
-                        >
+                        <div className="object-container">
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], null);
@@ -137,36 +129,17 @@ class ResultComparer extends React.Component {
         }
         if(objectType === "[object Object]") {
             
-            return (<div className="object-data-container">
-            
-                        <span className="object-container-name" 
-                        
-                        onClick={
-                                (this.returnClickHandler(this.objectContainers.fromObjects.namesAmount++, "object"))
-
-                      
-                            
-                                 }
-                                
-                                
-                                >
-
+            return (<div className="object-data-container">        
+                        <span className="object-container-name">
                             {keyName}
                         </span>
-                        <div className="object-container" 
-                        ref={(objectContainer) => {
-                            this.objectCont = objectContainer;
-                            
-                            this.createArtificialRefs(this.objectCont, "object", this.objectContainers.fromObjects.containersAmount++)} 
-                        }
-                        >
+                        <div className="object-container">
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], currentKey);
                             })
                         }
                         </div>
-                      
                     </div>)
         }
 
