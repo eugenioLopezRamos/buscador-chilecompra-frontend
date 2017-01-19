@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FullScreenPane = (props) => {
-    console.log("fullscreen pane props", props);
+    //console.log("fullscreen pane props", props);
     //not needed, but React gives a warning if I make these just render null and then call them on the return statement
     // "React.createElement: type should not be null, undefined, boolean, or number."
     const menu = props.menu ? <props.menu /> : null;

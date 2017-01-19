@@ -4,18 +4,88 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from  'redux';
 import * as types from '../actions/actionTypes';
 import * as utils from '../utils/miscUtils';
+import objectAssign from 'object-assign';
 
 
 
 class ResultComparer extends React.Component {
     constructor(props) {
         super(props);
+
+        // this.objectContainersFromArraysAmount = 0;
+        // this.objectContainersFromObjectsAmount = 0;
+        // this.objectContainersNamesObject = 0;
+       // this.objectContainers = {};
+        this.objectCont = null;
+
+        this.objectContainers = {
+            fromArrays: {
+                namesAmount: 0,
+                containersAmount:0,
+                domElements: {}
+            },
+            fromObjects: {
+                namesAmount: 0,
+                containersAmount:0,
+                domElements: {}
+            }
+        }
+
     }
         //props.results = {
  //           result1: {...},
   //          result2: {...},
 //            result3: {...},
     //}       result4: {...}
+
+    createArtificialRefs = (target, type, number) => {
+        
+       // console.log("create artificalrefs this", this)
+        if(type === "array") {
+            this.objectContainers.fromArrays.domElements[`object-${number+1}`] = target
+        }
+        if(type === "object") {
+        
+            this.objectContainers.fromObjects.domElements[`object-${number+1}`] = target
+        }
+
+    }
+
+    returnClickHandler =  (number, type) => {
+                          let self = this;
+                         //  let number = this.objectContainersFromObjectsAmount++;
+                          let typeString = utils.capitalize(type) + "s";
+                            console.log("number return", number);
+
+                           return function(){
+                                let nameString = `object-${number}`;      
+                            
+                                self.toggleOpen(nameString, type);
+                            }
+
+
+    }
+
+    getArtificialRefs = (target, type) => {
+        if(type === "array") {
+            return this.objectContainers.fromArrays.domElements[target];
+        }
+        return this.objectContainers.fromObjects.domElements[target]; 
+    }
+
+    toggleOpen = (target, type) => {
+        console.log("TOGGLEOPEN TARGET", target)
+
+       let currentDisplayStatus =  this.getArtificialRefs(target, type).style.display;
+
+       if(currentDisplayStatus === "none"){
+            this.getArtificialRefs(target, type).style.display = "flex";
+        } else {
+            this.getArtificialRefs(target).style.display = "none";
+        }
+    
+    }
+
 
 
     //differences => [{result1 with result2}, {result2 with result3}, {result3 with result4}]
@@ -31,17 +101,32 @@ class ResultComparer extends React.Component {
     }
 
     renderValues = (object, keyName) => {
-        console.log("rendervalue object", object, "rendervalue keyname", keyName);
+       // console.log("rendervalue object", object, "rendervalue keyname", keyName);
         //TODO: refactor this.
         if(utils.isPrimitive(object)) {
-            return <span className="primitive">{`${keyName}: ${object}`}</span>;
+            return <span className="primitive" key={`${keyName}${object}`}>{`${keyName}: ${object}`}</span>;
         }
         
         let objectType = Object.prototype.toString.call(object);
         if(objectType === "[object Array]") {
             return (<div className="object-data-container">
-                        <span className="object-container-name" onClick={(span) => {alert(`array ${span.target.classList}${document.querySelectorAll(span.target.classList).length}`)}}>{keyName}</span>
-                        <div className="object-container">
+                    
+                        <span className="object-container-name" 
+                        onClick={
+                            (this.returnClickHandler(this.objectContainers.fromArrays.namesAmount++, "array"))
+                        
+                        
+                    
+                        }>
+                            {keyName}
+                        </span>
+                        <div className="object-container" 
+                        ref={(objectContainer) => {
+                            this.objectCont = objectContainer;
+
+                            this.createArtificialRefs(this.objectCont, "object", this.objectContainers.fromArrays.containersAmount++)} 
+                        }
+                        >
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], null);
@@ -51,15 +136,37 @@ class ResultComparer extends React.Component {
                     </div>)
         }
         if(objectType === "[object Object]") {
+            
             return (<div className="object-data-container">
-                        <span className="object-container-name" onClick={(span) => {console.log(`object ${keyName} ${span}`, span)}} >{keyName}</span>
-                        <div className="object-container">
+            
+                        <span className="object-container-name" 
+                        
+                        onClick={
+                                (this.returnClickHandler(this.objectContainers.fromObjects.namesAmount++, "object"))
+
+                      
+                            
+                                 }
+                                
+                                
+                                >
+
+                            {keyName}
+                        </span>
+                        <div className="object-container" 
+                        ref={(objectContainer) => {
+                            this.objectCont = objectContainer;
+                            
+                            this.createArtificialRefs(this.objectCont, "object", this.objectContainers.fromObjects.containersAmount++)} 
+                        }
+                        >
                         {
                             Object.keys(object).map((currentKey) => {
                                 return this.renderValues(object[currentKey], currentKey);
                             })
                         }
                         </div>
+                      
                     </div>)
         }
 
@@ -67,33 +174,19 @@ class ResultComparer extends React.Component {
 
     render = () => {
         // We take the first result because that one should be shown in full
-        // while in the others we'll show only the differences with the previous one
-        // example:
-        //  first = {key1: "lalala",
-        //           key2: "im happy",
-        //           key3: "this is the third"
-        //          }
-        // second = {key1: "lalala",
-        //           key2: "im sad",
-        //           }
-        //  so instead of showing second in full we'll show the differences:
-        //                   {key2: "im sad",
-        //                    removed: {key3: "this is the third"}
-        //                   }
-        //
+        // while in the others we'll show only the differences using utils.objectComparer(firstObject, secondObject, differencesContainer)
+
         let firstResult = this.props.results.slice(0, 1)[0];
         let differences = this.differences();
 
         let areThereDifferences = (() => {
                                             //Consider no differences if the only thing that was modified was FechaCreacion
-                                            let sameAsEmpty = ["FechaCreacion"];
-                                            //let differenceKeys = Object.values(differences)//.map(result => Object.values(differences[result]))
-                                         
+                                            let sameAsEmpty = ["FechaCreacion"];                                     
                                             let differencesUniqueProperties = differences.map(result => result.value)
                                                                                 .reduce((accumulator, current) => {
                                                                                         //find if the the keys.join() of current are in the accumulator.
                                                                                         // In case there's more than one key, it's irrelevant since we
-                                                                                        // just care about the end result being ["FechaCreacion"] 
+                                                                                        // only care about the end result being ["FechaCreacion"] 
                                                                                         if(accumulator.indexOf(Object.keys(current).join()) > -1){
                                                                                             return accumulator;
                                                                                         }
@@ -126,7 +219,7 @@ class ResultComparer extends React.Component {
     
 
         return (
-        <div>
+        <div>  
             <div className="result-comparer-main-title">
                 Variaciones del resultado
             </div>
@@ -140,17 +233,24 @@ class ResultComparer extends React.Component {
                             return this.renderValues(firstResult.value[currentKey], currentKey);
                         })
                     }
+                     
                 </div>
+
                 <div className="all-differences-container">
-                    <div className="all-differences-title">Detalle de variaciones</div>
+                    <div className="all-differences-title">
+                        Detalle de variaciones
+                    </div>
                     <div className="all-differences-each">
                         {renderDifferences()}
                     </div>
                 </div>
             
             </div>
+           {console.log("rendered refs", this.objectContainers, "REFS", this.refs, "THIS", this)}
         </div>
+        
         )
+        
     }
 
 
