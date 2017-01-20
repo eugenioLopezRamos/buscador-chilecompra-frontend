@@ -72,20 +72,17 @@ export const objectTransverser = (object) => {
 }
 
 export const objectComparer = (object, secondObject, differencesAccumulator) => {
+    
     //TODO: DRY this up
-    console.log("object", object, "secondobject", secondObject);
+    // Remove differencesAccumulator, just set it here instead of an argument
+
     const baseObject = object || {};
     const baseSecondObject = secondObject || {};
-
-    console.log("base objects", baseObject, "ANOTHER", baseSecondObject);
-    //if object = null => object = undefined;
-        //ver como tratar el caso en que un object es undefined/null y el otro es [tipo]
-
 
         let diffFirstToSecond = Object.keys(baseObject).reduce((differences, element) => {
                     //check if object[element] exists on both objects.If it does't, return that as a difference
                     if(baseSecondObject[element] === undefined) {                    
-                        differences["removidos"] ? differences["removidos"][element] = baseObject[element] : differences["removidos"] = {[element]: baseObject[element]};
+                        differences["Removidos"] ? differences["Removidos"][element] = baseObject[element] : differences["Removidos"] = {[element]: baseObject[element]};
                         return differences;
                     }
 
@@ -108,13 +105,14 @@ export const objectComparer = (object, secondObject, differencesAccumulator) => 
                         return differences;
                     }
                 }, differencesAccumulator);
+
 /********************************************************************************************************************** */
 /********************************************************************************************************************** */
 /********************************************************************************************************************** */
         let diffSecondToFirst = Object.keys(baseSecondObject).reduce((differences, element) => {
                     //check if baseObject[element] exists on both objects.If it does't, return that as a difference
                     if(baseObject[element] === undefined) {
-                            differences["añadidos"] ? differences["añadidos"][element] = baseSecondObject[element] : differences["añadidos"] = {[element]: baseSecondObject[element]};
+                            differences["Añadidos"] ? differences["Añadidos"][element] = baseSecondObject[element] : differences["Añadidos"] = {[element]: baseSecondObject[element]};
                             return differences;
                     }
 

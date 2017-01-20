@@ -66,7 +66,9 @@ class ResultComparer extends React.Component {
                         <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
                             Object.keys(object).map((currentKey) => {
+
                                 let keyName = null;
+                                
                                 if(Object.keys(object).length > 1) {
                                     keyName = `${parseInt(currentKey,10) + 1})`;
                                 }
@@ -86,8 +88,20 @@ class ResultComparer extends React.Component {
                         </span>
                         <div className="object-container" ref={(element) => { this.containers[number] = element} }>
                         {
+                            
+
                             Object.keys(object).map((currentKey) => {
+                                let keys = Object.keys(object);
+
                                 let keyName = currentKey;
+
+                                if(parseInt(keyName) == keyName) {
+                                    keyName = `${parseInt(keyName) + 1})`;
+                                    if(keys.length === 1) {
+                                        keyName = null;
+                                    }
+                                }
+                            
                                 return this.renderValues(object[currentKey], keyName);
                             })
                         }
@@ -105,29 +119,59 @@ class ResultComparer extends React.Component {
 
         let areThereDifferences = (() => {
                                             //Consider no differences if the only thing that was modified was FechaCreacion
-                                            let sameAsEmpty = ["FechaCreacion"];                                     
-                                            let differencesUniqueProperties = differences.map(result => result.value)
-                                                                                .reduce((accumulator, current) => {
-                                                                                        //find if the the keys.join() of current are in the accumulator.
-                                                                                        // In case there's more than one key, it's irrelevant since we
-                                                                                        // only care about the end result being ["FechaCreacion"] 
-                                                                                        if(accumulator.indexOf(Object.keys(current).join()) > -1){
-                                                                                            return accumulator;
-                                                                                        }
-                                                                                        return accumulator.concat(Object.keys(current));
-                                                                                    }, []);
-                                                                                    console.log("differences", differencesUniqueProperties);
-                                            return JSON.stringify(differencesUniqueProperties) != JSON.stringify(sameAsEmpty)
+                                            let toIgnore = JSON.stringify(["FechaCreacion"]);
+                                            
+                                                                       
+                                            // let differencesUniqueProperties = differences.map(result => result.value)
+                                                                                // .reduce((accumulator, current) => {
+                                                                                //         //find if the the keys.join() of current are in the accumulator.
+                                                                                //         // In case there's more than one key, it's irrelevant since we
+                                                                                //         // only care about the end result being ["FechaCreacion"] 
+                                                                                //         if(accumulator.indexOf(Object.keys(current).join()) > -1){
+                                                                                //             return accumulator;
+                                                                                //         }
+                                                                                        
+                                                                                //         return accumulator.concat(Object.keys(current));
+                                                                                //     }, []);
+                                                                                //     console.log("are there differences", differencesUniqueProperties);
+                                           // return JSON.stringify(differencesUniqueProperties) != JSON.stringify(sameAsEmpty)
+                                            let netDifferencesArray = differences.map(element => {
+
+                                                let stringifiedValue = JSON.stringify(Object.keys(element.value));
+                                                console.log("stringi", stringifiedValue)
+                                                if(stringifiedValue === toIgnore) {
+                                                    return null;
+                                                }else {
+                                                return element.value;
+                                                }
+                                                
+                                            })
+
+                                            console.log("netDIffs", netDifferencesArray);
+
+                                            let unignoredDifferencesAmount = netDifferencesArray.filter(e => e != null).length;
+
+                                            if(unignoredDifferencesAmount === 0) {
+                                                return {
+                                                    value: false
+                                                }
+                                            }
+                                            return {
+                                                value: true,
+                                                differences: netDifferencesArray
+                                            }
+
                                         }
                                     )();
+
         let renderDifferences = () => {
-            if(areThereDifferences) {
+            if(areThereDifferences.value) {
                 return differences
                         .map((currentResult) => {
                             return (
                                     <div className="single-difference-container">
                                     {
-                                        Object.keys(currentResult.value).map(currentKey => {
+                                        Object.keys(currentResult.value).map((currentKey, index) => {
                                             return (
                                                     <div className="difference-item">
                                                         {this.renderValues(currentResult.value[currentKey], currentKey)}
