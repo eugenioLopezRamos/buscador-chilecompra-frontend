@@ -68,7 +68,7 @@ class ResultComparer extends React.Component {
                             Object.keys(object).map((currentKey) => {
 
                                 let keyName = null;
-                                
+
                                 if(Object.keys(object).length > 1) {
                                     keyName = `${parseInt(currentKey,10) + 1})`;
                                 }
@@ -166,12 +166,16 @@ class ResultComparer extends React.Component {
 
         let renderDifferences = () => {
             if(areThereDifferences.value) {
+                console.log("DIFFERENCES", differences);
                 return differences
-                        .map((currentResult) => {
+                        .map((currentResult, index) => {
+                            if(!areThereDifferences.differences[index]) {
+                                return null;
+                            }
                             return (
                                     <div className="single-difference-container">
                                     {
-                                        Object.keys(currentResult.value).map((currentKey, index) => {
+                                        Object.keys(currentResult.value).map((currentKey) => {
                                             return (
                                                     <div className="difference-item">
                                                         {this.renderValues(currentResult.value[currentKey], currentKey)}
@@ -204,7 +208,11 @@ class ResultComparer extends React.Component {
                     </div>
 
                     <div className="all-differences-container">
-                        <div className="all-differences-title">
+                        <div className="all-differences-title">   
+                            <p className="all-differences-title-note">
+                                En caso de haber variaciones sólo de FechaCreacion, estas se 
+                                han obviado
+                            </p>                         
                             Detalle de variaciones
                         </div>
                         <div className="all-differences-each">

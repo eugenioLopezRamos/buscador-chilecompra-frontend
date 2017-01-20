@@ -405,6 +405,7 @@ select {
     text-align: center;
     font-size: 1.2em;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .main-result-comparer-container {
@@ -426,6 +427,26 @@ select {
 
 .all-differences-title {
    @extend .original-result-title;
+
+   .all-differences-title-note {
+        display: none;
+        position: absolute;
+        /* display: flex; */
+        font-size: 1em;
+        z-index: 9003;
+        background-color: beige;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        padding: 5px;
+   }
+   &:hover {
+       .all-differences-title-note {
+           display:flex;
+       }
+   }
+
+
+
 }
 
 .all-differences-each {
@@ -445,6 +466,7 @@ select {
 
 .single-difference-container {
     display:flex;
+    flex-direction: column;
     margin-left: 15px;
     margin-right: 15px;
 }
