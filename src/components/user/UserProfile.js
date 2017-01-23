@@ -2,9 +2,8 @@ import React, {PropTypes} from 'react';
 
 const UserProfile = (props) => {
     
-    let notificaciones = Array.apply(null, {length: 10}).map(Number.call, Number).map(e => {
-                        let val = <li className="list-group-item no-show" key={"numero" + e}>{`notificacion ${e}`}</li>
-                        return val;
+    let notificaciones = Object.keys(props.userNotifications).map(e => {
+                        return <li className="list-group-item" key={"numero" + e}>{props.userNotifications[e]}</li>;
                     })
     
     const handleSearchDelete = (index) => {
@@ -45,7 +44,12 @@ const UserProfile = (props) => {
                       {notificaciones.length}
                     </span>
                 </span>
-                {notificaciones}
+                <div className="ul-container">
+                    <ul className="notifications-list-items-container">
+                        {notificaciones}
+
+                    </ul>
+                </div>
             </div>
       
             <div className="perfil-busquedas-guardadas">

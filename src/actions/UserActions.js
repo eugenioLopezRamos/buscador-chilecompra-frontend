@@ -84,6 +84,7 @@ export const getUserSubscriptions = () => {
         userApi.getSubscriptions().then(response => {
                                 dispatch(getUserSubscriptionsSuccess(response));
                                 })
+
                             .catch(error => {
                                 dispatch(getUserSubscriptionsFailure(error));
                             });
@@ -279,6 +280,23 @@ export const getResultHistory = (resultId) => {
 
     }
 
+}
 
+export const getUserNotificationsSuccess = (value) => {
+    return {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value};
+}
+export const getUserNotificationsFailure = (value) => {
+    return {type: types.USER_GET_NOTIFICATIONS_FAILURE, value};
+}
 
+export const getUserNotifications = () => {
+    return (dispatch) => {
+        return userApi.getNotifications()
+            .then(response => {
+                dispatch(getUserNotificationsSuccess(response));
+                })
+            .catch(error => {
+                    dispatch(getUserNotificationsFailure(error))
+                });
+    }
 }

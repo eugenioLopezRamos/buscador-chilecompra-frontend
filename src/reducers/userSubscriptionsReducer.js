@@ -11,7 +11,7 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
             return state;
         
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
-            return objectAssign({}, newState, {fetched: action.value});
+            return objectAssign({}, newState, action.value);
 
         case types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE:
             return objectAssign({}, newState);
@@ -24,16 +24,16 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
         // USER_CREATE... doesnt case here since it only returns a message, that goes into the messages reducer
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, newState, {fetched: action.value.subscriptions});
+            return objectAssign({}, newState, action.value.subscriptions);
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, newState, {fetched: action.value.subscriptions});
+            return objectAssign({}, newState, action.value.subscriptions);
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, newState, {fetched: action.value.subscriptions});
+            return objectAssign({}, newState, action.value.subscriptions);
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, newState, {fetched: action.value.subscriptions});
+            return objectAssign({}, newState, action.value.subscriptions);
         
 
 

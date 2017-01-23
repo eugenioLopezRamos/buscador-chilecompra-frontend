@@ -128,6 +128,17 @@ class userApi {
     static getResultHistory(resultId) {
         return userDataFetcher(`results/history?id=${resultId}`, 'GET');
     }
+
+    //NOTIFICATIONS
+
+    static getNotifications() {
+        return userDataFetcher('notifications', 'GET')
+    }
+
+    static deleteNotifications(notification_id) {
+        return userDataFetcher('notifications', 'DELETE', notification_id)
+    }
+
 }
 
 export default userApi;

@@ -20,7 +20,7 @@ const messagesReducer = (state = initialState.messages, action) => {
     // case types.TYPE_N;
     // case types.TYPE_NPLUS1:
     // return objectAssign(...);
-
+    //TODO: DRY this with case fallthrough I guesss....
     switch(action.type) {
         //MESSAGES
         case types.MESSAGES_ADD_MESSAGES:
@@ -85,6 +85,17 @@ const messagesReducer = (state = initialState.messages, action) => {
 
         case types.USER_DELETE_SEARCHES_FAILURE:
             return objectAssign({}, state, {info, errors});
+
+            //NOTIFICATIONS
+        case types.USER_GET_NOTIFICATIONS_SUCCESS:
+            return objectAssign({}, state, {info, errors});
+        case types.USER_GET_NOTIFICATIONS_FAILURE:
+            return objectAssign({}, state, {info, errors});
+        case types.USER_DELETE_NOTIFICATIONS_SUCCESS:
+            return objectAssign({}, state, {info, errors});
+        case types.USER_DELETE_NOTIFICATIONS_FAILURE:
+            return objectAssign({}, state, {info, errors});
+
                
 
         default:

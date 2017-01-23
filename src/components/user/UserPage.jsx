@@ -6,7 +6,7 @@ import UserProfile from './UserProfile';
 import {getUserSubscriptions, updateUserSubscription} from '../../actions/UserActions';
 import {deleteUserSubscription, getUserSearches} from '../../actions/UserActions';
 import {updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
-import {getResultHistory} from '../../actions/UserActions';
+import {getResultHistory, getUserNotifications} from '../../actions/UserActions';
 import userApi from '../../api/userApi';
 //import {noReduxGetStoredUserSubscriptions} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
@@ -71,9 +71,10 @@ class UserPage extends React.Component {
     }
 
     componentDidMount = () => {
-        
-        this.props.getUserSubscriptions();
-        this.props.getUserSearches();
+        //I did think about changing these here and in the backend, but decided it was a bit too much of a hassle
+       this.props.getUserNotifications();
+       this.props.getUserSubscriptions();
+       this.props.getUserSearches();
     }
 
     requestResults = () => {
@@ -85,17 +86,17 @@ class UserPage extends React.Component {
     }
 
     showStoredSearch = (component, index) => {
-       // console.log("defaults", this.props.fetchedUserSubscriptions);
-       // console.log("correct", this.props.fetchedUserSearches.value[index]);
-        let searchId = this.props.fetchedUserSearches.id[index];
-        let searchName = this.props.fetchedUserSearches.name[index];
+       // console.log("defaults", this.props.userSubscriptions);
+       // console.log("correct", this.props.userSearches.value[index]);
+        let searchId = this.props.userSearches.id[index];
+        let searchName = this.props.userSearches.name[index];
         
 
         this.setState({ 
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
                         componentProps: {
-                            defaults: this.props.fetchedUserSearches.value[index],
+                            defaults: this.props.userSearches.value[index],
                             searchId,
                             searchName,
                             updateSearch: this.props.updateUserSearches
@@ -118,7 +119,7 @@ class UserPage extends React.Component {
                         menu: this.getMenu(component)
                         });
 
-        let data = objectAssign({}, this.props.fetchedUserSearches.value[index]);
+        let data = objectAssign({}, this.props.userSearches.value[index]);
     
         data.date = Date.parse(data.date);
 
@@ -208,9 +209,10 @@ class UserPage extends React.Component {
                 />
 
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
-                <UserProfile user={this.props.user} 
-                             userSubscriptions={this.props.fetchedUserSubscriptions}
-                             userSearches={this.props.fetchedUserSearches}
+                <UserProfile user={this.props.user}
+                             userNotifications = {this.props.userNotifications} 
+                             userSubscriptions={this.props.userSubscriptions}
+                             userSearches={this.props.userSearches}
                              actions={this.actions}
                              showStoredSearch={this.showStoredSearch}
                              executeStoredSearch={this.executeStoredSearch}
@@ -228,8 +230,9 @@ class UserPage extends React.Component {
 UserPage.propTypes = {
    // login: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    fetchedUserSubscriptions: PropTypes.object,
-    fetchedUserSearches: PropTypes.object,
+    userSubscriptions: PropTypes.object,
+    userSearches: PropTypes.object,
+    userNotifications: PropTypes.object,
     messages: PropTypes.object
     //tbi
 
@@ -238,8 +241,9 @@ UserPage.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
             user: state.userData,
-            fetchedUserSubscriptions: state.userSubscriptions.fetched,
-            fetchedUserSearches: state.userSearches.fetched,
+            userSubscriptions: state.userSubscriptions,
+            userSearches: state.userSearches,
+            userNotifications: state.userNotifications,
             messages: state.messages
         }
 }
@@ -252,8 +256,10 @@ function mapDispatchToProps(dispatch) {
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
         updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
+        getResultHistory: bindActionCreators(getResultHistory, dispatch),
+        getUserNotifications: bindActionCreators(getUserNotifications, dispatch),
         loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
-        getResultHistory: bindActionCreators(getResultHistory, dispatch)
+
     }
 }
 

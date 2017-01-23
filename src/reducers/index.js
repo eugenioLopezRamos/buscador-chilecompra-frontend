@@ -13,6 +13,7 @@ import modifiedUserDataReducer from './modifiedUserDataReducer';
 import messagesReducer from './messagesReducer';
 import {userSearchesReducer as userSearches} from './userSearchesReducer';
 import {userSubscriptionsReducer as userSubscriptions} from './userSubscriptionsReducer';
+import {userNotificationsReducer as userNotifications} from './userNotificationsReducer';
 
 const rootReducer = combineReducers({
     
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     userData: authenticationReducers.userDataSetter,
     userSearches,
     userSubscriptions,
+    userNotifications,
     modifiedUserData: modifiedUserDataReducer,
     loginData: authenticationReducers.loginDataSetter,
     routing: routerReducer,
@@ -30,7 +32,6 @@ const rootReducer = combineReducers({
     searchResults,
     inputFieldValues,
     messages: messagesReducer,
-    searchType: displayReducers.searchTypeReducer
     
 });
 

@@ -252,18 +252,7 @@ select {
     border: 2px solid lightblue;
     pointer-events: all;
 }
-// .flash-close-alert.alert-danger {
-//     margin: -5px -20px 0px -20px;
-//     text-align: right;
-//     padding-right: 10px;
-//     border-bottom: 1px solid darkred;
-// }
-// .flash-close-alert.alert-success {
-//     margin: -5px -20px 0px -20px;
-//     text-align: right;
-//     padding-right: 10px;
-//     border-bottom: 1px solid limegreen;
-// }
+
 .dropdown-visible {
     display: block;
 }
@@ -281,10 +270,6 @@ select {
 }
 
 .dropdown-container {
-    // height: 50px;
-    // padding-top: 7px;
-    // float:right;
-    // display:flex;
     &.logged-in {
         display:flex;
         justify-content: flex-end;
@@ -492,15 +477,6 @@ select {
     display: flex;
     flex-direction: column;
 }
-// .object-data-container-array {
-//     padding-left: $object-container-padding;
-// }
-// .original-result-container > .object-data-container-array {
-//     padding-left: 0;
-// }
-
-
-
 
 .object-data-container {
     padding-left: $object-container-padding;
@@ -509,7 +485,34 @@ select {
     display: flex;
     flex-direction: column;
 }
+@keyframes dropdown-anim {
+    0% {
+        transform: translateY(-100px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 
+}
+.list-group.perfil-notificaciones {
+    overflow:hidden;
+    z-index:2;
+    ul{
+        display: none;
+    }
+}
+.list-group.perfil-notificaciones:hover {
+    .ul-container {
+           z-index: 1;
+    }
+    ul {
+        display: block;
+        animation: dropdown-anim 0.6s forwards;
+     
+        position: relative;
+
+    }
+}
 
 @media all and (min-width: 700px) {
     .container.inputfields {
