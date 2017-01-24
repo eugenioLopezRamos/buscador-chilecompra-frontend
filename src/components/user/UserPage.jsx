@@ -18,7 +18,7 @@ import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../ResultComparer.jsx';
-
+// import Notifications from './Notifications.js';
 
 class UserPage extends React.Component {
     constructor(props) {
@@ -185,6 +185,11 @@ class UserPage extends React.Component {
 
         return(
             <div className="jumbotron" style={{"minHeight": document.documentElement.clientHeight}}>
+
+
+
+
+
 
                 <FullScreenPane 
                     show={this.state.showFullScreenPane}

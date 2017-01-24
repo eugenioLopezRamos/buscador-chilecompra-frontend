@@ -6,12 +6,14 @@ import * as types from '../actions/actionTypes';
  
 
 
-const App = ({ children}, {store}) => {
+const App = ({children}, {store}) => {
 
     const hideNavbar = () => {
-        let navbar = store.getState().showNavbar;
-        if(navbar) {
-            store.dispatch({type: types.NAVBAR_OFF});
+        let navbar = store.getState().display.showNavbar;
+        let notifications = store.getState().display.showNotifications;
+
+        if(navbar || notifications) {
+            store.dispatch({type: types.HIDE_ALL});
         }
     }
    return( 

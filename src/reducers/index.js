@@ -6,7 +6,7 @@ import searchResults from './fetchReducer';
 import inputFieldValues from './inputFieldsReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
-import * as displayReducers from './displayActionsReducer';
+import {displayActionsReducer as display} from './displayActionsReducer';
 import * as authenticationReducers from './authenticationActionsReducer';
 import signupReducer from './signupReducer';
 import modifiedUserDataReducer from './modifiedUserDataReducer';
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     
     organismosPublicos,
     estadosLicitacion,
-    showNavbar: displayReducers.showNavbarReducer,
+    display,
     isAuthenticated: authenticationReducers.isAuthenticatedSetter,
     userData: authenticationReducers.userDataSetter,
     userSearches,

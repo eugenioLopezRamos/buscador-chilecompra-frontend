@@ -31,8 +31,14 @@ class CollapsibleNavBar extends React.Component {
         //changes it to the correct button if the user is authenticated
         if(this.props.isAuthenticated){
 
-               button =  <button className="btn btn-default dropdown-toggle user-menu" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-                         onClick={this.handleClick}>
+               button =  <button 
+                            className="btn btn-default dropdown-toggle user-menu" 
+                            type="button"
+                            id="dropdownMenu1"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            onClick={this.handleClick}>
                             Menú
                             <span className="caret"></span>
                         </button>
@@ -48,7 +54,13 @@ class CollapsibleNavBar extends React.Component {
   
         if(this.props.isAuthenticated) {
 
-            menu = <UserDropdown visible={this.props.showNavbar} handleLogout={this.props.authInfoResultsActions.sendLogoutInfo} />
+            menu = <UserDropdown 
+                    visible={this.props.showNavbar}
+                    handleLogout={this.props.authInfoResultsActions.sendLogoutInfo}
+                    notifications={this.props.notifications}
+                    showNotifications={this.props.showNotifications}
+                    toggleNotifications={this.props.displayActions.toggleNotificationsDisplay}
+                   />
 
         }
 
@@ -79,9 +91,11 @@ CollapsibleNavBar.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    showNavbar: state.showNavbar,
+    showNavbar: state.display.showNavbar,
     loginData: state.loginData,
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.isAuthenticated,
+    notifications: state.userNotifications,
+    showNotifications: state.display.showNotifications
   };
 };
 

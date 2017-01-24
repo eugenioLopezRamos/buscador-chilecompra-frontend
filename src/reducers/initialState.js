@@ -5,7 +5,10 @@ const initialDate = Object.freeze(moment()); //otherwise redux console.logs a wa
 const initialState = {
     organismosPublicos: [{"*": "Todos"}],
     estadosLicitacion: {"Todos": ""},
-    showNavbar: false,
+    display: {
+                showNavbar: false,
+                showNotifications: false
+             },
     isAuthenticated: false,
     //same name as the rails param
     userData: null,
