@@ -59,7 +59,6 @@ export const isPrimitive = (target) => {
 
 export const objectTransverser = (object) => {
         //returns an array with each "tree" of properties
-
         return Object.keys(object).map((element) => {
 
                     if(isPrimitive(object[element])) {
@@ -69,6 +68,23 @@ export const objectTransverser = (object) => {
                         return {[element]: objectTransverser(object[element])};
                     }
                 });
+}
+
+export const getObjectSchema = (object) => {
+    //devuelve un objeto tipo:
+    // {
+//      Listado: ["a", "b", "c", {d:[]"z", "x", "y"]} ]
+//          }
+// con el schema del objeto dado
+    return Object.keys(object).reduce((accumulator, currentKey) => {
+
+        if(isPrimitive(object[currentKey])) {
+            accumulator.push(currentKey);
+            return accumulator;
+        }
+        accumulator.push({[currentKey]: getObjectSchema(object[currentKey])});
+        return accumulator;
+    } , new Array) 
 }
 
 export const objectComparer = (object, secondObject, differencesAccumulator) => {

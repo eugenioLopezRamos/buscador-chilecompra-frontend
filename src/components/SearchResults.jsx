@@ -9,26 +9,32 @@ import {createUserSubscription} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
+import * as utils from '../utils/miscUtils';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
             super(props);
-            console.log("props", props);
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "";
+            this.searchResultsSchema = null;
             this.state = {
                 showModal: false,
                 enteredSubscriptionName: "",
                 subscriptionIndex: null
-
             }
         }
 
         componentWillReceiveProps(nextProps) {
             if(this.props.results != nextProps.results){
                 this.animClass = this.animClass === "search-results-ul1" ? "search-results-ul2" : "search-results-ul1";
+                console.log("NEXT", JSON.parse(nextProps.results[0]).value);
+                this.searchResultsSchema =  utils.getObjectSchema(JSON.parse(nextProps.results[0]).value) || null;
+                console.log("aaaa", this.searchResultsSchema);
+
+              //  this.searchResultsSchema = utils.objectTransverser(JSON.parse(nextProps.searchResults[0]));
+                
             }
         }
         //Normally this.props.estadosLicitacion is a number (the codigo_estado)
