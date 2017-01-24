@@ -8,7 +8,7 @@ const UserProfile = (props) => {
     
     const handleSearchDelete = (index) => {
         let id = Object.values(props.userSearches.id)[index];
-        props.actions.deleteUserSearches(index);
+        props.actions.deleteUserSearches(id);
     }
 
     const showStoredSearch = (component, index) => {

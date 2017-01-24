@@ -125,7 +125,7 @@ InputFieldsContainer.propTypes = {
     organismosPublicosFilteredSubset: PropTypes.array.isRequired,
     selectedOrganismoPublico: PropTypes.string.isRequired,
   //  date: PropTypes.object.isRequired,
-    searchType: PropTypes.string.isRequired,
+   // searchType: PropTypes.string.isRequired,
     rutProveedor: PropTypes.string.isRequired,
     codigoLicitacion: PropTypes.string.isRequired
 }
@@ -140,7 +140,7 @@ function mapStateToProps(state, ownProps) {
         organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
         selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
         date: state.inputFieldValues.date,
-        searchType: state.searchType,
+       // searchType: state.searchType,
         rutProveedor: state.inputFieldValues.rutProveedor,
         palabrasClave: state.inputFieldValues.palabrasClave,
         codigoLicitacion: state.inputFieldValues.codigoLicitacion,

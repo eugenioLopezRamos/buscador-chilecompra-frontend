@@ -34,7 +34,7 @@ class SearchesSaver extends React.Component {
         return (
             <div className="col-xs-12 no-gutter save-search-buttons">
                 <Modal 
-                    isModalShown={this.state.showModal.show} 
+                    isModalShown={this.state.showModal} 
                     modalValue={this.state.enteredSearchName}
                     handler={this.handleSearches}
                     hideModal={this.hideModal}

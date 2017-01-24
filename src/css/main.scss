@@ -579,7 +579,7 @@ select {
     .container.inputfields {
         display:flex;
         flex-direction: column;
-        width: 50%;
+        width: 90%;
     }
     .searchtypes-picker{
         font-size: $searchtype-picker-font-size;
@@ -638,6 +638,7 @@ select {
     }
     .notifications-list-items-container {
             max-width: 300px;
+            width:300px;
             left: -30px;
             top: 50px;
             border-left: 1px solid #212121;
@@ -658,6 +659,20 @@ select {
     }
 
 }
+
+
+@media all and (min-width: 1400px) {
+    .container.inputfields {
+        width: 70%;
+    }
+}
+
+@media all and (min-width: 1600px) {
+    .container.inputfields {
+        width: 50%;
+    }
+}
+
 
 
 
