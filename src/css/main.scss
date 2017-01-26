@@ -560,6 +560,59 @@ select {
 //     }
 // }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.checkboxes-container {
+    padding-left: 29px;
+    input {
+        transform: scale(1.8);
+        margin: 10px;
+    }
+    
+}
+
+
+.json-schema-label {
+    width: 100%;
+}
+.json-schema-checkbox-label {
+    margin: 5px;
+    padding: 0 5px 0 5px;
+    border: 1px solid black;
+}
+
+.filter-columns-container {
+    display: inline-block;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media all and (min-width: 700px) {
     .container.inputfields {
         display:flex;

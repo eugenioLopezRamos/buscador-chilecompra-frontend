@@ -37,8 +37,7 @@ const UserProfile = (props) => {
     //console.log("USERPROF PROPS", props);
     return(
         <div className="perfil-container">
-
-      
+     
             <div className="perfil-busquedas-guardadas">
                 <h2>Búsquedas guardadas</h2>
                 {
@@ -89,19 +88,3 @@ UserProfile.propTypes = {
 }
 
 export default UserProfile;
-
-
-            // <div className="list-group perfil-notificaciones">
-            //     <span className="list-group-item">
-            //         Notificaciones
-            //         <span className="badge">
-            //           {notificaciones.length}
-            //         </span>
-            //     </span>
-            //     <div className="ul-container">
-            //         <ul className="notifications-list-items-container">
-            //             {notificaciones}
-
-            //         </ul>
-            //     </div>
-            // </div>

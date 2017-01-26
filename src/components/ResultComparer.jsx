@@ -21,7 +21,7 @@ class ResultComparer extends React.Component {
 //            result3: {...},
     //}       result4: {...}
     toggleOpen = (target) => {
-        let currentDisplayStatus =  target.style.display;
+        let currentDisplayStatus = target.style.display;
 
         if(currentDisplayStatus === "none"){
             target.style.display = "flex";
@@ -120,21 +120,6 @@ class ResultComparer extends React.Component {
         let areThereDifferences = (() => {
                                             //Consider no differences if the only thing that was modified was FechaCreacion
                                             let toIgnore = JSON.stringify(["FechaCreacion"]);
-                                            
-                                                                       
-                                            // let differencesUniqueProperties = differences.map(result => result.value)
-                                                                                // .reduce((accumulator, current) => {
-                                                                                //         //find if the the keys.join() of current are in the accumulator.
-                                                                                //         // In case there's more than one key, it's irrelevant since we
-                                                                                //         // only care about the end result being ["FechaCreacion"] 
-                                                                                //         if(accumulator.indexOf(Object.keys(current).join()) > -1){
-                                                                                //             return accumulator;
-                                                                                //         }
-                                                                                        
-                                                                                //         return accumulator.concat(Object.keys(current));
-                                                                                //     }, []);
-                                                                                //     console.log("are there differences", differencesUniqueProperties);
-                                           // return JSON.stringify(differencesUniqueProperties) != JSON.stringify(sameAsEmpty)
                                             let netDifferencesArray = differences.map(element => {
 
                                                 let stringifiedValue = JSON.stringify(Object.keys(element.value));
@@ -146,8 +131,6 @@ class ResultComparer extends React.Component {
                                                 }
                                                 
                                             })
-
-                                            console.log("netDIffs", netDifferencesArray);
 
                                             let unignoredDifferencesAmount = netDifferencesArray.filter(e => e != null).length;
 
@@ -166,7 +149,6 @@ class ResultComparer extends React.Component {
 
         let renderDifferences = () => {
             if(areThereDifferences.value) {
-                console.log("DIFFERENCES", differences);
                 return differences
                         .map((currentResult, index) => {
                             if(!areThereDifferences.differences[index]) {

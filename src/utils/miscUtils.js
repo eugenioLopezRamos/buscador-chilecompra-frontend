@@ -48,6 +48,17 @@ export const toJSON = (value) => {
     return JSON.stringify(value);
 }
 
+export const isArray = (object) => {
+    return Object.prototype.toString.call(object) === "[object Array]";
+}
+
+export const isPOJO = (object) => {
+    // POJO => "Plain Old Javascript Object"
+    return Object.prototype.toString.call(object) === "[object Object]"
+}
+export const isOnlyNumbers = (object) => {
+    return parseInt(object) == object; 
+}
 
 export const isPrimitive = (target) => {
                 let primitives = ["[object String]", "[object Number]", "[object Boolean]", "[object Null]", "[object Undefined]"]
@@ -90,7 +101,7 @@ export const getObjectSchema = (object) => {
 export const objectComparer = (object, secondObject, differencesAccumulator) => {
     
     //TODO: DRY this up
-    // Remove differencesAccumulator, just set it here instead of an argument
+    // Remove differencesAccumulator, just set it here instead of as an argument
 
     const baseObject = object || {};
     const baseSecondObject = secondObject || {};

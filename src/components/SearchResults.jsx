@@ -9,7 +9,8 @@ import {createUserSubscription} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
-import * as utils from '../utils/miscUtils';
+import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
+//import * as utils from '../utils/miscUtils';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -17,26 +18,46 @@ class SearchResults extends React.PureComponent {
             super(props);
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
-            this.animClass = "";
-            this.searchResultsSchema = null;
+            this.animClass = "search-results-ul1";
+         //   this.searchResultsSchema = null;
             this.state = {
                 showModal: false,
                 enteredSubscriptionName: "",
-                subscriptionIndex: null
+                subscriptionIndex: null,
+                columns: {}
             }
         }
 
         componentWillReceiveProps(nextProps) {
             if(this.props.results != nextProps.results){
                 this.animClass = this.animClass === "search-results-ul1" ? "search-results-ul2" : "search-results-ul1";
-                console.log("NEXT", JSON.parse(nextProps.results[0]).value);
-                this.searchResultsSchema =  utils.getObjectSchema(JSON.parse(nextProps.results[0]).value) || null;
-                console.log("aaaa", this.searchResultsSchema);
+                // console.log("NEXT", JSON.parse(nextProps.results[0]).value);
+                // this.searchResultsSchema =  utils.getObjectSchema(JSON.parse(nextProps.results[0]).value) || null;
+                // console.log("aaaa", this.searchResultsSchema);
 
               //  this.searchResultsSchema = utils.objectTransverser(JSON.parse(nextProps.searchResults[0]));
-                
             }
         }
+        applyFilter = (selectedItems) => {
+            console.log("items", selectedItems, "props", this.props);
+            let results = this.props.results;
+            //debugger
+            let columns = selectedItems.map(element => {
+                element.reduce((prev, curr) => {
+                    console.log("prev", prev, "curr", curr);
+                    prev[curr];
+                    //JSON.parse(prev[curr]);
+                }, results)
+            });
+
+            debugger;
+
+
+
+
+        }
+
+
         //Normally this.props.estadosLicitacion is a number (the codigo_estado)
         returnNombreEstado = (codigoEstado) => {
             let swappedEstLic = {}
@@ -59,7 +80,7 @@ class SearchResults extends React.PureComponent {
 
         handleSubscription = () => {
            let index = this.state.subscriptionIndex;
-           let resultId = JSON.parse(this.props.results[index]).id;
+           let resultId = this.props.results[index].id; //JSON.parse(this.props.results[index]).id;
            let subscriptionName = this.state.enteredSubscriptionName;
            this.setState({showModal: false, enteredSubscriptionName: ""}) 
            this.props.createUserSubscription(resultId, subscriptionName)
@@ -90,6 +111,12 @@ class SearchResults extends React.PureComponent {
                         onInput={this.onSubscriptionNameInput}           
                     />
 
+                    <JSONSchemaCheckboxes 
+                        firstResult={this.props.results[0]}//{JSON.parse(this.props.results[0])} 
+                        applyFilter={this.applyFilter}
+                    
+                    />
+
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
                         <span className="search fecha title col-xs-3">Fecha creación</span>
@@ -102,7 +129,7 @@ class SearchResults extends React.PureComponent {
                     {
                         
                     this.props.results.map((e, i) => {
-                        e = JSON.parse(e);
+                        //e = JSON.parse(e);
                         return <li className="search-results" key={i}>
 
                                     <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>

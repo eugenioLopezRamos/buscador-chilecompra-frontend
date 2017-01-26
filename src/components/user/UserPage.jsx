@@ -101,14 +101,11 @@ class UserPage extends React.Component {
                             searchName,
                             updateSearch: this.props.updateUserSearches
                         },
-                        menu: this.getMenu(component),
+                        menu: this.getMenu(component)
                      //   menuProps: {actions: this.updateSearches()}
                     });
     }
-
-                    //  handler={this.handleSubscription}
-                    // hideModal={this.hideSubscriptionModal}
-                    // onInput={this.onSubscriptionNameInput}  
+  
     
     executeStoredSearch = (component, index) => {
       //  console.log("comp", component);
