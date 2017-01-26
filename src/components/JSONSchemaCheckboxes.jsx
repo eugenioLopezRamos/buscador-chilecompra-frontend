@@ -23,15 +23,38 @@ class JSONSchemaCheckboxes extends React.Component {
             target.className = "checkboxes-container no-display";
         }
     }
-    checkColumnHandler = (target) => {
 
-       //create a new copy of the object.
+
+
+    checkColumnHandler = (target, event) => {
+        let saveValue = target.slice(1);
         let newPicked = this.state.picked.slice();
-        newPicked.push(target.slice(1));
-        this.setState({picked: newPicked});
+       //create a new copy of the object.
+
+       if(event.target.checked) {
+            
+            newPicked.push(saveValue);
+            this.setState({picked: newPicked});
+       }
+       else {
+            let toSplice = -1;
+            //search the index of the item that's already in the array
+            newPicked.map((element, index) => {
+                if(JSON.stringify(element) === JSON.stringify(saveValue)) {
+                    toSplice = index;
+                };
+            });
+            //remove that item from the array
+            newPicked.splice(toSplice,1);
+            this.setState({picked: newPicked});
+       }
+
     }
+
+
+
     applyFilter = () => {
-        console.log("im here!", this.state.picked);
+        // console.log("im here!", this.state.picked);
         this.props.applyFilter(this.state.picked);
     }
 
@@ -72,7 +95,7 @@ class JSONSchemaCheckboxes extends React.Component {
                                         {element}
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" key={"json-schema" + index}
-                                               onChange={ () => {this.checkColumnHandler(tags.concat(element))} }
+                                               onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
                                         />
                                    </label>
                         }

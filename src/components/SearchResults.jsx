@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router'; //these will later be links to the query that searches a particular licitacion, which gives more detailed info about it (on the
 // "codigo licitacion" tab)
 import {connect} from 'react-redux';
+import objectAssign from 'object-assign';
 import {bindActionCreators} from  'redux';
 import * as types from '../actions/actionTypes';
 //import {createUserSearches as createSearches} from '../actions/UserActions'; //no longer used, moved to <InputFieldsContainer />
@@ -10,7 +11,7 @@ import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
-//import * as utils from '../utils/miscUtils';
+import * as utils from '../utils/miscUtils';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -19,42 +20,60 @@ class SearchResults extends React.PureComponent {
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "search-results-ul1";
-         //   this.searchResultsSchema = null;
             this.state = {
                 showModal: false,
                 enteredSubscriptionName: "",
                 subscriptionIndex: null,
-                columns: {}
+                columns: [
+                            ["FechaCreacion"],
+                            ["Listado", "0", "Nombre"],
+                            ["Listado", "0", "CodigoEstado"],
+                            ["Listado", "0", "CodigoExterno"],
+                        ]
             }
         }
 
         componentWillReceiveProps(nextProps) {
             if(this.props.results != nextProps.results){
                 this.animClass = this.animClass === "search-results-ul1" ? "search-results-ul2" : "search-results-ul1";
-                // console.log("NEXT", JSON.parse(nextProps.results[0]).value);
-                // this.searchResultsSchema =  utils.getObjectSchema(JSON.parse(nextProps.results[0]).value) || null;
-                // console.log("aaaa", this.searchResultsSchema);
-
-              //  this.searchResultsSchema = utils.objectTransverser(JSON.parse(nextProps.searchResults[0]));
             }
         }
         applyFilter = (selectedItems) => {
-            console.log("items", selectedItems, "props", this.props);
-            let results = this.props.results;
-            //debugger
-            let columns = selectedItems.map(element => {
-                element.reduce((prev, curr) => {
-                    console.log("prev", prev, "curr", curr);
-                    prev[curr];
-                    //JSON.parse(prev[curr]);
-                }, results)
+            var results = this.props.results;
+            let columns = results.map(currentResult => {
+              
+                let newObject = {};
+                selectedItems.map(subElement => {
+                //selectedItems is an array of arrays! Need to flatten.
+                    return subElement.reduce((prev, curr, currIndex) => {
+
+                    //on the last item, do special stuff
+                    if(currIndex === subElement.length -1) {
+                        let value = "No incluye campo o esta vacío";
+                        try { value = prev[curr] }
+                        catch(error){return true};
+
+                        //Some fields(keys of the JSON object) exist more than once, on different levels of "deepness" within
+                        // the object's structure. In this case, we append the previous key, to make it
+                        // easier to differentiate them
+                        if(newObject[curr]) {
+                            let previousItemKey = subElement[currIndex-1];
+                            if(utils.isOnlyNumbers(previousItemKey)) {
+                                previousItemKey = `${parseInt(previousItemKey) + 1})`;
+                            }
+                            return newObject[`${previousItemKey} ${curr}`] = value;
+                        }
+                        return newObject[curr] = value;
+                    }
+
+                    return prev[curr];
+
+                    }, currentResult.value);
+                })
+                
+                return newObject;
             });
-
-            debugger;
-
-
-
-
+            this.setState({columns});
         }
 
 
@@ -80,7 +99,7 @@ class SearchResults extends React.PureComponent {
 
         handleSubscription = () => {
            let index = this.state.subscriptionIndex;
-           let resultId = this.props.results[index].id; //JSON.parse(this.props.results[index]).id;
+           let resultId = this.props.results[index].id;
            let subscriptionName = this.state.enteredSubscriptionName;
            this.setState({showModal: false, enteredSubscriptionName: ""}) 
            this.props.createUserSubscription(resultId, subscriptionName)
@@ -89,6 +108,80 @@ class SearchResults extends React.PureComponent {
         onSubscriptionNameInput = (event) => {
             this.setState({enteredSubscriptionName: event.target.value});
          }
+
+        // renderPicker = () => {
+        //     if(this.state.columns.length === 0) {
+        //         return () => {
+        //             this.props.results.map((e, i) => {
+        //                 //e = JSON.parse(e);
+        //                 return <li className="search-results" key={i}>
+
+        //                             <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
+        //                                 {e.value.FechaCreacion}
+        //                             </span>
+        //                             <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
+        //                                 { e.value["Listado"][0].Nombre}
+        //                             </span>
+
+        //                             <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
+        //                                 { e.value["Listado"][0].CodigoExterno }
+        //                             </span>
+
+        //                             <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
+        //                                 { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
+        //                             </span>
+        //                             <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
+        //                                 <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
+        //                                     Suscribirse
+        //                                 </button>
+        //                             </span>
+
+        //                         </li>
+        //             })
+        //         }
+        //     }
+        //     else {
+        //         return(
+        //             <li className="search-results" key={i}>
+
+     
+                  
+        //                 <span className="search col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
+        //                     {e.value.FechaCreacion}
+        //                 </span>
+        //                 <span className="search col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
+        //                     { e.value["Listado"][0].Nombre}
+        //                 </span>
+
+        //                 <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
+        //                     { e.value["Listado"][0].CodigoExterno }
+        //                 </span>
+
+        //                 <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
+        //                     { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
+        //                 </span>
+
+
+
+
+
+
+                        
+        //                 <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
+        //                     <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
+        //                         Suscribirse
+        //                     </button>
+        //                 </span>
+
+        //             </li>
+        //             )
+
+
+        //         }
+
+
+        // }
+        
 
         render = () => {
         if(!this.props.results){
@@ -101,6 +194,10 @@ class SearchResults extends React.PureComponent {
 
         else {
             let self = this;
+            let elementsToRender = this.props.results;
+            if(this.state.columns.length > 0) {
+                elementsToRender = this.state.columns;
+            }
             return (<ul className={this.animClass}>
 
                     <Modal 
@@ -119,20 +216,39 @@ class SearchResults extends React.PureComponent {
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
-                        <span className="search fecha title col-xs-3">Fecha creación</span>
-                        <span className="search nombre title col-xs-3">Nombre</span>
-                        <span className="search codigo-externo title col-xs-2">Código Licitación (código externo)</span>
-                        <span className="search codigo-estado title col-xs-2">Estado (código estado)</span>
+                        {this.state.columns.length === 0 ? 
+                            <div>
+                                <span className="search fecha title col-xs-3">Fecha creación</span>
+                                <span className="search nombre title col-xs-3">Nombre</span>
+                                <span className="search codigo-externo title col-xs-2">Código Licitación (código externo)</span>
+                                <span className="search codigo-estado title col-xs-2">Estado (código estado)</span>
+                            </div>
+                        :
+                            Object.keys(this.state.columns[0]).map( (element,index) => {
+                                return <span className="search title col-xs-3" key={"title key" + index }>
+                                        {e.value.FechaCreacion}
+                                       </span>
+                            })
+
+
+                        }
+
+ 
+
+
+                        {
+
+                        }
                         <span className="search subscription title col-xs-2">Recibir actualizaciones</span>
                     </div>
 
                     {
-                        
-                    this.props.results.map((e, i) => {
+                     
+                    elementsToRender.map((element, index) => {
                         //e = JSON.parse(e);
                         return <li className="search-results" key={i}>
 
-                                    <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
+                                    <span className="search fecha col-xs-3" key={"fecha key" + element }>
                                         {e.value.FechaCreacion}
                                     </span>
                                     <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
