@@ -87,9 +87,15 @@ export const getObjectSchema = (object) => {
 //      Listado: ["a", "b", "c", {d:[]"z", "x", "y"]} ]
 //          }
 // con el schema del objeto dado
+
+    // //en el caso de Adjudicacion, puede ser o null o un objeto.
+    try{Object.keys(object)}
+    catch(error) {object = {SinDatos: "Sin datos"}}
+    // && currentKey != "Adjudicacion"
+
     return Object.keys(object).reduce((accumulator, currentKey) => {
 
-        if(isPrimitive(object[currentKey])) {
+        if(isPrimitive(object[currentKey]) && currentKey != "Adjudicacion") {
             accumulator.push(currentKey);
             return accumulator;
         }

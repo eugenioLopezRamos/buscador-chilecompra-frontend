@@ -1,5 +1,6 @@
 import React from 'react';
 import * as utils from '../utils/miscUtils';
+import objectAssign from 'object-assign';
 
 class JSONSchemaCheckboxes extends React.Component {
     //props: {schema: {...}}
@@ -58,7 +59,11 @@ class JSONSchemaCheckboxes extends React.Component {
 
 
     objectSchema = () => {
-       return utils.getObjectSchema(this.props.firstResult.value) || null;
+       
+        return this.props.results.reduce((prev, currentResult) => {
+            return objectAssign(prev, utils.getObjectSchema(currentResult.value));
+        }, []) || null;
+      // return utils.getObjectSchema(this.props.firstResult.value) || null;
     };
 
     renderCheckboxes = (object, tags) => {
@@ -92,10 +97,12 @@ class JSONSchemaCheckboxes extends React.Component {
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
                         if(utils.isPrimitive(element)) {
-                            return <label className="json-schema-checkbox-label">
-                                        {element}
+                        
+                            return <label className="json-schema-checkbox-label" key={"label" + index }>
+                                    {element}
                                         <input className="json-schema-checkbox" 
-                                               type="checkbox" key={"json-schema" + index}
+                                               type="checkbox" 
+                                               key={"json-schema" + index}
                                                onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
                                         />
                                    </label>
@@ -124,19 +131,21 @@ class JSONSchemaCheckboxes extends React.Component {
     } 
 
     render = () => {
-    //    console.log("this state", this.objectSchema());//utils.getObjectSchema(this.props.firstResult.value))
+         // debugger
         let schemaArray = this.objectSchema();
+      
         return(
-                <div className="schema-picker-container">
+                <div className="fixed-size-searchTab-container">
                     <div className="schema-object-container">
-                        {this.renderCheckboxes(schemaArray, ["Base"])}
                         <div className="filter-columns-container">
                             <button 
                                 className="btn btn-primary col-xs-6 col-md-4 col-xs-offset-3 col-md-offset-4"
                                 onClick={this.applyColumnsChange}
-                                >Filtrar columnas
+                            >
+                            Filtrar columnas
                             </button>
                         </div>
+                        {this.renderCheckboxes(schemaArray, ["Base"])}
                     </div>
 
                 </div>

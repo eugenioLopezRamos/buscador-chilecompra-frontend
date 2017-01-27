@@ -17,7 +17,7 @@ const App = ({children}, {store}) => {
         }
     }
    return( 
-            <div style={{"backgroundColor": "#eee", "minHeight": "50vmax"} } onClick={hideNavbar}>
+            <div style={{"backgroundColor": "#eee", "minHeight": "50vmax", "minWidth": "100%", "display": "inline-block"} } onClick={hideNavbar}>
                 <Header />
                     {children}
                 <Footer />

@@ -129,55 +129,72 @@ class SearchResults extends React.PureComponent {
             let self = this;
             let elementsToRender = this.applyFilter(this.state.columns);
 
-            return (<ul className={this.animClass}>
+            return (
+            <div className="searchResults-container-div">
 
-                    <Modal 
-                        isModalShown={this.state.showModal} 
-                        modalValue={this.state.enteredSubscriptionName}
-                        handler={this.handleSubscription}
-                        hideModal={this.hideSubscriptionModal}
-                        onInput={this.onSubscriptionNameInput}           
-                    />
+                        <JSONSchemaCheckboxes 
+                            results={this.props.results}
+                            changeColumns={this.changeColumns}
+                        />            
+                        
+                        <Modal 
+                            isModalShown={this.state.showModal} 
+                            modalValue={this.state.enteredSubscriptionName}
+                            handler={this.handleSubscription}
+                            hideModal={this.hideSubscriptionModal}
+                            onInput={this.onSubscriptionNameInput}           
+                        />            
+                
+                
+        
+                    <ul className={this.animClass}>
 
-                    <JSONSchemaCheckboxes 
-                        firstResult={this.props.results[0]}
-                        changeColumns={this.changeColumns}
-                    />
 
-                    <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
-                    <div className="title-container">
-                        {        
-                            Object.keys(elementsToRender[0]).map((element,index) => {
-                                return <span className="search title col-xs-3" key={"title key" + index }>
-                                        {element}
-                                       </span>
+
+
+
+                        <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
+
+                        <div className="results-data-container">
+                            <div className="title-container">
+                                {        
+                                    Object.keys(elementsToRender[0]).map((element,index) => {
+                                        return <span className="search title col-xs-3" key={"title key" + index }>
+                                                {element}
+                                            </span>
+                                    })
+                                }
+                                
+                            </div>
+
+                            {
+                            elementsToRender.map((row, index) => {
+                                return <li className="search-results" key={index}>
+
+                                            {
+                                                Object.values(row).map((column, index) => {
+
+                                                    return <span className="search col-xs-3" key={"column key" + index}>
+                                                                {column}
+                                                        </span>
+                                                })
+                                            }
+
+                                        </li>
                             })
-                        }
-                        <span className="search subscription title col-xs-2">Recibir actualizaciones</span>
+                            }
+                        </div>
+                        </ul>
                     </div>
 
-                    {
-                     
-                    elementsToRender.map((row, index) => {
-                        return <li className="search-results" key={index}>
 
-                                    {
-                                        Object.values(row).map((column, index) => {
 
-                                            return <span className="search col-xs-3" key={"column key" + index}>
-                                                        {column}
-                                                   </span>
-                                        })
-                                    }
-                                    <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + index } >
-                                        <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
-                                            Suscribirse
-                                        </button>
-                                    </span>
 
-                                </li>
-                    })
-                    }</ul>);
+
+
+
+
+                    );
         }
     }                     
 }
@@ -216,3 +233,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
                                     // </span>
 
 
+//          title
+//<span className="search subscription title col-xs-2">Recibir actualizaciones</span>
+                                            // <span className="search col-xs-3" key={"suscripcion key " + index } >
+                                            //     <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
+                                            //         Suscribirse
+                                            //     </button>
+                                            // </span>

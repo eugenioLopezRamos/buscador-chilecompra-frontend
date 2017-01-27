@@ -57,55 +57,56 @@ class InputFieldsContainer extends React.PureComponent {
                             messages={this.props.messages}
                             messagesHandler={this.state.messagesHandler}
                         />
-
+                        <div className="fixed-size-searchTab-container">
                         <label>Selecciona una fecha (vacio=todas)</label>
-                        <DatePicker
-                            startDate={this.props.date} 
-                            setDate={this.props.actions.dateFieldSelect}
-                        />
-
-                        <label>Estado de la licitación (código estado)</label>
-                            <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
-
-                        <label>Según comprador (código organismo público)</label>
-                            <AutoFillerInput 
-                                organismosPublicos={this.props.organismosPublicos}
-                                organismosPublicosFilter={this.props.organismosPublicosFilter}
-                                organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
-                                selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
-                                onSelectionChange={this.props.actions.pickOrganismoPublico}
-                                onInputChange={this.props.actions.autoFillerInputChange}
+                            <DatePicker
+                                startDate={this.props.date} 
+                                setDate={this.props.actions.dateFieldSelect}
                             />
 
-                        <label>Según RUT proveedor</label>
-                        <input
-                            className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                            key="rut-proveedor" 
-                            placeholder="Ejemplo: 1.111.111-1"
-                            defaultValue={this.props.rutProveedor} 
-                            onChange={this.props.actions.RUTInput}/>
-                    
-                        <label>Código de licitación</label>
-                        <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                            key="cod-licitacion" 
-                            placeholder="Buscar por código de licitación"
-                            defaultValue={this.props.codigoLicitacion}
-                            onChange={this.props.actions.codigoLicitacionInputChange}
-                        />
+                            <label>Estado de la licitación (código estado)</label>
+                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
+
+                            <label>Según comprador (código organismo público)</label>
+                                <AutoFillerInput 
+                                    organismosPublicos={this.props.organismosPublicos}
+                                    organismosPublicosFilter={this.props.organismosPublicosFilter}
+                                    organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
+                                    selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
+                                    onSelectionChange={this.props.actions.pickOrganismoPublico}
+                                    onInputChange={this.props.actions.autoFillerInputChange}
+                                />
+
+                            <label>Según RUT proveedor</label>
+                            <input
+                                className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                                key="rut-proveedor" 
+                                placeholder="Ejemplo: 1.111.111-1"
+                                defaultValue={this.props.rutProveedor} 
+                                onChange={this.props.actions.RUTInput}/>
                         
-                        
-                        <label>Según palabras clave</label>
-                            <SearchField 
-                                value={this.props.palabrasClave} 
-                                onChange={this.props.actions.searchFieldInput} 
-                                onSubmit={this.props.API.loadChilecompraData} 
+                            <label>Código de licitación</label>
+                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                                key="cod-licitacion" 
+                                placeholder="Buscar por código de licitación"
+                                defaultValue={this.props.codigoLicitacion}
+                                onChange={this.props.actions.codigoLicitacionInputChange}
                             />
+                            
+                            
+                            <label>Según palabras clave</label>
+                                <SearchField 
+                                    value={this.props.palabrasClave} 
+                                    onChange={this.props.actions.searchFieldInput} 
+                                    onSubmit={this.props.API.loadChilecompraData} 
+                                />
 
-                            <SearchesSaver 
-                                handleResults={this.handleCreateResults} 
-                                handleSearches={this.handleCreateSearches}
-                                disableButtons={this.disableButtons()}
-                            />
+                                <SearchesSaver 
+                                    handleResults={this.handleCreateResults} 
+                                    handleSearches={this.handleCreateSearches}
+                                    disableButtons={this.disableButtons()}
+                                />
+                        </div>
 
                             <div className="col-xs-12 no-gutter">
                                 <SearchResults results={this.props.results}/>
