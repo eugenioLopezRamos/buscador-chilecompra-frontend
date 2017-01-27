@@ -52,10 +52,8 @@ class JSONSchemaCheckboxes extends React.Component {
     }
 
 
-
-    applyFilter = () => {
-        // console.log("im here!", this.state.picked);
-        this.props.applyFilter(this.state.picked);
+    applyColumnsChange = () => {
+        this.props.changeColumns(this.state.picked);
     }
 
 
@@ -67,10 +65,13 @@ class JSONSchemaCheckboxes extends React.Component {
         let self = this;
         //renders non primitves at the end (looks cleaner)
         let renderLater = new Array;
+
         //used as id for each container to be ref'd on the <label onClick> handler
         this.containerCounter++;
+
         //the current value of the counter
         let number = this.containerCounter;
+
         //the tag to use on the label
         let currentTag = tags[tags.length - 1];
         //make parentTag an array, and in the <label> render only the last one (but keep all for reference)
@@ -132,7 +133,7 @@ class JSONSchemaCheckboxes extends React.Component {
                         <div className="filter-columns-container">
                             <button 
                                 className="btn btn-primary col-xs-6 col-md-4 col-xs-offset-3 col-md-offset-4"
-                                onClick={this.applyFilter}
+                                onClick={this.applyColumnsChange}
                                 >Filtrar columnas
                             </button>
                         </div>

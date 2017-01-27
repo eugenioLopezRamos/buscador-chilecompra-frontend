@@ -9,6 +9,7 @@ export default function fetchReducer(state = initialState.searchResults, action)
             return action.data;
 
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
+            console.log("action error", action);
             return action.error;
 
         default:

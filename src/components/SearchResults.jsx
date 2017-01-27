@@ -38,6 +38,12 @@ class SearchResults extends React.PureComponent {
                 this.animClass = this.animClass === "search-results-ul1" ? "search-results-ul2" : "search-results-ul1";
             }
         }
+
+        changeColumns = (newColumns) => {
+            this.setState({columns: newColumns});
+        } 
+
+
         applyFilter = (selectedItems) => {
             var results = this.props.results;
             let columns = results.map(currentResult => {
@@ -73,7 +79,8 @@ class SearchResults extends React.PureComponent {
                 
                 return newObject;
             });
-            this.setState({columns});
+         //   this.setState({columns});
+            return columns;
         }
 
 
@@ -109,80 +116,6 @@ class SearchResults extends React.PureComponent {
             this.setState({enteredSubscriptionName: event.target.value});
          }
 
-        // renderPicker = () => {
-        //     if(this.state.columns.length === 0) {
-        //         return () => {
-        //             this.props.results.map((e, i) => {
-        //                 //e = JSON.parse(e);
-        //                 return <li className="search-results" key={i}>
-
-        //                             <span className="search fecha col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
-        //                                 {e.value.FechaCreacion}
-        //                             </span>
-        //                             <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
-        //                                 { e.value["Listado"][0].Nombre}
-        //                             </span>
-
-        //                             <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
-        //                                 { e.value["Listado"][0].CodigoExterno }
-        //                             </span>
-
-        //                             <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
-        //                                 { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
-        //                             </span>
-        //                             <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
-        //                                 <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
-        //                                     Suscribirse
-        //                                 </button>
-        //                             </span>
-
-        //                         </li>
-        //             })
-        //         }
-        //     }
-        //     else {
-        //         return(
-        //             <li className="search-results" key={i}>
-
-     
-                  
-        //                 <span className="search col-xs-3" key={"fecha key" + e.value.FechaCreacion }>
-        //                     {e.value.FechaCreacion}
-        //                 </span>
-        //                 <span className="search col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
-        //                     { e.value["Listado"][0].Nombre}
-        //                 </span>
-
-        //                 <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
-        //                     { e.value["Listado"][0].CodigoExterno }
-        //                 </span>
-
-        //                 <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
-        //                     { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
-        //                 </span>
-
-
-
-
-
-
-                        
-        //                 <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
-        //                     <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
-        //                         Suscribirse
-        //                     </button>
-        //                 </span>
-
-        //             </li>
-        //             )
-
-
-        //         }
-
-
-        // }
-        
-
         render = () => {
         if(!this.props.results){
             return null;
@@ -194,10 +127,8 @@ class SearchResults extends React.PureComponent {
 
         else {
             let self = this;
-            let elementsToRender = this.props.results;
-            if(this.state.columns.length > 0) {
-                elementsToRender = this.state.columns;
-            }
+            let elementsToRender = this.applyFilter(this.state.columns);
+
             return (<ul className={this.animClass}>
 
                     <Modal 
@@ -209,61 +140,37 @@ class SearchResults extends React.PureComponent {
                     />
 
                     <JSONSchemaCheckboxes 
-                        firstResult={this.props.results[0]}//{JSON.parse(this.props.results[0])} 
-                        applyFilter={this.applyFilter}
-                    
+                        firstResult={this.props.results[0]}
+                        changeColumns={this.changeColumns}
                     />
 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <div className="title-container">
-                        {this.state.columns.length === 0 ? 
-                            <div>
-                                <span className="search fecha title col-xs-3">Fecha creación</span>
-                                <span className="search nombre title col-xs-3">Nombre</span>
-                                <span className="search codigo-externo title col-xs-2">Código Licitación (código externo)</span>
-                                <span className="search codigo-estado title col-xs-2">Estado (código estado)</span>
-                            </div>
-                        :
-                            Object.keys(this.state.columns[0]).map( (element,index) => {
+                        {        
+                            Object.keys(elementsToRender[0]).map((element,index) => {
                                 return <span className="search title col-xs-3" key={"title key" + index }>
-                                        {e.value.FechaCreacion}
+                                        {element}
                                        </span>
                             })
-
-
-                        }
-
- 
-
-
-                        {
-
                         }
                         <span className="search subscription title col-xs-2">Recibir actualizaciones</span>
                     </div>
 
                     {
                      
-                    elementsToRender.map((element, index) => {
-                        //e = JSON.parse(e);
-                        return <li className="search-results" key={i}>
+                    elementsToRender.map((row, index) => {
+                        return <li className="search-results" key={index}>
 
-                                    <span className="search fecha col-xs-3" key={"fecha key" + element }>
-                                        {e.value.FechaCreacion}
-                                    </span>
-                                    <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
-                                        { e.value["Listado"][0].Nombre}
-                                    </span>
+                                    {
+                                        Object.values(row).map((column, index) => {
 
-                                    <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
-                                        { e.value["Listado"][0].CodigoExterno }
-                                    </span>
-
-                                    <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
-                                        { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
-                                    </span>
-                                    <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + i } >
-                                        <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(i)}}>
+                                            return <span className="search col-xs-3" key={"column key" + index}>
+                                                        {column}
+                                                   </span>
+                                        })
+                                    }
+                                    <span className="search subscription-button-container col-xs-2" key={"suscripcion key " + index } >
+                                        <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
                                             Suscribirse
                                         </button>
                                     </span>
@@ -290,5 +197,22 @@ function mapDispatchToProps(dispatch) {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+
+
+
+                                    // <span className="search fecha col-xs-3" key={"fecha key" + element }>
+                                    //     {e.value.FechaCreacion}
+                                    // </span>
+                                    // <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
+                                    //     { e.value["Listado"][0].Nombre}
+                                    // </span>
+
+                                    // <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
+                                    //     { e.value["Listado"][0].CodigoExterno }
+                                    // </span>
+
+                                    // <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
+                                    //     { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
+                                    // </span>
 
 
