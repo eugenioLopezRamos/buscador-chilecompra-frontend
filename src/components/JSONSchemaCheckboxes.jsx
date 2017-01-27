@@ -9,6 +9,30 @@ class JSONSchemaCheckboxes extends React.Component {
         this.state = {
             picked: []
         }
+        this.objectSchema = (() => {
+      
+        return this.props.results.reduce((prev, currentResult) => {
+            let newSchema = utils.getObjectSchema(currentResult.value);
+            //TODO: REFACTOR THIS, way too complicated to understand
+            let prevAdjudicacionValue;
+
+            try {prevAdjudicacionValue = prev[0]["Listado"][0][0][21]["Adjudicacion"]}
+            catch(error) {prevAdjudicacionValue = []}
+
+            let currentAdjudicacionValue = newSchema[0]["Listado"][0][0][21]["Adjudicacion"];
+            if(JSON.stringify(prevAdjudicacionValue) === JSON.stringify(currentAdjudicacionValue)) {
+                return objectAssign(prev, newSchema)
+            }
+            newSchema[0]["Listado"][0][0][21] = {Adjudicacion: objectAssign(prevAdjudicacionValue, currentAdjudicacionValue) }
+
+
+
+            return objectAssign(prev, newSchema);
+
+        }, []) || null;
+
+        })();
+
         this.containerCounter = 0;
         this.containers = new Array;
     }
@@ -57,15 +81,6 @@ class JSONSchemaCheckboxes extends React.Component {
         this.props.changeColumns(this.state.picked);
     }
 
-
-    objectSchema = () => {
-       
-        return this.props.results.reduce((prev, currentResult) => {
-            return objectAssign(prev, utils.getObjectSchema(currentResult.value));
-        }, []) || null;
-      // return utils.getObjectSchema(this.props.firstResult.value) || null;
-    };
-
     renderCheckboxes = (object, tags) => {
         let self = this;
         //renders non primitves at the end (looks cleaner)
@@ -79,6 +94,8 @@ class JSONSchemaCheckboxes extends React.Component {
 
         //the tag to use on the label
         let currentTag = tags[tags.length - 1];
+        // try {console.log(object.map(element => {return element}))}
+        // catch(error) {debugger}
         //make parentTag an array, and in the <label> render only the last one (but keep all for reference)
         return(
             <div>         
@@ -93,7 +110,10 @@ class JSONSchemaCheckboxes extends React.Component {
                     </label>
                 }
                 <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
-                {
+ 
+                {   
+                   
+
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
                         if(utils.isPrimitive(element)) {
@@ -116,6 +136,8 @@ class JSONSchemaCheckboxes extends React.Component {
                         }         
                     renderLater.push(fn);
                     })
+
+                   
                 }
                 {
                     renderLater.map(element => {
@@ -132,7 +154,7 @@ class JSONSchemaCheckboxes extends React.Component {
 
     render = () => {
          // debugger
-        let schemaArray = this.objectSchema();
+        let schemaArray = this.objectSchema;
       
         return(
                 <div className="fixed-size-searchTab-container">

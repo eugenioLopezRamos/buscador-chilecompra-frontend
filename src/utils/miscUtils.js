@@ -84,22 +84,24 @@ export const objectTransverser = (object) => {
 export const getObjectSchema = (object) => {
     //devuelve un objeto tipo:
     // {
-//      Listado: ["a", "b", "c", {d:[]"z", "x", "y"]} ]
+//      Listado: ["a", "b", "c", {d:["z", "x", "y"]} ]
 //          }
 // con el schema del objeto dado
+    let usedObject = object;
 
     // //en el caso de Adjudicacion, puede ser o null o un objeto.
     try{Object.keys(object)}
-    catch(error) {object = {SinDatos: "Sin datos"}}
+    catch(error) {usedObject = {}}
     // && currentKey != "Adjudicacion"
 
-    return Object.keys(object).reduce((accumulator, currentKey) => {
+    return Object.keys(usedObject).reduce((accumulator, currentKey) => {
 
-        if(isPrimitive(object[currentKey]) && currentKey != "Adjudicacion") {
+        if(isPrimitive(usedObject[currentKey]) && currentKey != "Adjudicacion") {
             accumulator.push(currentKey);
             return accumulator;
         }
-        accumulator.push({[currentKey]: getObjectSchema(object[currentKey])});
+        /////////// IF AQUI
+        accumulator.push({[currentKey]: getObjectSchema(usedObject[currentKey])});
         return accumulator;
     } , new Array) 
 }
