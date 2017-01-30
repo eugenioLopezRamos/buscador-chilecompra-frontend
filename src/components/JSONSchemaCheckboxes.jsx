@@ -66,7 +66,7 @@ class JSONSchemaCheckboxes extends React.Component {
        if(event.target.checked) {
             
             newPicked.push(saveValue);
-            this.setState({picked: newPicked});
+            this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
        }
        else {
             let toSplice = -1;
@@ -78,7 +78,7 @@ class JSONSchemaCheckboxes extends React.Component {
             });
             //remove that item from the array
             newPicked.splice(toSplice,1);
-            this.setState({picked: newPicked});
+            this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
        }
 
     }
@@ -121,19 +121,18 @@ class JSONSchemaCheckboxes extends React.Component {
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
                         if(utils.isPrimitive(element)) {
-
-                            let checked = false;
-
                             //decide if checked=true or checked=false on the <input>
                             let isChecked = () => {
+                                let checked = false;
                                 let pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
                                 let path = JSON.stringify(tags.concat(element).slice(1)); //removes "Base", keeps the rest
                                 if(pickedCheckboxes.indexOf(path) > -1) {
                                     checked=true;
                                 }
+                                return checked;
                             }
 
-                            isChecked();
+                     
 
 
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
@@ -142,7 +141,7 @@ class JSONSchemaCheckboxes extends React.Component {
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" 
                                                key={"json-schema" + index}
-                                               checked={checked}
+                                               checked={isChecked()}
                                                onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
                                         />
                                    </label>
@@ -151,6 +150,10 @@ class JSONSchemaCheckboxes extends React.Component {
                     // Then push it to the renderLater array, so it can be rendered later.
                    
                     let fn = () => { 
+
+                        //Dejar listado como un solo item (un solo checkbox) y con eso despues renderearlo en el
+                        //searchResults como un link (o bien como un popup similar a los del perfil)
+
 
                             //TODO: esto eliminaria "Items" y lo dejaria como link, q es mas apropiado xq el numero de Items
                             // cambia en cada Objeto
@@ -212,15 +215,8 @@ class JSONSchemaCheckboxes extends React.Component {
 
         return(
                 <div className="fixed-size-searchTab-container">
+                    <h4>Filtrar columnas</h4>
                     <div className="schema-object-container">
-                        <div className="filter-columns-container">
-                            <button 
-                                className="btn btn-primary col-xs-6 col-md-4 col-xs-offset-3 col-md-offset-4"
-                                onClick={this.applyColumnsChange}
-                            >
-                            Filtrar columnas
-                            </button>
-                        </div>
                         {this.renderCheckboxes(schemaArray, ["Base"])}
                     </div>
 
