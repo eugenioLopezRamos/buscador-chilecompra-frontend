@@ -161,7 +161,7 @@ class SearchResults extends React.PureComponent {
                                 {        
                                     Object.keys(titlesToRender[0]).map((element,index) => {
                                         return <span className="search title col-xs-3" key={"title key" + index }>
-                                                {element}
+                                                {utils.camelCaseToNormalCase(element)}
                                             </span>
                                     })
                                 }

@@ -98,34 +98,8 @@ class JSONSchemaCheckboxes extends React.Component {
 
         //the current value of the counter
         let number = this.containerCounter;
-
-        //the tag to use on the label
-        
-        // let pickedCheckboxesArray = this.state.picked.map(element => {return JSON.stringify(element)})
-        // let el = (() => {
-
-        //     if(utils.isPrimitive(object)) {
-        //         return object;
-        //     }
-        //     return null;
-        // })();
-
-
-
-
-        // if(pickedCheckboxesArray.indexOf(JSON.stringify(tags.slice(1))) > -1) {
-        //     checked = true
-        // }
-    //     console.log("pickedCheck", pickedCheckboxesArray)
-    //     console.log("el", el)
-    //    // console.log("tags", tags)
-    //     console.log("sliced", JSON.stringify(tags.slice(1)))
-    //     console.log("result", pickedCheckboxesArray.indexOf(JSON.stringify(tags.slice(1))));
-
-
         let currentTag = tags[tags.length - 1];
-        // try {console.log(object.map(element => {return element}))}
-        // catch(error) {debugger}
+
         //make parentTag an array, and in the <label> render only the last one (but keep all for reference)
         return(
             <div>         
@@ -136,7 +110,7 @@ class JSONSchemaCheckboxes extends React.Component {
                     </label>
                         : 
                     <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
-                        {currentTag}
+                        {utils.camelCaseToNormalCase(currentTag)}
                     </label>
                 }
                 <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
@@ -163,7 +137,7 @@ class JSONSchemaCheckboxes extends React.Component {
 
 
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
-                                        {element}
+                                        {utils.camelCaseToNormalCase(element)}
                                       
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" 

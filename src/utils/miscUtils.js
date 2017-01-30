@@ -174,3 +174,33 @@ export const arrayObjectProperties = (object, start = 0, end = undefined) => {
             return accumulator.concat({[currentKey]: object[currentKey]});
         },[])
 }
+
+
+export const camelCaseToNormalCase = (string) => {
+    const camelCaseRegex = new RegExp("[A-Z]{1}[a-z]*");
+    let startIndex = 0;
+    let chunks = new Array;
+
+    let matcher = (string, camelCaseRegex, startIndex) => {
+        if(startIndex >= string.length) {
+            return;
+        }
+        let chunk = string.slice(startIndex).match(camelCaseRegex)
+        
+        let newIndex = startIndex + chunk[0].length;
+        chunks.push(chunk[0]);
+        matcher(string, camelCaseRegex, newIndex)
+    }
+
+    matcher(string, camelCaseRegex, startIndex);
+
+    let normalCase = chunks.map((word, index) => {
+        if(index > 0) {
+            return word.toLowerCase()
+        }
+        return word;
+    }).join(" ");
+
+    return normalCase;
+        
+}
