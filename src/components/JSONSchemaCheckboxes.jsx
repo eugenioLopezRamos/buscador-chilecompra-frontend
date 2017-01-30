@@ -1,35 +1,42 @@
 import React from 'react';
 import * as utils from '../utils/miscUtils';
 import objectAssign from 'object-assign';
+import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
 
 class JSONSchemaCheckboxes extends React.Component {
     //props: {schema: {...}}
     constructor(props) {
         super(props);
         this.state = {
-            picked: []
+            picked: [
+                        ["FechaCreacion"],
+                        ["Listado", "0", "Nombre"],
+                        ["Listado", "0", "CodigoEstado"],
+                        ["Listado", "0", "CodigoExterno"],
+            ]
         }
         this.objectSchema = (() => {
-      
-        return this.props.results.reduce((prev, currentResult) => {
-            let newSchema = utils.getObjectSchema(currentResult.value);
-            //TODO: REFACTOR THIS, way too complicated to understand
-            //  In short, since objectAssign shallow merges, deep merge that specific key ("Adjudicacion")
+    
+            return utils.getObjectSchema(chileCompraResponseExample)
+        // return this.props.results.reduce((prev, currentResult) => {
+        //     let newSchema = utils.getObjectSchema(currentResult.value);
+        //     //TODO: REFACTOR THIS, way too complicated to understand
+        //     //  In short, since objectAssign shallow merges, deep merge that specific key ("Adjudicacion")
 
-            let prevAdjudicacionValue;
+        //     let prevAdjudicacionValue;
 
-            try {prevAdjudicacionValue = prev[0]["Listado"][0][0][21]["Adjudicacion"]}
-            catch(error) {prevAdjudicacionValue = []}
+        //     try {prevAdjudicacionValue = prev[0]["Listado"][0][0][21]["Adjudicacion"]}
+        //     catch(error) {prevAdjudicacionValue = []}
 
-            let currentAdjudicacionValue = newSchema[0]["Listado"][0][0][21]["Adjudicacion"];
-            if(JSON.stringify(prevAdjudicacionValue) === JSON.stringify(currentAdjudicacionValue)) {
-                return objectAssign(prev, newSchema)
-            }
-            newSchema[0]["Listado"][0][0][21] = {Adjudicacion: objectAssign(prevAdjudicacionValue, currentAdjudicacionValue) }
+        //     let currentAdjudicacionValue = newSchema[0]["Listado"][0][0][21]["Adjudicacion"];
+        //     if(JSON.stringify(prevAdjudicacionValue) === JSON.stringify(currentAdjudicacionValue)) {
+        //         return objectAssign(prev, newSchema)
+        //     }
+        //     newSchema[0]["Listado"][0][0][21] = {Adjudicacion: objectAssign(prevAdjudicacionValue, currentAdjudicacionValue) }
 
-            return objectAssign(prev, newSchema);
+        //     return objectAssign(prev, newSchema);
 
-        }, []) || null;
+        // }, []) || null;
 
         })();
 
@@ -93,6 +100,29 @@ class JSONSchemaCheckboxes extends React.Component {
         let number = this.containerCounter;
 
         //the tag to use on the label
+        
+        // let pickedCheckboxesArray = this.state.picked.map(element => {return JSON.stringify(element)})
+        // let el = (() => {
+
+        //     if(utils.isPrimitive(object)) {
+        //         return object;
+        //     }
+        //     return null;
+        // })();
+
+
+
+
+        // if(pickedCheckboxesArray.indexOf(JSON.stringify(tags.slice(1))) > -1) {
+        //     checked = true
+        // }
+    //     console.log("pickedCheck", pickedCheckboxesArray)
+    //     console.log("el", el)
+    //    // console.log("tags", tags)
+    //     console.log("sliced", JSON.stringify(tags.slice(1)))
+    //     console.log("result", pickedCheckboxesArray.indexOf(JSON.stringify(tags.slice(1))));
+
+
         let currentTag = tags[tags.length - 1];
         // try {console.log(object.map(element => {return element}))}
         // catch(error) {debugger}
@@ -101,11 +131,11 @@ class JSONSchemaCheckboxes extends React.Component {
             <div>         
                 {
                     utils.isOnlyNumbers(currentTag) ? 
-                    <label className="json-schema-label" onClick={ () => {this.toggleDisplay(this.containers[number]) }} >
+                    <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
                         {`${parseInt(currentTag) + 1})`}
                     </label>
                         : 
-                    <label className="json-schema-label" onClick={ () => {this.toggleDisplay(this.containers[number]) }} >
+                    <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
                         {currentTag}
                     </label>
                 }
@@ -117,19 +147,69 @@ class JSONSchemaCheckboxes extends React.Component {
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
                         if(utils.isPrimitive(element)) {
-                        
+
+                            let checked = false;
+
+                            //decide if checked=true or checked=false on the <input>
+                            let isChecked = () => {
+                                let pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
+                                let path = JSON.stringify(tags.concat(element).slice(1)); //removes "Base", keeps the rest
+                                if(pickedCheckboxes.indexOf(path) > -1) {
+                                    checked=true;
+                                }
+                            }
+
+                            isChecked();
+
+
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
-                                    {element}
+                                        {element}
+                                      
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" 
                                                key={"json-schema" + index}
+                                               checked={checked}
                                                onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
                                         />
                                    </label>
                         }
                     //Else, create a function that, when called, renders this element.
                     // Then push it to the renderLater array, so it can be rendered later.
+                   
                     let fn = () => { 
+
+                            //TODO: esto eliminaria "Items" y lo dejaria como link, q es mas apropiado xq el numero de Items
+                            // cambia en cada Objeto
+                        //    if(Object.keys(element).indexOf("Items") > -1) {
+                            
+                        //     return Object.values(element["Items"]).map((subKey, subIndex) => {
+                        //        // return Object.keys(subKey).map((itemValue, itemIndex, array) => {
+                        //        //     debugger
+                             
+                        //             if(subKey === "Cantidad") {
+                        //                 return <div>
+                        //                             <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
+                        //                                 {currentTag}
+                        //                             </label>
+                        //                             <label className="json-schema-checkbox-label" key={"label" + subIndex }>
+                        //                                 {subKey}
+                        //                                 <input className="json-schema-checkbox" 
+                        //                                     type="checkbox" 
+                        //                                     key={"json-schema" + subIndex}
+                                                            
+                        //                                     onChange={ (box) => {this.checkColumnHandler(tags.concat(subKey), box)} }
+                        //                                 />
+                        //                             </label>
+                        //                         </div>
+                        //             }
+                        //               debugger
+                        //             return Object.keys(subKey).map(object => {
+                        //                 return <a href="#">{object}</a>
+                        //             })
+                        //        // }) 
+                        //     });
+                        //    }
+                            
                             return Object.keys(element).map ((subKey, subIndex) => {
                                 return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
                             });
@@ -155,7 +235,7 @@ class JSONSchemaCheckboxes extends React.Component {
     render = () => {
          // debugger
         let schemaArray = this.objectSchema;
-      
+
         return(
                 <div className="fixed-size-searchTab-container">
                     <div className="schema-object-container">

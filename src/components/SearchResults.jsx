@@ -48,9 +48,7 @@ class SearchResults extends React.PureComponent {
 
 
         applyFilter = (selectedItems, results) => {
-            //var results = this.props.results;
-            console.log("this props", this.props.results);
-            console.log("results", results)
+
             let columns = results.map(currentResult => {
               
                 let newObject = {};
@@ -62,7 +60,7 @@ class SearchResults extends React.PureComponent {
                     if(currIndex === subElement.length -1) {
                         let value = "No incluye campo o está vacío";
                         try { value = prev[curr] }
-                        catch(error){return true};
+                        catch(error){value = "No incluye campo o está vacío"};
 
                         //Some fields(keys of the JSON object) exist more than once, on different levels of "deepness" within
                         // the object's structure. In this case, we append the previous key, to make it
@@ -172,13 +170,14 @@ class SearchResults extends React.PureComponent {
 
                             {
                             elementsToRender.map((row, index) => {
+                   
                                 return <li className="search-results" key={index}>
-
+                                           
                                             {
                                                 Object.values(row).map((column, index) => {
-
+                                                
                                                     return <span className="search col-xs-3" key={"column key" + index}>
-                                                                {column}
+                                                                {column ? column : "Sin información"}
                                                         </span>
                                                 })
                                             }

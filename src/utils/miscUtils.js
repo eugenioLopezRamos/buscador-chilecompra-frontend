@@ -89,18 +89,12 @@ export const getObjectSchema = (object) => {
 // con el schema del objeto dado
     let usedObject = object;
 
-    // //en el caso de Adjudicacion, puede ser o null o un objeto.
-    try{Object.keys(object)}
-    catch(error) {usedObject = {}}
-    // && currentKey != "Adjudicacion"
-
     return Object.keys(usedObject).reduce((accumulator, currentKey) => {
 
-        if(isPrimitive(usedObject[currentKey]) && currentKey != "Adjudicacion") {
+        if(isPrimitive(usedObject[currentKey])) {
             accumulator.push(currentKey);
             return accumulator;
         }
-        /////////// IF AQUI
         accumulator.push({[currentKey]: getObjectSchema(usedObject[currentKey])});
         return accumulator;
     } , new Array) 
