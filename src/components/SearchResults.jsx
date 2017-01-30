@@ -12,6 +12,7 @@ import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
 import * as utils from '../utils/miscUtils';
+import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -29,8 +30,10 @@ class SearchResults extends React.PureComponent {
                             ["Listado", "0", "Nombre"],
                             ["Listado", "0", "CodigoEstado"],
                             ["Listado", "0", "CodigoExterno"],
-                        ]
+                        ],
+                resultsSchema: {}
             }
+            
         }
 
         componentWillReceiveProps(nextProps) {
@@ -39,13 +42,15 @@ class SearchResults extends React.PureComponent {
             }
         }
 
-        changeColumns = (newColumns) => {
-            this.setState({columns: newColumns});
+        changeColumns = (newColumns, schema) => {
+            this.setState({columns: newColumns, resultsSchema: schema});
         } 
 
 
-        applyFilter = (selectedItems) => {
-            var results = this.props.results;
+        applyFilter = (selectedItems, results) => {
+            //var results = this.props.results;
+            console.log("this props", this.props.results);
+            console.log("results", results)
             let columns = results.map(currentResult => {
               
                 let newObject = {};
@@ -55,7 +60,7 @@ class SearchResults extends React.PureComponent {
 
                     //on the last item, do special stuff
                     if(currIndex === subElement.length -1) {
-                        let value = "No incluye campo o esta vacío";
+                        let value = "No incluye campo o está vacío";
                         try { value = prev[curr] }
                         catch(error){return true};
 
@@ -79,7 +84,7 @@ class SearchResults extends React.PureComponent {
                 
                 return newObject;
             });
-         //   this.setState({columns});
+
             return columns;
         }
 
@@ -127,8 +132,11 @@ class SearchResults extends React.PureComponent {
 
         else {
             let self = this;
-            let elementsToRender = this.applyFilter(this.state.columns);
-
+            let mockResult = [{value: chileCompraResponseExample}];
+            let titlesToRender = this.applyFilter(this.state.columns, mockResult);
+            let elementsToRender = this.applyFilter(this.state.columns, this.props.results);
+  
+          //  debugger
             return (
             <div className="searchResults-container-div">
 
@@ -146,19 +154,14 @@ class SearchResults extends React.PureComponent {
                         />            
                 
                 
-        
+                        <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <ul className={this.animClass}>
 
-
-
-
-
-                        <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
-
                         <div className="results-data-container">
-                            <div className="title-container">
+                            <div className="title-container">   
+                              
                                 {        
-                                    Object.keys(elementsToRender[0]).map((element,index) => {
+                                    Object.keys(titlesToRender[0]).map((element,index) => {
                                         return <span className="search title col-xs-3" key={"title key" + index }>
                                                 {element}
                                             </span>

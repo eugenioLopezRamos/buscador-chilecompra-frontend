@@ -14,6 +14,8 @@ class JSONSchemaCheckboxes extends React.Component {
         return this.props.results.reduce((prev, currentResult) => {
             let newSchema = utils.getObjectSchema(currentResult.value);
             //TODO: REFACTOR THIS, way too complicated to understand
+            //  In short, since objectAssign shallow merges, deep merge that specific key ("Adjudicacion")
+
             let prevAdjudicacionValue;
 
             try {prevAdjudicacionValue = prev[0]["Listado"][0][0][21]["Adjudicacion"]}
@@ -24,8 +26,6 @@ class JSONSchemaCheckboxes extends React.Component {
                 return objectAssign(prev, newSchema)
             }
             newSchema[0]["Listado"][0][0][21] = {Adjudicacion: objectAssign(prevAdjudicacionValue, currentAdjudicacionValue) }
-
-
 
             return objectAssign(prev, newSchema);
 
