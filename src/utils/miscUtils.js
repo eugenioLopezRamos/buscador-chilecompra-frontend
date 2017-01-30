@@ -185,9 +185,9 @@ export const camelCaseToNormalCase = (string) => {
         if(startIndex >= string.length) {
             return;
         }
-        let chunk = string.slice(startIndex).match(camelCaseRegex)
-        
-        let newIndex = startIndex + chunk[0].length;
+        let chunk = string.slice(startIndex).match(camelCaseRegex);
+
+        let newIndex = startIndex + chunk[0].length
         chunks.push(chunk[0]);
         matcher(string, camelCaseRegex, newIndex)
     }

@@ -101,6 +101,7 @@ class JSONSchemaCheckboxes extends React.Component {
         let currentTag = tags[tags.length - 1];
 
         //make parentTag an array, and in the <label> render only the last one (but keep all for reference)
+      
         return(
             <div>         
                 {
@@ -116,8 +117,6 @@ class JSONSchemaCheckboxes extends React.Component {
                 <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
  
                 {   
-                   
-
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
                         if(utils.isPrimitive(element)) {
@@ -131,10 +130,6 @@ class JSONSchemaCheckboxes extends React.Component {
                                 }
                                 return checked;
                             }
-
-                     
-
-
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
                                         {utils.camelCaseToNormalCase(element)}
                                       
@@ -153,7 +148,6 @@ class JSONSchemaCheckboxes extends React.Component {
 
                         //Dejar listado como un solo item (un solo checkbox) y con eso despues renderearlo en el
                         //searchResults como un link (o bien como un popup similar a los del perfil)
-
 
                             //TODO: esto eliminaria "Items" y lo dejaria como link, q es mas apropiado xq el numero de Items
                             // cambia en cada Objeto
@@ -186,7 +180,21 @@ class JSONSchemaCheckboxes extends React.Component {
                         //        // }) 
                         //     });
                         //    }
-                            
+                            if(JSON.stringify(Object.keys(element)) === JSON.stringify(["Items"])) {
+                                console.log("element", element);
+                                let newItems = {Items: ["Cantidad", "Listado"]};
+                                // newItems["Items"] = {};
+                                // newItems["Items"]["Cantidad"] = "Cantidad";
+                                // newItems["Items"]["Listado"] = "Listado Items";
+                                //let shallowItems = objectAssign({}, element["Items"], element["Items"]["Listado"] = "Listado Items");
+
+                                //debugger
+                                return Object.keys(newItems).map ((subKey, subIndex) => {
+                                    return self.renderCheckboxes(newItems[subKey], tags.concat(`${subKey}`));
+                                });
+                            }
+
+
                             return Object.keys(element).map ((subKey, subIndex) => {
                                 return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
                             });
@@ -205,6 +213,9 @@ class JSONSchemaCheckboxes extends React.Component {
             
             </div>
         )
+        
+
+      
 
 
     } 

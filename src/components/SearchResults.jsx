@@ -66,11 +66,11 @@ class SearchResults extends React.PureComponent {
                         // the object's structure. In this case, we append the previous key, to make it
                         // easier to differentiate them
                         if(newObject[curr]) {
-                            let previousItemKey = subElement[currIndex-1];
+                            let previousItemKey = subElement[currIndex-1] ? subElement[currIndex-1] : "Base";
                             if(utils.isOnlyNumbers(previousItemKey)) {
                                 previousItemKey = `${parseInt(previousItemKey) + 1})`;
                             }
-                            return newObject[`${previousItemKey} ${curr}`] = value;
+                            return newObject[`${previousItemKey}${curr}`] = value;
                         }
                         return newObject[curr] = value;
                     }
