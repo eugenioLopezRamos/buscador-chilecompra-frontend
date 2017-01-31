@@ -12,7 +12,9 @@ import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
 import * as utils from '../utils/miscUtils';
-import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
+import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
+import FullScreenPane from './FullScreenPane';
+import ObjectDetails from './ObjectDetails';
 
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
@@ -31,7 +33,14 @@ class SearchResults extends React.PureComponent {
                             ["Listado", "0", "CodigoEstado"],
                             ["Listado", "0", "CodigoExterno"],
                         ],
-                resultsSchema: {}
+                resultsSchema: {},
+                fullScreenPane:{  
+                    show: false,
+                    component: ObjectDetails,
+                    componentProps: {},
+                    menu: null,
+                    menuProps: {},
+                }
             }
             
         }
@@ -86,6 +95,23 @@ class SearchResults extends React.PureComponent {
             return columns;
         }
 
+        showFullScreenPane = (objectData) => {
+
+            let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
+            newFullScreenPane.show = true;
+            newFullScreenPane.componentProps = {objectData};
+            
+            this.setState({
+                fullScreenPane: newFullScreenPane
+            })
+        }
+
+        hideFullScreenPane = () => {
+            let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
+            newFullScreenPane.show = false;
+
+            this.setState({fullScreenPane: newFullScreenPane})
+        }
 
         //Normally this.props.estadosLicitacion is a number (the codigo_estado)
         returnNombreEstado = (codigoEstado) => {
@@ -134,25 +160,35 @@ class SearchResults extends React.PureComponent {
             let titlesToRender = this.applyFilter(this.state.columns, mockResult);
             let elementsToRender = this.applyFilter(this.state.columns, this.props.results);
   
-          //  debugger
             return (
             <div className="searchResults-container-div">
 
-                        <JSONSchemaCheckboxes 
-                            results={this.props.results}
-                            changeColumns={this.changeColumns}
-                        />            
+                    <JSONSchemaCheckboxes 
+                        results={this.props.results}
+                        changeColumns={this.changeColumns}
+                    />            
                         
-                        <Modal 
-                            isModalShown={this.state.showModal} 
-                            modalValue={this.state.enteredSubscriptionName}
-                            handler={this.handleSubscription}
-                            hideModal={this.hideSubscriptionModal}
-                            onInput={this.onSubscriptionNameInput}           
-                        />            
+                    <Modal 
+                        isModalShown={this.state.showModal} 
+                        modalValue={this.state.enteredSubscriptionName}
+                        handler={this.handleSubscription}
+                        hideModal={this.hideSubscriptionModal}
+                        onInput={this.onSubscriptionNameInput}           
+                    />            
+                    
+                    <FullScreenPane 
+                        show={this.state.fullScreenPane.show}
+                        hide={this.hideFullScreenPane}
+                        component={this.state.fullScreenPane.component} 
+                        componentProps={this.state.fullScreenPane.componentProps}
+                        menu={this.state.menu}  
+
+                    
+                    
+
+                    />
                 
-                
-                        <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
+                    <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
                     <ul className={this.animClass}>
 
                         <div className="results-data-container">
@@ -170,12 +206,23 @@ class SearchResults extends React.PureComponent {
 
                             {
                             elementsToRender.map((row, index) => {
-                   
                                 return <li className="search-results" key={index}>
-                                           
                                             {
                                                 Object.values(row).map((column, index) => {
-                                                
+                                                    if(!utils.isPrimitive(column)) {
+                                                        return <span className="search col-xs-3" key={"column key" + index}>
+                                                                    <a href="#" 
+                                                                        onClick={(event) => {
+                                                                                    event.preventDefault(); 
+                                                                                    this.showFullScreenPane(column)
+                                                                                    }
+                                                                                }
+                                                                    >
+                                                                        Ver detalle
+                                                                    </a>
+                                                                </span>
+                                                    }
+
                                                     return <span className="search col-xs-3" key={"column key" + index}>
                                                                 {column ? column : "Sin información"}
                                                         </span>
@@ -187,15 +234,7 @@ class SearchResults extends React.PureComponent {
                             }
                         </div>
                         </ul>
-                    </div>
-
-
-
-
-
-
-
-
+                </div>
                     );
         }
     }                     
@@ -216,29 +255,3 @@ function mapDispatchToProps(dispatch) {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
-
-
-
-                                    // <span className="search fecha col-xs-3" key={"fecha key" + element }>
-                                    //     {e.value.FechaCreacion}
-                                    // </span>
-                                    // <span className="search nombre col-xs-3" key={"nombre key" + e.value["Listado"][0].Nombre } >
-                                    //     { e.value["Listado"][0].Nombre}
-                                    // </span>
-
-                                    // <span className="search codigo-externo col-xs-2" key={"codigoExterno key " + e.value["Listado"][0].CodigoExterno } >         
-                                    //     { e.value["Listado"][0].CodigoExterno }
-                                    // </span>
-
-                                    // <span className="search codigo-estado col-xs-2" key={"codigoEstado key " + e.value["Listado"][0].CodigoEstado } >
-                                    //     { `${self.returnNombreEstado(e.value["Listado"][0].CodigoEstado)} (${e.value["Listado"][0].CodigoEstado})`}
-                                    // </span>
-
-
-//          title
-//<span className="search subscription title col-xs-2">Recibir actualizaciones</span>
-                                            // <span className="search col-xs-3" key={"suscripcion key " + index } >
-                                            //     <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
-                                            //         Suscribirse
-                                            //     </button>
-                                            // </span>

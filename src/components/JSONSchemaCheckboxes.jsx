@@ -146,54 +146,14 @@ class JSONSchemaCheckboxes extends React.Component {
                    
                     let fn = () => { 
 
-                        //Dejar listado como un solo item (un solo checkbox) y con eso despues renderearlo en el
-                        //searchResults como un link (o bien como un popup similar a los del perfil)
-
-                            //TODO: esto eliminaria "Items" y lo dejaria como link, q es mas apropiado xq el numero de Items
-                            // cambia en cada Objeto
-                        //    if(Object.keys(element).indexOf("Items") > -1) {
-                            
-                        //     return Object.values(element["Items"]).map((subKey, subIndex) => {
-                        //        // return Object.keys(subKey).map((itemValue, itemIndex, array) => {
-                        //        //     debugger
-                             
-                        //             if(subKey === "Cantidad") {
-                        //                 return <div>
-                        //                             <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
-                        //                                 {currentTag}
-                        //                             </label>
-                        //                             <label className="json-schema-checkbox-label" key={"label" + subIndex }>
-                        //                                 {subKey}
-                        //                                 <input className="json-schema-checkbox" 
-                        //                                     type="checkbox" 
-                        //                                     key={"json-schema" + subIndex}
-                                                            
-                        //                                     onChange={ (box) => {this.checkColumnHandler(tags.concat(subKey), box)} }
-                        //                                 />
-                        //                             </label>
-                        //                         </div>
-                        //             }
-                        //               debugger
-                        //             return Object.keys(subKey).map(object => {
-                        //                 return <a href="#">{object}</a>
-                        //             })
-                        //        // }) 
-                        //     });
-                        //    }
                             if(JSON.stringify(Object.keys(element)) === JSON.stringify(["Items"])) {
-                                console.log("element", element);
+                                //console.log("element", element);
                                 let newItems = {Items: ["Cantidad", "Listado"]};
-                                // newItems["Items"] = {};
-                                // newItems["Items"]["Cantidad"] = "Cantidad";
-                                // newItems["Items"]["Listado"] = "Listado Items";
-                                //let shallowItems = objectAssign({}, element["Items"], element["Items"]["Listado"] = "Listado Items");
 
-                                //debugger
                                 return Object.keys(newItems).map ((subKey, subIndex) => {
                                     return self.renderCheckboxes(newItems[subKey], tags.concat(`${subKey}`));
                                 });
                             }
-
 
                             return Object.keys(element).map ((subKey, subIndex) => {
                                 return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
