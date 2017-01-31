@@ -13,8 +13,8 @@ import AuthorizationWrapper from './components/AuthorizationWrapper.jsx';
 export default (    
         <Route path="/" component={App} >
           <IndexRoute component={Introduction}  />
-          <Route path="/busqueda" component={InputFieldsContainer}/>
-          <Route path="/inicio" component={() => {return <AuthorizationWrapper component={UserPage} />} } />
-          <Route path="/perfil" component={UserProfileData} />
+          <Route path="/busqueda" component={() => {return <AuthorizationWrapper component={InputFieldsContainer} renderFailure={Introduction} />}}/>
+          <Route path="/inicio" component={() => {return <AuthorizationWrapper component={UserPage} renderFailure={Introduction}/>}} />
+          <Route path="/perfil" component={() => {return <AuthorizationWrapper component={UserProfileData} renderFailure={Introduction}/>}} />
         </Route>
   )

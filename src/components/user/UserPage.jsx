@@ -70,12 +70,12 @@ class UserPage extends React.Component {
 
     }
 
-    componentDidMount = () => {
-        //I did think about changing these here and in the backend, but decided it was a bit too much of a hassle
-       this.props.getUserNotifications();
-       this.props.getUserSubscriptions();
-       this.props.getUserSearches();
-    }
+    // componentDidMount = () => {
+    //     //I did think about changing these here and in the backend, but decided it was awkward either way
+    //    this.props.getUserNotifications();
+    //    this.props.getUserSubscriptions();
+    //    this.props.getUserSearches();
+    // }
 
     requestResults = () => {
         this.props.getUserSubscriptions();
@@ -252,14 +252,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserSubscriptions: bindActionCreators(getUserSubscriptions, dispatch),
+      //  getUserSubscriptions: bindActionCreators(getUserSubscriptions, dispatch),
         updateSubscription: bindActionCreators(updateUserSubscription, dispatch),
         deleteSubscription: bindActionCreators(deleteUserSubscription, dispatch),
-        getUserSearches: bindActionCreators(getUserSearches, dispatch),
+       // getUserSearches: bindActionCreators(getUserSearches, dispatch),
         updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
         getResultHistory: bindActionCreators(getResultHistory, dispatch),
-        getUserNotifications: bindActionCreators(getUserNotifications, dispatch),
+       // getUserNotifications: bindActionCreators(getUserNotifications, dispatch),
         loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
 
     }

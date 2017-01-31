@@ -42,6 +42,15 @@ body {
     color: #eee;
     /*position:fixed;*/
 }
+.login-span {
+
+    color: #eee;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+
+}
 
 .navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
     background-color: rgba(200, 200, 200, 0.9);
@@ -629,6 +638,13 @@ body {
 
 
 @media all and (min-width: 700px) {
+
+    .login-span {
+
+        color: #eee;
+        display: inline;
+    }
+
     .container.inputfields {
         display:flex;
         flex-direction: column;

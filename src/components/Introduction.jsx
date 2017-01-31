@@ -14,7 +14,7 @@ class Introduction extends React.Component {
         let signup = null
         if(!this.props.isAuthenticated) {
             signup = <div>
-                        <p className="text-center">O regístrate</p>
+                        <p className="text-center">Regístrate</p>
 
                         <SignupForm 
                             inputActions={this.props.signupInputActions} 
@@ -39,11 +39,6 @@ class Introduction extends React.Component {
                 <br />
                 Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
                 <br />
-                <p className="text-center">¡Intenta hacer una búsqueda!</p>
-
-                <Link to='/busqueda'>
-                    <p className="lead text-center">Buscar Licitaciones.</p>
-                </Link>
                 {this.signup()}
 
 

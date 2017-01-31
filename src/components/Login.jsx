@@ -21,6 +21,7 @@ const Login = (props) => {
 
     return (
             <form className="navbar-form navbar-right" role="form">
+                <span className="login-span">Tienes cuenta? Ingresa:</span>
                 <div className="form-group">
                 <input value={props.loginData.email} type="text" placeholder="Email" className="form-control" onChange={handleChangeEmail} />
                 </div>
@@ -31,7 +32,7 @@ const Login = (props) => {
                     className="btn btn-success"
                     onSubmit={handleSubmit}
                     onClick={handleClickSubmit}
-                    >Ingresar</button>
+                    >Enviar</button>
             </form>
     );
 };
