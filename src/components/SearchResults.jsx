@@ -197,8 +197,8 @@ class SearchResults extends React.PureComponent {
                                 {        
                                     Object.keys(titlesToRender[0]).map((element,index) => {
                                         return <span className="search title col-xs-3" key={"title key" + index }>
-                                                {utils.camelCaseToNormalCase(element)}
-                                            </span>
+                                                    {utils.camelCaseToNormalCase(element)}
+                                                </span>
                                     })
                                 }
                                 
@@ -207,27 +207,27 @@ class SearchResults extends React.PureComponent {
                             {
                             elementsToRender.map((row, index) => {
                                 return <li className="search-results" key={index}>
-                                            {
-                                                Object.values(row).map((column, index) => {
-                                                    if(!utils.isPrimitive(column)) {
-                                                        return <span className="search col-xs-3" key={"column key" + index}>
-                                                                    <a href="#" 
-                                                                        onClick={(event) => {
-                                                                                    event.preventDefault(); 
-                                                                                    this.showFullScreenPane(column)
-                                                                                    }
-                                                                                }
-                                                                    >
-                                                                        Ver detalle
-                                                                    </a>
-                                                                </span>
-                                                    }
-
-                                                    return <span className="search col-xs-3" key={"column key" + index}>
-                                                                {column ? column : "Sin información"}
+                                    {
+                                        Object.values(row).map((column, index) => {
+                                            if(!utils.isPrimitive(column)) {
+                                                return <span className="search col-xs-3" key={"column key" + index}>
+                                                            <a href="#" 
+                                                                onClick={(event) => {
+                                                                            event.preventDefault(); 
+                                                                            this.showFullScreenPane(column)
+                                                                            }
+                                                                        }
+                                                            >
+                                                                Ver detalle
+                                                            </a>
                                                         </span>
-                                                })
                                             }
+
+                                            return <span className="search col-xs-3" key={"column key" + index}>
+                                                        {column ? column : "Sin información"}
+                                                </span>
+                                        })
+                                    }
 
                                         </li>
                             })
