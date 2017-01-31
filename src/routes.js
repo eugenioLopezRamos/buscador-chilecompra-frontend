@@ -8,12 +8,13 @@ import InputFieldsContainer from './components/InputFieldsContainer.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import UserPage from './components/user/UserPage.jsx';
 import UserProfileData from './components/user/UserProfileData.jsx';
+import AuthorizationWrapper from './components/AuthorizationWrapper.jsx';
 
 export default (    
         <Route path="/" component={App} >
           <IndexRoute component={Introduction}  />
           <Route path="/busqueda" component={InputFieldsContainer}/>
-          <Route path="/inicio" component={UserPage} />
+          <Route path="/inicio" component={() => {return <AuthorizationWrapper component={UserPage} />} } />
           <Route path="/perfil" component={UserProfileData} />
         </Route>
   )

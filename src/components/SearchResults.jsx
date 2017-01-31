@@ -16,6 +16,8 @@ import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
 
+
+//TODO: Chunk this container a bit more
 class SearchResults extends React.PureComponent {
     //TODO: Need to transform this into its own independent component, probably (with state, etc)
         constructor(props) {
@@ -105,6 +107,8 @@ class SearchResults extends React.PureComponent {
                 fullScreenPane: newFullScreenPane
             })
         }
+
+
 
         hideFullScreenPane = () => {
             let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
