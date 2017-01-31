@@ -25,6 +25,7 @@ class SearchResults extends React.PureComponent {
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "search-results-ul1";
+            this.resultTitles = null;
             this.state = {
                 showModal: false,
                 enteredSubscriptionName: "",
@@ -145,6 +146,16 @@ class SearchResults extends React.PureComponent {
            this.props.createUserSubscription(resultId, subscriptionName)
         }
 
+        handleScroll = (event) => {
+            if(event.nativeEvent.target.scrollLeft >= 0) {
+                this.resultTitles.style.transform = `translate(-${event.nativeEvent.target.scrollLeft}px, 0)` 
+                
+            }
+            if(event.nativeEvent.target.scrolLeft < 0) {
+                this.resultTitles.style.transform = `translate(0, 0)`   
+            }
+        }
+
         onSubscriptionNameInput = (event) => {
             this.setState({enteredSubscriptionName: event.target.value});
          }
@@ -196,8 +207,8 @@ class SearchResults extends React.PureComponent {
                     <ul className={this.animClass}>
 
                         <div className="results-data-container">
-                            <div className="title-container">   
-                              
+                            <div className="title-container" >   
+                              <span className="movable-title-container" ref={(div) => {this.resultTitles = div}}>
                                 {        
                                     Object.keys(titlesToRender[0]).map((element,index) => {
                                         return <span className="search title col-xs-3" key={"title key" + index }>
@@ -205,9 +216,14 @@ class SearchResults extends React.PureComponent {
                                                 </span>
                                     })
                                 }
+                                <span className="search title col-xs-3" key={"subscribe-key"}>
+                                    Subscribirse?
+                                </span>
+                             </span>
                                 
                             </div>
 
+                            <div className="results-li-container" onScroll={this.handleScroll}>
                             {
                             elementsToRender.map((row, index) => {
                                 return <li className="search-results" key={index}>
@@ -232,10 +248,16 @@ class SearchResults extends React.PureComponent {
                                                 </span>
                                         })
                                     }
+                                        <span className="search col-xs-3" key={"suscripcion key " + index } >
+                                            <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
+                                                Suscribirse
+                                            </button>
+                                        </span>
 
                                         </li>
                             })
                             }
+                            </div>
                         </div>
                         </ul>
                 </div>

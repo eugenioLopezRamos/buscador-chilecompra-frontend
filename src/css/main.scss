@@ -129,9 +129,23 @@ body {
     list-style-type: none;
     font-size: 1em;
     width: 100%;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    // border-left: 1px solid black;
+    // border-right: 1px solid black;
     display: flex;
+}
+.title-container {
+    overflow: hidden;
+    width: calc(100% - 1em);
+}
+.results-li-container {
+    overflow: scroll;
+    max-height: 75vh;
+}
+
+span.movable-title-container {
+    width:100%;
+    display: flex;
+    justify-content: flex-start;
 }
 // .search-results:first-of-type {
 //     border-top: 1px solid black;
@@ -590,7 +604,7 @@ body {
 
 
 .col-xs-3 {
-    min-width: 5%;
+    min-width: 10%;
     min-height: 1.5em;
 }
 
