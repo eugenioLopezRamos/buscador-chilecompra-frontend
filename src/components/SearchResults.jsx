@@ -15,11 +15,12 @@ import * as utils from '../utils/miscUtils';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
+import * as queryActions from '../actions/SearchQueryValuesActions';
 
 
 //TODO: Chunk this container a bit more
 class SearchResults extends React.PureComponent {
-    //TODO: Need to transform this into its own independent component, probably (with state, etc)
+
         constructor(props) {
             super(props);
             //Used to animate results loading - Otherwise only the first one gets an animation and the others don't 
@@ -140,7 +141,7 @@ class SearchResults extends React.PureComponent {
 
         handleSubscription = () => {
            let index = this.state.subscriptionIndex;
-           let resultId = this.props.results[index].id;
+           let resultId = this.props.results.values[index].id;
            let subscriptionName = this.state.enteredSubscriptionName;
            this.setState({showModal: false, enteredSubscriptionName: ""}) 
            this.props.createUserSubscription(resultId, subscriptionName)
@@ -165,7 +166,7 @@ class SearchResults extends React.PureComponent {
             return null;
         }
 
-        if(this.props.results.length === 0) {
+        if(this.props.results.values.count === 0) {
             return <span className={this.animClass}>No se encontraron resultados</span>;            
         }
 
@@ -173,13 +174,13 @@ class SearchResults extends React.PureComponent {
             let self = this;
             let mockResult = [{value: chileCompraResponseExample}];
             let titlesToRender = this.applyFilter(this.state.columns, mockResult);
-            let elementsToRender = this.applyFilter(this.state.columns, this.props.results);
+            let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
   
             return (
             <div className="searchResults-container-div">
 
                     <JSONSchemaCheckboxes 
-                        results={this.props.results}
+                        results={this.props.results.values}
                         changeColumns={this.changeColumns}
                     />            
                         
@@ -203,8 +204,13 @@ class SearchResults extends React.PureComponent {
 
                     />
                 
-                    <div className="cantidad-resultados">Se encontraron {this.props.results.length} resultados:</div>
+                    <div className="cantidad-resultados">Se encontraron {this.props.results.count} resultados: </div>
                     <ul className={this.animClass}>
+                        
+                        <label>Mostrar desde:</label>
+                        <input type="input" placeholder="Valor desde donde iniciar"/>
+                        <button>Anterior</button>
+                        <button>Siguiente</button>
 
                         <div className="results-data-container">
                             <div className="title-container" >   
@@ -259,6 +265,14 @@ class SearchResults extends React.PureComponent {
                             }
                             </div>
                         </div>
+                        <label>Mostrar desde:</label>
+                        <input type="input" placeholder="Valor desde donde iniciar"/>
+                        <button>Anterior</button>
+                        <button>Siguiente</button>
+
+
+
+
                         </ul>
                 </div>
                     );
@@ -275,7 +289,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createUserSubscription: bindActionCreators(createUserSubscription, dispatch)
+    createUserSubscription: bindActionCreators(createUserSubscription, dispatch),
+    queryActions: bindActionCreators(queryActions, dispatch)
 
   };
 };

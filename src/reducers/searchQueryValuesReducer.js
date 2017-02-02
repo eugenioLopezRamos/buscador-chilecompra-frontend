@@ -3,15 +3,34 @@ import initialState from './initialState';
 import objectAssign from 'object-assign';
 import moment from 'moment';
 
-export default function InputFieldsReducer(state = initialState.inputFieldValues, action) {
+export default function searchQueryValuesReducer(state = initialState.searchQueryValues, action) {
 
     switch(action.type) {
         case types.AUTOFILLER_INPUT:
             return objectAssign({}, state, { organismosPublicosFilter: action.value } );
 
-        case types.DATE_FIELD_SELECT:
-            let newDate = action.value._isValid ? action.value : "";
-            return objectAssign({}, state, { date: newDate });
+        case types.SET_SEARCH_START_DATE:
+            let startDate = action.value;//._isValid ? action.value : ""; 
+            return objectAssign({}, state, {startDate});
+
+        case types.TOGGLE_DATE_ALWAYS_FROM_TODAY:
+            if(action.value) {
+                return objectAssign({}, state, {startDate: Object.freeze(moment()), 
+                                                endDate:Object.freeze(moment()), 
+                                                alwaysFromToday: action.value,
+                                                alwaysToToday: action.value});
+            } 
+            return objectAssign({}, state, {alwaysFromToday: action.value})
+
+        case types.SET_SEARCH_END_DATE:
+            let endDate = action.value;//._isValid ? action.value : "";
+            return objectAssign({}, state, {endDate});   
+
+        case types.TOGGLE_DATE_ALWAYS_TO_TODAY:
+            if(action.value) {
+                return objectAssign({}, state, {endDate: Object.freeze(moment()), alwaysToToday: action.value})    
+            }
+            return objectAssign({}, state, {alwaysToToday: action.value})
         
         case types.SEARCH_FIELD_INPUT:
             return objectAssign({}, state, { palabrasClave: action.value });

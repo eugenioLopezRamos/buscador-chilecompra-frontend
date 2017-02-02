@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../actions/InputFieldActions';
+import * as actions from '../actions/SearchQueryValuesActions';
 //import * as API from '../actions/fetchActions';
 //import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
@@ -138,14 +138,14 @@ function mapStateToProps(state, ownProps) {
        // searchResults: state.searchResults,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
-    //    organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
-    //    organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
-    //    selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
-       // date: state.inputFieldValues.date,
+    //    organismosPublicosFilter: state.searchQueryValues.organismosPublicosFilter,
+    //    organismosPublicosFilteredSubset: state.searchQueryValues.organismosPublicosFilteredSubset,
+    //    selectedOrganismoPublico: state.searchQueryValues.selectedOrganismoPublico,
+       // date: state.searchQueryValues.date,
        // searchType: state.searchType,
-       // rutProveedor: state.inputFieldValues.rutProveedor,
-       // palabrasClave: state.inputFieldValues.palabrasClave,
-       // codigoLicitacion: state.inputFieldValues.codigoLicitacion,
+       // rutProveedor: state.searchQueryValues.rutProveedor,
+       // palabrasClave: state.searchQueryValues.palabrasClave,
+       // codigoLicitacion: state.searchQueryValues.codigoLicitacion,
      //   results: state.searchResults
     };
 };

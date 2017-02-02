@@ -135,10 +135,13 @@ body {
 }
 .title-container {
     overflow: hidden;
-    width: calc(100% - 1em);
+    width: calc(100% - 1em - 1px);
 }
 .results-li-container {
+    //TODO: Fix this so title resizes according to scrollbar
+    //visibility
     overflow: scroll;
+    border-bottom: 1px solid black;
     max-height: 75vh;
 }
 
@@ -648,6 +651,26 @@ span.movable-title-container {
   
 }
 
+
+.date-field-container {
+    display:flex;
+    flex-direction: column;
+}
+
+.date-field-checkbox-container {
+    display:flex;
+    padding: 5px;
+    input {
+        transform: scale(1.5);
+        justify-content: center;
+        padding: 3px;
+    }
+    span {
+        margin-right: 15px;
+    }
+
+
+}
 
 
 

@@ -12,6 +12,17 @@ class AuthorizationWrapper extends React.Component {
         super(props);
     }
 
+    // componentWillMount = () => {
+
+    //     if(this.props.isAuthenticated && this.props.user) {
+    //             this.props.getUserNotifications();
+    //             this.props.getUserSubscriptions();
+    //             this.props.getUserSearches();         
+    //     }
+
+    // }
+
+
     componentWillReceiveProps = (nextProps) => {
         //fetch user's data from the server when logged in
         if(!this.props.isAuthenticated || !this.props.user) {

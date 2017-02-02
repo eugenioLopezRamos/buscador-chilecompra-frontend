@@ -1,57 +1,25 @@
 
 class fetchApi {
 
-    static getTestResults() {
-
-        return fetch(`${process.env.API_HOST}/api/test`)
-        .then(function(response) { return response.json()})
-        .catch( error => { return error})
-
-    }
-
     static getChileCompraData(state) {
         
-        // These two are yet to be implemented! - Maybe not even here.
-        //let loginStatus = estado.login
-        //let loginToken = estado.loginToken 
-        let queryVals = state.inputFieldValues; //queryValues
+        let queryValues = state.searchQueryValues; //queryValues
         let searchType = state.searchType;
-        let fieldsPerSearchType = {
-                                    "listado": ["estadoLicitacion", "organismoPublico"],
-                                    "proveedor": ["rutProveedor"],
-                                    "codigo": ["codigoLicitacion"]
-                                    };
-                                    
-        (() => { //adds parameters shared by all of those ^
-            Object.keys(fieldsPerSearchType).map (e => {
-                fieldsPerSearchType[e].push("selectedDate")
-                fieldsPerSearchType[e].push("palabrasClave");
-            })
-        })();
+
         let queryFields = [
-            `estadoLicitacion=${queryVals.selectedEstadoLicitacion}`,
-            `codigoLicitacion=${queryVals.codigoLicitacion}`,
-            `selectedDate=${queryVals.date}`,
-            `organismoPublico=${queryVals.selectedOrganismoPublico}`,
-            `rutProveedor=${queryVals.rutProveedor}`,
-            `palabrasClave=${queryVals.palabrasClave}`
+            `estadoLicitacion=${queryValues.selectedEstadoLicitacion}`,
+            `codigoLicitacion=${queryValues.codigoLicitacion}`,
+            `startDate=${queryValues.startDate}`,
+            `endDate=${queryValues.endDate}`,
+            `organismoPublico=${queryValues.selectedOrganismoPublico}`,
+            `rutProveedor=${queryValues.rutProveedor}`,
+            `palabrasClave=${queryValues.palabrasClave}`,
+            `alwaysFromToday=${queryValues.alwaysFromToday}`,
+            `alwaysToToday=${queryValues.alwaysToToday}`,
+            `offset=${queryValues.offset}`
             ]
 
-       // let appropiateFields = fieldsPerSearchType[searchType];
-        let query = queryFields.map(elem => { //extracts the corresponding chunks of the query from queryFields
-                let filter = new RegExp(elem);
-                return queryFields.filter(queryChunk => {
-                    if(filter.test(queryChunk)) {
-                        return queryChunk;
-                    }
-            })
-        });
-
-        query = query.reduce((prev, curr) => { //concats them all (since the map returns an array of arrays)
-           return prev.concat(curr);
-        });
-
-        query = query.join("&"); //joins them to form the query string.
+        let query = queryFields.join("&");
 
         return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
         {headers: {

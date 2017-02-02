@@ -194,7 +194,7 @@ export const createUserSearchesFailure = (value) => {
 export const createUserSearches = (name) => {
     return (dispatch, getState) => {
 
-        let value = objectAssign({}, {getState}.getState().inputFieldValues)
+        let value = objectAssign({}, {getState}.getState().searchQueryValues)
         delete value.organismosPublicosFilteredSubset;
         let search = {value, name};
 

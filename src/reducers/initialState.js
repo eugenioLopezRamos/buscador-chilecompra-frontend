@@ -30,7 +30,7 @@ const initialState = {
                 }
             },
     searchResults: null,
-    inputFieldValues: {
+    searchQueryValues: {
         // //organismosPublicosFilter se utiliza en el AutoFillerInput para mostrar solo un subarray de los organismos.
         // o sea, { organismosPublicosFilter: "minister" } solo mostrará => ["ministerio del trabajo", "ministerio de hacienda" .... etc]
         // selectedOrganismoPublico => el organismoPublico seleccionado en el campo <select> (o sea la <option>[0] al cargarse, o la que sea seleccionada por el usuario).
@@ -39,10 +39,14 @@ const initialState = {
         selectedOrganismoPublico: "*",
         organismosPublicosFilteredSubset: [{"*":"Todos"}],
         codigoLicitacion: "",
-        date: initialDate,
+        startDate: initialDate,
+        alwaysFromToday: false,
+        endDate: initialDate,
+        alwaysToToday: false,
         palabrasClave: "",
         selectedEstadoLicitacion: "",
-        rutProveedor: ""
+        rutProveedor: "",
+        offset: 0
     },
     messages: {errors: [], info: []}
 }

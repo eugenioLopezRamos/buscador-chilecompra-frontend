@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../actions/InputFieldActions';
+import * as actions from '../actions/SearchQueryValuesActions';
 import * as API from '../actions/fetchActions';
 import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
@@ -47,7 +47,14 @@ class InputFieldsContainer extends React.PureComponent {
         this.setState({messagesHandler: null}, this.props.createSearches(name));
     }
 
-    
+    setDateAlwaysFromToday = (value) => {
+        this.props.actions.setDateAlwaysFromToday(value);
+    }
+
+    setDateAlwaysToToday = (value) => {
+        this.props.actions.setDateAlwaysToToday(value);
+    }
+
     render = () => {
         return (    
               
@@ -58,10 +65,16 @@ class InputFieldsContainer extends React.PureComponent {
                             messagesHandler={this.state.messagesHandler}
                         />
                         <div className="fixed-size-searchTab-container">
-                        <label>Selecciona una fecha (vacio=todas)</label>
+                        <label>Selecciona un rango de fechas:</label>
                             <DatePicker
-                                startDate={this.props.date} 
-                                setDate={this.props.actions.dateFieldSelect}
+                                startDate={this.props.startDate}
+                                endDate={this.props.endDate} 
+                                setStartDate={this.props.actions.setStartDate}
+                                setEndDate={this.props.actions.setEndDate}
+                                toggleDateAlwaysFromToday={this.props.actions.toggleDateAlwaysFromToday}
+                                toggleDateAlwaysToToday={this.props.actions.toggleDateAlwaysToToday}
+                                alwaysFromToday={this.props.alwaysFromToday}
+                                alwaysToToday={this.props.alwaysToToday}
                             />
 
                             <label>Estado de la licitación (código estado)</label>
@@ -119,7 +132,7 @@ class InputFieldsContainer extends React.PureComponent {
 
 InputFieldsContainer.propTypes = {
 
-    searchResults: PropTypes.array,
+    searchResults: PropTypes.object,
     organismosPublicos: PropTypes.array.isRequired,
     estadosLicitacion: PropTypes.object.isRequired,
     organismosPublicosFilter: PropTypes.string.isRequired,
@@ -137,16 +150,20 @@ function mapStateToProps(state, ownProps) {
         searchResults: state.searchResults,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
-        organismosPublicosFilter: state.inputFieldValues.organismosPublicosFilter,
-        organismosPublicosFilteredSubset: state.inputFieldValues.organismosPublicosFilteredSubset,
-        selectedOrganismoPublico: state.inputFieldValues.selectedOrganismoPublico,
-        date: state.inputFieldValues.date,
+        organismosPublicosFilter: state.searchQueryValues.organismosPublicosFilter,
+        organismosPublicosFilteredSubset: state.searchQueryValues.organismosPublicosFilteredSubset,
+        selectedOrganismoPublico: state.searchQueryValues.selectedOrganismoPublico,
+        startDate: state.searchQueryValues.startDate,
+        alwaysFromToday: state.searchQueryValues.alwaysFromToday,
+        alwaysToToday: state.searchQueryValues.alwaysToToday,
+        endDate: state.searchQueryValues.endDate,
        // searchType: state.searchType,
-        rutProveedor: state.inputFieldValues.rutProveedor,
-        palabrasClave: state.inputFieldValues.palabrasClave,
-        codigoLicitacion: state.inputFieldValues.codigoLicitacion,
+        rutProveedor: state.searchQueryValues.rutProveedor,
+        palabrasClave: state.searchQueryValues.palabrasClave,
+        codigoLicitacion: state.searchQueryValues.codigoLicitacion,
         results: state.searchResults,
         messages: state.messages
+        
     };
 };
 

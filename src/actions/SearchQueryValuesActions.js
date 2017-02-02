@@ -10,10 +10,22 @@ export const autoFillerInput = (value) => {
 
 }
 
-export const dateFieldSelect = (value) => {
+export const setStartDate = (value) => {
 
-    return {type: types.DATE_FIELD_SELECT, value};
+    return {type: types.SET_SEARCH_START_DATE, value};
 
+}
+
+export const toggleDateAlwaysFromToday = (value) => {
+    return {type: types.TOGGLE_DATE_ALWAYS_FROM_TODAY, value}
+}
+
+export const setEndDate = (value) => {
+    return {type: types.SET_SEARCH_END_DATE, value}
+}
+
+export const toggleDateAlwaysToToday = (value) => {
+    return {type: types.TOGGLE_DATE_ALWAYS_TO_TODAY, value}
 }
 
 export const searchFieldInput = (value) => {

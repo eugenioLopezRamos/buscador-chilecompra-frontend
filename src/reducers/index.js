@@ -3,7 +3,7 @@ import {routerReducer} from 'react-router-redux';
 // import * as types from '../actions/types'; //to be created
 import searchResults from './fetchReducer';
 
-import inputFieldValues from './inputFieldsReducer';
+import searchQueryValues from './searchQueryValuesReducer';
 import organismosPublicos from './onLoadFetchOrgPubReducer';
 import estadosLicitacion from './onLoadFetchEstLicReducer';
 import {displayActionsReducer as display} from './displayActionsReducer';
@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
     routing: routerReducer,
     signup: signupReducer,
     searchResults,
-    inputFieldValues,
+    searchQueryValues,
     messages: messagesReducer,
     
 });
