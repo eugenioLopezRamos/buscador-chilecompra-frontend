@@ -7,8 +7,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 const DateField = ({startDate, endDate, setStartDate, 
                     setEndDate, toggleDateAlwaysFromToday, 
                     toggleDateAlwaysToToday, alwaysFromToday, alwaysToToday}) => {
-
-                       // debugger
     return (
             <div className="date-field-container">
             <span className="date-field-container-span-from">Desde:</span>
