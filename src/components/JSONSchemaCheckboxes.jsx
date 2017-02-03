@@ -2,42 +2,19 @@ import React from 'react';
 import * as utils from '../utils/miscUtils';
 import objectAssign from 'object-assign';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
+import INITIAL_CHECKBOXES from '../constants/initialCheckboxes';
 
 class JSONSchemaCheckboxes extends React.Component {
     //props: {schema: {...}}
     constructor(props) {
         super(props);
+
         this.state = {
-            picked: [
-                        ["FechaCreacion"],
-                        ["Listado", "0", "Nombre"],
-                        ["Listado", "0", "CodigoEstado"],
-                        ["Listado", "0", "CodigoExterno"],
-            ]
+            picked: INITIAL_CHECKBOXES
         }
+
         this.objectSchema = (() => {
-    
             return utils.getObjectSchema(chileCompraResponseExample)
-        // return this.props.results.reduce((prev, currentResult) => {
-        //     let newSchema = utils.getObjectSchema(currentResult.value);
-        //     //TODO: REFACTOR THIS, way too complicated to understand
-        //     //  In short, since objectAssign shallow merges, deep merge that specific key ("Adjudicacion")
-
-        //     let prevAdjudicacionValue;
-
-        //     try {prevAdjudicacionValue = prev[0]["Listado"][0][0][21]["Adjudicacion"]}
-        //     catch(error) {prevAdjudicacionValue = []}
-
-        //     let currentAdjudicacionValue = newSchema[0]["Listado"][0][0][21]["Adjudicacion"];
-        //     if(JSON.stringify(prevAdjudicacionValue) === JSON.stringify(currentAdjudicacionValue)) {
-        //         return objectAssign(prev, newSchema)
-        //     }
-        //     newSchema[0]["Listado"][0][0][21] = {Adjudicacion: objectAssign(prevAdjudicacionValue, currentAdjudicacionValue) }
-
-        //     return objectAssign(prev, newSchema);
-
-        // }, []) || null;
-
         })();
 
         this.containerCounter = 0;
@@ -48,7 +25,6 @@ class JSONSchemaCheckboxes extends React.Component {
 
     toggleDisplay = (target) => {
         let display = getComputedStyle(target).display;
-       // console.log("display", display, "target", target);
         if(display === "none") {
             target.className = "checkboxes-container";
         }else {

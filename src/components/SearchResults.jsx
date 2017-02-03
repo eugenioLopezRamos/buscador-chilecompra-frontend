@@ -15,8 +15,10 @@ import * as utils from '../utils/miscUtils';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
+import ResultsComparer from './ResultComparer.jsx'
 import * as queryActions from '../actions/SearchQueryValuesActions';
-
+import INITIAL_CHECKBOXES from '../constants/initialCheckboxes';
+import userApi from '../api/userApi';
 
 //TODO: Chunk this container a bit more
 class SearchResults extends React.PureComponent {
@@ -27,20 +29,19 @@ class SearchResults extends React.PureComponent {
             // (so, this toggles between two CSS classes with the same animations to achieve that)
             this.animClass = "search-results-ul1";
             this.resultTitles = null;
+            this.components = {
+                resultsComparer: ResultsComparer,
+                objectDetails: ObjectDetails
+            }
             this.state = {
                 showModal: false,
                 enteredSubscriptionName: "",
                 subscriptionIndex: null,
-                columns: [
-                            ["FechaCreacion"],
-                            ["Listado", "0", "Nombre"],
-                            ["Listado", "0", "CodigoEstado"],
-                            ["Listado", "0", "CodigoExterno"],
-                        ],
+                columns: INITIAL_CHECKBOXES,
                 resultsSchema: {},
                 fullScreenPane:{  
                     show: false,
-                    component: ObjectDetails,
+                    component: null,
                     componentProps: {},
                     menu: null,
                     menuProps: {},
@@ -59,7 +60,7 @@ class SearchResults extends React.PureComponent {
             this.setState({columns: newColumns, resultsSchema: schema});
         } 
 
-
+        //TODO: Get this to a helper or something...
         applyFilter = (selectedItems, results) => {
 
             let columns = results.map(currentResult => {
@@ -99,10 +100,11 @@ class SearchResults extends React.PureComponent {
             return columns;
         }
 
-        showFullScreenPane = (objectData) => {
+        showObjectDetail = (objectData) => {
 
             let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
             newFullScreenPane.show = true;
+            newFullScreenPane.component = this.components.objectDetails;
             newFullScreenPane.componentProps = {objectData};
             
             this.setState({
@@ -115,9 +117,40 @@ class SearchResults extends React.PureComponent {
         hideFullScreenPane = () => {
             let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
             newFullScreenPane.show = false;
+            newFullScreenPane.component = null;
+            newFullScreenPane.componentProps = {};
 
             this.setState({fullScreenPane: newFullScreenPane})
         }
+
+        getResultHistory = (resultIndex) => {
+            let resultId = this.props.results.values[resultIndex].id;
+
+
+            let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
+            newFullScreenPane.show = true;
+            newFullScreenPane.component = null;
+            newFullScreenPane.componentProps = {};
+
+            let executeAfter = () => {
+                userApi.getResultHistory(resultId)
+                        .then(response => { 
+                                let newFullScreenPane = objectAssign({}, this.state.fullScreenPane)
+                                newFullScreenPane.show = true;
+                                newFullScreenPane.component = this.components.resultsComparer;
+                                newFullScreenPane.componentProps = {results: response};
+
+                                this.setState({
+                                                fullScreenPane: newFullScreenPane
+                                            });
+                                });
+            }
+
+           this.setState({
+                            fullScreenPane: newFullScreenPane
+                        }, executeAfter)
+        }
+
 
         //Normally this.props.estadosLicitacion is a number (the codigo_estado)
         returnNombreEstado = (codigoEstado) => {
@@ -160,6 +193,11 @@ class SearchResults extends React.PureComponent {
         onSubscriptionNameInput = (event) => {
             this.setState({enteredSubscriptionName: event.target.value});
          }
+
+
+
+
+
 
         render = () => {
         if(!this.props.results){
@@ -222,7 +260,10 @@ class SearchResults extends React.PureComponent {
                                                 </span>
                                     })
                                 }
-                                <span className="search title col-xs-3" key={"subscribe-key"}>
+                                <span className="search title col-xs-3 half" key={"historia-key"}>
+                                    Historia
+                                </span>
+                                <span className="search title col-xs-3 half" key={"subscribe-key"}>
                                     Subscribirse?
                                 </span>
                              </span>
@@ -240,7 +281,7 @@ class SearchResults extends React.PureComponent {
                                                             <a href="#" 
                                                                 onClick={(event) => {
                                                                             event.preventDefault(); 
-                                                                            this.showFullScreenPane(column)
+                                                                            this.showObjectDetail(column)
                                                                             }
                                                                         }
                                                             >
@@ -254,7 +295,13 @@ class SearchResults extends React.PureComponent {
                                                 </span>
                                         })
                                     }
-                                        <span className="search col-xs-3" key={"suscripcion key " + index } >
+
+                                        <span className="search col-xs-3 half" key={"result history key " + index } >
+                                            <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.getResultHistory(index)}}>
+                                                Ver historia
+                                            </button>
+                                        </span>
+                                        <span className="search col-xs-3 half" key={"suscripcion key " + index } >
                                             <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
                                                 Suscribirse
                                             </button>

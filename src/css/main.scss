@@ -609,6 +609,10 @@ span.movable-title-container {
 .col-xs-3 {
     min-width: 10%;
     min-height: 1.5em;
+    &.half {
+        width: 12.5%;
+        min-width: 5%;
+    }
 }
 
 

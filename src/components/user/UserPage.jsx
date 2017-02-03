@@ -86,8 +86,6 @@ class UserPage extends React.Component {
     }
 
     showStoredSearch = (component, index) => {
-       // console.log("defaults", this.props.userSubscriptions);
-       // console.log("correct", this.props.userSearches.value[index]);
         let searchId = this.props.userSearches.id[index];
         let searchName = this.props.userSearches.name[index];
         
