@@ -17,7 +17,10 @@ class ModifyInputFieldsContainer extends React.PureComponent {
 
         this.state = {
 
-            date: props.defaults.date,
+            startDate: props.defaults.startDate,
+            alwaysFromToday: props.defaults.alwaysFromToday,
+            endDate: props.defaults.endDate,
+            alwaysToToday: props.defaults.alwaysToToday,
             rutProveedor: props.defaults.rutProveedor,
             palabrasClave: props.defaults.palabrasClave,
             codigoLicitacion: props.defaults.codigoLicitacion,
@@ -32,7 +35,9 @@ class ModifyInputFieldsContainer extends React.PureComponent {
         //TODO: export these to a module? its a lot of code
         this.actions = {
             setDate: (value) => {this.setState({date: actions.dateFieldSelect(value).value}, console.log("nuevo date", this.state.date)) }, //sets date
+            
             pickOrganismoPublico: (event) => { this.setState({selectedOrganismoPublico: actions.pickOrganismoPublico(event).value}) }, //when <select>'ing the org publico
+           
             autoFillerInputChange: (organismosPublicos, value) => { let result = actions.autoFillerInputChange(organismosPublicos, value);
                                                 this.setState({
                                                   organismosPublicosFilter: result.value,
@@ -40,8 +45,13 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                                                   organismosPublicosFilteredSubset: result.selectionResult
                                                 })
                                         }, //when typing the name of the org publico in the input
+
             RUTInput: (event) => {this.setState({rutProveedor: actions.RUTInput(event).value})}, // typing the RUT...
+
+
+
             codigoLicitacionInputChange: (event) => {this.setState({codigoLicitacion: actions.selectionFieldSelect(event).value}) }, //typing the codigoLicitacion
+            
             searchFieldInput: (event) => {this.setState({palabrasClave: actions.searchFieldInput(event).value})} //typing the palabrasClave
         //    saveModifications: () => {this.setState({})},//save modifications
         }

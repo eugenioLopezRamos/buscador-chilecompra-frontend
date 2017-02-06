@@ -189,7 +189,9 @@ span.movable-title-container {
     display: flex;
 }
 .subscription-button {
-    margin:auto;
+    margin: auto;
+    white-space: pre-line;
+    word-break: break-word;
 }
 
 .autofiller.select {
@@ -611,7 +613,7 @@ span.movable-title-container {
     min-height: 1.5em;
     &.half {
         width: 12.5%;
-        min-width: 5%;
+        min-width: 6%;
     }
 }
 
@@ -674,6 +676,14 @@ span.movable-title-container {
     }
 
 
+}
+
+.page-button {
+    
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 

@@ -2,20 +2,20 @@ import fetchApi from '../api/fetchApi';
 import * as types from './actionTypes';
 import moment from 'moment';
 
-export const fetchChilecompraDataSuccess = (data) => {
-    return {type:types.FETCH_CHILECOMPRA_DATA_SUCCESS, data};
+export const fetchChilecompraDataSuccess = (state, data) => {
+    return {type:types.FETCH_CHILECOMPRA_DATA_SUCCESS, data, query: state};
 }; 
-export const fetchChilecompraDataFailure = (data) => {
-    return {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, data}
+export const fetchChilecompraDataFailure = (state, data) => {
+    return {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, data, query: state}
 }
 
-export const loadChilecompraData = () => {
+export const loadChilecompraData = (state) => {
 
-    return function(dispatch, getState) {
-        const state = {getState}.getState();
+    return function(dispatch) {
+
         return fetchApi.getChileCompraData(state)
-            .then(data => {dispatch(fetchChilecompraDataSuccess(data));})
-            .catch( error => {dispatch(fetchChilecompraDataFailure(error));} );
+            .then(data => {dispatch(fetchChilecompraDataSuccess(state, data));})
+            .catch( error => {dispatch(fetchChilecompraDataFailure(state, error));} );
     };  
 };
 

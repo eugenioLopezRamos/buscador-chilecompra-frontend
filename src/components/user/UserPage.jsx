@@ -46,7 +46,7 @@ class UserPage extends React.Component {
 
         this.getMenu = (component) => {
 
-            //return menu according to component
+            //TODO: remove? return menu according to component
             switch(component) {
                 case this.components.SearchResults:
                     return null;

@@ -3,20 +3,20 @@ class fetchApi {
 
     static getChileCompraData(state) {
         
-        let queryValues = state.searchQueryValues; //queryValues
-        let searchType = state.searchType;
+        // let queryValues = state.searchQueryValues; //queryValues
+        // let searchType = state.searchType;
 
         let queryFields = [
-            `estadoLicitacion=${queryValues.selectedEstadoLicitacion}`,
-            `codigoLicitacion=${queryValues.codigoLicitacion}`,
-            `startDate=${queryValues.startDate}`,
-            `endDate=${queryValues.endDate}`,
-            `organismoPublico=${queryValues.selectedOrganismoPublico}`,
-            `rutProveedor=${queryValues.rutProveedor}`,
-            `palabrasClave=${queryValues.palabrasClave}`,
-            `alwaysFromToday=${queryValues.alwaysFromToday}`,
-            `alwaysToToday=${queryValues.alwaysToToday}`,
-            `offset=${queryValues.offset}`
+            `estadoLicitacion=${state.selectedEstadoLicitacion}`,
+            `codigoLicitacion=${state.codigoLicitacion}`,
+            `startDate=${state.startDate}`,
+            `endDate=${state.endDate}`,
+            `organismoPublico=${state.selectedOrganismoPublico}`,
+            `rutProveedor=${state.rutProveedor}`,
+            `palabrasClave=${state.palabrasClave}`,
+            `alwaysFromToday=${state.alwaysFromToday}`,
+            `alwaysToToday=${state.alwaysToToday}`,
+            `offset=${state.offset}`
             ]
 
         let query = queryFields.join("&");

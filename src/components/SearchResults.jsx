@@ -17,8 +17,10 @@ import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
 import ResultsComparer from './ResultComparer.jsx'
 import * as queryActions from '../actions/SearchQueryValuesActions';
-import INITIAL_CHECKBOXES from '../constants/initialCheckboxes';
+import RESULTS_INITIAL_CHECKBOXES from '../constants/resultsInitialCheckboxes';
 import userApi from '../api/userApi';
+import ResultsNavigatorButtons from './ResultsNavigatorButtons';
+import * as API from '../actions/fetchActions';
 
 //TODO: Chunk this container a bit more
 class SearchResults extends React.PureComponent {
@@ -37,7 +39,7 @@ class SearchResults extends React.PureComponent {
                 showModal: false,
                 enteredSubscriptionName: "",
                 subscriptionIndex: null,
-                columns: INITIAL_CHECKBOXES,
+                columns: RESULTS_INITIAL_CHECKBOXES,
                 resultsSchema: {},
                 fullScreenPane:{  
                     show: false,
@@ -151,18 +153,6 @@ class SearchResults extends React.PureComponent {
                         }, executeAfter)
         }
 
-
-        //Normally this.props.estadosLicitacion is a number (the codigo_estado)
-        returnNombreEstado = (codigoEstado) => {
-            let swappedEstLic = {}
-
-            Object.values(this.props.estadosLicitacion).map((e,i) => {
-                swappedEstLic[e] = Object.keys(this.props.estadosLicitacion)[i];
-            });
-
-            return swappedEstLic[codigoEstado];
-        }
-
         showSubscriptionModal = (index) => {
 
             this.setState({showModal: true, subscriptionIndex: index})
@@ -194,9 +184,35 @@ class SearchResults extends React.PureComponent {
             this.setState({enteredSubscriptionName: event.target.value});
          }
 
+        offsetChangeHandler = (value) => {
+           
 
 
+            let newQueryValues = objectAssign({}, this.props.searchQueryValues);
+            let newOffset = newQueryValues.offset + value;
+            
+            if(newOffset >= this.props.results.count) {
+                newOffset = parseInt(this.props.results.count/this.props.results.limit) * this.props.results.limit;
+            }
 
+            newQueryValues.offset = Math.max(0, newOffset);
+
+            this.props.API.loadChilecompraData(newQueryValues);
+
+         }
+         setOffsetHandler = (offset) => {
+
+            let newQueryValues = objectAssign({}, this.props.searchQueryValues);
+            let newOffset = offset;
+            
+            if(newOffset >= this.props.results.count) {
+                newOffset = parseInt(this.props.results.count/this.props.results.limit) * this.props.results.limit;
+            }
+
+            newQueryValues.offset = Math.max(0, newOffset);
+
+            this.props.API.loadChilecompraData(newQueryValues);    
+         }
 
 
         render = () => {
@@ -213,6 +229,37 @@ class SearchResults extends React.PureComponent {
             let mockResult = [{value: chileCompraResponseExample}];
             let titlesToRender = this.applyFilter(this.state.columns, mockResult);
             let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
+            //sort(function(a, b) {return b.localeCompare(a)})
+            // sin embargo, necesito conseguir el index del nuevo item, puesto que tengo que ordenar
+            // TODAS las columnas, no solo una
+            /* 
+            
+               var fcc = this.props.results.values.map(element => element.value.FechaCreacion);
+               hacer esto!
+               https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+               }
+            
+            
+            
+            
+            
+            
+            
+             */
+         //   debugger
+
+            let resultsNavigatorButtons = () => {
+                                                return <ResultsNavigatorButtons 
+                                                            pages={parseInt(this.props.results.count/this.props.results.limit)}
+                                                            paginatorButtonClickHandler={this.offsetChangeHandler}
+                                                            pageButtonClickHandler={this.setOffsetHandler}
+                                                            
+                                                            
+                                                            fromInputBoxDefaultValue={null}
+                                                            onFromInputBoxInput={this.fromInputBoxInputHandler}
+                                                            onFromInputButtonClick={this.getFromOffset}
+                                                        />
+                                                }
   
             return (
             <div className="searchResults-container-div">
@@ -236,19 +283,18 @@ class SearchResults extends React.PureComponent {
                         component={this.state.fullScreenPane.component} 
                         componentProps={this.state.fullScreenPane.componentProps}
                         menu={this.state.menu}  
-
-                    
-                    
-
                     />
                 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.count} resultados: </div>
+                    <div className="cantidad-resultados">
+                        Mostrando resultados desde el {this.props.results.count - this.props.results.offset} al {
+                            Math.max(1, this.props.results.count - (this.props.results.offset + this.props.results.limit))
+                            }
+
+                    </div>
                     <ul className={this.animClass}>
                         
-                        <label>Mostrar desde:</label>
-                        <input type="input" placeholder="Valor desde donde iniciar"/>
-                        <button>Anterior</button>
-                        <button>Siguiente</button>
+                        {resultsNavigatorButtons()}
 
                         <div className="results-data-container">
                             <div className="title-container" >   
@@ -312,12 +358,8 @@ class SearchResults extends React.PureComponent {
                             }
                             </div>
                         </div>
-                        <label>Mostrar desde:</label>
-                        <input type="input" placeholder="Valor desde donde iniciar"/>
-                        <button>Anterior</button>
-                        <button>Siguiente</button>
 
-
+                        {resultsNavigatorButtons()}
 
 
                         </ul>
@@ -337,7 +379,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     createUserSubscription: bindActionCreators(createUserSubscription, dispatch),
-    queryActions: bindActionCreators(queryActions, dispatch)
+    queryActions: bindActionCreators(queryActions, dispatch),
+    API: bindActionCreators(API, dispatch)
 
   };
 };

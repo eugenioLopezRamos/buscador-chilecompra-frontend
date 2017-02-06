@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import * as actions from '../actions/SearchQueryValuesActions';
+import {actions} from '../helpers/inputFieldsContainerHelper';
 import * as API from '../actions/fetchActions';
 import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
@@ -12,13 +12,31 @@ import SearchField from './inputs/SearchField.jsx';
 import {createUserSearches as createSearches} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
+import moment from 'moment';
 
 
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
-        //Passes an optional handler to the <Flash />
-        this.state = {messagesHandler: null};
+        const inputFieldsOffset = 0;
+
+        this.actions = actions;
+        this.state = {
+            organismosPublicosFilter: "",
+            selectedOrganismoPublico: "",
+            organismosPublicosFilteredSubset: this.props.organismosPublicos,
+            codigoLicitacion: "",
+            startDate: Object.freeze(moment()),
+            alwaysFromToday: false,
+            endDate: Object.freeze(moment()),
+            alwaysToToday: false,
+            palabrasClave: "",
+            selectedEstadoLicitacion: "",
+            rutProveedor: "",
+            offset: inputFieldsOffset
+             //Passes an optional handler to the <Flash />
+           // messagesHandler: null
+        };
     }
 
     handleCreateSearches = (name) => {
@@ -27,20 +45,11 @@ class InputFieldsContainer extends React.PureComponent {
 
     disableButtons = () => {
         let disable = [];
-        if(this.props.results === null || this.props.results === [] || this.props.results === undefined) {
+        if(this.props.searchResults === null || this.props.searchResults === [] || this.props.searchResults === undefined) {
             disable.push("results");
         }
 
         return disable;
-    }
-
-    countArray = (arr) => {
-        return arr.length;
-    }
-
-    handleCreateResults = (name) => {
-        alert(name)
-     //   this.setState({messagesHandler: this.countArray}, this.props.createResults(name))
     }
 
     handleCreateSearches = (name) => {
@@ -55,7 +64,50 @@ class InputFieldsContainer extends React.PureComponent {
         this.props.actions.setDateAlwaysToToday(value);
     }
 
+    setStartDate = (value) => {
+        this.setState(this.actions.setStartDate(value));
+    }
+    setEndDate = (value) => {
+        this.setState(this.actions.setEndDate(value));
+    }
+
+    toggleDateAlwaysFromToday = () => {
+        this.setState(this.actions.toggleDateAlwaysFromToday(this.state.alwaysFromToday));
+    }
+
+    toggleDateAlwaysToToday = () => {
+        this.setState(this.actions.toggleDateAlwaysToToday(this.state.alwaysToToday));
+    }
+
+    estadoLicitacionSelect = (event) => {
+
+        this.setState(this.actions.estadoLicitacionSelect(event.target.value))
+
+    }
+    pickOrganismoPublico = (event) => {
+        this.setState(this.actions.pickOrganismoPublico(event.target.value));
+    }
+
+
+    autoFillerInputChange = (organismos, value) => {
+        //TODO: simplify this (duplication of data!)
+        this.setState(this.actions.autoFillerInputChange(organismos, value));
+    }
+    
+    rutInput = (event) => {
+        this.setState(this.actions.rutInput(event.target.value));
+    }
+
+    codigoLicitacionInput = (event) => {
+        this.setState(this.actions.codigoLicitacionInputChange(event.target.value));
+    }
+
+    palabrasClaveInput = (value) => {
+        this.setState(this.actions.palabrasClaveInput(value));
+    }
+
     render = () => {
+        console.log("this STATE", this.state)
         return (    
               
                     <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 
@@ -67,27 +119,31 @@ class InputFieldsContainer extends React.PureComponent {
                         <div className="fixed-size-searchTab-container">
                         <label>Selecciona un rango de fechas:</label>
                             <DatePicker
-                                startDate={this.props.startDate}
-                                endDate={this.props.endDate} 
-                                setStartDate={this.props.actions.setStartDate}
-                                setEndDate={this.props.actions.setEndDate}
-                                toggleDateAlwaysFromToday={this.props.actions.toggleDateAlwaysFromToday}
-                                toggleDateAlwaysToToday={this.props.actions.toggleDateAlwaysToToday}
-                                alwaysFromToday={this.props.alwaysFromToday}
-                                alwaysToToday={this.props.alwaysToToday}
+                                startDate={this.state.startDate}
+                                endDate={this.state.endDate} 
+
+                                setStartDate={this.setStartDate}
+                                setEndDate={this.setEndDate}
+
+                                toggleDateAlwaysFromToday={this.toggleDateAlwaysFromToday}
+                                toggleDateAlwaysToToday={this.toggleDateAlwaysToToday}
+
+                                alwaysFromToday={this.state.alwaysFromToday}
+                                alwaysToToday={this.state.alwaysToToday}
                             />
 
                             <label>Estado de la licitación (código estado)</label>
-                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.props.actions.selectionFieldSelect} />
+                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.estadoLicitacionSelect} />
 
                             <label>Según comprador (código organismo público)</label>
                                 <AutoFillerInput 
                                     organismosPublicos={this.props.organismosPublicos}
-                                    organismosPublicosFilter={this.props.organismosPublicosFilter}
-                                    organismosPublicosFilteredSubset={this.props.organismosPublicosFilteredSubset}
-                                    selectedOrganismoPublico={this.props.selectedOrganismoPublico} 
-                                    onSelectionChange={this.props.actions.pickOrganismoPublico}
-                                    onInputChange={this.props.actions.autoFillerInputChange}
+                                    organismosPublicosFilter={this.state.organismosPublicosFilter}
+                                    organismosPublicosFilteredSubset={this.state.organismosPublicosFilteredSubset}
+                                    selectedOrganismoPublico={this.state.selectedOrganismoPublico} 
+
+                                    onSelectionChange={this.pickOrganismoPublico}
+                                    onInputChange={this.autoFillerInputChange}
                                 />
 
                             <label>Según RUT proveedor</label>
@@ -95,34 +151,37 @@ class InputFieldsContainer extends React.PureComponent {
                                 className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="rut-proveedor" 
                                 placeholder="Ejemplo: 1.111.111-1"
-                                defaultValue={this.props.rutProveedor} 
-                                onChange={this.props.actions.RUTInput}/>
+                                defaultValue={this.state.rutProveedor} 
+
+                                onChange={this.rutInput}/>
                         
                             <label>Código de licitación</label>
                             <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="cod-licitacion" 
                                 placeholder="Buscar por código de licitación"
-                                defaultValue={this.props.codigoLicitacion}
-                                onChange={this.props.actions.codigoLicitacionInputChange}
+                                defaultValue={this.state.codigoLicitacion}
+
+                                onChange={this.codigoLicitacionInput}
                             />
                             
                             
                             <label>Según palabras clave</label>
                                 <SearchField 
-                                    value={this.props.palabrasClave} 
-                                    onChange={this.props.actions.searchFieldInput} 
-                                    onSubmit={this.props.API.loadChilecompraData} 
+                                    value={this.state.palabrasClave} 
+
+                                    onChange={this.palabrasClaveInput} 
+
+                                    onSubmit={() => {this.props.API.loadChilecompraData(this.state)}} 
                                 />
 
                                 <SearchesSaver 
-                                    handleResults={this.handleCreateResults} 
                                     handleSearches={this.handleCreateSearches}
                                     disableButtons={this.disableButtons()}
                                 />
                         </div>
 
                             <div className="col-xs-12 no-gutter">
-                                <SearchResults results={this.props.results}/>
+                                <SearchResults searchQueryValues={this.props.searchQueryValues} results={this.props.searchResults}/>
                             </div>
                         
                     </div>        
@@ -135,13 +194,13 @@ InputFieldsContainer.propTypes = {
     searchResults: PropTypes.object,
     organismosPublicos: PropTypes.array.isRequired,
     estadosLicitacion: PropTypes.object.isRequired,
-    organismosPublicosFilter: PropTypes.string.isRequired,
-    organismosPublicosFilteredSubset: PropTypes.array.isRequired,
-    selectedOrganismoPublico: PropTypes.string.isRequired,
-  //  date: PropTypes.object.isRequired,
-   // searchType: PropTypes.string.isRequired,
-    rutProveedor: PropTypes.string.isRequired,
-    codigoLicitacion: PropTypes.string.isRequired
+//     organismosPublicosFilter: PropTypes.string.isRequired,
+//     organismosPublicosFilteredSubset: PropTypes.array.isRequired,
+//     selectedOrganismoPublico: PropTypes.string.isRequired,
+//   //  date: PropTypes.object.isRequired,
+//    // searchType: PropTypes.string.isRequired,
+//     rutProveedor: PropTypes.string.isRequired,
+//     codigoLicitacion: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -150,18 +209,19 @@ function mapStateToProps(state, ownProps) {
         searchResults: state.searchResults,
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
-        organismosPublicosFilter: state.searchQueryValues.organismosPublicosFilter,
-        organismosPublicosFilteredSubset: state.searchQueryValues.organismosPublicosFilteredSubset,
-        selectedOrganismoPublico: state.searchQueryValues.selectedOrganismoPublico,
-        startDate: state.searchQueryValues.startDate,
-        alwaysFromToday: state.searchQueryValues.alwaysFromToday,
-        alwaysToToday: state.searchQueryValues.alwaysToToday,
-        endDate: state.searchQueryValues.endDate,
-       // searchType: state.searchType,
-        rutProveedor: state.searchQueryValues.rutProveedor,
-        palabrasClave: state.searchQueryValues.palabrasClave,
-        codigoLicitacion: state.searchQueryValues.codigoLicitacion,
-        results: state.searchResults,
+        searchQueryValues: state.searchQueryValues,
+    //     organismosPublicosFilter: state.searchQueryValues.organismosPublicosFilter,
+    //     organismosPublicosFilteredSubset: state.searchQueryValues.organismosPublicosFilteredSubset,
+    //     selectedOrganismoPublico: state.searchQueryValues.selectedOrganismoPublico,
+    //     startDate: state.searchQueryValues.startDate,
+    //     alwaysFromToday: state.searchQueryValues.alwaysFromToday,
+    //     alwaysToToday: state.searchQueryValues.alwaysToToday,
+    //     endDate: state.searchQueryValues.endDate,
+    //    // searchType: state.searchType,
+    //     rutProveedor: state.searchQueryValues.rutProveedor,
+    //     palabrasClave: state.searchQueryValues.palabrasClave,
+    //     codigoLicitacion: state.searchQueryValues.codigoLicitacion,
+        //results: state.searchResults,
         messages: state.messages
         
     };

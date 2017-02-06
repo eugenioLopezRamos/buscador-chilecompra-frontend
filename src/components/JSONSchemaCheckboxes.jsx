@@ -2,7 +2,7 @@ import React from 'react';
 import * as utils from '../utils/miscUtils';
 import objectAssign from 'object-assign';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
-import INITIAL_CHECKBOXES from '../constants/initialCheckboxes';
+import RESULTS_INITIAL_CHECKBOXES from '../constants/resultsInitialCheckboxes';
 
 class JSONSchemaCheckboxes extends React.Component {
     //props: {schema: {...}}
@@ -10,7 +10,7 @@ class JSONSchemaCheckboxes extends React.Component {
         super(props);
 
         this.state = {
-            picked: INITIAL_CHECKBOXES
+            picked: RESULTS_INITIAL_CHECKBOXES
         }
 
         this.objectSchema = (() => {

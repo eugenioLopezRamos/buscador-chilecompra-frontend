@@ -1,0 +1,1 @@
+export const RESULTS_OFFSET_AMOUNT = 200;
