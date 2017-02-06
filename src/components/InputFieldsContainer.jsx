@@ -107,7 +107,7 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
-        console.log("this STATE", this.state)
+       
         return (    
               
                     <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 

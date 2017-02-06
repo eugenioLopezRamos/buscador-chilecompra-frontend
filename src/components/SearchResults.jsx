@@ -253,7 +253,7 @@ class SearchResults extends React.PureComponent {
                                                             pages={parseInt(this.props.results.count/this.props.results.limit)}
                                                             paginatorButtonClickHandler={this.offsetChangeHandler}
                                                             pageButtonClickHandler={this.setOffsetHandler}
-                                                            
+                                                            currentPage={parseInt(this.props.results.offset/this.props.results.limit)}
                                                             
                                                             fromInputBoxDefaultValue={null}
                                                             onFromInputBoxInput={this.fromInputBoxInputHandler}
