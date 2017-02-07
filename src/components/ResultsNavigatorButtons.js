@@ -2,7 +2,7 @@ import React from 'react';
 import {RESULTS_OFFSET_AMOUNT}  from '../constants/resultsOffset';
 
 const ResultsNavigatorButtons = (props) => {
-    console.log("RESULTS NAV PROPS", props);
+ 
     const offset = RESULTS_OFFSET_AMOUNT;
 
     const incrementOffset = () => {
@@ -25,66 +25,70 @@ const ResultsNavigatorButtons = (props) => {
         return "page-button";
     }
 
+    const showButtonsArray = (() => {
+        //return numerated pages, [0...props.pages]
+        return Array.apply(null, {length: props.pages}).map((element, index) => {return index})
+    })()
+
+    const currentPageLocation = (() => {
+
+        let middle = parseInt(showButtonsArray.length/2)
+        let location = "";
+       // debugger
+
+        if(props.currentPage > middle) {
+            location = "tail";
+        }
+        if(props.currentPage <= middle) {
+            location = "head";
+        }
+
+        return location;
+    })()
+
+
     const buttonRenderer = (element, index, array) => {
 
+            let currentPage = props.currentPage;
 
-            if(props.currentPage >= 5) {
+            let show = showButtonsArray.slice(Math.max(currentPage -4, 0), currentPage).concat(showButtonsArray.slice(currentPage, currentPage +4))
 
-                    if(index === props.currentPage) {
-                            return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                                        {index+1}
-                                </span>
+            if(show.length < 8 && currentPageLocation === "tail") {
+                let toAdd = 8-show.length;
 
-                    }
+                show = showButtonsArray.slice(currentPage - 4 - toAdd, currentPage).concat(show)
 
-                    if(index > props.currentPage - 5 && index < props.currentPage) {
-
-                            return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                                        {index+1}
-                                </span>
-                    }
-
-                    if(index < props.currentPage + 5 && index > props.currentPage) {
-
-                            return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                                        {index+1}
-                                </span>
-
-
-                    }
-            }
-            if(props.currentPage < 5) {
-
-                if(index === props.currentPage) {
-                    return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                                {index+1}
-                        </span>
-                }
-
-                if(index < props.currentPage && index > props.currentPage - 5 ) {
-                    return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                        {index+1}
-                    </span>
-
-                }
-
-                if(index >  props.currentPage && index < (9)  ) {
-
-                    return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                        {index+1}
-                    </span>
-
-                }
             }
 
+            if(show.length < 8 && currentPageLocation === "head") {
+                let toAdd = 8-show.length;
+                show = show.concat(showButtonsArray.slice(currentPage, currentPage + 4 + toAdd))
+            }
+
+            if(index === props.currentPage) {
+
+                return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                        {index+1}
+                </span>      
+
+
+            }
+          
+            else if(show.includes(index)) {
+               return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                        {index+1}
+                </span>        
+            }
         }
+
+
 
     return <div>
                 <div>
-                    <label>Mostrar desde:</label>
+                    <label>Mostrar página:</label>
                     <input 
                         type="input"
-                        placeholder="Valor desde donde iniciar"
+                        placeholder="Pagina"
                     />
                     <button>Mostrar</button>
                 </div>

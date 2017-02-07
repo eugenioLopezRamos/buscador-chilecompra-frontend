@@ -688,6 +688,15 @@ span.movable-title-container {
         background-color: blue;
         color: white;
     }
+    &.red {
+        background-color: red;
+    }
+    &.yellow {
+        background-color: yellow;
+    }
+    &.green {
+        background-color: green;
+    }
 }
 
 
