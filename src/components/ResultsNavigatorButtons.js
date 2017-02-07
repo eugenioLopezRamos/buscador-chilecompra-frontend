@@ -27,38 +27,57 @@ const ResultsNavigatorButtons = (props) => {
 
     const buttonRenderer = (element, index, array) => {
 
-        if(array.length < 8) {
-            return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+
+            if(props.currentPage >= 5) {
+
+                    if(index === props.currentPage) {
+                            return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                                        {index+1}
+                                </span>
+
+                    }
+
+                    if(index > props.currentPage - 5 && index < props.currentPage) {
+
+                            return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                                        {index+1}
+                                </span>
+                    }
+
+                    if(index < props.currentPage + 5 && index > props.currentPage) {
+
+                            return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                                        {index+1}
+                                </span>
+
+
+                    }
+            }
+            if(props.currentPage < 5) {
+
+                if(index === props.currentPage) {
+                    return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                                {index+1}
+                        </span>
+                }
+
+                if(index < props.currentPage && index > props.currentPage - 5 ) {
+                    return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
                         {index+1}
-                   </span>
-        }
-        else {
-            if(index < (props.currentPage - 5) || index > array.length - 5) {
-                return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                            {index+1}
-                       </span>
-            }else if(index === 5) {
-                return <span className="results-ellipsis">...</span>;
+                    </span>
+
+                }
+
+                if(index >  props.currentPage && index < (9)  ) {
+
+                    return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                        {index+1}
+                    </span>
+
+                }
             }
-            else {
-                return null;
-            }
 
         }
-
-
-
-    /*if(index < 5 || index > array.length - 1 ? 
-                                <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
-                                    {index+1}
-                                </span>*/
-
-
-
-
-    }
-
-
 
     return <div>
                 <div>
@@ -75,7 +94,10 @@ const ResultsNavigatorButtons = (props) => {
                 </button>
                 <div style={{display: "flex", maxWidth: "100vw"} }>
                    {
-                    Array.apply(null, {length: props.pages+1}).map(buttonRenderer)}
+                    Array.apply(null, {length: props.pages}).map((element, index, array) => {
+                        return buttonRenderer(element, index, array);
+                    })
+                   }
                 </div>
                 <button onClick={incrementOffset}>
                     Siguiente

@@ -250,7 +250,7 @@ class SearchResults extends React.PureComponent {
 
             let resultsNavigatorButtons = () => {
                                                 return <ResultsNavigatorButtons 
-                                                            pages={parseInt(this.props.results.count/this.props.results.limit)}
+                                                            pages={parseInt(this.props.results.count/this.props.results.limit)+1}
                                                             paginatorButtonClickHandler={this.offsetChangeHandler}
                                                             pageButtonClickHandler={this.setOffsetHandler}
                                                             currentPage={parseInt(this.props.results.offset/this.props.results.limit)}

@@ -684,6 +684,10 @@ span.movable-title-container {
     padding: 10px;
     border: 1px solid black;
     cursor: pointer;
+    &.active {
+        background-color: blue;
+        color: white;
+    }
 }
 
 
