@@ -4,6 +4,7 @@ import {RESULTS_OFFSET_AMOUNT}  from '../constants/resultsOffset';
 const ResultsNavigatorButtons = (props) => {
  
     const offset = RESULTS_OFFSET_AMOUNT;
+    let goToPageInput = "";
 
     const incrementOffset = () => {
      
@@ -18,20 +19,29 @@ const ResultsNavigatorButtons = (props) => {
         props.pageButtonClickHandler(offset * times);
     }
 
-    const getActivePage = (index) => {
-        if(index + 1 === props.currentPage) {
-            return "page-button active";
-        } 
-        return "page-button";
-    }
+    const handleGoTo = () => {
+        let number = goToPageInput.value - 1;
 
+        if(parseInt(number) != number) {
+            alert("Ingrese un número");
+            return;
+        }
+        
+        if(number > props.pages) {
+            alert(`Ingrese un numero entre 1 y ${props.pages}`);
+            return;
+        }
+        props.pageButtonClickHandler(offset * number)
+    }
+    //use in view, to DRY it up
     const showButtonsArray = (() => {
         //return numerated pages, [0...props.pages]
         return Array.apply(null, {length: props.pages}).map((element, index) => {return index})
     })()
 
     const currentPageLocation = (() => {
-
+        //is the current page in the first half ("head") or in the second half ("tails")
+        // of the array?
         let middle = parseInt(showButtonsArray.length/2)
         let location = "";
        // debugger
@@ -48,7 +58,7 @@ const ResultsNavigatorButtons = (props) => {
 
 
     const buttonRenderer = (element, index, array) => {
-
+        //TODO: Explain!
             let currentPage = props.currentPage;
 
             let show = showButtonsArray.slice(Math.max(currentPage -4, 0), currentPage).concat(showButtonsArray.slice(currentPage, currentPage +4))
@@ -87,10 +97,12 @@ const ResultsNavigatorButtons = (props) => {
                 <div>
                     <label>Mostrar página:</label>
                     <input 
-                        type="input"
+                        type="number"
                         placeholder="Pagina"
+                        ref={(input) => {goToPageInput = input}}
+                        onChange={(event) => {goToPageInput = event.target}}
                     />
-                    <button>Mostrar</button>
+                    <button onClick={handleGoTo}>Mostrar</button>
                 </div>
 
                 <button onClick={decrementOffset} >
