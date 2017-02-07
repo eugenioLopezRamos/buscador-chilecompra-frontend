@@ -4,6 +4,7 @@
    Author's custom styles
    ========================================================================== */
 @import 'userProfile';
+@import 'pageSelection';
 
 
 
@@ -676,27 +677,6 @@ span.movable-title-container {
     }
 
 
-}
-
-.page-button {
-    
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid black;
-    cursor: pointer;
-    &.active {
-        background-color: blue;
-        color: white;
-    }
-    &.red {
-        background-color: red;
-    }
-    &.yellow {
-        background-color: yellow;
-    }
-    &.green {
-        background-color: green;
-    }
 }
 
 

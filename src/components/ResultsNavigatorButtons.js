@@ -32,7 +32,9 @@ const ResultsNavigatorButtons = (props) => {
             alert(`Ingrese un numero entre 1 y ${props.pages}`);
             return;
         }
+       
         props.pageButtonClickHandler(offset * number)
+        
     }
 
     const showButtonsArray = (() => {
@@ -78,50 +80,60 @@ const ResultsNavigatorButtons = (props) => {
 
             if(index === props.currentPage) {
 
-                return <span className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                return <button className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
                         {index+1}
-                </span>      
+                       </button>      
 
 
             }
           
             else if(show.includes(index)) {
-               return <span className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+               return <button className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
                         {index+1}
-                </span>        
+                      </button>        
             }
         }
 
 
-    return <div>
-                <div>
+    return <div className="results-navigator-buttons-container">
+    
+                <div className="page-picker-container">
                     <label>Mostrar página:</label>
-                    <input 
-                        type="number"
-                        placeholder="Pagina"
-                        defaultValue={null}
-                        ref={(input) => {goToPageInput = input}}
-                        onChange={(event) => {goToPageInput = event.target}}
-                    />
-                    /
-                    {props.pages}
-
-                    <button onClick={handleGoTo}>Ir</button>
+                    <div className="inputs">
+                        <input 
+                            type="number"
+                            min="1"
+                            max={props.pages}
+                            placeholder="Pagina"
+                            defaultValue={null}
+                            ref={(input) => {goToPageInput = input}}
+                            onChange={(event) => {goToPageInput = event.target}}
+                        />
+                        <span className="page-picker-text">
+                            de {props.pages}
+                        </span>
+                        <button className="go-to-result-button" onClick={handleGoTo}>Ir</button>
+                    </div>
+                    
                 </div>
 
-                <button onClick={decrementOffset} >
-                    Anterior
-                </button>
-                <div style={{display: "flex", maxWidth: "100vw"} }>
-                   {
-                    Array.apply(null, {length: props.pages}).map((element, index, array) => {
-                        return buttonRenderer(element, index, array);
-                    })
-                   }
+                <div className="page-select-buttons-container">
+                    <button className="page-button prev-next" onClick={decrementOffset} >
+                        {"<<"}
+                    </button>
+
+                    <div className="page-select-buttons" style={{display: "flex", maxWidth: "100vw"} }>
+                    {
+                        Array.apply(null, {length: props.pages}).map((element, index, array) => {
+                            return buttonRenderer(element, index, array);
+                        })
+                    }
+                    </div>
+
+                    <button className="page-button prev-next" onClick={incrementOffset}>
+                        {">>"}
+                    </button>
                 </div>
-                <button onClick={incrementOffset}>
-                    Siguiente
-                </button>
            </div>
 
 
