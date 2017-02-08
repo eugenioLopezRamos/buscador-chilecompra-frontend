@@ -1,10 +1,10 @@
 import moment from 'moment';
-import RESULTS_INITIAL_CHECKBOXES from '../constants/resultsInitialCheckboxes';
+import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 const initialDate = Object.freeze(moment()); //otherwise redux console.logs a warning due to 
 //detecting a change in the object. I assume passing moment() reinstances the object everytime it's called.
 
 //take only the first
-const initialCheckboxes = RESULTS_INITIAL_CHECKBOXES.slice(0, 1);
+const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
 
 const initialState = {
     organismosPublicos: [{"*": "Todos"}],
@@ -52,7 +52,7 @@ const initialState = {
         selectedEstadoLicitacion: "",
         rutProveedor: "",
         offset: 0,
-        order_by: {fields: initialCheckboxes, order: "descending"}
+        order_by: {fields: initialFieldsOrderBy, order: "descending"}
     },
     messages: {errors: [], info: []}
 }

@@ -5,28 +5,32 @@ class fetchApi {
         
         // let queryValues = state.searchQueryValues; //queryValues
         // let searchType = state.searchType;
+  
+        let body = {
+                        estadoLicitacion: state.selectedEstadoLicitacion,
+                        codigoLicitacion: state.codigoLicitacion,
+                        startDate: Date.parse(state.startDate),
+                        endDate: Date.parse(state.endDate),
+                        organismoPublico: state.selectedOrganismoPublico,
+                        rutProveedor:state.rutProveedor,
+                        palabrasClave: state.palabrasClave,
+                        alwaysFromToday: state.alwaysFromToday,
+                        alwaysToToday: state.alwaysToToday,
+                        offset: state.offset,
+                        order_by: state.order_by
+                    }
+                 
+       // let query = queryFields.join("&");
 
-        let queryFields = [
-            `estadoLicitacion=${state.selectedEstadoLicitacion}`,
-            `codigoLicitacion=${state.codigoLicitacion}`,
-            `startDate=${state.startDate}`,
-            `endDate=${state.endDate}`,
-            `organismoPublico=${state.selectedOrganismoPublico}`,
-            `rutProveedor=${state.rutProveedor}`,
-            `palabrasClave=${state.palabrasClave}`,
-            `alwaysFromToday=${state.alwaysFromToday}`,
-            `alwaysToToday=${state.alwaysToToday}`,
-            `offset=${state.offset}`
-            
-            ]
-
-        let query = queryFields.join("&");
-
-        return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
-        {headers: {
+        return fetch(`${process.env.API_HOST}/api/get_info`,
+        {
+            headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
-        }}
+            },
+            method: "POST",
+            body: JSON.stringify(body)
+        }
         )
             .then(response => response.json() )
             .catch(error => {return error })

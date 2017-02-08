@@ -13,14 +13,17 @@ import {createUserSearches as createSearches} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import moment from 'moment';
-
+import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         const inputFieldsOffset = 0;
+        const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
 
         this.actions = actions;
+        //TODO: Make this use constants
+
         this.state = {
             organismosPublicosFilter: "",
             selectedOrganismoPublico: "",
@@ -33,7 +36,8 @@ class InputFieldsContainer extends React.PureComponent {
             palabrasClave: "",
             selectedEstadoLicitacion: "",
             rutProveedor: "",
-            offset: inputFieldsOffset
+            offset: inputFieldsOffset,
+            order_by: {fields: initialFieldsOrderBy, order: "descending"}
              //Passes an optional handler to the <Flash />
            // messagesHandler: null
         };

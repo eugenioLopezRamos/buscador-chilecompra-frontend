@@ -17,7 +17,7 @@ import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
 import ResultsComparer from './ResultComparer.jsx'
 import * as queryActions from '../actions/SearchQueryValuesActions';
-import RESULTS_INITIAL_CHECKBOXES from '../constants/resultsInitialCheckboxes';
+import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
 import userApi from '../api/userApi';
 import ResultsNavigatorButtons from './ResultsNavigatorButtons';
 import * as API from '../actions/fetchActions';
@@ -219,13 +219,16 @@ class SearchResults extends React.PureComponent {
          sortByColumn = (field) => {
 
             let newQueryValues = objectAssign({}, this.props.searchQueryValues);
-            let newFields = field;
+            // object assign doesnt deep clone.
+            newQueryValues.order_by = objectAssign({}, this.props.searchQueryValues.order_by)
 
-            newQUeryValues["order_by"]["fields"] = newFields;
+       
 
+            newQueryValues.order_by.fields = field;
+      
             this.props.API.loadChilecompraData(newQueryValues);
          }
-         
+
 
         render = () => {
         if(!this.props.results){

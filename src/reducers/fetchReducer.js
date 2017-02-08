@@ -6,6 +6,7 @@ export default function fetchReducer(state = initialState.searchResults, action)
   //  let newState = state;
     switch(action.type) {
         case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
+       // debugger
             return action.data;
 
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:

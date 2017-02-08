@@ -6,62 +6,6 @@ import moment from 'moment';
 export default function searchQueryValuesReducer(state = initialState.searchQueryValues, action) {
 
     switch(action.type) {
-        // TODO: Remove these from actionTypes.js
-        // case types.AUTOFILLER_INPUT:
-        //     return objectAssign({}, state, { organismosPublicosFilter: action.value } );
-
-        // case types.SET_SEARCH_START_DATE:
-
-        //     let startDate = action.value;
-        //     let newEndDate = state.endDate;
-
-        //     if(startDate > state.endDate) {
-        //         newEndDate = startDate;
-        //     }
-        //     return objectAssign({}, state, {startDate, endDate: newEndDate});
-
-        // case types.TOGGLE_DATE_ALWAYS_FROM_TODAY:
-        //     if(action.value) {
-        //         return objectAssign({}, state, {startDate: Object.freeze(moment()), 
-        //                                         endDate: Object.freeze(moment()), 
-        //                                         alwaysFromToday: action.value,
-        //                                         alwaysToToday: action.value});
-        //     } 
-        //     return objectAssign({}, state, {alwaysFromToday: action.value})
-
-        // case types.SET_SEARCH_END_DATE:
-        //     let endDate = action.value;
-        //     if(state.startDate <= endDate) {
-        //         endDate = state.startDate;
-        //     }
-        //     return objectAssign({}, state, {endDate});   
-
-        // case types.TOGGLE_DATE_ALWAYS_TO_TODAY:
-        //     if(action.value) {
-        //         return objectAssign({}, state, {endDate: Object.freeze(moment()), alwaysToToday: action.value})    
-        //     }
-        //     return objectAssign({}, state, {alwaysToToday: action.value})
-        
-        // case types.SEARCH_FIELD_INPUT:
-        //     return objectAssign({}, state, { palabrasClave: action.value });
-
-        // case types.SELECTION_FIELD_SELECT:
-        //     return objectAssign({}, state, { selectedEstadoLicitacion: action.value });
-            
-        // case types.RUT_INPUT:
-        //     return objectAssign({}, state, { rutProveedor: action.value })
-
-        // case types.PICK_ORGANISMO_PUBLICO:
-        //     return objectAssign({}, state, { selectedOrganismoPublico: action.value })
-        
-        // case types.COD_LIC_INPUT_CHANGE:
-        //     return objectAssign({}, state, { codigoLicitacion: action.value })
-        
-        // case types.AUTOFILLER_INPUT_CHANGE:
-        //     return objectAssign({}, state, { organismosPublicosFilter: action.value, 
-        //                                      selectedOrganismoPublico: action.defaultSelectedValue,
-        //                                      organismosPublicosFilteredSubset: action.selectionResults});
-
         
         case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
             return objectAssign({}, state, action.query);
