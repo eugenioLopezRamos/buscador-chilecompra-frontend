@@ -17,6 +17,7 @@ class fetchApi {
             `alwaysFromToday=${state.alwaysFromToday}`,
             `alwaysToToday=${state.alwaysToToday}`,
             `offset=${state.offset}`
+            
             ]
 
         let query = queryFields.join("&");

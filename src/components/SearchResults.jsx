@@ -175,7 +175,7 @@ class SearchResults extends React.PureComponent {
                 this.resultTitles.style.transform = `translate(-${event.nativeEvent.target.scrollLeft}px, 0)` 
                 
             }
-            if(event.nativeEvent.target.scrolLeft < 0) {
+            if(event.nativeEvent.target.scrollLeft < 0) {
                 this.resultTitles.style.transform = `translate(0, 0)`   
             }
         }
@@ -204,7 +204,9 @@ class SearchResults extends React.PureComponent {
 
             let newQueryValues = objectAssign({}, this.props.searchQueryValues);
             let newOffset = offset;
-            
+
+            //TODO: explain!
+
             if(newOffset >= this.props.results.count) {
                 newOffset = parseInt(this.props.results.count/this.props.results.limit) * this.props.results.limit;
             }
@@ -214,6 +216,16 @@ class SearchResults extends React.PureComponent {
             this.props.API.loadChilecompraData(newQueryValues);    
          }
 
+         sortByColumn = (field) => {
+
+            let newQueryValues = objectAssign({}, this.props.searchQueryValues);
+            let newFields = field;
+
+            newQUeryValues["order_by"]["fields"] = newFields;
+
+            this.props.API.loadChilecompraData(newQueryValues);
+         }
+         
 
         render = () => {
         if(!this.props.results){
@@ -229,6 +241,15 @@ class SearchResults extends React.PureComponent {
             let mockResult = [{value: chileCompraResponseExample}];
             let titlesToRender = this.applyFilter(this.state.columns, mockResult);
             let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
+           // debugger
+
+           // So, here we'll have 2 ways of sorting. 
+           // If results.count > {RESULTS_OFFSET_AMOUNT} from /src/constants/resultsOffset.js (as of this writing, 200)
+           // send a request to the server, get the results again, order them, THEN send them back over to frontend
+           // If results.count <= limit hacerlo local (that is, in the frontend)
+
+
+
             //sort(function(a, b) {return b.localeCompare(a)})
             // sin embargo, necesito conseguir el index del nuevo item, puesto que tengo que ordenar
             // TODAS las columnas, no solo una
@@ -265,7 +286,7 @@ class SearchResults extends React.PureComponent {
             <div className="searchResults-container-div">
 
                     <JSONSchemaCheckboxes 
-                        results={this.props.results.values}
+                    //    results={this.props.results.values}
                         changeColumns={this.changeColumns}
                     />            
                         
@@ -296,62 +317,79 @@ class SearchResults extends React.PureComponent {
                         
                         {resultsNavigatorButtons()}
 
+
+
+
+
+
                         <div className="results-data-container">
                             <div className="title-container" >   
-                              <span className="movable-title-container" ref={(div) => {this.resultTitles = div}}>
-                                {        
-                                    Object.keys(titlesToRender[0]).map((element,index) => {
-                                        return <span className="search title col-xs-3" key={"title key" + index }>
-                                                    {utils.camelCaseToNormalCase(element)}
-                                                </span>
-                                    })
-                                }
-                                <span className="search title col-xs-3 half" key={"historia-key"}>
-                                    Historia
+                                <span className="movable-title-container" ref={(div) => {this.resultTitles = div}}>
+                                    {        
+                                        Object.keys(titlesToRender[0]).map((element,index) => {
+                                            return <span className="search title col-xs-3 searchable" 
+                                                         key={"title key" + index }
+                                                         onClick={() => {this.sortByColumn(this.state.columns[index])} }
+                                                    
+                                                    
+                                                    
+                                                    >
+                                                        {utils.camelCaseToNormalCase(element)}
+                                                    </span>
+                                        })
+                                    }
+                                    <span className="search title col-xs-3 half" key={"historia-key"}>
+                                        Historia
+                                    </span>
+                                    <span className="search title col-xs-3 half" key={"subscribe-key"}>
+                                        Subscribirse?
+                                    </span>
                                 </span>
-                                <span className="search title col-xs-3 half" key={"subscribe-key"}>
-                                    Subscribirse?
-                                </span>
-                             </span>
-                                
+                                    
                             </div>
+
+
+
+
+
+
 
                             <div className="results-li-container" onScroll={this.handleScroll}>
                             {
                             elementsToRender.map((row, index) => {
                                 return <li className="search-results" key={index}>
                                     {
-                                        Object.values(row).map((column, index) => {
-                                            if(!utils.isPrimitive(column)) {
-                                                return <span className="search col-xs-3" key={"column key" + index}>
-                                                            <a href="#" 
-                                                                onClick={(event) => {
-                                                                            event.preventDefault(); 
-                                                                            this.showObjectDetail(column)
+                                            Object.values(row).map((column, index) => {
+                                                if(!utils.isPrimitive(column)) {
+                                                    return <span className="search col-xs-3" key={"column key" + index}>
+                                                                <a href="#" 
+                                                                    onClick={(event) => {
+                                                                                event.preventDefault(); 
+                                                                                this.showObjectDetail(column)
+                                                                                }
                                                                             }
-                                                                        }
-                                                            >
-                                                                Ver detalle
-                                                            </a>
-                                                        </span>
-                                            }
+                                                                >
+                                                                    Ver detalle
+                                                                </a>
+                                                            </span>
+                                                }
 
-                                            return <span className="search col-xs-3" key={"column key" + index}>
-                                                        {column ? column : "Sin información"}
-                                                </span>
-                                        })
+                                             return <span className="search col-xs-3" key={"column key" + index}>
+                                                            {column ? column : "Sin información"}
+                                                    </span>
+                                            })
                                     }
 
-                                        <span className="search col-xs-3 half" key={"result history key " + index } >
-                                            <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.getResultHistory(index)}}>
-                                                Ver historia
-                                            </button>
-                                        </span>
-                                        <span className="search col-xs-3 half" key={"suscripcion key " + index } >
-                                            <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
-                                                Suscribirse
-                                            </button>
-                                        </span>
+                                            <span className="search col-xs-3 half" key={"result history key " + index } >
+                                                <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.getResultHistory(index)}}>
+                                                    Ver historia
+                                                </button>
+                                            </span>
+                                            <span className="search col-xs-3 half" key={"suscripcion key " + index } >
+                                                <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
+                                                    Suscribirse
+                                                </button>
+                                            </span>
 
                                         </li>
                             })

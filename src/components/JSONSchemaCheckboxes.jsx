@@ -23,12 +23,21 @@ class JSONSchemaCheckboxes extends React.Component {
 
 
 
-    toggleDisplay = (target) => {
+    toggleDisplay = (target, event) => {
+        //debugger
         let display = getComputedStyle(target).display;
+        event.target.classList.toggle("json-schema-label-closed");
+        event.target.classList.toggle("json-schema-label-open");
+
+
         if(display === "none") {
             target.className = "checkboxes-container";
+            // event.target.classList.remove("json-schema-label-closed");
+            // event.target.classList.add("json-schema-label-open");
         }else {
             target.className = "checkboxes-container no-display";
+            // event.target.classList.add("json-schema-label-closed");
+            // event.target.classList.remove("json-schema-label-open");
         }
     }
 
@@ -75,18 +84,20 @@ class JSONSchemaCheckboxes extends React.Component {
         //the current value of the counter
         let number = this.containerCounter;
         let currentTag = tags[tags.length - 1];
-
-        //make parentTag an array, and in the <label> render only the last one (but keep all for reference)
       
         return(
             <div>         
                 {
                     utils.isOnlyNumbers(currentTag) ? 
-                    <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
+                    <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
+                        <span className="glyphicon glyphicon-triangle-right"></span>
+                        <span className="glyphicon glyphicon-triangle-bottom"></span>
                         {`${parseInt(currentTag) + 1})`}
                     </label>
                         : 
-                    <label className="json-schema-label" onClick={() => {this.toggleDisplay(this.containers[number]) }} >
+                    <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
+                        <span className="glyphicon glyphicon-triangle-right"></span>
+                        <span className="glyphicon glyphicon-triangle-bottom"></span>
                         {utils.camelCaseToNormalCase(currentTag)}
                     </label>
                 }

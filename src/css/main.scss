@@ -5,6 +5,7 @@
    ========================================================================== */
 @import 'userProfile';
 @import 'pageSelection';
+@import 'JSONSchemaCheckboxes';
 
 
 
@@ -110,21 +111,11 @@ body {
     border: 1px solid black;
     word-wrap: break-word;
     word-break: break-all;
+    cursor: default;
+    &.searchable {
+        cursor: pointer;
+    }
 }
-
-// .search.codigo-externo.title, .search.codigo-estado.title, .search.nombre.title {
-//     border-top: 1px solid black;
-
-//     border-bottom: none;
-// }
-
-// .search.nombre.title {
-//         border-left: 1px solid black;
-
-// }
-// .search.codigo-estado.title {
-//         border-right: 1px solid black;
-// }
 
 .search-results {
     list-style-type: none;
@@ -151,38 +142,7 @@ span.movable-title-container {
     display: flex;
     justify-content: flex-start;
 }
-// .search-results:first-of-type {
-//     border-top: 1px solid black;
-// }
 
-// .search.fecha {
-//     border-bottom: 1px solid black;
-//     border-right: 1px solid black;
-//     &.title {
-//         border-bottom: none;
-//         border-right: none;
-//         border-top: 1px solid black;
-//         border-left: 1px solid black;
-//     }
-// }
-
-// .search.nombre{
-//     border-bottom: 1px solid black;
-// }
-
-// .search.codigo-externo {
-//     border-bottom: 1px solid black;
-//     border-left: 1px solid black;
-// }
-// .search.codigo-estado {
-
-//     border-left: 1px solid black;
-//     border-bottom: 1px solid black;
-// }
-// .search.subscription {
-//     border-top: 1px solid black;
-//     border-right: 1px solid black;
-// }
 .search.subscription-button-container {
 
     border-bottom: 1px solid black;
@@ -209,37 +169,11 @@ span.movable-title-container {
     padding: 0;
 }
 
-.searchtypes-picker{
-    font-size: $searchtype-picker-font-size;
-}
-
-.searchtypes-picker-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin:2% auto 2% auto;
-    height: 3 * $searchtype-picker-font-size;
-    text-align: center;
-    background-color: rgba(230, 230 ,230, 0.2);
-    cursor: default;
-}
-
-.searchtypes-picker-icon.active {
-    background-color: #333333;
-    color: white;
-    border-radius: 5%;
-    pointer-events: none;
-}
-
-
 .search-results-ul1, .search-results-ul2 {
     animation: searchResultsFadeIn1 1s forwards;
     padding: 0;
 }
-//  .search-results-ul2 {
-//     animation: searchResultsFadeIn2 1s forwards;
-//     padding: 0;
-// }
+
 .signup-form * {
     margin: 5px auto 5px auto;
 }
@@ -264,15 +198,6 @@ span.movable-title-container {
 }
 
 .message-wrap {
-    // white-space: pre-wrap;
-    // position: absolute;
-    // z-index: 9001;
-    // min-height: 300px;
-    // min-width: 300px;
-    // margin: auto;
-    // text-align: center;
-    // padding: 5px 20px 5px 20px;
-    // border-radius: 5px;
     white-space: pre-wrap;
     position: absolute;
   //  z-index: 9001;
@@ -494,14 +419,6 @@ span.movable-title-container {
 
 }
 
-
-// .original-result-container > .object-data-container-array > .object-container-name {
-
-//         margin-left:0;
-
- 
-// }
-
 .object-container-name {
     margin-left: -$object-container-padding;
     cursor: pointer;
@@ -575,40 +492,6 @@ span.movable-title-container {
     }
 }
 
-// .list-group.perfil-notificaciones {
-//     overflow:hidden;
-//     z-index:2;
-//     ul{
-//         display: none;
-//     }
-// }
-// .list-group.perfil-notificaciones:hover {
-//     .ul-container {
-//            z-index: 1;
-//     }
-//     ul {
-//         display: block;
-//         animation: dropdown-anim 0.6s forwards;
-//         z-index: 1;
-//         position: relative;
-
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .col-xs-3 {
     min-width: 10%;
     min-height: 1.5em;
@@ -617,47 +500,6 @@ span.movable-title-container {
         min-width: 6%;
     }
 }
-
-
-.checkboxes-container {
-    padding-left: 29px;
-    input {
-        transform: scale(1.8);
-        margin: 10px;
-    }
-    
-}
-
-
-.json-schema-label {
-    width: 100%;
-}
-.json-schema-checkbox-label {
-    margin: 5px;
-    padding: 0 5px 0 5px;
-    border: 1px solid black;
-}
-
-.filter-columns-container {
-    display: inline-block;
-    width: 100%;
-}
-
-
-
-.fixed-size-searchTab-container {
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    max-width: 50%;
-    margin: 0 auto 0 auto;
-}
-
-.object-details-subObject {
-    padding-left: 15px;
-  
-}
-
 
 .date-field-container {
     display:flex;
@@ -678,8 +520,6 @@ span.movable-title-container {
 
 
 }
-
-
 
 @media all and (min-width: 700px) {
 

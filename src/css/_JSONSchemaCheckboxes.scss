@@ -1,0 +1,79 @@
+.fixed-size-searchTab-container {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 50%;
+    margin: 0 auto 0 auto;
+}
+
+.schema-object-container {
+    //yes, empty.
+}
+
+.json-schema-label {
+    width: 100%;
+    user-select: none;
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    span.glyphicon.glyphicon-triangle-right {
+        pointer-events: none;
+        padding-right: 15px;
+    }
+    span.glyphicon.glyphicon-triangle-bottom {
+        pointer-events: none;
+        padding-right: 15px;
+    }
+
+    &.json-schema-label-open {
+
+        span.glyphicon.glyphicon-triangle-right {
+            display: none;
+        }
+        span.glyphicon.glyphicon-triangle-bottom {
+            display: inline;
+        }
+    }
+
+    &.json-schema-label-closed {
+        span.glyphicon.glyphicon-triangle-right {
+            display: inline;
+        }
+        span.glyphicon.glyphicon-triangle-bottom {
+            display: none;
+        }
+    }
+
+
+
+}
+
+
+.checkboxes-container {
+    padding-left: 29px;
+    input {
+        transform: scale(1.8);
+        margin: 10px;
+    }
+    
+}
+
+.json-schema-checkbox-label {
+    margin: 5px;
+    padding: 0 5px 0 5px;
+    border: 1px solid black;
+}
+.json-schema-checkbox {
+    //yes, empty.
+}
+
+.filter-columns-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.object-details-subObject {
+    padding-left: 15px;
+  
+}
