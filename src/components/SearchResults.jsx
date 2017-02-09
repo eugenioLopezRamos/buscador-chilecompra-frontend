@@ -216,12 +216,31 @@ class SearchResults extends React.PureComponent {
             this.props.API.loadChilecompraData(newQueryValues);    
          }
 
-         sortByColumn = (field) => {
+         sortByColumn = (field, order) => {
+                        // debugger
+
+           // So, here we'll have 2 ways of sorting. 
+           // If results.count > {RESULTS_OFFSET_AMOUNT} from /src/constants/resultsOffset.js (as of this writing, 200)
+           // send a request to the server, get the results again, order them, THEN send them back over to frontend
+           // If results.count <= limit hacerlo local (that is, in the frontend)
+
+
+           // This is done HERE: 
+                    // if(this.props.results.count <= 200) {
+                    //   //  alert("menor q 200");
+                    //     let results = this.props.results;
+                    //     return this.props.queryActions.sortResultsInFrontend(results, field, order);
+
+                    
+                    // }
+            // However the sort is not stable so it looks weird when you make it "change"
+            // by spamming click on column X (which stays as is), which makes the other columns
+            // move around
 
             let newQueryValues = objectAssign({}, this.props.searchQueryValues);
             // object assign doesnt deep clone.
             newQueryValues.order_by = objectAssign({}, this.props.searchQueryValues.order_by)
-
+            newQueryValues.order_by.order = order;
        
 
             newQueryValues.order_by.fields = field;
@@ -244,33 +263,6 @@ class SearchResults extends React.PureComponent {
             let mockResult = [{value: chileCompraResponseExample}];
             let titlesToRender = this.applyFilter(this.state.columns, mockResult);
             let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
-           // debugger
-
-           // So, here we'll have 2 ways of sorting. 
-           // If results.count > {RESULTS_OFFSET_AMOUNT} from /src/constants/resultsOffset.js (as of this writing, 200)
-           // send a request to the server, get the results again, order them, THEN send them back over to frontend
-           // If results.count <= limit hacerlo local (that is, in the frontend)
-
-
-
-            //sort(function(a, b) {return b.localeCompare(a)})
-            // sin embargo, necesito conseguir el index del nuevo item, puesto que tengo que ordenar
-            // TODAS las columnas, no solo una
-            /* 
-            
-               var fcc = this.props.results.values.map(element => element.value.FechaCreacion);
-               hacer esto!
-               https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-               }
-            
-            
-            
-            
-            
-            
-            
-             */
-         //   debugger
 
             let resultsNavigatorButtons = () => {
                                                 return <ResultsNavigatorButtons 
@@ -332,7 +324,7 @@ class SearchResults extends React.PureComponent {
                                         Object.keys(titlesToRender[0]).map((element,index) => {
                                             return <span className="search title col-xs-3 searchable" 
                                                          key={"title key" + index }
-                                                         onClick={() => {this.sortByColumn(this.state.columns[index])} }
+                                                         
                                                     
                                                     
                                                     
@@ -340,8 +332,13 @@ class SearchResults extends React.PureComponent {
                                                         <div className="title-spans-container">
                                                             <span className="title-text">{utils.camelCaseToNormalCase(element)}</span>
                                                             <span className="glyphicon glyphicon-chevron-down filler"></span>
-                                                            <span className="glyphicon glyphicon-chevron-down"></span>
-                                                            <span className="glyphicon glyphicon-chevron-up"></span>
+                                                            <span className="glyphicon glyphicon-chevron-down"
+                                                                  onClick={() => {this.sortByColumn(this.state.columns[index], "descending")} }
+                                                            >
+                                                            </span>
+                                                            <span className="glyphicon glyphicon-chevron-up"
+                                                                  onClick={() => {this.sortByColumn(this.state.columns[index], "ascending")} }
+                                                            ></span>
                                                         </div>
                                                     </span>
                                         })

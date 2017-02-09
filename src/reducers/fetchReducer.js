@@ -12,6 +12,12 @@ export default function fetchReducer(state = initialState.searchResults, action)
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
             console.log("action error", action);
             return action.error;
+        case types.REORDER_CHILECOMPRA_DATA_SUCCESS:
+            return objectAssign({}, state, action.data);
+        case types.REORDER_RESULTS_FRONTEND_SUCCESS:
+            return action.data;
+        case types.REORDER_RESULTS_FRONTEND_FAILURE:
+            return state;
 
         default:
             return state;

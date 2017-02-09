@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-
 //TODO: Need to make the (value) or (event) value more consistent
 // eg autoFillerInput is (value) => {type: ...., value}
 // whereas RUTInput is (event) => {type: ..., value: event.target.value} <- inconsistent
@@ -77,4 +76,75 @@ export const autoFillerInputChange = (organismosPublicos, value) => {
             defaultSelectedValue, 
             selectionResults
             };
+}
+
+export const sortResultsInFrontend = (results, field, order) => {
+ //TODO: This works...but the results are not stable so it looks really weird
+ 
+    
+    // results = [
+                //     {
+                //         id: xxxx, value: {
+                //                           FechaCreacion: yyyy,
+                //                           Listado: [
+                //                                     0: {
+                //                                         CodigoExterno: zzzzz
+                //                                        }
+                //                                     ]....
+                //                             }
+                //     },
+                //     {id: vvvvv, ....etc},
+                //     {id: qqqq, ...},
+                //     ...etc
+                //  ]
+   // field = ["Listado", 0, "CodigoExterno"]
+   // order = "ascending" || "descending"
+   if(order != "ascending" && order != "descending") {
+       alert("Orden inválido");
+       return {type: types.REORDER_RESULTS_FRONTEND_FAILURE}
+   }
+
+   let getFieldValues = results.values.map(singleResult => {
+
+        let fieldValue = field.reduce((resultValue, keyToAccess) => {
+
+            return resultValue[keyToAccess];
+
+        }, singleResult.value);
+
+        return {id: singleResult.id, value: fieldValue}
+   });
+
+
+
+   if(order === "ascending") {
+        getFieldValues.sort((a, b) => {
+                return a.value.localeCompare(b.value);
+            });
+   }
+   else if(order === "descending") {
+        getFieldValues.sort((a, b) => {
+                return b.value.localeCompare(a.value);
+            });  
+   }
+
+
+   let sortedValues = getFieldValues.reduce((sorted, currentResult) => {
+        //TODO: this is VERY redundant - But since it is a small amount of records
+        // Im not sure if it's worth it to do something more sophisticated
+        let correspondingValue = results.values.filter((result) => {
+            return result.id === currentResult.id
+        });
+        return sorted.concat(correspondingValue)
+   }, []);
+
+   return {type: types.REORDER_RESULTS_FRONTEND_SUCCESS,
+           data: {
+                    values: sortedValues,
+                    count: results.count,
+                    limit: results.limit,
+                    offset: results.offset
+                 }
+          }
+
 }
