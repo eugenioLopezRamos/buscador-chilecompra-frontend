@@ -6,6 +6,7 @@
 @import 'userProfile';
 @import 'pageSelection';
 @import 'JSONSchemaCheckboxes';
+@import 'searchResults';
 
 
 
@@ -104,6 +105,7 @@ body {
     display:flex;
     justify-content: center;
     text-align: center;
+    min-height:2.5em;
    
 }
 
@@ -112,8 +114,10 @@ body {
     word-wrap: break-word;
     word-break: break-all;
     cursor: default;
+
     &.searchable {
         cursor: pointer;
+        
     }
 }
 
@@ -493,11 +497,16 @@ span.movable-title-container {
 }
 
 .col-xs-3 {
-    min-width: 10%;
+    min-width: 12.5%;
     min-height: 1.5em;
+ 
     &.half {
         width: 12.5%;
         min-width: 6%;
+        .title-text {
+            margin: auto;
+            min-height: 0;
+        }
     }
 }
 

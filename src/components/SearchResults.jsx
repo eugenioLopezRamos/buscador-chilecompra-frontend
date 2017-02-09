@@ -337,15 +337,23 @@ class SearchResults extends React.PureComponent {
                                                     
                                                     
                                                     >
-                                                        {utils.camelCaseToNormalCase(element)}
+                                                        <div className="title-spans-container">
+                                                            <span className="title-text">{utils.camelCaseToNormalCase(element)}</span>
+                                                            <span className="glyphicon glyphicon-chevron-down filler"></span>
+                                                            <span className="glyphicon glyphicon-chevron-down"></span>
+                                                            <span className="glyphicon glyphicon-chevron-up"></span>
+                                                        </div>
                                                     </span>
                                         })
                                     }
                                     <span className="search title col-xs-3 half" key={"historia-key"}>
-                                        Historia
+                                        
+                                        <span className="title-text">Historia</span>
+                                        
                                     </span>
                                     <span className="search title col-xs-3 half" key={"subscribe-key"}>
-                                        Subscribirse?
+                                        
+                                        <span className="title-text">Suscribirse</span>
                                     </span>
                                 </span>
                                     
