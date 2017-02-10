@@ -8,8 +8,19 @@ import {getUserSearches} from '../actions/UserActions';
 import {getUserNotifications} from '../actions/UserActions';
 
 class AuthorizationWrapper extends React.Component {
-    constructor(props) {
+    constructor(props, {store}) {
         super(props);
+        this.dispatch = store.dispatch;
+        //TODO: I'm....not quite sure about the "recommendability" of this one...
+        this.actions = (() => {
+
+            return Object.keys(props.actions).reduce((boundActionsObject, currentKey) => {
+                boundActionsObject[currentKey] = bindActionCreators(props.actions[currentKey], this.dispatch)
+                return boundActionsObject;    
+            }, {});
+
+        })()
+        
     }
 
     // componentWillMount = () => {
@@ -36,9 +47,10 @@ class AuthorizationWrapper extends React.Component {
     }
 
     render = () => {
+       // debugger
         if(this.props.isAuthenticated && this.props.user) {
            // this.getUserInfo();
-            return <this.props.component/>
+            return <this.props.component {...this.actions}/>
         }
         return <this.props.renderFailure />
     }
@@ -58,5 +70,9 @@ function mapDispatchToProps(dispatch, ownProps) {
         getUserSearches: bindActionCreators(getUserSearches, dispatch),
         getUserNotifications: bindActionCreators(getUserNotifications, dispatch)
     }
+}
+
+AuthorizationWrapper.contextTypes = {
+    store: React.PropTypes.object
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationWrapper);

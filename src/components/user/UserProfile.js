@@ -33,8 +33,6 @@ const UserProfile = (props) => {
         props.getResultHistory(component, resultId);
     }
 
-
-    //console.log("USERPROF PROPS", props);
     return(
         <div className="perfil-container">
      

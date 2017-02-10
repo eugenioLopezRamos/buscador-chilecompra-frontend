@@ -33,7 +33,7 @@ class Root extends Component {
     render = () => {
         return( <Provider store={this.store}>
                     <div>
-                        <Router history={this.history} routes={routes} />  
+                        <Router history={this.history} routes={routes} store={this.store}/>  
                    </div>
                 </Provider>
                 )

@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {actions} from '../helpers/inputFieldsContainerHelper';
-import * as API from '../actions/fetchActions';
-import * as displayActions from '../actions/DisplayActions';
+//import {actions} from '../helpers/inputFieldsContainerHelper';
+//import * as API from '../actions/fetchActions';
+//import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
 import SearchResults from './SearchResults.jsx';
 import DatePicker from './inputs/DateField.jsx';
@@ -20,8 +20,8 @@ class InputFieldsContainer extends React.PureComponent {
         super(props);
         const inputFieldsOffset = 0;
         const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
-
-        this.actions = actions;
+        debugger
+        //this.actions = actions;
         //TODO: Make this use constants
 
         this.state = {
@@ -111,7 +111,7 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
-       
+  
         return (    
               
                     <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 
@@ -198,13 +198,6 @@ InputFieldsContainer.propTypes = {
     searchResults: PropTypes.object,
     organismosPublicos: PropTypes.array.isRequired,
     estadosLicitacion: PropTypes.object.isRequired,
-//     organismosPublicosFilter: PropTypes.string.isRequired,
-//     organismosPublicosFilteredSubset: PropTypes.array.isRequired,
-//     selectedOrganismoPublico: PropTypes.string.isRequired,
-//   //  date: PropTypes.object.isRequired,
-//    // searchType: PropTypes.string.isRequired,
-//     rutProveedor: PropTypes.string.isRequired,
-//     codigoLicitacion: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -214,31 +207,20 @@ function mapStateToProps(state, ownProps) {
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
         searchQueryValues: state.searchQueryValues,
-    //     organismosPublicosFilter: state.searchQueryValues.organismosPublicosFilter,
-    //     organismosPublicosFilteredSubset: state.searchQueryValues.organismosPublicosFilteredSubset,
-    //     selectedOrganismoPublico: state.searchQueryValues.selectedOrganismoPublico,
-    //     startDate: state.searchQueryValues.startDate,
-    //     alwaysFromToday: state.searchQueryValues.alwaysFromToday,
-    //     alwaysToToday: state.searchQueryValues.alwaysToToday,
-    //     endDate: state.searchQueryValues.endDate,
-    //    // searchType: state.searchType,
-    //     rutProveedor: state.searchQueryValues.rutProveedor,
-    //     palabrasClave: state.searchQueryValues.palabrasClave,
-    //     codigoLicitacion: state.searchQueryValues.codigoLicitacion,
-        //results: state.searchResults,
         messages: state.messages
         
     };
 };
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-    API: bindActionCreators(API, dispatch),
-    displayActions: bindActionCreators(displayActions, dispatch),
-    createSearches: bindActionCreators(createSearches, dispatch),
-   // createResults: bindActionCreators(createResults, dispatch),
-  };
-};
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     //actions: bindActionCreators(actions, dispatch),
+//   //  API: bindActionCreators(API, dispatch),
+//    // displayActions: bindActionCreators(displayActions, dispatch),
+//   //  createSearches: bindActionCreators(createSearches, dispatch),
+//    // createResults: bindActionCreators(createResults, dispatch),
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
+// export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
+export default connect(mapStateToProps)(InputFieldsContainer);

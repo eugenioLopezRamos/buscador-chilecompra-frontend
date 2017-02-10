@@ -18,12 +18,16 @@ import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../ResultComparer.jsx';
+
+
+
+import fetchApi from '../../api/fetchApi';
 // import Notifications from './Notifications.js';
 
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
-
+        this.fetchApi = fetchApi;
         this.state = {
             showFullScreenPane: false,
             FullScreenPaneComponent: null,
@@ -118,7 +122,7 @@ class UserPage extends React.Component {
     
         data.date = Date.parse(data.date);
 
-        this.props.loadChilecompraData(data)
+        this.fetchApi.getChileCompraData(data)
             .then(response => {
                                 this.setState({
                                                 showFullScreenPane: true, 

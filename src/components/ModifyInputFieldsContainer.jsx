@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/SearchQueryValuesActions';
-//import * as API from '../actions/fetchActions';
-//import * as displayActions from '../actions/DisplayActions';
+import * as API from '../actions/fetchActions';
+import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
 //import SearchResults from './SearchResults.jsx';
 import DatePicker from './inputs/DateField.jsx';
@@ -162,9 +162,9 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // actions: bindActionCreators(actions, dispatch),
-    // API: bindActionCreators(API, dispatch),
-    // displayActions: bindActionCreators(displayActions, dispatch)
+     actions: bindActionCreators(actions, dispatch),
+     API: bindActionCreators(API, dispatch),
+     displayActions: bindActionCreators(displayActions, dispatch)
   };
 };
 
