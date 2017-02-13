@@ -253,11 +253,11 @@ class SearchResults extends React.PureComponent {
         if(!this.props.results){
             return null;
         }
-
-        if(this.props.results.values.count === 0) {
+   
+        if(this.props.results.count === 0) {
             return <span className={this.animClass}>No se encontraron resultados</span>;            
         }
-
+        
         else {
             let self = this;
             let mockResult = [{value: chileCompraResponseExample}];
