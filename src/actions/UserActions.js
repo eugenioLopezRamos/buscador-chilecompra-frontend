@@ -300,3 +300,31 @@ export const getUserNotifications = () => {
                 });
     }
 }
+
+
+export const deleteUserNotificationSuccess = (value) => {
+    return {type: types.USER_DELETE_NOTIFICATION_SUCCESS, value};
+}
+
+export const deleteUserNotificationFailure = (value) => {
+    return {type: types.USER_DELETE_NOTIFICATION_FAILURE, value};
+} 
+
+export const deleteUserNotification = (id) => {
+
+    let notification = {
+        notification_id: id
+    }
+
+    return dispatch => {
+        return userApi.deleteNotification({notification})
+            .then(response => {
+                dispatch(deleteUserNotificationSuccess(response))
+            })
+            .catch(error => {
+                dispatch(deleteUserNotificationFailure(error))
+            });
+    }
+
+
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {PropTypes} from 'react';
 import Login from './Login.jsx';
-
+import {deleteUserNotification as deleteNotification} from '../actions/UserActions';
 import * as displayActions from '../actions/DisplayActions';
 import * as authInfoInputsActions from '../actions/authInfoInputsActions';
 import * as authInfoResultsActions from '../actions/authInfoResultsActions';
@@ -60,6 +60,7 @@ class CollapsibleNavBar extends React.Component {
                     notifications={this.props.notifications}
                     showNotifications={this.props.showNotifications}
                     toggleNotifications={this.props.displayActions.toggleNotificationsDisplay}
+                    deleteNotification={this.props.deleteNotification}
                    />
 
         }
@@ -104,8 +105,8 @@ function mapDispatchToProps(dispatch) {
   return {
     displayActions: bindActionCreators(displayActions, dispatch),
     authInfoInputsActions: bindActionCreators(authInfoInputsActions, dispatch),
-    authInfoResultsActions: bindActionCreators(authInfoResultsActions, dispatch)
-
+    authInfoResultsActions: bindActionCreators(authInfoResultsActions, dispatch),
+    deleteNotification: bindActionCreators(deleteNotification, dispatch)
   };
 };
 

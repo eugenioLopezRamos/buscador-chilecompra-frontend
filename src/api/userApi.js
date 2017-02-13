@@ -135,7 +135,7 @@ class userApi {
         return userDataFetcher('notifications', 'GET')
     }
 
-    static deleteNotifications(notification_id) {
+    static deleteNotification(notification_id) {
         return userDataFetcher('notifications', 'DELETE', notification_id)
     }
 

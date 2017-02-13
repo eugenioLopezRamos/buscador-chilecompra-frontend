@@ -91,9 +91,9 @@ const messagesReducer = (state = initialState.messages, action) => {
             return objectAssign({}, state, {info, errors});
         case types.USER_GET_NOTIFICATIONS_FAILURE:
             return objectAssign({}, state, {info, errors});
-        case types.USER_DELETE_NOTIFICATIONS_SUCCESS:
+        case types.USER_DELETE_NOTIFICATION_SUCCESS:
             return objectAssign({}, state, {info, errors});
-        case types.USER_DELETE_NOTIFICATIONS_FAILURE:
+        case types.USER_DELETE_NOTIFICATION_FAILURE:
             return objectAssign({}, state, {info, errors});
 
                

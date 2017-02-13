@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const helpers = {
             autoFillerInputChange: (organismosPublicos, value) => {
 
@@ -35,14 +37,13 @@ export const helpers = {
             },
             
             toggleDateAlwaysFromToday: (value) => {
-
-                return {alwaysFromToday: !value, alwaysToToday: !value};
+                return {alwaysFromToday: !value, alwaysToToday: !value, startDate: moment(), endDate: moment()};
             },
             setEndDate: (value) => {
                 return {endDate: value};
             },
             toggleDateAlwaysToToday: (value) => {
-                return {alwaysToToday: !value};
+                return {alwaysToToday: !value, endDate: moment()};
             },
             rutInput: (value) => {
                 return {rutProveedor: value};

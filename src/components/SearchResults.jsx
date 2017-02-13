@@ -303,19 +303,15 @@ class SearchResults extends React.PureComponent {
                 
                     <div className="cantidad-resultados">Se encontraron {this.props.results.count} resultados: </div>
                     <div className="cantidad-resultados">
-                        Mostrando resultados desde el {this.props.results.count - this.props.results.offset} al {
-                            Math.max(1, this.props.results.count - (this.props.results.offset + this.props.results.limit))
+                        Mostrando resultados desde el {parseInt(this.props.results.offset) + 1} al {
+                            //Math.max(1, this.props.results.count - (this.props.results.offset + this.props.results.limit))
+                            Math.min(this.props.results.offset + this.props.results.limit, this.props.results.count)
                             }
 
                     </div>
                     <ul className={this.animClass}>
                         
                         {resultsNavigatorButtons()}
-
-
-
-
-
 
                         <div className="results-data-container">
                             <div className="title-container" >   
@@ -324,10 +320,6 @@ class SearchResults extends React.PureComponent {
                                         Object.keys(titlesToRender[0]).map((element,index) => {
                                             return <span className="search title col-xs-3 searchable" 
                                                          key={"title key" + index }
-                                                         
-                                                    
-                                                    
-                                                    
                                                     >
                                                         <div className="title-spans-container">
                                                             <span className="title-text">{utils.camelCaseToNormalCase(element)}</span>

@@ -30,7 +30,8 @@ const UserDropdown = (props) => {
                     <Notifications 
                            notifications={props.notifications}
                            show={props.showNotifications}
-                           toggleNotifications={props.toggleNotifications} 
+                           toggleNotifications={props.toggleNotifications}
+                           deleteNotification={props.deleteNotification}
                     />
                 </li>
 

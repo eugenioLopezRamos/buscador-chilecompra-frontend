@@ -17,10 +17,8 @@ import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../ResultComparer.jsx';
 import UpdateSearchMenu from '../UpdateSearchMenu';
-
-
 import fetchApi from '../../api/fetchApi';
-// import Notifications from './Notifications.js';
+
 
 class UserPage extends React.Component {
     constructor(props) {

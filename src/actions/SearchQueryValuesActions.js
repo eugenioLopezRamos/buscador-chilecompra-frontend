@@ -80,8 +80,6 @@ export const autoFillerInputChange = (organismosPublicos, value) => {
 
 export const sortResultsInFrontend = (results, field, order) => {
  //TODO: This works...but the results are not stable so it looks really weird
- 
-    
     // results = [
                 //     {
                 //         id: xxxx, value: {

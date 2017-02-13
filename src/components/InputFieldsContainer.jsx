@@ -35,6 +35,9 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     componentWillReceiveProps = (nextProps) => {
+        //TODO: There is probably some better way to do this.
+        // In any case, these shouldn't change since the fetch request to do this is only called
+        // when successfully logging in (with a componentWillReceiveProps callback on <Root />)
         if(nextProps.organismosPublicos != this.props.organismosPublicos) {
             this.setState({organismosPublicosFilteredSubset: nextProps.organismosPublicos});
         }
@@ -42,14 +45,6 @@ class InputFieldsContainer extends React.PureComponent {
 
     handleCreateSearches = (name) => {
         this.props.createSearches(this.state, name);
-    }
-    
-    setDateAlwaysFromToday = (value) => {
-        this.props.actions.setDateAlwaysFromToday(value);
-    }
-
-    setDateAlwaysToToday = (value) => {
-        this.props.actions.setDateAlwaysToToday(value);
     }
 
     setStartDate = (value) => {
@@ -68,10 +63,9 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     estadoLicitacionSelect = (event) => {
-
         this.setState(this.helpers.estadoLicitacionSelect(event.target.value))
-
     }
+    
     pickOrganismoPublico = (event) => {
         this.setState(this.helpers.pickOrganismoPublico(event.target.value));
     }

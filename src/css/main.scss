@@ -629,16 +629,28 @@ span.movable-title-container {
 
     }
     .notifications-list-items-container {
-            max-width: 300px;
-            width:300px;
-            left: -30px;
+            max-width: 350px;
+            width: 320px;
+            left: -49px;
             top: 50px;
             border-left: 1px solid #212121;
             border-bottom: 1px solid #212121;
             border-right: 1px solid #212121;
             border-radius: 0px 0px 5px 5px;
+
+            .list-group-item.notifications{
+                &:hover {
+                    background-color: #333;
+                    color: rgb(238, 238, 238);
+                }
+            }
+
             .list-group-item.notifications:first-of-type {
                 border-radius: 0;
+            }
+            .glyphicon.glyphicon-remove {
+                float: right;
+                font-size: 20px;
             }
         }
     .dropdown-menu-list-item {

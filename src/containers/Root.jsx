@@ -41,11 +41,6 @@ class Root extends Component {
         }
     }
 
-    componentDidMount = () => {
-     
-
-    }
-
     render = () => {
         return( <Provider store={this.store}>
                     <div>
