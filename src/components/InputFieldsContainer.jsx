@@ -26,42 +26,24 @@ class InputFieldsContainer extends React.PureComponent {
         const inputFieldsOffset = 0;
         const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
         this.helpers = helpers;
-        //TODO: Make this use constants
-
-
         // la otra opcion es usar un estado en que se trae todo desde el inicial y se añade el 
         // organismosPublicosFilteredSubset
         this.state = {
-            // organismosPublicosFilter: "",
-            // selectedOrganismoPublico: "",
-            // 
-            // codigoLicitacion: "",
-            // startDate: Object.freeze(moment()),
-            // alwaysFromToday: false,
-            // endDate: Object.freeze(moment()),
-            // alwaysToToday: false,
-            // palabrasClave: "",
-            // selectedEstadoLicitacion: "",
-            // rutProveedor: "",
-            // offset: inputFieldsOffset,
-            // order_by: {fields: initialFieldsOrderBy, order: "descending"}
-             //Passes an optional handler to the <Flash />
-           // messagesHandler: null
            ...this.props.defaultValues.defaultState,
            organismosPublicosFilteredSubset: this.props.organismosPublicos,
         };
-       //debugger
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+        if(nextProps.organismosPublicos != this.props.organismosPublicos) {
+            this.setState({organismosPublicosFilteredSubset: nextProps.organismosPublicos});
+        }
     }
 
     handleCreateSearches = (name) => {
-        console.log("name", name)
         this.props.createSearches(this.state, name);
     }
-
-    // handleCreateSearches = (name) => {
-    //     this.setState({messagesHandler: null}, this.props.createSearches(name));
-    // }
-
+    
     setDateAlwaysFromToday = (value) => {
         this.props.actions.setDateAlwaysFromToday(value);
     }

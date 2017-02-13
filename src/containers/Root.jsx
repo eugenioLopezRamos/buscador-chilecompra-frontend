@@ -27,32 +27,23 @@ class Root extends Component {
         }
     }
 
-    // componentDidMount = () => {
-
-    //     //if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
-    //     //    this.dispatch(validateToken());
-    //     debugger
-
-
-    //   //  }
-    // }
     componentWillReceiveProps = (nextProps) => {
 
-            if(!this.props.isAuthenticated || !this.props.userData) {
+        if(!this.props.isAuthenticated || !this.props.userData) {
 
-                if(nextProps.isAuthenticated && nextProps.userData) {
-                    this.dispatch(getUserNotifications());
-                    this.dispatch(getUserSubscriptions());
-                    this.dispatch(getUserSearches());  
-                }
-
-
+            if(nextProps.isAuthenticated && nextProps.userData) {
+                this.dispatch(getUserNotifications());
+                this.dispatch(getUserSubscriptions());
+                this.dispatch(getUserSearches());  
+                this.dispatch(onLoadFetchOrgPub());
+                this.dispatch(onLoadFetchEstLic());
             }
+        }
     }
 
     componentDidMount = () => {
-        this.store.dispatch(onLoadFetchOrgPub());
-        this.store.dispatch(onLoadFetchEstLic());
+     
+
     }
 
     render = () => {

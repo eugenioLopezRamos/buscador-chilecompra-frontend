@@ -1,11 +1,7 @@
 import React from 'react';
-import {validateToken} from '../actions/authInfoResultsActions';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import Flash from './Flash';
-import {getUserSubscriptions} from '../actions/UserActions';
-import {getUserSearches} from '../actions/UserActions';
-import {getUserNotifications} from '../actions/UserActions';
 
 
 class AuthorizationWrapper extends React.Component {
@@ -39,41 +35,8 @@ class AuthorizationWrapper extends React.Component {
         this.defaultValues = this.props.componentDefaultValues ? this.props.componentDefaultValues : null;
     }
 
-    // componentWillMount = () => {
-
-    //     if(this.props.isAuthenticated && this.props.user) {
-    //             this.props.getUserNotifications();
-    //             this.props.getUserSubscriptions();
-    //             this.props.getUserSearches();         
-    //     }
-
-    // }
-
-
-    componentWillReceiveProps = (nextProps) => {
-        //fetch user's data from the server when logged in
-  
-        if(!this.props.isAuthenticated || !this.props.user) {
-
-            if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
-                this.dispatch(validateToken());
-                if(nextProps.isAuthenticated && nextProps.user) {
-                    this.dispatch(getUserNotifications());
-                    this.dispatch(getUserSubscriptions());
-                    this.dispatch(getUserSearches());  
-
-                }
-            }
-
-        }
-       
-    }
-
     render = () => {
-       // debugger
         if(this.props.isAuthenticated && this.props.user) {
-           // this.getUserInfo();
-          // debugger
             return <this.props.component {...this.actions}
                                          defaultValues={this.defaultValues}
                                          saveMenu={this.saveMenu}
@@ -90,16 +53,10 @@ function mapStateToProps(state, ownProps) {
             messages: state.messages
         }
 }
-function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        validateToken: bindActionCreators(validateToken, dispatch),
-        getUserSubscriptions: bindActionCreators(getUserSubscriptions, dispatch),
-        getUserSearches: bindActionCreators(getUserSearches, dispatch),
-        getUserNotifications: bindActionCreators(getUserNotifications, dispatch)
-    }
-}
+
 
 AuthorizationWrapper.contextTypes = {
     store: React.PropTypes.object
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationWrapper);
+
+export default connect(mapStateToProps)(AuthorizationWrapper);
