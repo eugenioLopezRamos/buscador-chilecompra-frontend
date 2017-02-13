@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-//import {actions} from '../helpers/inputFieldsContainerHelper';
-//import * as API from '../actions/fetchActions';
+import {helpers} from '../helpers/inputFieldsContainerHelper';
 //import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
 import SearchResults from './SearchResults.jsx';
@@ -9,56 +8,59 @@ import DatePicker from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
-import {createUserSearches as createSearches} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import moment from 'moment';
 import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 
+
+import {createUserSearches as createSearches} from '../actions/UserActions';
+import * as API from '../actions/fetchActions';
+
+
 class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
+ 
         super(props);
+               
         const inputFieldsOffset = 0;
         const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
-        debugger
-        //this.actions = actions;
+        this.helpers = helpers;
         //TODO: Make this use constants
 
+
+        // la otra opcion es usar un estado en que se trae todo desde el inicial y se añade el 
+        // organismosPublicosFilteredSubset
         this.state = {
-            organismosPublicosFilter: "",
-            selectedOrganismoPublico: "",
-            organismosPublicosFilteredSubset: this.props.organismosPublicos,
-            codigoLicitacion: "",
-            startDate: Object.freeze(moment()),
-            alwaysFromToday: false,
-            endDate: Object.freeze(moment()),
-            alwaysToToday: false,
-            palabrasClave: "",
-            selectedEstadoLicitacion: "",
-            rutProveedor: "",
-            offset: inputFieldsOffset,
-            order_by: {fields: initialFieldsOrderBy, order: "descending"}
+            // organismosPublicosFilter: "",
+            // selectedOrganismoPublico: "",
+            // 
+            // codigoLicitacion: "",
+            // startDate: Object.freeze(moment()),
+            // alwaysFromToday: false,
+            // endDate: Object.freeze(moment()),
+            // alwaysToToday: false,
+            // palabrasClave: "",
+            // selectedEstadoLicitacion: "",
+            // rutProveedor: "",
+            // offset: inputFieldsOffset,
+            // order_by: {fields: initialFieldsOrderBy, order: "descending"}
              //Passes an optional handler to the <Flash />
            // messagesHandler: null
+           ...this.props.defaultValues.defaultState,
+           organismosPublicosFilteredSubset: this.props.organismosPublicos,
         };
+       //debugger
     }
 
     handleCreateSearches = (name) => {
-        this.props.createSearches(name);
+        console.log("name", name)
+        this.props.createSearches(this.state, name);
     }
 
-    disableButtons = () => {
-        let disable = [];
-        if(this.props.searchResults === null || this.props.searchResults === [] || this.props.searchResults === undefined) {
-            disable.push("results");
-        }
-
-        return disable;
-    }
-
-    handleCreateSearches = (name) => {
-        this.setState({messagesHandler: null}, this.props.createSearches(name));
-    }
+    // handleCreateSearches = (name) => {
+    //     this.setState({messagesHandler: null}, this.props.createSearches(name));
+    // }
 
     setDateAlwaysFromToday = (value) => {
         this.props.actions.setDateAlwaysFromToday(value);
@@ -69,45 +71,45 @@ class InputFieldsContainer extends React.PureComponent {
     }
 
     setStartDate = (value) => {
-        this.setState(this.actions.setStartDate(value));
+        this.setState(this.helpers.setStartDate(value));
     }
     setEndDate = (value) => {
-        this.setState(this.actions.setEndDate(value));
+        this.setState(this.helpers.setEndDate(value));
     }
 
     toggleDateAlwaysFromToday = () => {
-        this.setState(this.actions.toggleDateAlwaysFromToday(this.state.alwaysFromToday));
+        this.setState(this.helpers.toggleDateAlwaysFromToday(this.state.alwaysFromToday));
     }
 
     toggleDateAlwaysToToday = () => {
-        this.setState(this.actions.toggleDateAlwaysToToday(this.state.alwaysToToday));
+        this.setState(this.helpers.toggleDateAlwaysToToday(this.state.alwaysToToday));
     }
 
     estadoLicitacionSelect = (event) => {
 
-        this.setState(this.actions.estadoLicitacionSelect(event.target.value))
+        this.setState(this.helpers.estadoLicitacionSelect(event.target.value))
 
     }
     pickOrganismoPublico = (event) => {
-        this.setState(this.actions.pickOrganismoPublico(event.target.value));
+        this.setState(this.helpers.pickOrganismoPublico(event.target.value));
     }
 
 
     autoFillerInputChange = (organismos, value) => {
         //TODO: simplify this (duplication of data!)
-        this.setState(this.actions.autoFillerInputChange(organismos, value));
+        this.setState(this.helpers.autoFillerInputChange(organismos, value));
     }
     
     rutInput = (event) => {
-        this.setState(this.actions.rutInput(event.target.value));
+        this.setState(this.helpers.rutInput(event.target.value));
     }
 
     codigoLicitacionInput = (event) => {
-        this.setState(this.actions.codigoLicitacionInputChange(event.target.value));
+        this.setState(this.helpers.codigoLicitacionInputChange(event.target.value));
     }
 
     palabrasClaveInput = (value) => {
-        this.setState(this.actions.palabrasClaveInput(value));
+        this.setState(this.helpers.palabrasClaveInput(value));
     }
 
     render = () => {
@@ -123,8 +125,8 @@ class InputFieldsContainer extends React.PureComponent {
                         <div className="fixed-size-searchTab-container">
                         <label>Selecciona un rango de fechas:</label>
                             <DatePicker
-                                startDate={this.state.startDate}
-                                endDate={this.state.endDate} 
+                                startDate={moment(this.state.startDate)}
+                                endDate={moment(this.state.endDate)} 
 
                                 setStartDate={this.setStartDate}
                                 setEndDate={this.setEndDate}
@@ -177,11 +179,9 @@ class InputFieldsContainer extends React.PureComponent {
 
                                     onSubmit={() => {this.props.API.loadChilecompraData(this.state)}} 
                                 />
+                                
+                            {< this.props.saveMenu handleSearches={this.handleCreateSearches}/>}
 
-                                <SearchesSaver 
-                                    handleSearches={this.handleCreateSearches}
-                                    disableButtons={this.disableButtons()}
-                                />
                         </div>
 
                             <div className="col-xs-12 no-gutter">
@@ -212,15 +212,15 @@ function mapStateToProps(state, ownProps) {
     };
 };
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     //actions: bindActionCreators(actions, dispatch),
-//   //  API: bindActionCreators(API, dispatch),
-//    // displayActions: bindActionCreators(displayActions, dispatch),
-//   //  createSearches: bindActionCreators(createSearches, dispatch),
-//    // createResults: bindActionCreators(createResults, dispatch),
-//   };
-// };
+function mapDispatchToProps(dispatch) {
+  return {
+    //actions: bindActionCreators(actions, dispatch),
+  // API: bindActionCreators(API, dispatch),
+   // displayActions: bindActionCreators(displayActions, dispatch),
+  //  createSearches: bindActionCreators(createSearches, dispatch),
+   // createResults: bindActionCreators(createResults, dispatch),
+  };
+};
 
 // export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
-export default connect(mapStateToProps)(InputFieldsContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);

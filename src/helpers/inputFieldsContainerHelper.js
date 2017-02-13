@@ -1,4 +1,4 @@
-export const actions = {
+export const helpers = {
             autoFillerInputChange: (organismosPublicos, value) => {
 
                 let selectionResults = [];

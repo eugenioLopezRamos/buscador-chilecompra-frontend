@@ -13,26 +13,56 @@ import AuthorizationWrapper from './components/AuthorizationWrapper.jsx';
 import * as API from './actions/fetchActions';
 import {createUserSearches as createSearches} from './actions/UserActions';
 import {bindActionCreators} from 'redux';
+import initialState from './reducers/initialState';
+import SearchesSaver from './components/SearchesSaver';
 
+//import objectAssign from 'object-assign';
 
 export default (
-      <Route path="/" component={App} >
-          <IndexRoute component={Introduction}  />
-          <Route path="/busqueda" 
-                 component={() => {
-                  
-                     return <AuthorizationWrapper
-                     
-                              component={InputFieldsContainer}
-                              actions={{createSearches, API}}
-                              renderFailure={Introduction}
-                            />
-                     }
-                 }
-          />
-          <Route path="/inicio" component={() => {return <AuthorizationWrapper component={UserPage} renderFailure={Introduction}/>}} />
-          <Route path="/perfil" component={() => {return <AuthorizationWrapper component={UserProfileData} renderFailure={Introduction}/>}} />
-        </Route>
+    <Route path="/" component={App} >
+        <IndexRoute component={Introduction}  />
+        <Route 
+            path="/busqueda" 
+            component={
+                () => {
+                    return <AuthorizationWrapper
+                               component={InputFieldsContainer}
+                               saveMenu={SearchesSaver}
+                               actions={{createSearches, API}}
+                               componentDefaultValues={{
+                                defaultState: initialState.searchQueryValues
+                               }}
+                               renderFailure={Introduction}
+                           />
+                    }
+              }
+        />
+
+        <Route
+            path="/inicio" 
+            component={
+                   () => {
+                        return <AuthorizationWrapper
+                                    component={UserPage}
+                                    renderFailure={Introduction}
+                                />
+                    }
+            } 
+        />
+
+        <Route
+            path="/perfil"
+            component={
+                () => {
+                    return <AuthorizationWrapper 
+                            component={UserProfileData}
+                            renderFailure={Introduction}
+                           />
+                }
+            } 
+        />
+
+    </Route>
 )
 
 

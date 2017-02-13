@@ -3,28 +3,34 @@ import objectAssign from 'object-assign';
 import * as types from '../actions/actionTypes';
 
 export const userSearchesReducer = (state = initialState.userSearches, action) => {
-    let newState = objectAssign({}, state);
+   // let newState = objectAssign({}, state);
 
     switch(action.type) {
 
         case types.USER_GET_SEARCHES_SUCCESS:
-            return objectAssign({}, newState, action.value);
+            return objectAssign({}, state, action.value.searches);
 
         case types.USER_GET_SEARCHES_FAILURE:
-            return objectAssign({}, newState, initialState.userSearches);
+            return objectAssign({}, state, initialState.userSearches);
+
+        case types.USER_CREATE_SEARCHES_SUCCESS:
+            return objectAssign({}, state, action.value.searches);
+
+        case types.USER_CREATE_SEARCHES_FAILURE:
+            return objectAssign({}, state, initialState.userSearches);
 
         case types.USER_UPDATE_SEARCHES_SUCCESS:
 
-            return objectAssign({}, newState, action.value.searches);
+            return objectAssign({}, state, action.value.searches);
 
         case types.USER_UPDATE_SEARCHES_FAILURE:
-            return objectAssign({}, newState);
+            return objectAssign({}, state);
 
         case types.USER_DELETE_SEARCHES_SUCCESS:
-            return objectAssign({}, newState, action.value.searches);
+            return objectAssign({}, state, action.value.searches);
 
         case types.USER_DELETE_SEARCHES_FAILURE:
-            return objectAssign({}, newState);
+            return objectAssign({}, state);
 
         default:
             return state;

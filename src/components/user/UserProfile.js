@@ -47,7 +47,7 @@ const UserProfile = (props) => {
                     return <li className="list-group-item saved-items" key={"search" + e}>
                                 <span className="saved-items-description">{e}</span>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {executeStoredSearch(props.components.SearchResults, i)}}>Ejecutar</button>
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredSearch(props.components.ModifyInputFieldsContainer, i)}}>Modificar</button>
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {showStoredSearch(props.components.InputFieldsContainer, i)}}>Modificar</button>
                                 <button type="button" className="btn btn-primary pull-right"onClick={() => {handleSearchDelete(i)}} >Eliminar</button>
                             </li>
                     }) : <li className="list-group-item saved-items" key={"search-empty"}>

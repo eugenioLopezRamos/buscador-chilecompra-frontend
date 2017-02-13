@@ -119,9 +119,7 @@ class ModifyInputFieldsContainer extends React.PureComponent {
                                 onSubmit={this.actions.saveModifications} 
                             />
 
-                        <div className="prompt-buttons-container">
-                            <button type="button" className="btn btn-primary prompt-menu-button" onClick={this.updateSearch} >Guardar cambios</button>
-                        </div>
+
 
                     </div>        
         );

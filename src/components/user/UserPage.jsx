@@ -12,13 +12,13 @@ import userApi from '../../api/userApi';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import ModifySearchMenu from '../ModifySearchMenu.jsx';
-import ModifyInputFieldsContainer from '../ModifyInputFieldsContainer.jsx';
+import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../ResultComparer.jsx';
-
+import UpdateSearchMenu from '../UpdateSearchMenu';
 
 
 import fetchApi from '../../api/fetchApi';
@@ -40,12 +40,13 @@ class UserPage extends React.Component {
         }
 
         this.components = {
-            //TODO: probably can make this like: ModifyInputFields:{component: ModifyInputFieldsContainer, menu: ModifySearchMenu}
+            //TODO: probably can make this like: InputFields:{component: InputFieldsContainer, menu: ModifySearchMenu}
             // and then pass that object as a prop to the FullScreenPane...
-            ModifyInputFieldsContainer,
+            InputFieldsContainer,
             ModifySearchMenu,
             SearchResults,
-            ResultComparer
+            ResultComparer,
+            UpdateSearchMenu
         }
 
         this.getMenu = (component) => {
@@ -54,7 +55,7 @@ class UserPage extends React.Component {
             switch(component) {
                 case this.components.SearchResults:
                     return null;
-                case this.components.ModifyInputFieldsContainer:
+                case this.components.InputFieldsContainer:
                     return null;
                 default:
                     return null;
@@ -98,12 +99,13 @@ class UserPage extends React.Component {
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
                         componentProps: {
-                            defaults: this.props.userSearches.value[index],
-                            searchId,
-                            searchName,
-                            updateSearch: this.props.updateUserSearches
+                            defaultValues: {
+                                defaultState: this.props.userSearches.value[index]                    
+                            },
+                            saveMenu: this.components.UpdateSearchMenu,
+                            createSearches: this.props.updateUserSearches
                         },
-                        menu: this.getMenu(component)
+                      //  menu: this.getMenu(component)
                      //   menuProps: {actions: this.updateSearches()}
                     });
     }
