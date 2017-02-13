@@ -11,7 +11,7 @@ import userApi from '../../api/userApi';
 //import {noReduxGetStoredUserSubscriptions} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
-import ModifySearchMenu from '../ModifySearchMenu.jsx';
+
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
@@ -40,10 +40,7 @@ class UserPage extends React.Component {
         }
 
         this.components = {
-            //TODO: probably can make this like: InputFields:{component: InputFieldsContainer, menu: ModifySearchMenu}
-            // and then pass that object as a prop to the FullScreenPane...
             InputFieldsContainer,
-            ModifySearchMenu,
             SearchResults,
             ResultComparer,
             UpdateSearchMenu
