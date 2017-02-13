@@ -22,6 +22,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
             return newState;
 
         case types.USER_SEND_LOGIN_INFO_FAILURE:
+            console.log("ERROR", action.response);
             newState = objectAssign({},
                                     state, 
                                     {email: "", 
@@ -31,8 +32,6 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
             return newState;
 
         case types.USER_LOGOUT_SUCCESS:
-        //In this scenario we have to destroy the JWT token, but probably shouldn't be here since that'd be impure.
-        
             newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente", result: "logout-success"});
             return newState;
 
@@ -58,7 +57,7 @@ export const isAuthenticatedSetter = (state = initialState.isAuthenticated, acti
             return false;
 
         case types.USER_LOGOUT_SUCCESS:
-            return false;
+            return initialState.isAuthenticated;
 
         case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
             return state;
@@ -82,10 +81,11 @@ export const userDataSetter = (state = initialState.userData, action) => {
             return null;
 
         case types.USER_LOGOUT_SUCCESS:
-            return null;
+            return initialState.userData;
 
         case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
-            return state;
+            return initialState.isAuthenticated;
+
         case types.USER_VALIDATE_TOKEN_SUCCESS:
             return action.response.body.data;
             

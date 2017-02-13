@@ -6,10 +6,8 @@ import * as signupInputActions from '../actions/signupInputsActions';
 import * as signupResultsActions from '../actions/signupResultsActions';
 import {connect} from 'react-redux';
 
-//import InputFieldsContainer from './InputFieldsContainer.jsx';
-
 class Introduction extends React.Component {
-
+    //TODO: make this a separate file!
     signup = () => {
         let signup = null
         if(!this.props.isAuthenticated) {
@@ -27,8 +25,7 @@ class Introduction extends React.Component {
         }
         return signup;
     }
-
-
+    
     render = () => {
 
         return (
@@ -80,23 +77,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Introduction);
-
-
-// import React, { PropTypes } from 'react';
-// import { Link } from 'react-router';
- 
-// const App = ({ children }) =>
-//     <div>
-//         <h1>Filter table</h1>
-//         { children }
-//         <footer>
-//             <Link to="/">Filterable Table</Link>
-//             <Link to="/footer">About</Link>
-//         </footer>
-//     </div>;
- 
-// App.PropTypes = {
-//     children: PropTypes.object
-// }
- 
-// export default App;

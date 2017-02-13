@@ -34,7 +34,8 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
             return action.value.subscriptions;
-        
+        case types.USER_LOGOUT_SUCCESS:
+            return initialState.userSubscriptions;
 
 
 

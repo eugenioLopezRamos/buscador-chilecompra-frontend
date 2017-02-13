@@ -31,6 +31,8 @@ export const userSearchesReducer = (state = initialState.userSearches, action) =
 
         case types.USER_DELETE_SEARCHES_FAILURE:
             return objectAssign({}, state);
+        case types.USER_LOGOUT_SUCCESS:
+            return initialState.userSearches;
 
         default:
             return state;

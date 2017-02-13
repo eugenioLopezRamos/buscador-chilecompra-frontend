@@ -8,10 +8,8 @@ import {deleteUserSubscription, getUserSearches} from '../../actions/UserActions
 import {updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
 import {getResultHistory, getUserNotifications} from '../../actions/UserActions';
 import userApi from '../../api/userApi';
-//import {noReduxGetStoredUserSubscriptions} from '../../actions/UserActions';
 import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
-
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';

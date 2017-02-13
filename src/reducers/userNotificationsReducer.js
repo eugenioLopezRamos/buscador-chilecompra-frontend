@@ -12,6 +12,9 @@ export const userNotificationsReducer = (state = initialState.userNotifications,
             return objectAssign({}, state, action.value);
         case types.USER_DELETE_NOTIFICATIONS_FAILURE:
             return objectAssign({}, state);
+        case types.USER_LOGOUT_SUCCESS:
+            return initialState.userNotifications;
+            
         default:
             return state;
     }

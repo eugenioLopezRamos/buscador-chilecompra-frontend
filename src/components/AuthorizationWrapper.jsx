@@ -7,12 +7,11 @@ import {getUserSubscriptions} from '../actions/UserActions';
 import {getUserSearches} from '../actions/UserActions';
 import {getUserNotifications} from '../actions/UserActions';
 
+
 class AuthorizationWrapper extends React.Component {
     constructor(props, {store}) {
         super(props);
-      //  debugger
         this.dispatch = store.dispatch;
-        this.store = store;
         //TODO: I'm....not quite sure about the "recommendability" of this one...
 
         // Binds the actions passed in the "actions" prop from 'routes.js' to the dispatch
@@ -37,13 +36,7 @@ class AuthorizationWrapper extends React.Component {
         })()
 
         this.saveMenu = this.props.saveMenu ? this.props.saveMenu : null;
-       // debugger
         this.defaultValues = this.props.componentDefaultValues ? this.props.componentDefaultValues : null;
-        
-        
-         
-        
-        
     }
 
     // componentWillMount = () => {
@@ -59,13 +52,21 @@ class AuthorizationWrapper extends React.Component {
 
     componentWillReceiveProps = (nextProps) => {
         //fetch user's data from the server when logged in
+  
         if(!this.props.isAuthenticated || !this.props.user) {
-            if(nextProps.isAuthenticated && nextProps.user) {
-                this.props.getUserNotifications();
-                this.props.getUserSubscriptions();
-                this.props.getUserSearches();
+
+            if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
+                this.dispatch(validateToken());
+                if(nextProps.isAuthenticated && nextProps.user) {
+                    this.dispatch(getUserNotifications());
+                    this.dispatch(getUserSubscriptions());
+                    this.dispatch(getUserSearches());  
+
+                }
             }
+
         }
+       
     }
 
     render = () => {
@@ -74,7 +75,7 @@ class AuthorizationWrapper extends React.Component {
            // this.getUserInfo();
           // debugger
             return <this.props.component {...this.actions}
-                                         defaultValues={this.props.componentDefaultValues}
+                                         defaultValues={this.defaultValues}
                                          saveMenu={this.saveMenu}
                     />
         }

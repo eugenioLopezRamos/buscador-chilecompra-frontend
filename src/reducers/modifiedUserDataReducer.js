@@ -24,7 +24,6 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
         case types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION:
             return objectAssign({}, state, {passwordConfirmation: action.value});
 
-
             //THESE ARE ON LOGIN
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
 
@@ -57,6 +56,9 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
 
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
             return objectAssign({}, state, {currentPassword: ""})
+        case types.USER_LOGOUT_SUCCESS:
+            return initialState.modifiedUserData;
+
 
         default:
             return state;
