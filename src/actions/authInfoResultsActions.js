@@ -1,11 +1,9 @@
-import * as types from './actionTypes';
+import * as types from '../constants/actionTypes';
 import userAPI from '../api/userApi';
 import utils from '../utils/authUtils';
 
 
 export const loginSuccess = (response) => {
-
-
     let responseData = response.body.data;
     //token should be a hash with all of the user's info (token, user name, email, searches etc etc etc)
     return {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: responseData}
@@ -38,7 +36,6 @@ export const submitLoginInfo = () => {
         let state = {getState};
         return userAPI.sendLoginInfo(state)
                       .then(response => {
-                                    //here i can use response.headers to set the corresponding tokens to localStorage/cookie
                     
                         utils.saveToStorage(response.headers);            
                             if(response.result === "success") {

@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from '../constants/actionTypes';
 
 export const loginInputEmail = (value) => {
     return {type: types.USER_LOGIN_EMAIL_INPUT, value}
