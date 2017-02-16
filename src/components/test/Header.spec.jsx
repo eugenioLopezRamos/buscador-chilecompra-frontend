@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import CollapsibleNavBar from './CollapsibleNavBar.jsx';
+import CollapsibleNavBar from '../CollapsibleNavBar.jsx';
 import {Link} from 'react-router';
 
 const Header = (props) => {

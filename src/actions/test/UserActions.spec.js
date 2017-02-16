@@ -1,6 +1,6 @@
-import * as types from '../constants/actionTypes';
-import userApi from '../api/userApi';
-import utils from '../utils/authUtils';
+import * as types from '../../constants/actionTypes';
+import userApi from '../../api/userApi';
+import utils from '../../utils/authUtils';
 import objectAssign from 'object-assign';
 // MODIFIY USER DATA API CALLS
 

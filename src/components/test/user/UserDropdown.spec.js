@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import Notifications from './Notifications';
+import Notifications from '../../user/Notifications';
 
 const UserDropdown = (props) => {
 

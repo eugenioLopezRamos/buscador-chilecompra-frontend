@@ -1,5 +1,5 @@
 import React from 'react';
-import Flash from './Flash.jsx';
+import Flash from '../Flash.jsx';
 
 const SignupForm = (props) => {
 

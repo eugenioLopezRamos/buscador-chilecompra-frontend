@@ -1,4 +1,4 @@
-import utils from './authUtils';
+import utils from '../authUtils';
 
 export const userDataFetcher = (endpoint, method, body) => {
         let headers = utils.setHeaders();

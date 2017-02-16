@@ -1,8 +1,7 @@
     // organismosPublicos: {"1": "No hay organismos públicos disponibles en este momento"},
     // codigosLicitacion: {"1": "No hay códigos disponibles en este momento"},
-
-import * as types from '../constants/actionTypes';
-import initialState from './initialState';
+import * as types from '../../constants/actionTypes';
+import initialState from '../initialState';
 import objectAssign from 'object-assign';
 
 // export const ONLOAD_FETCH_ORG_PUB_SUCCESS = 'ONLOAD_FETCH_ORG_PUB_SUCCESS';

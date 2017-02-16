@@ -1,5 +1,5 @@
-import fetchApi from '../api/fetchApi';
-import * as types from '../constants/actionTypes';
+import fetchApi from '../../api/fetchApi';
+import * as types from '../../constants/actionTypes';
 import moment from 'moment';
 
 export const fetchChilecompraDataSuccess = (state, data) => {

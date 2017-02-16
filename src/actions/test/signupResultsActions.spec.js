@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import signup from '../api/signup';
+import * as types from '../../constants/actionTypes';
+import signup from '../../api/signup';
 
 
 export const sendSignupDataSuccess = (resp) => {

@@ -7,19 +7,19 @@ import {bindActionCreators} from  'redux';
 import * as types from '../constants/actionTypes';
 //import {createUserSearches as createSearches} from '../actions/UserActions'; //no longer used, moved to <InputFieldsContainer />
 import {createUserSubscription} from '../actions/UserActions';
-import SearchesSaver from './SearchesSaver';
-import Flash from './Flash.jsx';
-import Modal from './inputs/Modal.jsx';
+import SearchesSaver from '../SearchesSaver';
+import Flash from '../Flash.jsx';
+import Modal from '../inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
-import * as utils from '../utils/miscUtils';
+import * as utils from '../../utils/miscUtils';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
-import FullScreenPane from './FullScreenPane';
-import ObjectDetails from './ObjectDetails';
-import ResultsComparer from './ResultComparer.jsx'
+import FullScreenPane from '../FullScreenPane';
+import ObjectDetails from '../ObjectDetails';
+import ResultsComparer from '../ResultComparer.jsx'
 import * as queryActions from '../actions/SearchQueryValuesActions';
 import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
-import userApi from '../api/userApi';
-import ResultsNavigatorButtons from './ResultsNavigatorButtons';
+import userApi from '../../api/userApi';
+import ResultsNavigatorButtons from '../ResultsNavigatorButtons';
 import * as API from '../actions/fetchActions';
 
 //TODO: Chunk this container a bit more

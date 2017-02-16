@@ -1,5 +1,5 @@
 import React from 'react';
-import {RESULTS_OFFSET_AMOUNT}  from '../constants/resultsOffset';
+import {RESULTS_OFFSET_AMOUNT}  from '../../constants/resultsOffset';
 
 const ResultsNavigatorButtons = (props) => {
  

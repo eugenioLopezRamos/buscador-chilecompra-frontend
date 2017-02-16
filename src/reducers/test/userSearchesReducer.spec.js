@@ -1,6 +1,8 @@
-import initialState from './initialState';
+import * as types from '../../constants/actionTypes';
+import initialState from '../initialState';
+
 import objectAssign from 'object-assign';
-import * as types from '../constants/actionTypes';
+
 
 export const userSearchesReducer = (state = initialState.userSearches, action) => {
    // let newState = objectAssign({}, state);

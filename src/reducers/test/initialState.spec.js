@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
+import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../../constants/resultsInitialCheckboxes';
 const initialDate = Object.freeze(moment()); //otherwise redux console.logs a warning due to 
 //detecting a change in the object. I assume passing moment() reinstances the object everytime it's called.
 

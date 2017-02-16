@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '../../constants/actionTypes';
 import * as actions from '../authInfoResultsActions';
 import mockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';

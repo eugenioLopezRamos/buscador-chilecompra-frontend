@@ -1,7 +1,7 @@
 import React from 'react';
-import {getObjectPropsWithValues} from '../utils/miscUtils';
-import {deleteMessages} from '../actions/messageActions';
-import {toJSON} from '../utils/miscUtils'; // just JSON.stringify, but shorter
+import {getObjectPropsWithValues} from '../../utils/miscUtils';
+import {deleteMessages} from '../../actions/messageActions';
+import {toJSON} from '../../utils/miscUtils'; // just JSON.stringify, but shorter
 
 const Flash = (props, {store}) =>  {
 

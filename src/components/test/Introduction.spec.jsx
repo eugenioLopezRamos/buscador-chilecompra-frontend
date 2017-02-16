@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import SignupForm from './SignupForm.jsx';
+import SignupForm from '../SignupForm.jsx';
 import {bindActionCreators} from 'redux';
-import * as signupInputActions from '../actions/signupInputsActions';
-import * as signupResultsActions from '../actions/signupResultsActions';
+import * as signupInputActions from '../../actions/signupInputsActions';
+import * as signupResultsActions from '../../actions/signupResultsActions';
 import {connect} from 'react-redux';
 
 class Introduction extends React.Component {

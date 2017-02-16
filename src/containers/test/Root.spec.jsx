@@ -3,14 +3,14 @@ import { Provider } from 'react-redux';
 //import DevTools from './DevTools'; // to be installed
 import { Router } from 'react-router';
 import {connect} from 'react-redux';
-import routes from '../routes';
-import {onLoadFetchOrgPub} from '../actions/onLoadFetchOrgPub';
-import {onLoadFetchEstLic} from '../actions/onLoadFetchEstLic';
+import routes from '../../routes';
+import {onLoadFetchOrgPub} from '../../actions/onLoadFetchOrgPub';
+import {onLoadFetchEstLic} from '../../actions/onLoadFetchEstLic';
 
-import {getUserSubscriptions} from '../actions/UserActions';
-import {getUserSearches} from '../actions/UserActions';
-import {getUserNotifications} from '../actions/UserActions';
-import {validateToken} from '../actions/authInfoResultsActions';
+import {getUserSubscriptions} from '../../actions/UserActions';
+import {getUserSearches} from '../../actions/UserActions';
+import {getUserNotifications} from '../../actions/UserActions';
+import {validateToken} from '../../actions/authInfoResultsActions';
 
 class Root extends Component {
     constructor(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as utils from '../utils/miscUtils';
+import * as utils from '../../utils/miscUtils';
 import objectAssign from 'object-assign';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
 import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';

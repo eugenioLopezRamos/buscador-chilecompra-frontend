@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '../../constants/actionTypes';
 //TODO: Need to make the (value) or (event) value more consistent
 // eg autoFillerInput is (value) => {type: ...., value}
 // whereas RUTInput is (event) => {type: ..., value: event.target.value} <- inconsistent

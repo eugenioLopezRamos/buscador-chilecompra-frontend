@@ -1,19 +1,19 @@
 import { combineReducers } from 'redux';
 import {routerReducer} from 'react-router-redux';
 // import * as types from '../actions/types'; //to be created
-import searchResults from './fetchReducer';
+import searchResults from '../fetchReducer';
 
-import searchQueryValues from './searchQueryValuesReducer';
-import organismosPublicos from './onLoadFetchOrgPubReducer';
-import estadosLicitacion from './onLoadFetchEstLicReducer';
-import {displayActionsReducer as display} from './displayActionsReducer';
-import * as authenticationReducers from './authenticationActionsReducer';
-import signupReducer from './signupReducer';
-import modifiedUserDataReducer from './modifiedUserDataReducer';
-import messagesReducer from './messagesReducer';
-import {userSearchesReducer as userSearches} from './userSearchesReducer';
-import {userSubscriptionsReducer as userSubscriptions} from './userSubscriptionsReducer';
-import {userNotificationsReducer as userNotifications} from './userNotificationsReducer';
+import searchQueryValues from '../searchQueryValuesReducer';
+import organismosPublicos from '../onLoadFetchOrgPubReducer';
+import estadosLicitacion from '../onLoadFetchEstLicReducer';
+import {displayActionsReducer as display} from '../displayActionsReducer';
+import * as authenticationReducers from '../authenticationActionsReducer';
+import signupReducer from '../signupReducer';
+import modifiedUserDataReducer from '../modifiedUserDataReducer';
+import messagesReducer from '../messagesReducer';
+import {userSearchesReducer as userSearches} from '../userSearchesReducer';
+import {userSubscriptionsReducer as userSubscriptions} from '../userSubscriptionsReducer';
+import {userNotificationsReducer as userNotifications} from '../userNotificationsReducer';
 
 const rootReducer = combineReducers({
     

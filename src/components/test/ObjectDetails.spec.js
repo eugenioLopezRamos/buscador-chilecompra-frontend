@@ -1,5 +1,5 @@
 import React from 'react';
-import * as utils from '../utils/miscUtils';
+import * as utils from '../../utils/miscUtils';
 
 
 const ObjectDetails = ({objectData}) => {

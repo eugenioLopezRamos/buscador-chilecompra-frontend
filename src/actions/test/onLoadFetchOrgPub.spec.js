@@ -1,5 +1,5 @@
-import fetchApi from '../api/fetchApi';
-import * as types from '../constants/actionTypes';
+import fetchApi from '../../api/fetchApi';
+import * as types from '../../constants/actionTypes';
 
 export const onLoadFetchOrgPubSuccess = (value) => {
  // http://stackoverflow.com/questions/36787892/can-a-redux-action-affect-multiple-parts-of-the-state-tree TL;DR: yes.

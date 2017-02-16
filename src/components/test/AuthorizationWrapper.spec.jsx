@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
-import Flash from './Flash';
+import Flash from '../Flash';
 
 
 class AuthorizationWrapper extends React.Component {

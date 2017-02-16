@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {helpers} from '../helpers/inputFieldsContainerHelper';
+import {helpers} from '../../helpers/inputFieldsContainerHelper';
 //import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
-import SearchResults from './SearchResults.jsx';
-import DatePicker from './inputs/DateField.jsx';
-import SelectionField from './inputs/SelectionField.jsx';
-import AutoFillerInput from './inputs/AutoFillerInput.jsx';
-import SearchField from './inputs/SearchField.jsx';
-import SearchesSaver from './SearchesSaver';
-import Flash from './Flash.jsx';
+import SearchResults from '../SearchResults.jsx';
+import DatePicker from '../../inputs/DateField.jsx';
+import SelectionField from '../../inputs/SelectionField.jsx';
+import AutoFillerInput from '../../inputs/AutoFillerInput.jsx';
+import SearchField from '../../inputs/SearchField.jsx';
+import SearchesSaver from '../SearchesSaver';
+import Flash from '../Flash.jsx';
 import moment from 'moment';
 import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 

@@ -1,6 +1,6 @@
 
-import utils from '../utils/authUtils';
-import {userDataFetcher} from '../utils/userApiUtils';
+import utils from '../../utils/authUtils';
+import {userDataFetcher} from '../../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
