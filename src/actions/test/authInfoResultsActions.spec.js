@@ -7,7 +7,39 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import utils from '../../utils/authUtils';
 
+//http://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
+  function storageMock() {
+    let storage = {};
 
+    return {
+      setItem: function(key, value) {
+        storage[key] = value || '';
+      },
+      getItem: function(key) {
+        return key in storage ? storage[key] : null;
+      },
+      removeItem: function(key) {
+        delete storage[key];
+      },
+      get length() {
+        return Object.keys(storage).length;
+      },
+      key: function(i) {
+        let keys = Object.keys(storage);
+        return keys[i] || null;
+      },
+      clear: function(){
+        Object.keys(storage).map((key) => {
+            delete(storage[key]);
+        }) 
+      }
+    };
+  }
+if(!window.localStorage) {
+   window.localStorage = storageMock();
+}
+
+process.env.API_HOST = "http://localhost:3000";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)
@@ -73,11 +105,68 @@ describe('tests logging in and out', () => {
 
     })
 
+
+
     it('should successfully validate login tokens', () => {
 
+        let expectedResponse = {
+          "data":
+            {"id":1,
+            "email":"etc@exampleemail.com",
+            "provider":"email",
+            "uid":"etc@exampleemail.com",
+            "name":"test-user",
+            "nickname":null,
+            "image":"",
+            "created_at":"2016-12-13T12:42:17.461-03:00",
+            "updated_at":"2017-02-16T23:01:00.980-03:00"
+            }
+        }
+        let responseHeaders = {
+          "access-token": "111",
+          "uid": "user-test",
+          "client": "53k1237",
+          "expiry": "1500000000",
+          "content-type": "application/json"
+        };
+        let expectedHeaders = {
+          "access-token":"111",
+          "uid":"user-test",
+          "client":"53k1237",
+          "content-type": "application/json",
+          "expiry":"1500000000"
+        }
 
+        const expectedActionsValidateToken = [
+          {
+            type: types.USER_VALIDATE_TOKEN_SUCCESS,
+            response:{
+              headers: responseHeaders,
+              body: expectedResponse,
+              result: "success"
+            }
+          }
+        ];
+        nock("http://localhost:3000")
+          .get('/api/auth/validate_token?access-token=111&uid=user-test&client=53k1237') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
+          .reply(200, expectedResponse, expectedHeaders)
 
+        const store = mockStore();
+        //mock token mocks the localStorage token
+        const mockToken = {
+          "access-token": "111",
+          "uid": "user-test",
+          "client": "53k1237",
+          "expiry": "1500000000"
+        }
 
+        window.localStorage.setItem("session", JSON.stringify(mockToken));
+
+        return store.dispatch(actions.validateToken())
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActionsValidateToken)
+          })
+        window.localStorage.clear();
     })
 
     it('should unsuccessfully validate login tokens', () => {

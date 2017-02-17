@@ -7,8 +7,8 @@ class userApi {
         
     }
         
-    static sendLoginInfo(login_data, baseUrl) {
-        return fetch(`${baseUrl}/api/auth/sign_in`, {
+    static sendLoginInfo(login_data) {
+        return fetch(`${process.env.API_HOST}/api/auth/sign_in`, {
             headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
@@ -33,22 +33,19 @@ class userApi {
                 });
     }
 
-    static requestTokenValidation() {
+    static requestTokenValidation(mockToken) {
 
-            let query = utils.setQueryParams();
+            let query = utils.setQueryParams(mockToken);
             return fetch(`${process.env.API_HOST}/api/auth/validate_token?${query}`)
-                        .then(response => {
-                            if(response.status >= 200 && response.status < 300) {
-                                return this.receiveNewAuthData(response);
-                            }
-                            })
-                        .catch(error => {return error});
+                .catch(error => error)
+
+                       // .catch(error => {return error});
     }
 
-    static sendLogoutInfo(url) {
+    static sendLogoutInfo() {
 
         let headers = utils.setHeaders();
-        return fetch(`${url}/api/auth/sign_out`, {
+        return fetch(`${process.env.API_HOST}/api/auth/sign_out`, {
             headers: headers,
             body: "", 
             method: "DELETE"

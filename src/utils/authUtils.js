@@ -1,35 +1,4 @@
-//http://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  function storageMock() {
-    let storage = {};
 
-    return {
-      setItem: function(key, value) {
-        storage[key] = value || '';
-      },
-      getItem: function(key) {
-        return key in storage ? storage[key] : null;
-      },
-      removeItem: function(key) {
-        delete storage[key];
-      },
-      get length() {
-        return Object.keys(storage).length;
-      },
-      key: function(i) {
-        let keys = Object.keys(storage);
-        return keys[i] || null;
-      },
-      clear: function(){
-        Object.keys(storage).map((key) => {
-            delete(storage[key]);
-        }) 
-      }
-    };
-  }
-
-if(!window.localStorage) {
-    window.localStorage = storageMock();
-}
 
 let utils = {
         
@@ -60,7 +29,7 @@ let utils = {
 
 
         getCredsFromStorage: () => {
-
+   
             return JSON.parse(localStorage.getItem("session"));
         },
 
@@ -110,7 +79,9 @@ let utils = {
                 Object.keys(response.headers._headers).map(key => {
                     headers.push([key, response.headers._headers[key]])
                 })
-            } else {
+
+            } 
+            else {
                 let value;
                 for (value of response.headers.entries()) {
                     headers.push(value);
@@ -122,7 +93,7 @@ let utils = {
             //transform the headers from array of arrays into POJO
             let parsedHeader = headers.reduce((prev, curr) => {
 
-                prev[curr[0]] = curr[1];
+                prev[curr[0]] = curr[1].join("");
                 return prev;
             }, new Object); 
             return parsedHeader;

@@ -30,12 +30,12 @@ export const logoutFailure = (response) => {
     return {type: types.USER_LOGOUT_FAILURE, response}
 }
 
-export const submitLoginInfo = (login_data, altUrl) => {
+export const submitLoginInfo = (login_data) => {
     // login_data = {email,password};
-    let url = altUrl || process.env.API_HOST;
+ 
     return (dispatch) => {
       
-        return userAPI.sendLoginInfo(login_data, url)
+        return userAPI.sendLoginInfo(login_data)
                     .then(response => {
                         //this got moved from userApi
                             return userAPI.receiveNewAuthData(response);
@@ -56,9 +56,17 @@ export const submitLoginInfo = (login_data, altUrl) => {
 
 }
 
-export const validateToken = () => {
+export const validateToken = (mockToken) => {
+    
     return dispatch => {
-        return userAPI.requestTokenValidation()
+        let mock = mockToken;
+        return userAPI.requestTokenValidation(mock)
+            .then(response => {
+
+                            if(response.status >= 200 && response.status < 300) {
+                                return userAPI.receiveNewAuthData(response);
+                            }
+                            })
             .then(response => {
                 utils.saveToStorage(response.headers);
                 
@@ -69,15 +77,14 @@ export const validateToken = () => {
                     dispatch(validateTokenFailure("failure"));
                 }
             })
-            .catch(error => {dispatch(validateTokenFailure(error))})
+          //  .catch(error => {dispatch(validateTokenFailure(error))})
     }
 }
 
-export const sendLogoutInfo = (hostUrl) => {
+export const sendLogoutInfo = () => {
 
-    let url = hostUrl || process.env.API_HOST;
     return dispatch => {
-        return userAPI.sendLogoutInfo(url)
+        return userAPI.sendLogoutInfo()
         .then(response => {
              if(response.status >= 200 && response.status < 300) {
                  utils.clearStorage();
