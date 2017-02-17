@@ -232,15 +232,24 @@ describe('Tests logging in and out unsuccessfully', () => {
   })
 
   it('should validate user tokens unsuccessfully', () => {
+      const mockHeader = {
+          "access-token": "111",
+          "uid": "user-test",
+          "client": "53k1237",
+          "expiry": "1500000000"
+      }    
 
     nock("http://localhost:3000")
       .get('/api/auth/validate_token?access-token=111&uid=user-test&client=53k1237') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
-      .reply(401, {message: "Unauthorized"})
+      .reply(401, {error: "failure"}, mockHeader)
 
     const store = mockStore();
+    const expectedActions = [{type: types.USER_VALIDATE_TOKEN_FAILURE, response: {error: "failure"}}]
 
-
-
+        return store.dispatch(actions.validateToken())
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+          })
 
   })
 

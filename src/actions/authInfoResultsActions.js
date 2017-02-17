@@ -22,7 +22,7 @@ export const validateTokenSuccess = (response) => {
 }
 
 export const validateTokenFailure = (error) => {
-    return {type: types.USER_VALIDATE_TOKEN_FAILURE, error}
+    return {type: types.USER_VALIDATE_TOKEN_FAILURE, response: {error}}
 }
 export const logoutSuccess = (response) => {
     return {type: types.USER_LOGOUT_SUCCESS, response}
@@ -67,6 +67,7 @@ export const validateToken = (mockToken) => {
                             if(response && response.status >= 200 && response.status < 300) {
                                 return userAPI.receiveNewAuthData(response);
                             }
+                            return response;
                             })
             .then(response => {
                 utils.saveToStorage(response.headers);
