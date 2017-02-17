@@ -23,7 +23,7 @@ class userApi {
     //    console.log("receive data", response)
         let headers = utils.headerToObject(response);
         let result = "failure";
-        if (response.status >= 200 && response.status < 300) {
+        if (response && response.status >= 200 && response.status < 300) {
             result = "success";
         }
             
@@ -51,9 +51,9 @@ class userApi {
             method: "DELETE"
             })
             .then(response => {
-                if(response.status >= 200 && response.status < 300) {
+             //   if(response && response.status >= 200 && response.status < 300) {
                     return response;
-                }
+              //  }
                 })
             .catch(error => {return error});
     }
@@ -68,7 +68,7 @@ class userApi {
             method: "PUT"
         })
         .then(response => {
-            if(response.status >= 200 && response.status < 300) {
+            if(response && response.status >= 200 && response.status < 300) {
                 return response;
             }else {
                 throw response.json();

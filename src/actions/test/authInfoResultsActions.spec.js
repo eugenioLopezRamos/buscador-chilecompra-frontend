@@ -35,23 +35,23 @@ import utils from '../../utils/authUtils';
       }
     };
   }
+// Mocks localStorage
 if(!window.localStorage) {
    window.localStorage = storageMock();
 }
-
+// Mocks dev env process.env.API_HOST
 process.env.API_HOST = "http://localhost:3000";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)
 
-describe('tests logging in and out', () => {
+describe('tests logging in and out successfully', () => {
   
     afterEach(() => {
       nock.cleanAll()
     })
 
-
-    it("should log the user in", () => {
+    it("should log the user in successfully", () => {
 
       let expectedResponse = {
         "data":
@@ -67,8 +67,7 @@ describe('tests logging in and out', () => {
           }
       }
 
-
-      const expectedActionsLogin = [{type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse }]
+      const expectedActionsLogin = [{type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse}]
       const store = mockStore()
 
       let responseHeaders = {
@@ -82,14 +81,14 @@ describe('tests logging in and out', () => {
         .post('/api/auth/sign_in', {password: "password", email:"etc@etc.com"})
         .reply(200, {data: expectedResponse}, responseHeaders)
 
-        return store.dispatch(actions.submitLoginInfo({password: "password", email: "etc@etc.com"}, "http://localhost:3000"))
+        return store.dispatch(actions.submitLoginInfo({password: "password", email: "etc@etc.com"}))
           .then(() => {
             expect(store.getActions()).toEqual(expectedActionsLogin);
           })
     })
 
 
-    it('should log the user out', () => {
+    it('should log the user out successfully', () => {
 
       nock("http://localhost:3000")
         .delete('/api/auth/sign_out') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
@@ -98,16 +97,14 @@ describe('tests logging in and out', () => {
         const expectedActionsLogout = [{type: types.USER_LOGOUT_SUCCESS, response: {success: true}}];
         const store = mockStore();
 
-        return store.dispatch(actions.sendLogoutInfo("http://localhost:3000"))
+        return store.dispatch(actions.sendLogoutInfo())
           .then(() => {
             expect(store.getActions()).toEqual(expectedActionsLogout)
           })
 
     })
 
-
-
-    it('should successfully validate login tokens', () => {
+    it('should validate login tokens successfully', () => {
 
         let expectedResponse = {
           "data":
@@ -169,12 +166,89 @@ describe('tests logging in and out', () => {
         window.localStorage.clear();
     })
 
-    it('should unsuccessfully validate login tokens', () => {
+});
 
 
-
-
-
+describe('Tests logging in and out unsuccessfully', () => {
+    afterEach(() => {
+      nock.cleanAll()
     })
 
-})
+  it('should log the user in unsuccessfully', () => {
+
+      nock("http://localhost:3000/")
+        .post('/api/auth/sign_in', {password: "passwordx", email:"etc@etc.com"})
+        .reply(401,{"errors":["Invalid login credentials. Please try again."]})
+
+      const store = mockStore();
+      const expectedActionsLogin = [
+        {
+          type: types.USER_SEND_LOGIN_INFO_FAILURE,
+          response: {
+            body: {"errors":["Invalid login credentials. Please try again."]},
+            headers: {"content-type": "application/json"},
+            result: "failure"
+          }
+        }
+      ];
+
+      return store.dispatch(actions.submitLoginInfo({password: "passwordx", email: "etc@etc.com"}))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActionsLogin);
+        })
+      
+  })
+
+  it('should log the user out unsuccessfully', () => {
+
+      //TODO: translate the error message
+      nock("http://localhost:3000")
+        .delete('/api/auth/sign_out') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
+        .reply(404, {errors: ["User was not found or was not logged in."]})
+
+
+      const store = mockStore();
+      const expectedActionsLogout = [
+        {
+          type: types.USER_LOGOUT_FAILURE,
+          response: {errors: ["User was not found or was not logged in."]}
+        }
+      ];
+
+      const mockToken = {
+          "access-token": "111",
+          "uid": "user-test",
+          "client": "53k1237",
+          "expiry": "1500000000"
+      }     
+
+      window.localStorage.setItem("session", JSON.stringify(mockToken));
+        return store.dispatch(actions.sendLogoutInfo())
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActionsLogout)
+          })
+
+
+  })
+
+  it('should validate user tokens unsuccessfully', () => {
+
+    nock("http://localhost:3000")
+      .get('/api/auth/validate_token?access-token=111&uid=user-test&client=53k1237') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
+      .reply(401, {message: "Unauthorized"})
+
+    const store = mockStore();
+
+
+
+
+  })
+
+
+
+
+
+
+
+
+});
