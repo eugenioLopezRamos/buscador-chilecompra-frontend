@@ -21,6 +21,15 @@ class CollapsibleNavBar extends React.Component {
         this.props.displayActions.toggleNavbarDisplay();
     }
 
+    handleLogin = () => {
+        let data = {
+                    email: this.props.loginData.email,
+                    password: this.props.loginData.password
+        }
+        this.props.authInfoResultsActions.submitLoginInfo(data)
+
+    }
+
     dropdown = () => {
         //sets a default button
         let button = <button type="button" className="btn navbar-toggle"  data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
@@ -48,7 +57,7 @@ class CollapsibleNavBar extends React.Component {
         let menu = <Login loginData={this.props.loginData} 
                         handleChangeEmail={this.props.authInfoInputsActions.loginInputEmail}
                         handleChangePassword={this.props.authInfoInputsActions.loginInputPassword}
-                        handleClickSubmit={this.props.authInfoResultsActions.submitLoginInfo} 
+                        handleClickSubmit={this.handleLogin} 
                     />
         //changes to the user menu if authenticated
   

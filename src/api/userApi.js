@@ -1,4 +1,4 @@
-
+import fetch from 'isomorphic-fetch'
 import utils from '../utils/authUtils';
 import {userDataFetcher} from '../utils/userApiUtils';
 
@@ -7,24 +7,30 @@ class userApi {
         
     }
         
-    static sendLoginInfo(state) {
-        let login_data = {
-                            email: state.getState().loginData.email,
-                            password: state.getState().loginData.password
-                        };
-
-        return fetch(`${process.env.API_HOST}/api/auth/sign_in`, {
+    static sendLoginInfo(login_data, baseUrl) {
+        return fetch(`${baseUrl}/api/auth/sign_in`, {
             headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
             },
             body: JSON.stringify(login_data),
             method: "POST"
-        }).then(response => {
+        })
+          .catch(error => {return error});
+    }
+
+    static receiveNewAuthData(response) {
+    //    console.log("receive data", response)
+        let headers = utils.headerToObject(response);
+        let result = "failure";
+        if (response.status >= 200 && response.status < 300) {
+            result = "success";
+        }
             
-                return this.receiveNewAuthData(response);
-            })
-          .catch(error => {return error.json()});
+        return response.json()
+                .then(response => {
+                    return {headers, body: response, result}
+                });
     }
 
     static requestTokenValidation() {
@@ -55,21 +61,6 @@ class userApi {
             .catch(error => {return error});
     }
 
-
-    static receiveNewAuthData(response) {
-
-        let headers = utils.headerToObject(response);
-        let result = "failure";
-        if (response.status >= 200 && response.status < 300) {
-            result = "success";
-        }
-
-        return response.json()
-                .then(response => {
-
-                    return {headers, body: response, result}
-                });
-    }
 
     static updateUserInfo(body) {
         let reqBody = JSON.stringify(body);

@@ -1,7 +1,9 @@
  
 let utils = {
         
-        saveToStorage: (header) => {
+        saveToStorage: (header, mockLocalStorage) => {
+            let localStorage = mockLocalStorage || window.localStorage;
+
             if(!header["access-token"] || !header["uid"] || !header["client"] || !header["expiry"]) {
                 // all of these headers must exist, otherwise if we refresh the localStorage the app will logout client side but not server side
                 // These properties not existing happens because devise_token_auth has a default setting of minimum 5 seconds between token change
@@ -69,12 +71,26 @@ let utils = {
 
 
         headerToObject: (response) => {
+          
             let headers = [];
             //this gives us headers as an array of the header's key:value pairs as an array => [key, value]
             // the end result is thus: headers === [[key1, value1], [key2, value2]..., [keyN, valueN]]
-            for (var value of response.headers.entries()) {
-                headers.push(value);
+
+            // the Headers "polyfill" for node (node-modules/node-fetch/lib/headers.js) doesnt have Headers.prototype.entries() :/
+            if(!response.headers.entries) {
+
+                Object.keys(response.headers).map(key => {
+                    headers.push([key, response.headers[key]])
+                })
+
+            } else {
+                for (var value of response.headers.entries()) {
+                    headers.push(value);
+                }
+
             }
+
+
             //transform the headers from array of arrays into POJO
             let parsedHeader = headers.reduce((prev, curr) => {
 

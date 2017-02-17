@@ -30,14 +30,21 @@ export const logoutFailure = (response) => {
     return {type: types.USER_LOGOUT_FAILURE, response}
 }
 
-export const submitLoginInfo = () => {
-
-    return (dispatch, getState) => {
-        let state = {getState};
-        return userAPI.sendLoginInfo(state)
+export const submitLoginInfo = (login_data, altUrl) => {
+    // login_data = {email,password};
+    let url = altUrl || process.env.API_HOST;
+    return (dispatch) => {
+      
+        return userAPI.sendLoginInfo(login_data, url)
+                    .then(response => {
+                        //this got moved from userApi
+                            return userAPI.receiveNewAuthData(response);
+                        })
                       .then(response => {
-                    
-                        utils.saveToStorage(response.headers);            
+                          //console.log("THEN userAPI", response)
+                       // console.log("resp after sendLoginInfo", response)
+                        utils.saveToStorage(response.headers);   
+                                 
                             if(response.result === "success") {
                                 dispatch(loginSuccess(response));
                             }else {
@@ -46,7 +53,7 @@ export const submitLoginInfo = () => {
                                 dispatch(loginFailure(response));
                             }
                         })
-                      .catch(error => { dispatch(loginFailure(error)) }); 
+                      //.catch(error => { dispatch(loginFailure(error)) }); 
     };
 
 }

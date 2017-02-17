@@ -38,13 +38,13 @@ class fetchApi {
     }
 
     static getOrganismosPublicos() {
-        return fetch("/api/get_misc_info?info=organismos_publicos")
+        return fetch("http://localhost:3000/api/get_misc_info?info=organismos_publicos")
         .then(function(response) { return response.json() })
         .catch( error => { return error } )    
     }
 
     static getEstadosLicitacion() {
-        return fetch("/api/get_misc_info?info=estados_licitacion")
+        return fetch("http://localhost:3000/api/get_misc_info?info=estados_licitacion")
         .then(function(response) { return response.json() })
         .catch( error => { return error } )   
     }
