@@ -7,32 +7,17 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import utils from '../../utils/authUtils';
 
-import fetchApi from '../../api/fetchApi';
-import {onLoadFetchEstLic} from '../onLoadFetchEstLic'; 
+
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)
 
-describe('test', () => {
+describe('tests logging in and out', () => {
   
     afterEach(() => {
       nock.cleanAll()
     })
-    it('should work', () => {
-    const expectedAction = [{type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value: {"1": "Hello world!"} }]
 
-    const store = mockStore({isAuthenticated: false, userData: null})
-    nock("http://localhost:3000/")
-        .get('/api/get_misc_info?info=estados_licitacion')
-        .reply(200, {"1": "Hello world!"})
-   
-    return store.dispatch(onLoadFetchEstLic())
-                .then(() => {
-              
-                  // utils.saveToStorage(response.headers, storageMock); 
-                  expect(store.getActions()).toEqual(expectedAction)
-                })
-    })
 
     it("should log the user in", () => {
 
@@ -51,26 +36,56 @@ describe('test', () => {
       }
 
 
-      const expectedAction = [{type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse }]
-      const store = mockStore({isAuthenticated: false, userData: null})
+      const expectedActionsLogin = [{type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse }]
+      const store = mockStore()
 
-      let responseHeaders = new Headers();
-
-      responseHeaders.append("access-token", "111");
-      responseHeaders.append("uid", "user-test");
-      responseHeaders.append("client", "53k1237");
-      responseHeaders.append("expiry", "1500000000"); 
+      let responseHeaders = {
+        "access-token": "111",
+        "uid": "user-test",
+        "client": "53k1237",
+        "expiry": "1500000000"
+      };
 
       nock("http://localhost:3000/")
-        .post('/api/auth/sign_in', {password: "password", email:"etc@etc.com"}, {"access-token": "111", "uid": "user-1", "client": "53k1237", "expiry": "1500000000"})
+        .post('/api/auth/sign_in', {password: "password", email:"etc@etc.com"})
         .reply(200, {data: expectedResponse}, responseHeaders)
 
         return store.dispatch(actions.submitLoginInfo({password: "password", email: "etc@etc.com"}, "http://localhost:3000"))
           .then(() => {
-
-            expect(store.getActions()).toEqual(expectedAction);
-
+            expect(store.getActions()).toEqual(expectedActionsLogin);
           })
+    })
+
+
+    it('should log the user out', () => {
+
+      nock("http://localhost:3000")
+        .delete('/api/auth/sign_out') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
+        .reply(200, {success: true})
+
+        const expectedActionsLogout = [{type: types.USER_LOGOUT_SUCCESS, response: {success: true}}];
+        const store = mockStore();
+
+        return store.dispatch(actions.sendLogoutInfo("http://localhost:3000"))
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActionsLogout)
+          })
+
+    })
+
+    it('should successfully validate login tokens', () => {
+
+
+
+
+    })
+
+    it('should unsuccessfully validate login tokens', () => {
+
+
+
+
+
     })
 
 })

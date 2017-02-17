@@ -45,10 +45,10 @@ class userApi {
                         .catch(error => {return error});
     }
 
-    static sendLogoutInfo() {
+    static sendLogoutInfo(url) {
 
         let headers = utils.setHeaders();
-        return fetch(`${process.env.API_HOST}/api/auth/sign_out`, {
+        return fetch(`${url}/api/auth/sign_out`, {
             headers: headers,
             body: "", 
             method: "DELETE"

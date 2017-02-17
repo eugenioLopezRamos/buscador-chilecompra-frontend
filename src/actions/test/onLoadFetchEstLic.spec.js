@@ -1,19 +1,31 @@
+import fetch from 'isomorphic-fetch'
 import fetchApi from '../../api/fetchApi';
 import * as types from '../../constants/actionTypes';
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk';
+import nock from 'nock';
+import {onLoadFetchEstLic} from '../onLoadFetchEstLic'; 
+import utils from '../../utils/authUtils';
 
-export const onLoadFetchEstLicSuccess = (value) => {
-    return { type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value }
-}
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares)
+describe('it gets the Estados Licitacion from the server', () => {
+  
+    afterEach(() => {
+      nock.cleanAll()
+    })
 
-export const onLoadFetchEstLic = () => {
-    return (dispatch) => {
-        return fetchApi.getEstadosLicitacion()
-        .then( orgs => {
-            dispatch(onLoadFetchEstLicSuccess(orgs))
-        })
-        .catch(error => {throw error })
-    }
-}
+    it('Should get the response from the serverw with the estados licitacion', () => {
+    const expectedAction = [{type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value: {"1": "Estado Licitacion ejemplo"} }]
+    const store = mockStore({})
 
-
-
+    nock("http://localhost:3000/")
+        .get('/api/get_misc_info?info=estados_licitacion')
+        .reply(200, {"1": "Estado Licitacion ejemplo"})
+   
+    return store.dispatch(onLoadFetchEstLic())
+                .then(() => {
+                  expect(store.getActions()).toEqual(expectedAction)
+                })
+    })
+})

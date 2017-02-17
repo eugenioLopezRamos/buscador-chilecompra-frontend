@@ -41,8 +41,6 @@ export const submitLoginInfo = (login_data, altUrl) => {
                             return userAPI.receiveNewAuthData(response);
                         })
                       .then(response => {
-                          //console.log("THEN userAPI", response)
-                       // console.log("resp after sendLoginInfo", response)
                         utils.saveToStorage(response.headers);   
                                  
                             if(response.result === "success") {
@@ -75,18 +73,25 @@ export const validateToken = () => {
     }
 }
 
-export const sendLogoutInfo = () => {
+export const sendLogoutInfo = (hostUrl) => {
+
+    let url = hostUrl || process.env.API_HOST;
     return dispatch => {
-        return userAPI.sendLogoutInfo()
+        return userAPI.sendLogoutInfo(url)
         .then(response => {
              if(response.status >= 200 && response.status < 300) {
                  utils.clearStorage();
-                 return dispatch(logoutSuccess(response));
+                 return response.json().then(response => {
+                     dispatch(logoutSuccess(response)) 
+                });
+
              }else {
-                 return dispatch(logoutFailure(response));
+                return response.json().then(response => {
+                    dispatch(logoutFailure(response));
+                });
              }
             })
-            .catch(response => {dispatch(logoutFailure(response))});
+            .catch(error => {dispatch(logoutFailure(error))});
                
     }
 }
