@@ -17,7 +17,7 @@ const mockStore = configureMockStore(middlewares);
 describe('Tests chilecompra result fetcher', () => {
     
     it('should get chilecompra data from the backend successfully', () => {
-        
+   
         const requestBody = {
             codigoLicitacion: "",
             startDate: "2017-02-19T22:26:09.832Z",
@@ -39,11 +39,11 @@ describe('Tests chilecompra result fetcher', () => {
 
         nock("http://localhost:3000")
             .post('/api/get_info')
-            .reply(200, {data: expectedResponse});
+            .reply(200, expectedResponse);
 
         let expectedActions = [{
             type: types.FETCH_CHILECOMPRA_DATA_SUCCESS,
-            data: {data: expectedResponse},
+            data: expectedResponse,
             query: requestBody
         }]
 
