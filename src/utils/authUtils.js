@@ -67,7 +67,6 @@ let utils = {
 
         },
 
-
         headerToObject: (response) => {
             let headers = [];
             //this gives us headers as an array of the header's key:value pairs as an array => [key, value]
@@ -77,28 +76,23 @@ let utils = {
             if(!response.headers.entries) {
                 //Object.entries is more succint, but needs polyfills for IE/Safari, so using Object.keys instead
                 Object.keys(response.headers._headers).map(key => {
-                    headers.push([key, response.headers._headers[key]])
+                    headers.push([key, response.headers._headers[key].join("")])
                 })
-
             } 
             else {
                 let value;
                 for (value of response.headers.entries()) {
                     headers.push(value);
                 }
-
             }
-
-
             //transform the headers from array of arrays into POJO
             let parsedHeader = headers.reduce((prev, curr) => {
 
-                prev[curr[0]] = curr[1].join("");
+                prev[curr[0]] = curr[1];
                 return prev;
             }, new Object); 
             return parsedHeader;
         }
-
  }
 
  export default utils;

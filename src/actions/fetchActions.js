@@ -3,6 +3,8 @@ import * as types from '../constants/actionTypes';
 import moment from 'moment';
 
 export const fetchChilecompraDataSuccess = (state, data) => {
+
+    console.log("data", data, "uery", state);
     return {type:types.FETCH_CHILECOMPRA_DATA_SUCCESS, data, query: state};
 }; 
 export const fetchChilecompraDataFailure = (state, data) => {

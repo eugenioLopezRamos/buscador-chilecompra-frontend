@@ -119,14 +119,14 @@ describe('tests logging in and out successfully', () => {
             "updated_at":"2017-02-16T23:01:00.980-03:00"
             }
         }
-        let responseHeaders = {
-          "access-token": "111",
-          "uid": "user-test",
-          "client": "53k1237",
-          "expiry": "1500000000",
-          "content-type": "application/json"
+        const responseHeaders = {
+          "access-token":"111",
+          "uid":"user-test",
+          "client":"53k1237",
+          "expiry":"1500000000",
+          "content-type":"application/json"
         };
-        let expectedHeaders = {
+        const expectedHeaders = {
           "access-token":"111",
           "uid":"user-test",
           "client":"53k1237",
@@ -186,7 +186,7 @@ describe('Tests logging in and out unsuccessfully', () => {
           type: types.USER_SEND_LOGIN_INFO_FAILURE,
           response: {
             body: {"errors":["Invalid login credentials. Please try again."]},
-            headers: {"content-type": "application/json"},
+            headers: {"content-type":"application/json"},
             result: "failure"
           }
         }
