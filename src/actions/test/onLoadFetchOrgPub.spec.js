@@ -43,7 +43,31 @@ describe('Fetches Organismos Publicos from the backend', () => {
     })
 
     it('should unsuccessfully fetch a list of organismos publicos from the backend', () => {
+        //TODO: This shouldn't get put into the organismosPublicos store...
+
+        //This assumes that "organismos_publicos becomes an unpermitted param on the backend"
+        const expectedResponse = {
+                "message":{"errors":"Parametros invalidos"} 
+        }
+        const expectedValue = [
+            {"*": "Todos"},
+            expectedResponse
+        ]
         
+        const expectedActions = [
+            {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: expectedValue}
+        ]
+
+        const store = mockStore();
+
+        nock("http://localhost:3000")
+            .get('/api/get_misc_info?info=organismos_publicos')
+            .reply(200, expectedResponse)
+
+        return store.dispatch(onLoadFetchOrgPub())
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+          });
 
 
     })
