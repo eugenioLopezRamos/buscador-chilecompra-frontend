@@ -1,9 +1,12 @@
 import * as types from '../../constants/actionTypes';
+import * as actions from '../messageActions';
 
-export const deleteMessages = () => {
-    return {type: types.MESSAGES_DELETE_MESSAGES }
-}
+describe('Tests messages actions', () => {
 
-// const addMessages = (value) => {
-//     return {type... etc}
-// } 
+    it('should delete messages from a Flash', () => {
+        let action = actions.deleteMessages();
+        expect({type: types.MESSAGES_DELETE_MESSAGES }).toEqual(action);
+    })
+
+})
+

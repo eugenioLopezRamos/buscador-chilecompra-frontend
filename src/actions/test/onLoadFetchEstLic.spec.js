@@ -1,11 +1,8 @@
-import fetch from 'isomorphic-fetch'
-import fetchApi from '../../api/fetchApi';
 import * as types from '../../constants/actionTypes';
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import {onLoadFetchEstLic} from '../onLoadFetchEstLic'; 
-import utils from '../../utils/authUtils';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)

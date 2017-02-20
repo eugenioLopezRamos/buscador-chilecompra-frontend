@@ -15,7 +15,10 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Tests chilecompra result fetcher', () => {
-    
+    afterEach(() => {
+        nock.cleanAll()
+    });
+
     it('should get chilecompra data from the backend successfully', () => {
    
         const requestBody = {
@@ -54,36 +57,39 @@ describe('Tests chilecompra result fetcher', () => {
             expect(store.getActions()).toEqual(expectedActions)
           })
 
-    })
+    });
 
-    // it('should get chilecompra data from the backend unsuccessfully', () => {
+    it('should get chilecompra data from the backend unsuccessfully', () => {
+        //TODO: This one should return FETCH_CHILECOMPRA_DATA_FAILURE and
+        //put an error message on a flash
 
+        const requestBody = {
+            totally_not_valid_field: "randomValue"
+        }
 
+        const expectedResponse = {
+            error: "Internal Server Error",
+            exception: "#<ActionController::UnpermittedParameters: found unpermitted parameter: totally_not_valid_field>",
+            status: 500,
+            traces: "trace goes here"
+        }
+        
+        nock("http://localhost:3000")
+            .post('/api/get_info')
+            .reply(200, expectedResponse);
 
+        let expectedActions = [{
+            type: types.FETCH_CHILECOMPRA_DATA_SUCCESS,
+            data: expectedResponse,
+            query: requestBody
+        }]
 
-    // })
+        const store = mockStore();
 
+        return store.dispatch(actions.loadChilecompraData(requestBody))
+          .then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+          })
 
+    });
 })
-// export const fetchChilecompraDataSuccess = (state, data) => {
-//     return {type:types.FETCH_CHILECOMPRA_DATA_SUCCESS, data, query: state};
-// }; 
-// export const fetchChilecompraDataFailure = (state, data) => {
-//     return {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, data, query: state}
-// }
-
-// export const loadChilecompraData = (state) => {
-
-//     return function(dispatch) {
-
-//         return fetchApi.getChileCompraData(state)
-//             .then(data => {dispatch(fetchChilecompraDataSuccess(state, data));})
-//             .catch( error => {dispatch(fetchChilecompraDataFailure(state, error));} );
-//     };  
-// };
-
-// export const shortLoadChilecompraData = (data) => {
-//       return function(dispatch) {
-//         return fetchApi.getChileCompraData(data);
-//     };  
-// }
