@@ -1,11 +1,8 @@
-import fetch from 'isomorphic-fetch'
 import * as types from '../../constants/actionTypes';
 import * as actions from '../authInfoResultsActions';
-import userApi from '../../api/userApi';
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import utils from '../../utils/authUtils';
 
 //http://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
   function storageMock() {

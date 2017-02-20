@@ -7,6 +7,7 @@ export const sendSignupDataSuccess = (resp) => {
 };
 
 export const sendSignupDataFailure = (resp) => {
+
     let errorsToString = Object.keys(resp.errors).map(key => {
         return `${key} ${resp.errors[key]}`;
     }).join(' \n ');
@@ -14,10 +15,10 @@ export const sendSignupDataFailure = (resp) => {
     return {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: errorsToString, value: resp.status};
 };
 
-export const sendSignupData = () => {
-    return function(dispatch, getState){
-        const state = {getState};
-        return signup.sendSignupInfo(state)
+export const sendSignupData = (signupInfo) => {
+    return function(dispatch){
+        
+        return signup.sendSignupInfo(signupInfo)
                       .then(response => { 
                         if(response.status === "success") {
                             dispatch(sendSignupDataSuccess(response));

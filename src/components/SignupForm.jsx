@@ -2,6 +2,7 @@ import React from 'react';
 import Flash from './Flash.jsx';
 
 const SignupForm = (props) => {
+    //TODO: If password != password_confirmation, give a warning and dont send info to backend
 
     const handleChangeName = (event) => {
         props.inputActions.signupInputsName(event.target.value);
@@ -17,7 +18,8 @@ const SignupForm = (props) => {
     }
 
     const handleClick = (event) => {
-        props.resultsActions.sendSignupData();
+        console.log("props signupinfo", props.signupInfo);
+        props.resultsActions.sendSignupData(props.signupInfo);
     }
 
     const handleSubmit = (event) => {

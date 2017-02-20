@@ -1,16 +1,20 @@
-class signup {
-    static sendSignupInfo(state) {
+import fetch from 'isomorphic-fetch';
 
-        let signup_data = state.getState().signup.info;
+class signup {
+    static sendSignupInfo(signup_info) {
+        
         return fetch(`${process.env.API_HOST}/api/auth/`, {
             headers: {
                 'Content-Type': "application/json",
                 'Accept': "application/json"
             },
-            body: JSON.stringify({name: signup_data.name, email: signup_data.email, password: signup_data.password, password_confirmation: signup_data.password_confirmation}),
+            body: JSON.stringify({name: signup_info.name,
+                                  email: signup_info.email,
+                                  password: signup_info.password,
+                                  password_confirmation: signup_info.password_confirmation}),
             method: "POST"
         }).then(response => {return response.json()})
-          .catch(error => {return error.json()});
+          .catch(error => {return error});
     }
 }
 export default signup;

@@ -6,6 +6,10 @@ import * as signupInputActions from '../actions/signupInputsActions';
 import * as signupResultsActions from '../actions/signupResultsActions';
 import {connect} from 'react-redux';
 
+
+//TODO: Should should a Flash when successfully signed up!
+
+
 class Introduction extends React.Component {
     //TODO: make this a separate file!
     signup = () => {

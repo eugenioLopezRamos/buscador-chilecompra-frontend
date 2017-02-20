@@ -16,7 +16,6 @@ import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
 import ResultsComparer from './ResultComparer.jsx'
-import * as queryActions from '../actions/SearchQueryValuesActions';
 import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
 import userApi from '../api/userApi';
 import ResultsNavigatorButtons from './ResultsNavigatorButtons';
@@ -231,7 +230,7 @@ class SearchResults extends React.PureComponent {
                     // if(this.props.results.count <= 200) {
                     //   //  alert("menor q 200");
                     //     let results = this.props.results;
-                    //     return this.props.queryActions.sortResultsInFrontend(results, field, order);
+                    //     return someFile.sortResultsInFrontend(results, field, order);
 
                     
                     // }
@@ -419,7 +418,6 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     createUserSubscription: bindActionCreators(createUserSubscription, dispatch),
-    queryActions: bindActionCreators(queryActions, dispatch),
     API: bindActionCreators(API, dispatch)
 
   };
