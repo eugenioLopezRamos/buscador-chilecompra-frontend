@@ -51,10 +51,6 @@ class Introduction extends React.Component {
 // proptypes..
 
 Introduction.propTypes = {
-    signupName: PropTypes.string,
-    signupEmail: PropTypes.string,
-    signupPassword: PropTypes.string,
-    signupPasswordConf: PropTypes.string,
     isAuthenticated: PropTypes.bool,
     signupResults: PropTypes.object,
     signupInfo: PropTypes.object
@@ -62,10 +58,6 @@ Introduction.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        signupName: state.signup.info.name,
-        signupEmail: state.signup.info.email,
-        signupPassword: state.signup.info.password,
-        signupPasswordConf: state.signup.info.password_confirmation,
         signupResult: state.signup.result,
         signupInfo: state.signup.info,
         isAuthenticated: state.isAuthenticated

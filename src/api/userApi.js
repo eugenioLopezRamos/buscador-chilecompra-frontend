@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch';
 import utils from '../utils/authUtils';
 import {userDataFetcher} from '../utils/userApiUtils';
 
@@ -60,21 +60,17 @@ class userApi {
 
 
     static updateUserInfo(body) {
+
         let reqBody = JSON.stringify(body);
-        let headers = utils.setHeaders();
-        return fetch(`${process.env.API_HOST}/api/auth/`, {
-            headers,
-            body:reqBody,
-            method: "PUT"
+        const headers = utils.setHeaders();
+   
+        return fetch(`${process.env.API_HOST}/api/auth/`,
+        {method: "PUT", body: reqBody, headers
         })
-        .then(response => {
-            if(response && response.status >= 200 && response.status < 300) {
-                return response;
-            }else {
-                throw response.json();
-            }
-        })
-        .catch(error => {return error});
+        // .then(response => {return response})
+        // .catch(error => {return error})
+
+       // .catch(error => {return error});
     }
 
     //SUBSCRIPTIONS

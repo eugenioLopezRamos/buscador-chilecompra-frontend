@@ -4,33 +4,43 @@ import utils from '../utils/authUtils';
 import objectAssign from 'object-assign';
 // MODIFIY USER DATA API CALLS
 
-export const modifyUserProfileDataSuccess = (value) => {
-    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value}
+export const modifyUserProfileDataSuccess = () => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
 };
 
 export const modifyUserProfileDataFailure = (error) => {
     return {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, error}
 };
 
-export const modifyUserProfileData = () => {
-    return (dispatch, getState) => {
-        let state = {getState}.getState().modifiedUserData;
+export const modifyUserProfileData = (modifiedUserData) => {
+
+    return (dispatch) => {
+
         let body = {
-                    name: state.name,
-                    email: state.email,
-                    current_password: state.currentPassword,
-                    password: state.password,
-                    password_confirmation: state.passwordConfirmation,
-                    image: state.image
+                    name: modifiedUserData.name,
+                    email: modifiedUserData.email,
+                    current_password: modifiedUserData.currentPassword,
+                    password: modifiedUserData.password,
+                    password_confirmation: modifiedUserData.passwordConfirmation,
+                    image: modifiedUserData.image
         }
 
-        userApi.updateUserInfo(body)
+        return userApi.updateUserInfo(body)
             .then(response => {
-                //TODO
+                
+                debugger
+            //    console.log("FIRST REPS", response);
+                if(response && response.status >= 200 && response.status < 300) {
+                    return response;
+                }else {
+                    throw response;
+                }
+            })
+            .then(response => {
                 let headers = utils.headerToObject(response);
                 utils.saveToStorage(headers);
                 if(response.status >= 200 && response.status < 300) {
-                    return dispatch(modifyUserProfileDataSuccess(response.json()));
+                    return dispatch(modifyUserProfileDataSuccess());
                 }else {
                     return dispatch(modifyUserProfileDataFailure(response));
                 };

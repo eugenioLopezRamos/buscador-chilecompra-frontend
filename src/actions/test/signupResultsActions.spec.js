@@ -80,8 +80,6 @@ describe('Tests response to sending signup data to the backend', () => {
             status:"error"
         }
 
-
-        
         nock("http://localhost:3000/")
             .post("/api/auth/", JSON.stringify(userData))
             .reply(422, expectedResponse);

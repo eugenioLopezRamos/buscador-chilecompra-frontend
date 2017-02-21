@@ -91,6 +91,9 @@ export const userDataSetter = (state = initialState.userData, action) => {
             
         case types.USER_VALIDATE_TOKEN_FAILURE:
             return null;
+            
+        case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
+            return action.response.body;
 
         default:
             return state;

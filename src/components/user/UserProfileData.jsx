@@ -36,12 +36,12 @@ class UserProfileData extends React.Component {
 
     handleClick = () => {
         event.preventDefault();
-        this.props.userProfileActions.modifyUserProfileData();
+        this.props.userProfileActions.modifyUserProfileData(this.props.modifiedUserData);
     }
 
 
     userData = () => {
-        let user = this.props.user;
+        let user = this.props.modifiedUserData;
         if(user === null) {
             return null;
         }
@@ -85,14 +85,14 @@ class UserProfileData extends React.Component {
 
 }
 UserProfileData.propTypes = {
-    user: PropTypes.object.isRequired,
+    modifiedUserData: PropTypes.object.isRequired,
     messages: PropTypes.object
 }
 
 
 function mapStateToProps(state, ownProps) {
     return {
-        user: state.modifiedUserData,
+        modifiedUserData: state.modifiedUserData,
         messages: state.messages
     }
 }

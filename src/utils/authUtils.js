@@ -41,7 +41,9 @@ let utils = {
                 if(curr === "expiry") { //if included => unauthorized parameter.
                     return prev;
                 }
+
                 let queryChunk = `${curr}=${params[curr]}`;
+                
                 prev.push(queryChunk);
                 return prev;
 
@@ -52,7 +54,7 @@ let utils = {
         setHeaders: () => {
 
             let params = utils.getCredsFromStorage();
-
+            console.log("PARAMS", params)
             let headers = Object.keys(params).reduce((prev, curr) => {
                 if(curr === "expiry") {
                     return prev;
@@ -61,8 +63,8 @@ let utils = {
                 return prev;
 
             }, new Object);
-            headers["Content-Type"] = "application/json";
-            headers["Accept"] = "application/json";
+            headers["content-type"] = "application/json";
+            headers["accept"] = "application/json";
             return headers;
 
         },
@@ -74,6 +76,7 @@ let utils = {
 
             // the Headers "polyfill" for node (node-modules/node-fetch/lib/headers.js) doesnt have Headers.prototype.entries() :/
             if(!response.headers.entries) {
+               
                 //Object.entries is more succint, but needs polyfills for IE/Safari, so using Object.keys instead
                 Object.keys(response.headers._headers).map(key => {
                     headers.push([key, response.headers._headers[key].join("")])

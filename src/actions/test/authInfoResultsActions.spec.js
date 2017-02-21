@@ -3,38 +3,11 @@ import * as actions from '../authInfoResultsActions';
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import localStorageMock from '../../constants/testLocalStorage';
 
-//http://stackoverflow.com/questions/11485420/how-to-mock-localstorage-in-javascript-unit-tests
-  function storageMock() {
-    let storage = {};
-
-    return {
-      setItem: function(key, value) {
-        storage[key] = value || '';
-      },
-      getItem: function(key) {
-        return key in storage ? storage[key] : null;
-      },
-      removeItem: function(key) {
-        delete storage[key];
-      },
-      get length() {
-        return Object.keys(storage).length;
-      },
-      key: function(i) {
-        let keys = Object.keys(storage);
-        return keys[i] || null;
-      },
-      clear: function(){
-        Object.keys(storage).map((key) => {
-            delete(storage[key]);
-        }) 
-      }
-    };
-  }
 // Mocks localStorage
 if(!window.localStorage) {
-   window.localStorage = storageMock();
+   window.localStorage = localStorageMock();
 }
 // Mocks dev env process.env.API_HOST
 process.env.API_HOST = "http://localhost:3000";
