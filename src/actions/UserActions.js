@@ -137,7 +137,7 @@ export const updateUserSubscription = (old_name, name) => {
 
     return (dispatch) => {
         dispatch({type: types.USER_UPDATE_RESULT_SUBSCRIPTION})
-        userApi.updateSubscription({update_subscription: {old_name, name}}).then(response => {
+        return userApi.updateSubscription({update_subscription: {old_name, name}}).then(response => {
                                     dispatch(updateUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
@@ -158,7 +158,7 @@ export const deleteUserSubscription = (name) => {
 
     return (dispatch, getState) => {
         dispatch({type: types.USER_DELETE_RESULT_SUBSCRIPTION});
-        userApi.deleteSubscription({destroy_subscription: {name}}).then(response => {
+        return userApi.deleteSubscription({destroy_subscription: {name}}).then(response => {
                                     dispatch(deleteUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
@@ -208,7 +208,7 @@ export const createUserSearches = (state, name) => {
         delete value.organismosPublicosFilteredSubset;
         let search = {value, name};
 
-        userApi.createSearches({search}).then(response => {
+        return userApi.createSearches({search}).then(response => {
                                     dispatch(createUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -234,7 +234,7 @@ export const updateUserSearches = (newValues, searchId, searchName) => {
             searchId,
             searchName
         }
-        userApi.updateSearches({search}).then(response => {
+       return  userApi.updateSearches({search}).then(response => {
                                     dispatch(updateUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -256,7 +256,7 @@ export const deleteUserSearches = (id) => {
     return (dispatch) => {
         //gets the id of the UserSearch that was clicked according to its index, from the redux store
       // let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
-        userApi.deleteSearches({search: {id}})
+       return userApi.deleteSearches({search: {id}})
                             .then(response => {
                                     dispatch(deleteUserSearchesSuccess(response));
                                 })
@@ -280,7 +280,7 @@ export const getResultHistory = (resultId) => {
         
         dispatch({type: types.GET_RESULT_HISTORY});
 
-        userApi.getResultHistory(resultId)
+        return userApi.getResultHistory(resultId)
             .then(response => {
                 dispatch(getResultHistorySuccess(response));
             })

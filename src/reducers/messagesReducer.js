@@ -37,28 +37,28 @@ const messagesReducer = (state = initialState.messages, action) => {
             
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_GET_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {info, Errores: errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state,  {info, Errores: errors});
+            return objectAssign({}, state,  {Info: info, Errores: errors});
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
 
 

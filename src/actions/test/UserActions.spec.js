@@ -322,32 +322,130 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
                 });    
     });
 
+    it('Should update a user\'s subscription to a result successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+
+        const requestData = {old_name: "hosptail2", name: "hospital2"};
+        const requestBody = {update_subscription: requestData};
+        const expectedResponse = {"message":{"info":"Actualizado exitosamente"},"subscriptions":{"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"nuevo2222":105063,"hospital2":46584,"edificio":22527,"hospital":11322}};
+        const expectedActions = [
+            {type: types.USER_UPDATE_RESULT_SUBSCRIPTION},
+            {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value: expectedResponse}
+        ];
+
+        nock(`${process.env.API_HOST}/api/`)
+            .put("/results/subscriptions", requestBody)
+            .reply(200, expectedResponse);
+
+        return store.dispatch(actions.updateUserSubscription(requestData.old_name, requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });   
+
+    });
+
+    it('Should update a user\'s subscription to a result unsuccessfully', () => {
+
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+
+        const requestData = {old_name: "hosptail2", name: "hospital2"};
+        const requestBody = {update_subscription: requestData};
+        const expectedResponse = {message: {errors: "Error, este nombre ya existe"}};
+        const expectedActions = [
+            {type: types.USER_UPDATE_RESULT_SUBSCRIPTION},
+            {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value: expectedResponse}
+        ];
+
+        nock(`${process.env.API_HOST}/api/`)
+            .put("/results/subscriptions", requestBody)
+            .reply(422, expectedResponse);
+
+        return store.dispatch(actions.updateUserSubscription(requestData.old_name, requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+    });
+
+    it('Should delete a user\'s subscription to a result successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {
+            "message":{
+                "info":"Suscripción cancelada exitosamente"
+            },
+            "subscriptions":{
+                "vialidad":60907,
+                "ejemplo modificaciones":52,
+                "Ionico":60949,
+                "27-diciembre":223,
+                "Suscripcion 14-feb":89502,
+                "otra suscripcion 14feb":89492,
+                "hospital2":46584,
+                "edificio":22527,
+                "hospital":11322
+            }
+        };
+
+        const requestData = {name: "nuevo2222"};
+        const requestBody = {destroy_subscription: requestData};
+        const expectedActions = [
+            {type: types.USER_DELETE_RESULT_SUBSCRIPTION},
+            {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: expectedResponse}
+        ];
+
+        nock(`${process.env.API_HOST}/api/`)
+            .delete("/results/subscriptions", requestBody)
+            .reply(200, expectedResponse);
+
+        return store.dispatch(actions.deleteUserSubscription(requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+
+    });
+
+    it('Should delete a user\'s subscription to a result unsuccessfully', () => {
+
+
+
+    });
 
 
 })
 
-//     // UPDATE RESULTS (PUT)
-// export const updateUserSubscriptionSuccess = (value) => {
-//     return {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value};
-// };
-
-// export const updateUserSubscriptionFailure = (value) => {
-//     return {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value};
-// };
-
-// export const updateUserSubscription = (old_name, name) => {
-
-
-//     return (dispatch) => {
-//         dispatch({type: types.USER_UPDATE_RESULT_SUBSCRIPTION})
-//         userApi.updateSubscription({update_subscription: {old_name, name}}).then(response => {
-//                                     dispatch(updateUserSubscriptionSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(updateUserSubscriptionFailure(error));
-//                             });
-//     }
-// };
 //     // DELETE RESULTS
 // export const deleteUserSubscriptionSuccess = (value) => {
 //     return {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value};

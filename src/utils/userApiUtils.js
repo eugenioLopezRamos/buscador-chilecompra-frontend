@@ -22,5 +22,4 @@ export const userDataFetcher = (endpoint, method, body) => {
                 return response.json().then(error => {throw error})
             }
         })
-        //.catch(error => {return error});
 }
