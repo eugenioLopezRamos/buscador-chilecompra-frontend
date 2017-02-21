@@ -433,91 +433,206 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         return store.dispatch(actions.deleteUserSubscription(requestData.name)).then(response => {
                     expect(store.getActions()).toEqual(expectedActions);
                 });  
-
-
     });
 
     it('Should delete a user\'s subscription to a result unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
 
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {message: {errors: "Error al cancelar la suscripción"}};
+
+        const requestData = {name: "nuevo2222"};
+        const requestBody = {destroy_subscription: requestData};
+        const expectedActions = [
+            {type: types.USER_DELETE_RESULT_SUBSCRIPTION},
+            {type: types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE, value: expectedResponse}
+        ];
+
+        nock(`${process.env.API_HOST}/api/`)
+            .delete("/results/subscriptions", requestBody)
+            .reply(422, expectedResponse);
+
+        return store.dispatch(actions.deleteUserSubscription(requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+
+    });
+
+    it('Should get a user\'s stored searches successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {"searches":{"name":["13feb22222","siempre"],"value":[{"offset":0,"endDate":"2017-01-30T13:58:36.000Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-01-30T13:58:36.000Z","rutProveedor":"11111111","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"va","selectedEstadoLicitacion":"","selectedOrganismoPublico":"7016"},{"offset":0,"endDate":"2017-02-13T17:36:21.125Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-13T17:36:21.125Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"}],"id":[114,115]}}
+        
+        nock(`${process.env.API_HOST}/api/`)
+            .get("/searches")
+            .reply(200, expectedResponse);
+
+        const expectedActions = [
+            {type: types.USER_GET_SEARCHES},
+            {type: types.USER_GET_SEARCHES_SUCCESS, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.getUserSearches()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+    });
+
+    it('Should get a user\'s stored searches unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};    
+
+        nock(`${process.env.API_HOST}/api/`)
+            .get("/searches")
+            .reply(401, expectedResponse);
+
+        const expectedActions = [
+            {type: types.USER_GET_SEARCHES},
+            {type: types.USER_GET_SEARCHES_FAILURE, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.getUserSearches()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+    });
+
+    it('Should create a new stored search successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const requestBody = {"search":{"value":{"organismosPublicosFilter":"","selectedOrganismoPublico":"*","codigoLicitacion":"","startDate":"2017-02-21T21:48:40.889Z","alwaysFromToday":false,"endDate":"2017-02-21T21:48:40.889Z","alwaysToToday":false,"palabrasClave":"","selectedEstadoLicitacion":"","rutProveedor":"","offset":0,"order_by":{"fields":["FechaCreacion"],"order":"descending"}},"name":"MYPARAMS"}}
+
+        const expectedResponse = {"message":{"info":{"guardado con éxito":["MYPARAMS"]},"errors":{"repetidos":[],"errores":[]}},"searches":{"name":["MYPARAMS","13feb22222","siempre"],"value":[{"offset":0,"endDate":"2017-02-21T21:48:40.889Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-21T21:48:40.889Z","rutProveedor":"","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-01-30T13:58:36.000Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-01-30T13:58:36.000Z","rutProveedor":"11111111","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"va","selectedEstadoLicitacion":"","selectedOrganismoPublico":"7016"},{"offset":0,"endDate":"2017-02-13T17:36:21.125Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-13T17:36:21.125Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"}],"id":[116,114,115]}}
+        
+        nock(`${process.env.API_HOST}/api/`)
+            .post("/searches")
+            .reply(200, expectedResponse);
+        
+        const expectedActions = [
+            {type: types.USER_CREATE_SEARCHES},
+            {type: types.USER_CREATE_SEARCHES_SUCCESS, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.createUserSearches()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+    });
+
+    it('Should create a new stored search unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const requestBody = {"search":{"value":{"organismosPublicosFilter":"","selectedOrganismoPublico":"*","codigoLicitacion":"","startDate":"2017-02-21T21:48:40.889Z","alwaysFromToday":false,"endDate":"2017-02-21T21:48:40.889Z","alwaysToToday":false,"palabrasClave":"","selectedEstadoLicitacion":"","rutProveedor":"","offset":0,"order_by":{"fields":["FechaCreacion"],"order":"descending"}},"name":"MYPARAMS"}}
+
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};           
+        nock(`${process.env.API_HOST}/api/`)
+            .post("/searches")
+            .reply(401, expectedResponse);
+        
+        const expectedActions = [
+            {type: types.USER_CREATE_SEARCHES},
+            {type: types.USER_CREATE_SEARCHES_FAILURE, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.createUserSearches()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+
+    });
+
+    it('Should update a user\'s search successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const requestBody = ;
+        const expectedResponse = ; 
+        
+        nock(`${process.env.API_HOST}/api/`)
+            .post("/searches")
+            .reply(200, expectedResponse);
+        
+        const expectedActions = [
+            {type: types.USER_CREATE_SEARCHES},
+            {type: types.USER_CREATE_SEARCHES_SUCCESS, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.createUserSearches()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
 
 
     });
 
 
-})
-
-//     // DELETE RESULTS
-// export const deleteUserSubscriptionSuccess = (value) => {
-//     return {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value};
-// }
-// export const deleteUserSubscriptionFailure = (value) => {
-//     return {type: types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE, value};
-// }
-
-// export const deleteUserSubscription = (name) => {
 
 
-//     return (dispatch, getState) => {
-//         dispatch({type: types.USER_DELETE_RESULT_SUBSCRIPTION});
-//         userApi.deleteSubscription({destroy_subscription: {name}}).then(response => {
-//                                     dispatch(deleteUserSubscriptionSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(deleteUserSubscriptionFailure(error));
-//                             });
-//     }
-
-// }
-
-// //CRUD SEARCHES
-
-//     //GET SEARCHES
-// export const getUserSearchesSuccess = (value) => {
-//     return {type: types.USER_GET_SEARCHES_SUCCESS, value};
-// }
-
-// export const getUserSearchesFailure = (value) => {
-//     return {type: types.USER_GET_SEARCHES_FAILURE, value};
-// }
-
-// export const getUserSearches = () => {
-
-//     return (dispatch) => {
-  
-//         userApi.getSearches().then(response => {
-//                                     dispatch(getUserSearchesSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(getUserSearchesFailure(error));
-//                             });
-//     }
-// }
-
-//     // CREATE SEARCHES (POST) 
-// export const createUserSearchesSuccess = (value) => {
-//     return {type: types.USER_CREATE_SEARCHES_SUCCESS, value};
-// }
-
-// export const createUserSearchesFailure = (value) => {
-//     return {type: types.USER_CREATE_SEARCHES_FAILURE, value};
-// }
-
-// export const createUserSearches = (state, name) => {
-//     return (dispatch) => {
-
-//         let value = objectAssign({}, state)
-//         delete value.organismosPublicosFilteredSubset;
-//         let search = {value, name};
-
-//         userApi.createSearches({search}).then(response => {
-//                                     dispatch(createUserSearchesSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(createUserSearchesFailure(error));
-//                             });
-//     }
-// }
-
+});
 //     // UPDATE SEARCHES (PUT)
 // export const updateUserSearchesSuccess = (value) => {
 //     return {type: types.USER_UPDATE_SEARCHES_SUCCESS, value};

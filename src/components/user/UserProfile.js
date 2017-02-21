@@ -24,6 +24,7 @@ const UserProfile = (props) => {
     }
 
     const handleUpdateSubscription = () => {
+        
         props.actions.updateSubscription
     }
 

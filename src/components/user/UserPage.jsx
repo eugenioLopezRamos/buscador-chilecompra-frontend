@@ -84,10 +84,10 @@ class UserPage extends React.Component {
     }
 
     showStoredSearch = (component, index) => {
+
         let searchId = this.props.userSearches.id[index];
         let searchName = this.props.userSearches.name[index];
         
-
         this.setState({ 
                         showFullScreenPane: true, 
                         FullScreenPaneComponent: component,
@@ -96,7 +96,9 @@ class UserPage extends React.Component {
                                 defaultState: this.props.userSearches.value[index]                    
                             },
                             saveMenu: this.components.UpdateSearchMenu,
-                            createSearches: this.props.updateUserSearches
+                            createSearches: this.props.updateUserSearches,
+                            defaultSearchId: searchId,
+                            defaultSearchName: searchName
                         },
                       //  menu: this.getMenu(component)
                      //   menuProps: {actions: this.updateSearches()}

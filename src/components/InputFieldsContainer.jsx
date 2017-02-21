@@ -42,8 +42,23 @@ class InputFieldsContainer extends React.PureComponent {
             this.setState({organismosPublicosFilteredSubset: nextProps.organismosPublicos});
         }
     }
+    //TODO: rename this function and this.props.createSearches
+    // - They actually handle creating OR updating a search,
+    // depending on the props passed to InputFieldsContainer
+    handleCreateSearches = (args) => {
+        //When creating a search, args is a NAME that is given by typing into any
+        //inputfield
+        // When updating, it is an array with the searchName and searchId, used to locate
+        //the search on the backend
 
-    handleCreateSearches = (name) => {
+        //If args === "Array"-> apply the arguments.
+        //else it means args is just a name, so pass it to the handler
+
+        if(Object.prototype.toString.call(args) ==="[object Array]") {
+           return this.props.createSearches.call(null, this.state, ...args)
+        }
+        //just for clarity.
+        let name = args;
         this.props.createSearches(this.state, name);
     }
 
@@ -156,7 +171,11 @@ class InputFieldsContainer extends React.PureComponent {
                                     onSubmit={() => {this.props.API.loadChilecompraData(this.state)}} 
                                 />
                                 
-                            {< this.props.saveMenu handleSearches={this.handleCreateSearches}/>}
+                            {< this.props.saveMenu
+                                handleSearches={this.handleCreateSearches}
+                                defaultName={this.props.defaultSearchName}
+                                defaultId={this.props.defaultSearchId}
+                             />}
 
                         </div>
 

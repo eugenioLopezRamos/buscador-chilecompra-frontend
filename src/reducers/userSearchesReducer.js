@@ -11,26 +11,26 @@ export const userSearchesReducer = (state = initialState.userSearches, action) =
             return objectAssign({}, state, action.value.searches);
 
         case types.USER_GET_SEARCHES_FAILURE:
-            return objectAssign({}, state, initialState.userSearches);
+            return state;
 
         case types.USER_CREATE_SEARCHES_SUCCESS:
             return objectAssign({}, state, action.value.searches);
 
         case types.USER_CREATE_SEARCHES_FAILURE:
-            return objectAssign({}, state, initialState.userSearches);
+            return state;
 
         case types.USER_UPDATE_SEARCHES_SUCCESS:
-
-            return objectAssign({}, state, action.value.searches);
+            return action.value.searches;
 
         case types.USER_UPDATE_SEARCHES_FAILURE:
-            return objectAssign({}, state);
+            return state;
 
         case types.USER_DELETE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, action.value.searches);
+            return action.value.searches;
 
         case types.USER_DELETE_SEARCHES_FAILURE:
-            return objectAssign({}, state);
+            return state;
+            
         case types.USER_LOGOUT_SUCCESS:
             return initialState.userSearches;
 

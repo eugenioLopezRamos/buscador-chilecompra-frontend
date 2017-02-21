@@ -182,8 +182,8 @@ export const getUserSearchesFailure = (value) => {
 export const getUserSearches = () => {
 
     return (dispatch) => {
-  
-        userApi.getSearches().then(response => {
+        dispatch({type: types.USER_GET_SEARCHES})
+        return userApi.getSearches().then(response => {
                                     dispatch(getUserSearchesSuccess(response));
                                 })
                             .catch(error => {
@@ -203,7 +203,7 @@ export const createUserSearchesFailure = (value) => {
 
 export const createUserSearches = (state, name) => {
     return (dispatch) => {
-
+        dispatch({type: types.USER_CREATE_SEARCHES});
         let value = objectAssign({}, state)
         delete value.organismosPublicosFilteredSubset;
         let search = {value, name};
@@ -226,14 +226,17 @@ export const updateUserSearchesFailure = (value) => {
     return {type: types.USER_UPDATE_SEARCHES_FAILURE, value};
 }
 
-export const updateUserSearches = (newValues, searchId, searchName) => {
-           // props.updateSearch(this.state, props.searchId, props.searchName);
-    return (dispatch, getState) => {
+export const updateUserSearches = (values, searchId, searchName) => {
+
+    return (dispatch) => {
+        let newValues = objectAssign({}, values);
+        delete newValues.organismosPublicosFilteredSubset;
         let search = {
             newValues,
             searchId,
             searchName
         }
+
        return  userApi.updateSearches({search}).then(response => {
                                     dispatch(updateUserSearchesSuccess(response));
                                 })
