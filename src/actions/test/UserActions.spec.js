@@ -20,7 +20,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Tests User Actions, such as modifying his/her profile data or fetching his/her data from the backend', () => {
-
+    //TODO: Set all required headers on tests
     afterEach(() => {
         nock.cleanAll();
         localStorage.clear();
@@ -162,7 +162,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
 
     it('Should fetch a user\'s subscriptions from the backend', () => {
-        const initialHeaders = new Headers({
+        const initialHeaders = {
             'access-token': '111',
             'uid': 'example@examplemail.com',
             'client': '53k1237',
@@ -171,14 +171,14 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             'accept-encoding':'gzip,deflate',
             'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
             'connection':'close'
-        });
-        localStorage.setItem("session", JSON.stringify(initialHeaders._headers));
+        };
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
         
         const expectedResponse = {"hosptail2":46584,"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"edificio":22527,"hospital":11322}
         
         const store = mockStore();
         let reqheaders = JSON.stringify(initialHeaders._headers);//JSON.stringify(utils.setHeaders());
-        let scope = nock(`${process.env.API_HOST}/api/`,{reqheaders:reqheaders}).log(console.log)
+        let scope = nock(`${process.env.API_HOST}/api/`,{reqheaders:reqheaders})
             .get('/results/subscriptions/')
             .reply(200, expectedResponse);
 
@@ -188,7 +188,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
              type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS,
              value: expectedResponse
             }
-        ]
+        ];
 
         return store.dispatch(actions.getUserSubscriptions()).then(response => {
                         expect(store.getActions()).toEqual(expectedActions);
