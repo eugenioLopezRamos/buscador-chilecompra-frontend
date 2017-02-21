@@ -5,11 +5,12 @@ import objectAssign from 'object-assign';
 // MODIFIY USER DATA API CALLS
 
 export const modifyUserProfileDataSuccess = () => {
+     
     return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
 };
 
-export const modifyUserProfileDataFailure = (error) => {
-    return {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, error}
+export const modifyUserProfileDataFailure = (value) => {
+    return {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, value}
 };
 
 export const modifyUserProfileData = (modifiedUserData) => {
@@ -27,25 +28,21 @@ export const modifyUserProfileData = (modifiedUserData) => {
 
         return userApi.updateUserInfo(body)
             .then(response => {
-                
-                debugger
-            //    console.log("FIRST REPS", response);
+                let headers = utils.headerToObject(response);
+                utils.saveToStorage(headers);
+
                 if(response && response.status >= 200 && response.status < 300) {
-                    return response;
+             
+                    return response.json().then(response => dispatch(modifyUserProfileDataSuccess()));
                 }else {
                     throw response;
                 }
             })
-            .then(response => {
-                let headers = utils.headerToObject(response);
-                utils.saveToStorage(headers);
-                if(response.status >= 200 && response.status < 300) {
-                    return dispatch(modifyUserProfileDataSuccess());
-                }else {
-                    return dispatch(modifyUserProfileDataFailure(response));
-                };
+            .catch(error => {
+                return error.json().then(response => {
+                    dispatch(modifyUserProfileDataFailure(response));
+                });
             })
-            .catch(error => {dispatch(modifyUserProfileDataFailure(error))});
 
     };
 };

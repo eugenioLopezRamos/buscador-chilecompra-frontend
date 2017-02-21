@@ -24,15 +24,16 @@ const messagesReducer = (state = initialState.messages, action) => {
     switch(action.type) {
 
         case types.MESSAGES_DELETE_MESSAGES:
-            return objectAssign({}, state, initialState.messages);
+            return initialState.messages;
             
             //PROFILE
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-            return objectAssign({}, state, {info: ["Datos actualizados exitosamente"]});
+            return objectAssign({}, state, {Info: ["Datos actualizados exitosamente"]});
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
+       //debugger
            // newMessages = action.error.errors.full_messages;
-            return objectAssign({}, state, {errors: newMessages});
+            return objectAssign({}, state, {Errores: errors});
             
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:

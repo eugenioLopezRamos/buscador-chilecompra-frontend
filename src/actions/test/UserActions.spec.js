@@ -18,12 +18,12 @@ process.env.API_HOST = "http://localhost:3000";
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-
 describe('Tests User Actions, such as modifying his/her profile data or fetching his/her data from the backend', () => {
 
     afterEach(() => {
         nock.cleanAll();
         localStorage.clear();
+        window.localStorage.clear();
     })
 
     it('should modify user\'s profile data successfully', () => {
@@ -36,7 +36,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
         localStorage.setItem("session", JSON.stringify(initialHeaders));
 
-        let modifiedUserData = {
+        const modifiedUserData = {
             name: "nuevo nombre",
             email: "example@examplemail.com",
             currentPassword: "correctPassword",
@@ -84,6 +84,53 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
                 expect(store.getActions()).toEqual(expectedActions);
             })
     });
+
+    // it('should unsuccessfully modify the user\'s profile page', () => {
+    //     const initialHeaders = {
+    //         "access-token": "111",
+    //         "uid": "example@examplemail.com",
+    //         "client": "53k1237",
+    //     };
+
+    //     localStorage.setItem("session", JSON.stringify(initialHeaders));
+
+    //     const modifiedUserData = {
+    //         name: "nuevo nombre",
+    //         email: "example@examplemail.com",
+    //         currentPassword: "wrongPassword",
+    //         password: "",
+    //         passwordConfirmation: "",
+    //         image: ""     
+    //     };
+
+    //     const requestModifiedUserData = {
+    //         name: "nuevo nombre",
+    //         email: "example@examplemail.com",
+    //         current_password: "wrongPassword",
+    //         password: "",
+    //         password_confirmation: "",
+    //         image: "" 
+    //     };
+
+    //     const expectedResponse = {
+    //         "status":"error",
+    //         "errors":{
+    //             "current_password":["can't be blank"],
+    //             "full_messages":["Current password can't be blank"]
+    //         }
+    //     };
+
+    //     nock(`${process.env.API_HOST}`)
+    //         .put('/api/auth/', JSON.stringify(requestModifiedUserData))
+    //         .reply(200, expectedResponse);
+
+
+
+
+    // });
+
+
+
 })
 
 
