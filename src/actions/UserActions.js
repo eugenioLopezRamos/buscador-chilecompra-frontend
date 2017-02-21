@@ -108,14 +108,16 @@ export const createUserSubscriptionFailure = (value) => {
 };
 
 export const createUserSubscription = (result_id, name) => {
-    
+
     return (dispatch) => {
+        dispatch({type: types.USER_CREATE_RESULT_SUBSCRIPTION});
         let create_subscription = {result_id, name}
-        dispatch({type: types.USER_CREATE_RESULT_SUBSCRIPTION });
+
         return userApi.createSubscription({create_subscription}).then(response => {
                                 dispatch(createUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
+                               // console.log("HO", error)
                                 dispatch(createUserSubscriptionFailure(error));
                             });
     }

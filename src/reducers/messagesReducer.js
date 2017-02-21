@@ -40,13 +40,13 @@ const messagesReducer = (state = initialState.messages, action) => {
             return objectAssign({}, state, {info, errors});
 
         case types.USER_GET_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {info, Errores: errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
             return objectAssign({}, state, {info, errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state,  {info, Errores: errors});
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
             return objectAssign({}, state, {info, errors});

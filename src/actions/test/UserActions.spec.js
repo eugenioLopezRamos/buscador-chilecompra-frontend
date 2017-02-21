@@ -20,14 +20,15 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('Tests User Actions, such as modifying his/her profile data or fetching his/her data from the backend', () => {
-    //TODO: Set all required headers on tests
+    //TODO: Set all required headers on tests - There must be a way to compare headers between the nock mock request and the
+    // actual request without nock throwing...
     afterEach(() => {
         nock.cleanAll();
         localStorage.clear();
         window.localStorage.clear();
     })
 
-    it('should modify user\'s profile data successfully', () => {
+    it('Should modify user\'s profile data successfully', () => {
 
         const initialHeaders = {
             "access-token": "111",
@@ -85,7 +86,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             })
     });
 
-    it('should unsuccessfully modify the user\'s profile page', () => {
+    it('Should modify the user\'s profile page unsuccessfully ', () => {
         const initialHeaders = {
             "access-token": "111",
             "uid": "example@examplemail.com",
@@ -161,7 +162,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
     });
 
 
-    it('Should fetch a user\'s subscriptions from the backend', () => {
+    it('Should fetch a user\'s subscriptions from the backend successfully', () => {
         const initialHeaders = {
             'access-token': '111',
             'uid': 'example@examplemail.com',
@@ -173,14 +174,13 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             'connection':'close'
         };
 
-        
         localStorage.setItem("session", JSON.stringify(initialHeaders));
         
         const expectedResponse = {"hosptail2":46584,"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"edificio":22527,"hospital":11322}
         
         const store = mockStore();
-        let scope = nock(`${process.env.API_HOST}/api/`)
-            .get('/results/subscriptions/')
+        nock(`${process.env.API_HOST}/api/`)
+            .get('/results/subscriptions')
             .reply(200, expectedResponse);
 
         const expectedActions = [
@@ -197,59 +197,134 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         
     });
 
+    it('Should fetch a user\'s subscriptions from the backend unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};
+        const store = mockStore();
+
+        nock(`${process.env.API_HOST}/api/`)
+                .get('/results/subscriptions')
+                .reply(401, expectedResponse);
+
+        const expectedActions = [
+            {type: types.USER_GET_RESULT_SUBSCRIPTIONS},
+            {
+             type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE,
+             value: expectedResponse
+            }          
+        ];
+
+        return store.dispatch(actions.getUserSubscriptions()).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });     
+    });
+
+    it('Should create a new subscription successfully', () => {
+
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const requestData = {result_id: 105063, name: "nuevo2222"};
+        const requestBody = {create_subscription: requestData};
+        const expectedResponse = {
+            "message":{
+                "info":"Suscripción guardada exitosamente"
+            },
+            "subscriptions":{
+                "hosptail2":46584,
+                "vialidad":60907,
+                "ejemplo modificaciones":52,
+                "Ionico":60949,
+                "27-diciembre":223,
+                "Suscripcion 14-feb":89502,
+                "otra suscripcion 14feb":89492,
+                "nuevo2222":105063,
+                "edificio":22527,
+                "hospital":11322
+            }
+        }
+
+        nock(`${process.env.API_HOST}/api/`)
+            .post("/results/subscriptions", requestBody)
+            .reply(200, expectedResponse);
+
+        const expectedActions = [
+            {type: types.USER_CREATE_RESULT_SUBSCRIPTION},
+            {
+             type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, 
+             value: expectedResponse
+            }    
+        ]
+        return store.dispatch(actions.createUserSubscription(requestData.result_id, requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });     
+    });
+
+    it('Should create a new subscription unsuccessfully', () => {
+
+        const expectedResponse = {
+            "message":{
+                "errors":"Ya estás suscrito a la licitacion de código externo 994-3-LE17 (Nombre suscripción: nuevo2222)"
+            }
+        };
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const requestData = {result_id: 105063, name: "nuevo2222"};
+        const requestBody = {create_subscription: requestData};
+
+        nock(`${process.env.API_HOST}/api/`)
+            .post("/results/subscriptions", requestBody)
+            .reply(422, expectedResponse);  
+
+        const expectedActions = [
+            {type: types.USER_CREATE_RESULT_SUBSCRIPTION},
+            {
+             type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, 
+             value: expectedResponse
+            }    
+        ];
+
+        return store.dispatch(actions.createUserSubscription(requestData.result_id, requestData.name)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });    
+    });
+
+
+
 })
-
-
-// '{"access-token":["111"],"uid":["example@examplemail.com"],"client":["53k1237"],"content-type":["application/json"],"accept":["application/json"],"accept-encoding":["gzip,deflate"],"user-agent":["node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"],"connection":["close"]}'
-// {"access-token":["111"],"uid":["example@examplemail.com"],"client":["53k1237"],"content-type":["application/json"],"accept":["application/json"],"accept-encoding":["gzip,deflate"],"user-agent":["node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"],"connection":["close"]}
-
-
-// // // CRUD RESULTS
-// //     //GET A LIST OF STORED RESULTS (JUST IDs)
-// export const getUserSubscriptionsSuccess = (value) => {
-//     return {type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS, value}
-// };
-
-// export const getUserSubscriptionsFailure = (value) => {
-//     return {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE, value}
-// };
-
-// export const getUserSubscriptions = () => {
-
-//     return (dispatch) => {
-//         dispatch({type: types.USER_GET_RESULT_SUBSCRIPTIONS });
-
-//         userApi.getSubscriptions().then(response => {
-//                                 dispatch(getUserSubscriptionsSuccess(response));
-//                                 })
-
-//                             .catch(error => {
-//                                 dispatch(getUserSubscriptionsFailure(error));
-//                             });
-//     }
-// };
-
-// export const createUserSubscriptionSuccess = (value) => {
-//     return {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value}
-// };
-
-// export const createUserSubscriptionFailure = (value) => {
-//     return {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, value}
-// };
-
-// export const createUserSubscription = (result_id, name) => {
-    
-//     return (dispatch) => {
-//         let create_subscription = {result_id, name}
-//         dispatch({type: types.USER_CREATE_RESULT_SUBSCRIPTION });
-//         userApi.createSubscription({create_subscription}).then(response => {
-//                                 dispatch(createUserSubscriptionSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(createUserSubscriptionFailure(error));
-//                             });
-//     }
-// };
 
 //     // UPDATE RESULTS (PUT)
 // export const updateUserSubscriptionSuccess = (value) => {
