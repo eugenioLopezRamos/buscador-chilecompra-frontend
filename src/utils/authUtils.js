@@ -62,8 +62,8 @@ let utils = {
                 return prev;
 
             }, new Object);
-            headers["content-type"] = "application/json";
-            headers["accept"] = "application/json";
+            headers["content-type"] ? headers["content-type"] : headers["content-type"] = "application/json";
+            headers["accept"] ? headers["accept"] : headers["accept"] = "application/json";
             return headers;
 
         },

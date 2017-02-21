@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import fetch from 'isomorphic-fetch';
+import utils from '../../utils/authUtils';
 
 import localStorageMock from '../../constants/testLocalStorage';
 
@@ -68,7 +69,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
                 "updated_at":"2017-02-20T15:13:07.103-03:00"
             }
         };
-        
+        //TODO: See how to add headers?
         nock(`${process.env.API_HOST}`)
             .put('/api/auth/', JSON.stringify(requestModifiedUserData))
             .reply(200, expectedResponse);
@@ -161,12 +162,46 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
 
     it('Should fetch a user\'s subscriptions from the backend', () => {
+        const initialHeaders = new Headers({
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        });
+        localStorage.setItem("session", JSON.stringify(initialHeaders._headers));
+        
         const expectedResponse = {"hosptail2":46584,"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"edificio":22527,"hospital":11322}
-    
+        
+        const store = mockStore();
+        let reqheaders = JSON.stringify(initialHeaders._headers);//JSON.stringify(utils.setHeaders());
+        let scope = nock(`${process.env.API_HOST}/api/`,{reqheaders:reqheaders}).log(console.log)
+            .get('/results/subscriptions/')
+            .reply(200, expectedResponse);
 
+        const expectedActions = [
+            {type: types.USER_GET_RESULT_SUBSCRIPTIONS},
+            {
+             type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS,
+             value: expectedResponse
+            }
+        ]
+
+        return store.dispatch(actions.getUserSubscriptions()).then(response => {
+                        expect(store.getActions()).toEqual(expectedActions);
+                    });
+        
     });
 
 })
+
+
+// '{"access-token":["111"],"uid":["example@examplemail.com"],"client":["53k1237"],"content-type":["application/json"],"accept":["application/json"],"accept-encoding":["gzip,deflate"],"user-agent":["node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"],"connection":["close"]}'
+// {"access-token":["111"],"uid":["example@examplemail.com"],"client":["53k1237"],"content-type":["application/json"],"accept":["application/json"],"accept-encoding":["gzip,deflate"],"user-agent":["node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"],"connection":["close"]}
+
 
 // // // CRUD RESULTS
 // //     //GET A LIST OF STORED RESULTS (JUST IDs)

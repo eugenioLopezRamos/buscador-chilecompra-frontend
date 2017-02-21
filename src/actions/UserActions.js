@@ -86,9 +86,10 @@ export const getUserSubscriptionsFailure = (value) => {
 export const getUserSubscriptions = () => {
 
     return (dispatch) => {
+
         dispatch({type: types.USER_GET_RESULT_SUBSCRIPTIONS });
 
-        userApi.getSubscriptions().then(response => {
+        return userApi.getSubscriptions().then(response => {
                                 dispatch(getUserSubscriptionsSuccess(response));
                                 })
 
@@ -111,7 +112,7 @@ export const createUserSubscription = (result_id, name) => {
     return (dispatch) => {
         let create_subscription = {result_id, name}
         dispatch({type: types.USER_CREATE_RESULT_SUBSCRIPTION });
-        userApi.createSubscription({create_subscription}).then(response => {
+        return userApi.createSubscription({create_subscription}).then(response => {
                                 dispatch(createUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
