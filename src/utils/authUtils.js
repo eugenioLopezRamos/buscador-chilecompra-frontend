@@ -54,7 +54,6 @@ let utils = {
         setHeaders: () => {
 
             let params = utils.getCredsFromStorage();
-            console.log("PARAMS", params)
             let headers = Object.keys(params).reduce((prev, curr) => {
                 if(curr === "expiry") {
                     return prev;

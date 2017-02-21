@@ -74,7 +74,6 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             .reply(200, expectedResponse);
 
         const store = mockStore();
-        const requestBody = JSON.stringify(modifiedUserData);
 
         const expectedActions = [
             {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
@@ -85,119 +84,89 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             })
     });
 
-    // it('should unsuccessfully modify the user\'s profile page', () => {
-    //     const initialHeaders = {
-    //         "access-token": "111",
-    //         "uid": "example@examplemail.com",
-    //         "client": "53k1237",
-    //     };
+    it('should unsuccessfully modify the user\'s profile page', () => {
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
 
-    //     localStorage.setItem("session", JSON.stringify(initialHeaders));
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
 
-    //     const modifiedUserData = {
-    //         name: "nuevo nombre",
-    //         email: "example@examplemail.com",
-    //         currentPassword: "wrongPassword",
-    //         password: "",
-    //         passwordConfirmation: "",
-    //         image: ""     
-    //     };
+        const modifiedUserData = {
+            name: "nuevo nombre",
+            email: "example@examplemail.com",
+            currentPassword: "wrongPassword",
+            password: "",
+            passwordConfirmation: "",
+            image: ""     
+        };
 
-    //     const requestModifiedUserData = {
-    //         name: "nuevo nombre",
-    //         email: "example@examplemail.com",
-    //         current_password: "wrongPassword",
-    //         password: "",
-    //         password_confirmation: "",
-    //         image: "" 
-    //     };
+        const requestModifiedUserData = {
+            name: "nuevo nombre",
+            email: "example@examplemail.com",
+            current_password: "wrongPassword",
+            password: "",
+            password_confirmation: "",
+            image: "" 
+        };
 
-    //     const expectedResponse = {
-    //         "status":"error",
-    //         "errors":{
-    //             "current_password":["can't be blank"],
-    //             "full_messages":["Current password can't be blank"]
-    //         }
-    //     };
+        const store = mockStore();
 
-    //     nock(`${process.env.API_HOST}`)
-    //         .put('/api/auth/', JSON.stringify(requestModifiedUserData))
-    //         .reply(200, expectedResponse);
+        nock(`${process.env.API_HOST}`)
+            .put('/api/auth/', JSON.stringify(requestModifiedUserData))
+            .reply(422, {message: {errors: "No se pudo actualizar. Ingresaste tu contraseña?"}});
 
+        const expectedActions = [{
+            type: types.USER_MODIFY_PROFILE_DATA_FAILURE,
+            value: {message: {errors: "No se pudo actualizar. Ingresaste tu contraseña?"}} 
+        }];
 
 
+        return store.dispatch(actions.modifyUserProfileData(modifiedUserData)).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
 
-    // });
+
+    it('Should modify User Profile Name on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NAME, value: "nuevo nombre"};
+        expect(actions.modifyUserProfileDataInputName("nuevo nombre")).toEqual(expectedAction);
+    });
+
+    it('Should modify User Profile Email on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL, value: "example@email.com"};
+        expect(actions.modifyUserProfileDataInputEmail("example@email.com")).toEqual(expectedAction);
+    });
+
+    it('Should modify User Profile Email on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value: "currentPassword"};
+        expect(actions.modifyUserProfileDataInputCurrentPassword("currentPassword")).toEqual(expectedAction);
+    });
+
+    it('Should modify User Profile Current Password on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value: "currentPassword"};
+        expect(actions.modifyUserProfileDataInputCurrentPassword("currentPassword")).toEqual(expectedAction);
+    });
+
+    it('Should modify User Profile New Password on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD, value: "newPassword"};
+        expect(actions.modifyUserProfileDataInputPassword("newPassword")).toEqual(expectedAction);        
+    });
+
+    it('Should modify User Profile New Password Confirmation on input (client side)', () => {
+        const expectedAction = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value: "newPassword"};
+        expect(actions.modifyUserProfileDataInputPasswordConfirmation("newPassword")).toEqual(expectedAction);        
+    });
 
 
+    it('Should fetch a user\'s subscriptions from the backend', () => {
+        const expectedResponse = {"hosptail2":46584,"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"edificio":22527,"hospital":11322}
+    
+
+    });
 
 })
-
-
-
-// MODIFIY USER DATA API CALLS
-
-// export const modifyUserProfileDataSuccess = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value}
-// };
-
-// export const modifyUserProfileDataFailure = (error) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, error}
-// };
-
-// export const modifyUserProfileData = () => {
-//     return (dispatch, getState) => {
-//         let state = {getState}.getState().modifiedUserData;
-//         let body = {
-//                     name: state.name,
-//                     email: state.email,
-//                     current_password: state.currentPassword,
-//                     password: state.password,
-//                     password_confirmation: state.passwordConfirmation,
-//                     image: state.image
-//         }
-
-//         userApi.updateUserInfo(body)
-//             .then(response => {
-//                 //TODO
-//                 let headers = utils.headerToObject(response);
-//                 utils.saveToStorage(headers);
-//                 if(response.status >= 200 && response.status < 300) {
-//                     return dispatch(modifyUserProfileDataSuccess(response.json()));
-//                 }else {
-//                     return dispatch(modifyUserProfileDataFailure(response));
-//                 };
-//             })
-//             .catch(error => {dispatch(modifyUserProfileDataFailure(error))});
-
-//     };
-// };
-
-
-// // MODIFY USER DATA INPUTS
-
-// export const modifyUserProfileDataInputName = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NAME, value};
-// }
-
-// export const modifyUserProfileDataInputImage = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_IMAGE, value};
-// }
-
-// export const modifyUserProfileDataInputEmail = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL, value};
-// }
-// export const modifyUserProfileDataInputCurrentPassword = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value }
-// }
-
-// export const modifyUserProfileDataInputPassword = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD, value};
-// }
-
-// export const modifyUserProfileDataInputPasswordConfirmation = (value) => {
-//     return {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value}
-// }
 
 // // // CRUD RESULTS
 // //     //GET A LIST OF STORED RESULTS (JUST IDs)
