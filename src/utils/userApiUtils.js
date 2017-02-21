@@ -5,7 +5,7 @@ export const userDataFetcher = (endpoint, method, body) => {
         let reqBody = method.toUpperCase() === 'GET' ? null : body;
 
         let request = {
-                        headers: headers,
+                        headers,
                         method: `${method.toUpperCase()}`   
                     }
                     

@@ -172,13 +172,14 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
             'connection':'close'
         };
+
+        
         localStorage.setItem("session", JSON.stringify(initialHeaders));
         
         const expectedResponse = {"hosptail2":46584,"vialidad":60907,"ejemplo modificaciones":52,"Ionico":60949,"27-diciembre":223,"Suscripcion 14-feb":89502,"otra suscripcion 14feb":89492,"edificio":22527,"hospital":11322}
         
         const store = mockStore();
-        let reqheaders = JSON.stringify(initialHeaders._headers);//JSON.stringify(utils.setHeaders());
-        let scope = nock(`${process.env.API_HOST}/api/`,{reqheaders:reqheaders})
+        let scope = nock(`${process.env.API_HOST}/api/`)
             .get('/results/subscriptions/')
             .reply(200, expectedResponse);
 
