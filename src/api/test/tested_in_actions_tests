@@ -1,0 +1,2 @@
+These functions are tested while testing actions (src/actions/test), 
+else those wouldn't work, so the testing is already done.
