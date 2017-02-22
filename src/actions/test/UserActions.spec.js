@@ -610,147 +610,347 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
         localStorage.setItem("session", JSON.stringify(initialHeaders));
         const store = mockStore();
-        const requestBody = ;
-        const expectedResponse = ; 
+
+        const requestBody = {"search":{"newValues":{"offset":0,"endDate":"2017-02-22T14:03:36.762Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-22T14:03:36.761Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},"searchId":116,"searchName":"MYPARAMS"}};
+
+        const expectedResponse = {"message":{"info":{"Modificado exitosamente":["MYPARAMS"]}},"searches":{"name":["MYPARAMS","2017-02-21 19:41:49 -0300","13feb22222","siempre","asdsd"],"value":[{"offset":0,"endDate":"2017-02-22T14:03:36.762Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-22T14:03:36.761Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-02-21T22:41:27.957Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-21T22:41:27.957Z","rutProveedor":"","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-01-30T13:58:36.000Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-01-30T13:58:36.000Z","rutProveedor":"11111111","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"va","selectedEstadoLicitacion":"","selectedOrganismoPublico":"7016"},{"offset":0,"endDate":"2017-02-13T17:36:21.125Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-13T17:36:21.125Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-02-21T22:50:41.492Z","order_by":{"order":"descending","fields":["FechaCreacion"]},"startDate":"2017-02-21T22:50:41.492Z","rutProveedor":"","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"}],"id":[116,117,114,115,118]}}; 
         
         nock(`${process.env.API_HOST}/api/`)
-            .post("/searches")
+            .put("/searches", JSON.stringify(requestBody))
             .reply(200, expectedResponse);
         
         const expectedActions = [
-            {type: types.USER_CREATE_SEARCHES},
-            {type: types.USER_CREATE_SEARCHES_SUCCESS, value: expectedResponse}
+            {type: types.USER_UPDATE_SEARCHES},
+            {type: types.USER_UPDATE_SEARCHES_SUCCESS, value: expectedResponse}
         ]
+        let values = requestBody.search.newValues;
+        let searchName = requestBody.search.searchName;
+        let searchId = requestBody.search.searchId;
 
-        return store.dispatch(actions.createUserSearches()).then(response => {
+        return store.dispatch(actions.updateUserSearches(values, searchId, searchName)).then(response => {
                     expect(store.getActions()).toEqual(expectedActions);
                 });  
 
 
     });
+    it('Should update a user\'s search unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
 
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
 
+        const requestBody = {"search":{"newValues":{"offset":0,"endDate":"2017-02-22T14:03:36.762Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-22T14:03:36.761Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},"searchId":116,"searchName":"MYPARAMS"}};
 
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};
 
-});
-//     // UPDATE SEARCHES (PUT)
-// export const updateUserSearchesSuccess = (value) => {
-//     return {type: types.USER_UPDATE_SEARCHES_SUCCESS, value};
-// }
-
-// export const updateUserSearchesFailure = (value) => {
-//     return {type: types.USER_UPDATE_SEARCHES_FAILURE, value};
-// }
-
-// export const updateUserSearches = (newValues, searchId, searchName) => {
-//            // props.updateSearch(this.state, props.searchId, props.searchName);
-//     return (dispatch, getState) => {
-//         let search = {
-//             newValues,
-//             searchId,
-//             searchName
-//         }
-//         userApi.updateSearches({search}).then(response => {
-//                                     dispatch(updateUserSearchesSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(updateUserSearchesFailure(error));
-//                             });
-//     }
-// }
-
-//     //DESTROY SEARCHES (DELETE)
-
-// export const deleteUserSearchesSuccess = (value) => {
-//     return {type: types.USER_DELETE_SEARCHES_SUCCESS, value};
-// }
-// export const deleteUserSearchesFailure = (value) => {
-//     return {type: types.USER_DELETE_SEARCHES_FAILURE, value};
-// }
-// export const deleteUserSearches = (id) => {
-  
-//     return (dispatch) => {
-//         //gets the id of the UserSearch that was clicked according to its index, from the redux store
-//       // let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
-//         userApi.deleteSearches({search: {id}})
-//                             .then(response => {
-//                                     dispatch(deleteUserSearchesSuccess(response));
-//                                 })
-//                             .catch(error => {
-//                                 dispatch(deleteUserSearchesFailure(error));
-//                             });
-//     }
-// }
-
-// export const getResultHistorySuccess = (value) => {
-//     return {type: types.GET_RESULT_HISTORY_SUCCESS, value};
-// }
-
-// export const getResultHistoryFailure = (value) => {
-//     return {type: types.GET_RESULT_HISTORY_FAILURE, value};
-// }
-
-// export const getResultHistory = (resultId) => {
-
-//     return (dispatch) => {
+        nock(`${process.env.API_HOST}/api/`)
+            .put("/searches", JSON.stringify(requestBody))
+            .reply(401, expectedResponse);
         
-//         dispatch({type: types.GET_RESULT_HISTORY});
+        const expectedActions = [
+            {type: types.USER_UPDATE_SEARCHES},
+            {type: types.USER_UPDATE_SEARCHES_FAILURE, value: expectedResponse}
+        ]
+        let values = requestBody.search.newValues;
+        let searchName = requestBody.search.searchName;
+        let searchId = requestBody.search.searchId;
 
-//         userApi.getResultHistory(resultId)
-//             .then(response => {
-//                 dispatch(getResultHistorySuccess(response));
-//             })
-//             .catch(error => {
-//                 dispatch(getResultHistoryFailure(error));
-//             })
+        return store.dispatch(actions.updateUserSearches(values, searchId, searchName)).then(response => {
+                    expect(store.getActions()).toEqual(expectedActions);
+                });  
+    });
 
-//     }
+    it('Should delete a user\'s stored search successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
 
-// }
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {"message":{"info":{"Borrado exitosamente":["MYPARAMS"]}},"searches":{"name":["2017-02-21 19:41:49 -0300","13feb22222","siempre","asdsd"],"value":[{"offset":0,"endDate":"2017-02-21T22:41:27.957Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-21T22:41:27.957Z","rutProveedor":"","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-01-30T13:58:36.000Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-01-30T13:58:36.000Z","rutProveedor":"11111111","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"va","selectedEstadoLicitacion":"","selectedOrganismoPublico":"7016"},{"offset":0,"endDate":"2017-02-13T17:36:21.125Z","order_by":{"order":"descending","fields":[]},"startDate":"2017-02-13T17:36:21.125Z","rutProveedor":"","alwaysToToday":true,"palabrasClave":"","alwaysFromToday":true,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"},{"offset":0,"endDate":"2017-02-21T22:50:41.492Z","order_by":{"order":"descending","fields":["FechaCreacion"]},"startDate":"2017-02-21T22:50:41.492Z","rutProveedor":"","alwaysToToday":false,"palabrasClave":"","alwaysFromToday":false,"codigoLicitacion":"","organismosPublicosFilter":"","selectedEstadoLicitacion":"","selectedOrganismoPublico":"*"}],"id":[117,114,115,118]}};
+        
+        const requestBody = {"search":{"id":116}};
 
-// export const getUserNotificationsSuccess = (value) => {
-//     return {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value};
-// }
-// export const getUserNotificationsFailure = (value) => {
-//     return {type: types.USER_GET_NOTIFICATIONS_FAILURE, value};
-// }
+        nock(`${process.env.API_HOST}/api/`)
+            .delete("/searches", JSON.stringify(requestBody))
+            .reply(200, expectedResponse);
+        
+        let searchId = requestBody.search.id;
+        const expectedActions = [
+            {type: types.USER_DELETE_SEARCHES},
+            {type: types.USER_DELETE_SEARCHES_SUCCESS, value: expectedResponse}
+        ]
 
-// export const getUserNotifications = () => {
-//     return (dispatch) => {
-//         return userApi.getNotifications()
-//             .then(response => {
-//                 dispatch(getUserNotificationsSuccess(response));
-//                 })
-//             .catch(error => {
-//                     dispatch(getUserNotificationsFailure(error))
-//                 });
-//     }
-// }
-
-
-// export const deleteUserNotificationSuccess = (value) => {
-//     return {type: types.USER_DELETE_NOTIFICATION_SUCCESS, value};
-// }
-
-// export const deleteUserNotificationFailure = (value) => {
-//     return {type: types.USER_DELETE_NOTIFICATION_FAILURE, value};
-// } 
-
-// export const deleteUserNotification = (id) => {
-
-//     let notification = {
-//         notification_id: id
-//     }
-
-//     return dispatch => {
-//         return userApi.deleteNotification({notification})
-//             .then(response => {
-//                 dispatch(deleteUserNotificationSuccess(response))
-//             })
-//             .catch(error => {
-//                 dispatch(deleteUserNotificationFailure(error))
-//             });
-//     }
+        return store.dispatch(actions.deleteUserSearches(searchId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
 
 
-// }
+
+
+    });
+
+    it('Should delete a user\'s stored search unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};
+
+        const requestBody = {"search":{"id":116}};
+
+        nock(`${process.env.API_HOST}/api/`)
+            .delete("/searches", JSON.stringify(requestBody))
+            .reply(401, expectedResponse);
+        
+        let searchId = requestBody.search.id;
+        const expectedActions = [
+            {type: types.USER_DELETE_SEARCHES},
+            {type: types.USER_DELETE_SEARCHES_FAILURE, value: expectedResponse}
+        ]
+
+        return store.dispatch(actions.deleteUserSearches(searchId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should get a result\'s history successfully', () => {
+        //note that results can only be used with GET
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const resultId = 60907;
+        //Yes, its gigantic
+        const expectedResponse = [{"id":49506,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":null,"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Publicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-24T18:00:00","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":null,"CodigoEstado":5,"EstadoEtapas":"0","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":107,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"6","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-01-25T19:01:04.577"},"created_at":"2017-01-25T19:01:10.808-03:00","updated_at":"2017-01-25T19:01:10.808-03:00"},{"id":60907,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":null,"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Cerrada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-24T18:00:00","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":null,"CodigoEstado":6,"EstadoEtapas":"0","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-01-31T09:39:39.453"},"created_at":"2017-01-31T09:39:41.771-03:00","updated_at":"2017-01-31T09:39:41.771-03:00"},{"id":61180,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":null,"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Cerrada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-24T18:00:00","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":null,"CodigoEstado":6,"EstadoEtapas":"0","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-01-31T11:00:12.813"},"created_at":"2017-01-31T11:00:13.923-03:00","updated_at":"2017-01-31T11:00:13.923-03:00"},{"id":61700,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":null,"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Cerrada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-24T18:00:00","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":null,"CodigoEstado":6,"EstadoEtapas":"0","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-01-31T15:00:31.333"},"created_at":"2017-01-31T15:00:35.243-03:00","updated_at":"2017-01-31T15:00:35.243-03:00"},{"id":62877,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":null,"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Cerrada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-24T18:00:00","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":null,"CodigoEstado":6,"EstadoEtapas":"0","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-01-31T19:00:37.01"},"created_at":"2017-01-31T19:00:40.238-03:00","updated_at":"2017-01-31T19:00:40.238-03:00"},{"id":89550,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":{"Cantidad":5000.0,"RutProveedor":"3.037.565-3","MontoUnitario":2690.0,"NombreProveedor":"MARCOS ALEJANDRO SEGUICH BARRIENTOS"},"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Adjudicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-14T11:30:46.207","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":{"Tipo":2,"Fecha":"2017-02-14T00:00:00","Numero":"JP. DV. MAG Nº 42","UrlActa":"http://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs=SJ/HCCyjgAOr9Q5Z3J9R+U3i1VQ4ZbZizsoW5se3ZlE=","NumeroOferentes":1},"CodigoEstado":8,"EstadoEtapas":"1","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-02-14T13:14:10.647"},"created_at":"2017-02-14T13:14:11.986-03:00","updated_at":"2017-02-14T13:14:11.986-03:00"},{"id":89612,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":{"Cantidad":5000.0,"RutProveedor":"3.037.565-3","MontoUnitario":2690.0,"NombreProveedor":"MARCOS ALEJANDRO SEGUICH BARRIENTOS"},"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Adjudicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-14T11:30:46.207","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":{"Tipo":2,"Fecha":"2017-02-14T00:00:00","Numero":"JP. DV. MAG Nº 42","UrlActa":"http://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs=SJ/HCCyjgAOr9Q5Z3J9R+U3i1VQ4ZbZizsoW5se3ZlE=","NumeroOferentes":1},"CodigoEstado":8,"EstadoEtapas":"1","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-02-14T13:16:58.73"},"created_at":"2017-02-14T13:17:03.371-03:00","updated_at":"2017-02-14T13:17:03.371-03:00"},{"id":89626,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":{"Cantidad":5000.0,"RutProveedor":"3.037.565-3","MontoUnitario":2690.0,"NombreProveedor":"MARCOS ALEJANDRO SEGUICH BARRIENTOS"},"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Adjudicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-14T11:30:46.207","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":{"Tipo":2,"Fecha":"2017-02-14T00:00:00","Numero":"JP. DV. MAG Nº 42","UrlActa":"http://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs=SJ/HCCyjgAOr9Q5Z3J9R+U3i1VQ4ZbZizsoW5se3ZlE=","NumeroOferentes":1},"CodigoEstado":8,"EstadoEtapas":"1","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-02-14T13:18:08.483"},"created_at":"2017-02-14T13:18:10.563-03:00","updated_at":"2017-02-14T13:18:10.563-03:00"},{"id":90379,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":{"Cantidad":5000.0,"RutProveedor":"3.037.565-3","MontoUnitario":2690.0,"NombreProveedor":"MARCOS ALEJANDRO SEGUICH BARRIENTOS"},"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Adjudicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-14T11:30:46.207","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":{"Tipo":2,"Fecha":"2017-02-14T00:00:00","Numero":"JP. DV. MAG Nº 42","UrlActa":"http://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs=SJ/HCCyjgAOr9Q5Z3J9R+U3i1VQ4ZbZizsoW5se3ZlE=","NumeroOferentes":1},"CodigoEstado":8,"EstadoEtapas":"1","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-02-14T15:00:19.44"},"created_at":"2017-02-14T15:00:21.122-03:00","updated_at":"2017-02-14T15:00:21.122-03:00"},{"id":91386,"value":{"Listado":[{"Tipo":"LE","Items":{"Listado":[{"Cantidad":5000.0,"Categoria":"Productos derivados de minerales, plantas y animales / Tierra y piedra / Piedras","Correlativo":1,"Descripcion":"Material granular de acuerdo a especificaciones mencionadas en N°9_ \"Requerimientos técnicos y otras cláusulas\" _ BASES TECNICAS. Cotizar precio neto x metro cúbico. ","Adjudicacion":{"Cantidad":5000.0,"RutProveedor":"3.037.565-3","MontoUnitario":2690.0,"NombreProveedor":"MARCOS ALEJANDRO SEGUICH BARRIENTOS"},"UnidadMedida":"Metro Cúbico","CodigoProducto":11111611,"NombreProducto":"Grava","CodigoCategoria":"11111600"}],"Cantidad":1},"Obras":"0","Estado":"Adjudicada","Etapas":1,"Fechas":{"FechaFinal":"2017-01-27T12:00:00","FechaCierre":"2017-01-31T09:30:00","FechaInicio":"2017-01-25T16:00:00","FechaCreacion":"2017-01-23T00:00:00","FechasUsuario":null,"FechaPublicacion":"2017-01-25T15:44:41.37","FechaAdjudicacion":"2017-02-14T11:30:46.207","FechaEstimadaFirma":null,"FechaPubRespuestas":"2017-01-30T09:15:00","FechaSoporteFisico":null,"FechaVisitaTerreno":null,"FechaTiempoEvaluacion":null,"FechaActoAperturaTecnica":"2017-01-31T09:31:00","FechaEntregaAntecedentes":null,"FechaEstimadaAdjudicacion":"2017-02-24T18:00:00","FechaActoAperturaEconomica":"2017-01-31T09:31:00"},"Moneda":"CLP","Nombre":"Extracción de áridos Ruta Y-460","Tiempo":null,"Contrato":"2","TipoPago":"2","Comprador":{"RutUnidad":"61.202.000-0","RutUsuario":"6.136.814-0","CargoUsuario":"Jefe Unidad de Gestión","CodigoUnidad":"2066","ComunaUnidad":"Punta Arenas","NombreUnidad":"Dirección de Vialidad - XII Región - Provincia de Magallanes","RegionUnidad":"Región de Magallanes y de la Antártica","CodigoUsuario":"464781","NombreUsuario":"Misael Crucicevich Mimica","CodigoOrganismo":"7248","DireccionUnidad":"J.J. Perez 05047, Villa Las Nieves","NombreOrganismo":"MOP - Dirección de Vialidad"},"Informada":0,"Modalidad":1,"TomaRazon":"0","CodigoTipo":1,"EsBaseTipo":0,"Estimacion":2,"Descripcion":"Extracción de áridos para efectuar trabajos de recebo en la Ruta Y-460, sector Cruce Fabres (Cruce Ruta 9 Norte altura Km 97 a la Ruta Y-50), entre los km 0 al 22 (Varios Sectores), Provincia de Magallanes y Antártica Chilena.","EsRenovable":0,"FechaCierre":null,"Adjudicacion":{"Tipo":2,"Fecha":"2017-02-14T00:00:00","Numero":"JP. DV. MAG Nº 42","UrlActa":"http://www.mercadopublico.cl/Procurement/Modules/RFB/StepsProcessAward/PreviewAwardAct.aspx?qs=SJ/HCCyjgAOr9Q5Z3J9R+U3i1VQ4ZbZizsoW5se3ZlE=","NumeroOferentes":1},"CodigoEstado":8,"EstadoEtapas":"1","UnidadTiempo":"1","CodigoExterno":"1070-3-LE17","MontoEstimado":16100000.0,"ExtensionPlazo":0,"DireccionVisita":"","SubContratacion":"1","CantidadReclamos":108,"DireccionEntrega":"","TipoConvocatoria":"1","VisibilidadMonto":1,"ObservacionContract":null,"DiasCierreLicitacion":"0","EmailResponsablePago":"osvaldo.barria@mop.gov.cl","FuenteFinanciamiento":"31.02.004","TipoDuracionContrato":" ","NombreResponsablePago":"Osvaldo Barria Oyarzo","ValorTiempoRenovacion":"0","TiempoDuracionContrato":"0","UnidadTiempoEvaluacion":1,"EstadoPublicidadOfertas":1,"FonoResponsableContrato":"56-61-2612090-","JustificacionPublicidad":"","PeriodoTiempoRenovacion":" ","ProhibicionContratacion":"Se prohibe subcontratación debido a que el producto debe ser de buena calidad, lo cual lo garantiza el Proveedor que presente la oferta.","EmailResponsableContrato":"mario.alvarez@mop.gov.cl","NombreResponsableContrato":"Mario Alvarez Gallardo","JustificacionMontoEstimado":"","UnidadTiempoDuracionContrato":1,"UnidadTiempoContratoLicitacion":"1"}],"Version":"v1","Cantidad":1,"FechaCreacion":"2017-02-14T19:00:46.723"},"created_at":"2017-02-14T19:00:47.853-03:00","updated_at":"2017-02-14T19:00:47.853-03:00"}]
+
+        nock(`${process.env.API_HOST}/api/results/`)
+            .get(`/history?id=${resultId}`)
+            .reply(200, expectedResponse);
+        const expectedActions = [
+            {type: types.GET_RESULT_HISTORY},
+            {type: types.GET_RESULT_HISTORY_SUCCESS, value: expectedResponse}
+        ];
+
+        return store.dispatch(actions.getResultHistory(resultId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+
+    });
+
+    it('Should get a result\'s history unsuccessfully', () => {
+        //note that results can only be used with GET
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const resultId = 999999999;
+        const expectedResponse = {"messages": {"errors": "No se encontró dicho registro."}};
+
+        nock(`${process.env.API_HOST}/api/results/`)
+            .get(`/history?id=${resultId}`)
+            .reply(404, expectedResponse);
+        const expectedActions = [
+            {type: types.GET_RESULT_HISTORY},
+            {type: types.GET_RESULT_HISTORY_FAILURE, value: expectedResponse}
+        ];
+
+        return store.dispatch(actions.getResultHistory(resultId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should get a user\'s notifications successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
+        const expectedResponse = {"8":"Cambios en la licitación 1851-3-LE17"}
+        const store = mockStore();
+        nock(`${process.env.API_HOST}/api/notifications`)
+            .get('')
+            .reply(200, expectedResponse);
+        const expectedActions = [
+            {type: types.USER_GET_NOTIFICATIONS},
+            {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value: expectedResponse}
+        ];
+
+        return store.dispatch(actions.getUserNotifications()).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should get a user\'s notifications successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
+        const expectedResponse = {"8":"Cambios en la licitación 1851-3-LE17"}
+        const store = mockStore();
+        nock(`${process.env.API_HOST}/api/notifications`)
+            .get('')
+            .reply(200, expectedResponse);
+        const expectedActions = [
+            {type: types.USER_GET_NOTIFICATIONS},
+            {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value: expectedResponse}
+        ];
+
+        return store.dispatch(actions.getUserNotifications()).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should get a user\'s notifications unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};
+        const store = mockStore();
+        nock(`${process.env.API_HOST}/api/notifications`)
+            .get('')
+            .reply(401, expectedResponse);
+        const expectedActions = [
+            {type: types.USER_GET_NOTIFICATIONS},
+            {type: types.USER_GET_NOTIFICATIONS_FAILURE, value: expectedResponse}
+        ];
+
+        return store.dispatch(actions.getUserNotifications()).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should delete a user\'s notification successfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const requestBody = {"notification":{"notification_id":"15"}};
+        const expectedResponse = {"message":{"info":"Notificación borrada con éxito"},"notifications":{"8":"Cambios en la licitación 1851-3-LE17"}}
+
+        nock(`${process.env.API_HOST}/api/`)
+            .log(console.log)
+            .delete('/notifications', requestBody)
+            .reply(200, expectedResponse);
+        const store = mockStore();
+        const expectedActions = [
+            {type: types.USER_DELETE_NOTIFICATION},
+            {type: types.USER_DELETE_NOTIFICATION_SUCCESS, value: expectedResponse}
+        ];
+        let notificationId = requestBody.notification.notification_id;
+
+        return store.dispatch(actions.deleteUserNotification(notificationId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+
+    it('Should delete a user\'s notification unsuccessfully', () => {
+        const initialHeaders = {
+            'access-token': '111',
+            'uid': 'example@examplemail.com',
+            'client': '53k1237',
+            'content-type':'application/json',
+            'accept':'application/json',
+            'accept-encoding':'gzip,deflate',
+            'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+            'connection':'close'
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const requestBody = {"notification":{"notification_id":"15"}};
+        const expectedResponse = {"message":{"errors":"Acceso denegado"}};
+        nock(`${process.env.API_HOST}/api/`)
+            .log(console.log)
+            .delete('/notifications', requestBody)
+            .reply(401, expectedResponse);
+        const store = mockStore();
+        const expectedActions = [
+            {type: types.USER_DELETE_NOTIFICATION},
+            {type: types.USER_DELETE_NOTIFICATION_FAILURE, value: expectedResponse}
+        ];
+        let notificationId = requestBody.notification.notification_id;
+
+        return store.dispatch(actions.deleteUserNotification(notificationId)).then(response => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });  
+    });
+ 
+});

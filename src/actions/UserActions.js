@@ -229,6 +229,8 @@ export const updateUserSearchesFailure = (value) => {
 export const updateUserSearches = (values, searchId, searchName) => {
 
     return (dispatch) => {
+        dispatch({type: types.USER_UPDATE_SEARCHES});
+
         let newValues = objectAssign({}, values);
         delete newValues.organismosPublicosFilteredSubset;
         let search = {
@@ -257,6 +259,7 @@ export const deleteUserSearchesFailure = (value) => {
 export const deleteUserSearches = (id) => {
   
     return (dispatch) => {
+        dispatch({type: types.USER_DELETE_SEARCHES});
         //gets the id of the UserSearch that was clicked according to its index, from the redux store
       // let id = Object.values({getState}.getState().userSearches.fetched.id)[index]
        return userApi.deleteSearches({search: {id}})
@@ -304,6 +307,7 @@ export const getUserNotificationsFailure = (value) => {
 
 export const getUserNotifications = () => {
     return (dispatch) => {
+        dispatch({type: types.USER_GET_NOTIFICATIONS})
         return userApi.getNotifications()
             .then(response => {
                 dispatch(getUserNotificationsSuccess(response));
@@ -330,6 +334,8 @@ export const deleteUserNotification = (id) => {
     }
 
     return dispatch => {
+        dispatch({type: types.USER_DELETE_NOTIFICATION});
+        
         return userApi.deleteNotification({notification})
             .then(response => {
                 dispatch(deleteUserNotificationSuccess(response))
