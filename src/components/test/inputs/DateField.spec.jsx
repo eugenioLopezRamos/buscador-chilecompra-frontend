@@ -1,8 +1,60 @@
 import React from 'react';
-import DatePicker from 'react-datepicker';
+import {shallow} from 'enzyme';
 import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
+import DateField from '../../inputs/DateField';
 
+
+function setup() {
+  const props = {
+    startDate: moment(),
+    endDate: moment(),
+    setStartDate: jest.fn(),
+    setEndDate: jest.fn(),
+    toggleDateAlwaysToToday: jest.fn(),
+    toggleDateAlwaysFromToday: jest.fn()
+  }
+
+  const enzymeWrapper = shallow(<DateField {...props} />)
+  //const handleSelectionChange = enzymeWrapper().instance().onSelectionChange;
+
+  return {
+    props,
+    enzymeWrapper
+  }
+}
+
+describe('Components', () => {
+
+describe('DateField', () => {
+    it('Should render self and subcomponents', () => {
+        const {enzymeWrapper, props} = setup();
+
+        expect(enzymeWrapper.find('div.date-field-container').length).toBe(1);
+
+
+    })
+
+
+
+});
+
+describe('Should invoke the functions passed as props correctly', () => {
+    
+    it('Should invoke functions passed as props correctly', () => {
+
+
+    });
+
+
+});
+
+
+
+
+})
+
+
+/*
 
 const DateField = ({startDate, endDate, setStartDate, 
                     setEndDate, toggleDateAlwaysFromToday, 
@@ -55,4 +107,4 @@ const DateField = ({startDate, endDate, setStartDate,
             </div>)    
 }
 
-export default DateField;
+export default DateField;*/

@@ -1,4 +1,10 @@
 {
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    }
+  },
   "name": "ccfeapp",
   "version": "0.1.0",
   "description": "",
@@ -76,6 +82,7 @@
     "extract-text-webpack-plugin": "2.0.0-rc.3",
     "file-loader": "0.10.0",
     "html-webpack-plugin": "2.28.0",
+    "identity-obj-proxy": "3.0.0",
     "isparta": "4.0.0",
     "istanbul": "0.4.5",
     "jest": "19.0.1",
