@@ -1,18 +1,24 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import AutoFillerInput from '../../inputs/AutoFillerInput.jsx';
-
+//import {helpers} from '../../../helpers/inputFieldsContainerHelper';
 
 
 function setup() {
   const props = {
-    organismosPublicosFilteredSubset: [
+    organismosPublicos: [
         {1337: "Ministerio aleatorio"}, {7248: "MOP - Dirección de Vialidad"}
         ],
-    organismosPublicosFilter: ""
+    organismosPublicosFilteredSubset: [
+        {7248: "MOP - Dirección de Vialidad"}
+        ],
+    organismosPublicosFilter: "vialidad",
+    onSelectionChange: jest.fn(),
+    onInputChange: jest.fn()
   }
 
   const enzymeWrapper = shallow(<AutoFillerInput {...props} />)
+  //const handleSelectionChange = enzymeWrapper().instance().onSelectionChange;
 
   return {
     props,
@@ -24,75 +30,33 @@ function setup() {
 describe('components', () => {
   describe('AutoFillerInput', () => {
     it('should render self and subcomponents', () => {
-      const { enzymeWrapper } = setup()
-
+      const {enzymeWrapper, props} = setup()
       expect(enzymeWrapper.find('div').hasClass('selection-container')).toBe(true);
+      //given mock filter "vialidad" (which produces organismosPublicosFilteredSubset as a prop),
+      //there should be only 1 option on the select
+      expect(enzymeWrapper.find('option').length).toBe(1);
 
-      expect(enzymeWrapper.find('input').hasClass("col-xs-12 col-md-10 col-lg-4 no-gutter" )).toBe(true);
-      expect(enzymeWrapper.find('select').hasClass('')).toBe(true);
+      const inputElement = enzymeWrapper.find('.selection-container input.col-xs-12.col-md-10.col-lg-4.no-gutter');
+      const inputElementProps = inputElement.props();
 
-    //  const todoInputProps = enzymeWrapper.find('select').props()
-    //  expect(todoInputProps.newTodo).toBe(true)
-   //   expect(todoInputProps.placeholder).toEqual('What needs to be done?')
-    })
+      expect(inputElementProps.value).toEqual(props.organismosPublicosFilter);
+      expect(inputElementProps.placeholder).toEqual("Busca un organismo público (código o nombre)");
+  
+      //tests inputting text into the <input/>
+      expect(props.onInputChange.mock.calls.length).toBe(0);
+      inputElement.simulate('change', {target: {value: ""}});
+      expect(props.onInputChange.mock.calls.length).toBe(1);
+ 
 
-    // it('should call addTodo if length of text is greater than 0', () => {
-    //   const { enzymeWrapper, props } = setup()
-    //   const input = enzymeWrapper.find('TodoTextInput')
-    //   input.props().onSave('')
-    //   expect(props.addTodo.mock.calls.length).toBe(0)
-    //   input.props().onSave('Use Redux')
-    //   expect(props.addTodo.mock.calls.length).toBe(1)
-    // })
-  })
-})
+      const selectElement = enzymeWrapper.find('select');
+      const selectElementProps = selectElement.props();
 
+      //tests selecting something on the select
+      expect(props.onSelectionChange.mock.calls.length).toBe(0);
+      selectElement.simulate('change',{target: {value: "7248"}});
+      expect(props.onSelectionChange.mock.calls.length).toBe(1);
+    });
 
-
-
-
-
-
-/*import React from 'react';
-
-const AutoFillerInput = (props) => {
-
-    const handleSelectionChange = (event) => {
-        props.onSelectionChange(event);
-    }
-
-    const handleInputChange = (event) => {
-
-        props.onInputChange(props.organismosPublicos, event.target.value);
-    }
-
-       
-        return(
-        
-                <div className="selection-container">
-                    <input 
-                        value={props.organismosPublicosFilter}
-                
-                        className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                        placeholder="Busca un organismo público (código o nombre)" 
-                        id="opinput" 
-                        onChange={handleInputChange}
-                        />
-                    <select value={props.selectedOrganismoPublico} onChange={handleSelectionChange} key="autofiller-select">
-                        {   
-                    
-                            props.organismosPublicosFilteredSubset.map((e,i) => {
-                        
-                                let key = Object.keys(e)[0]
-                                return <option value={key} key={key}>{e[key]} ({key})</option>
-
-                                })
-                        }
-                    </select>
-                </div>  
-              
-        )
-}
-export default AutoFillerInput;
-*/
-
+  });
+  
+});
