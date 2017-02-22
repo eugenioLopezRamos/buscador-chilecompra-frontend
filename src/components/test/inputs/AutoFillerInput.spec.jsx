@@ -6,7 +6,10 @@ import AutoFillerInput from '../../inputs/AutoFillerInput.jsx';
 
 function setup() {
   const props = {
-    addTodo: jest.fn()
+    organismosPublicosFilteredSubset: [
+        {1337: "Ministerio aleatorio"}, {7248: "MOP - Dirección de Vialidad"}
+        ],
+    organismosPublicosFilter: ""
   }
 
   const enzymeWrapper = shallow(<AutoFillerInput {...props} />)
@@ -26,21 +29,21 @@ describe('components', () => {
       expect(enzymeWrapper.find('div').hasClass('selection-container')).toBe(true);
 
       expect(enzymeWrapper.find('input').hasClass("col-xs-12 col-md-10 col-lg-4 no-gutter" )).toBe(true);
-      expect(enzymeWrapper.find('select')).toBe(true);
+      expect(enzymeWrapper.find('select').hasClass('')).toBe(true);
 
-      const todoInputProps = enzymeWrapper.find('TodoTextInput').props()
-      expect(todoInputProps.newTodo).toBe(true)
-      expect(todoInputProps.placeholder).toEqual('What needs to be done?')
+    //  const todoInputProps = enzymeWrapper.find('select').props()
+    //  expect(todoInputProps.newTodo).toBe(true)
+   //   expect(todoInputProps.placeholder).toEqual('What needs to be done?')
     })
 
-    it('should call addTodo if length of text is greater than 0', () => {
-      const { enzymeWrapper, props } = setup()
-      const input = enzymeWrapper.find('TodoTextInput')
-      input.props().onSave('')
-      expect(props.addTodo.mock.calls.length).toBe(0)
-      input.props().onSave('Use Redux')
-      expect(props.addTodo.mock.calls.length).toBe(1)
-    })
+    // it('should call addTodo if length of text is greater than 0', () => {
+    //   const { enzymeWrapper, props } = setup()
+    //   const input = enzymeWrapper.find('TodoTextInput')
+    //   input.props().onSave('')
+    //   expect(props.addTodo.mock.calls.length).toBe(0)
+    //   input.props().onSave('Use Redux')
+    //   expect(props.addTodo.mock.calls.length).toBe(1)
+    // })
   })
 })
 
