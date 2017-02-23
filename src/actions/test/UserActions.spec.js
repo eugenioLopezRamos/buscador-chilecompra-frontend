@@ -907,7 +907,6 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         const expectedResponse = {"message":{"info":"Notificación borrada con éxito"},"notifications":{"8":"Cambios en la licitación 1851-3-LE17"}}
 
         nock(`${process.env.API_HOST}/api/`)
-            .log(console.log)
             .delete('/notifications', requestBody)
             .reply(200, expectedResponse);
         const store = mockStore();
@@ -938,7 +937,6 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         const requestBody = {"notification":{"notification_id":"15"}};
         const expectedResponse = {"message":{"errors":"Acceso denegado"}};
         nock(`${process.env.API_HOST}/api/`)
-            .log(console.log)
             .delete('/notifications', requestBody)
             .reply(401, expectedResponse);
         const store = mockStore();

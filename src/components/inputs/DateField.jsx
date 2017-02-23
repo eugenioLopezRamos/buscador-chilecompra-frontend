@@ -9,7 +9,7 @@ const DateField = ({startDate, endDate, setStartDate,
                     toggleDateAlwaysToToday, alwaysFromToday, alwaysToToday}) => {
     return (
             <div className="date-field-container">
-            <span className="date-field-container-span-from">Desde:</span>
+            <span className="date-field-container-span">Desde:</span>
                 <
                 DatePicker 
                     className="col-xs-12 col-md-10 col-lg-8 no-gutter"
@@ -22,16 +22,16 @@ const DateField = ({startDate, endDate, setStartDate,
                     disabled={alwaysFromToday}
                 />
                 <span className="date-field-checkbox-container">
-                    <span className="date-field-container-checkbox-span-from">Siempre desde el dia actual:</span>
+                    <span className="date-field-container-checkbox-span">Siempre desde el dia actual:</span>
                     <input type="checkbox"
-                            className="date-field-container-checkbox-from"
+                            className="date-field-container-checkbox"
                             checked={alwaysFromToday}
                             onChange={(event) => {toggleDateAlwaysFromToday(event.target.checked)} }
                            
                     />
                 </span>
 
-            <span className="date-field-container-span-to">Hasta:</span>
+            <span className="date-field-container-span">Hasta:</span>
                 <
                 DatePicker 
                     className="col-xs-12 col-md-10 col-lg-8 no-gutter"
@@ -44,9 +44,9 @@ const DateField = ({startDate, endDate, setStartDate,
                     disabled={alwaysToToday} 
                 />
                 <span className="date-field-checkbox-container">
-                    <span className="date-field-container-checkbox-span-to">Siempre hasta el día actual:</span>
+                    <span className="date-field-container-checkbox-span">Siempre hasta el día actual:</span>
                     <input type="checkbox"
-                           className="date-field-container-checkbox-to"
+                           className="date-field-container-checkbox"
                            checked={alwaysToToday}
                            onChange={(event) => {toggleDateAlwaysToToday(event.target.checked)} }
                            
