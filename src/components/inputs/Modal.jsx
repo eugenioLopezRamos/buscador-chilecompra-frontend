@@ -9,7 +9,6 @@ const Modal = (props) => {
 
     const hideModal = () => {
         props.hideModal();
-
     }
 
     const isHidden = () => {
@@ -31,7 +30,7 @@ const Modal = (props) => {
                 <input type="input" placeholder="Nombre" onChange={props.onInput} value={props.modalValue}/>
 
                 <button type="button" className="btn btn-primary col-xs-6 col-md-4 col-md-offset-2" onClick={hideModal}>Cancelar</button>
-                <button type="button" className="btn btn-primary col-xs-6 col-md-4 " onClick={confirmAction}>Guardar</button>
+                <button type="button" className="btn btn-primary col-xs-6 col-md-4" onClick={confirmAction}>Guardar</button>
 
             </div>
     </div>)
