@@ -63,7 +63,7 @@ class SearchResults extends React.PureComponent {
 
         //TODO: Get this to a helper or something...
         applyFilter = (selectedItems, results) => {
-
+  
             let columns = results.map(currentResult => {
               
                 let newObject = {};

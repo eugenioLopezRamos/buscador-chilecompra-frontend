@@ -37,7 +37,7 @@ const messagesReducer = (state = initialState.messages, action) => {
             
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return state;
 
         case types.USER_GET_RESULT_SUBSCRIPTION_FAILURE:
             return objectAssign({}, state, {Info: info, Errores: errors});

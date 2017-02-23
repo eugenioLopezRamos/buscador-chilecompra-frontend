@@ -20,10 +20,10 @@ import UpdateSearchMenu from '../UpdateSearchMenu';
 import fetchApi from '../../api/fetchApi';
 
 
-class UserPage extends React.Component {
+export class UserPage extends React.Component {
     constructor(props) {
         super(props);
-        this.fetchApi = fetchApi;
+       // this.fetchApi = fetchApi;
         this.state = {
             showFullScreenPane: false,
             FullScreenPaneComponent: null,
@@ -57,7 +57,6 @@ class UserPage extends React.Component {
 
         this.actions = {
                         getUserSubscriptions: props.getUserSubscriptions,
-                        // noReduxGetStoredUserSubscriptions,
                         updateSubscription: props.updateSubscription,
                         deleteSubscription: props.deleteSubscription,
                         getUserSearches: props.getUserSearches,
@@ -67,13 +66,6 @@ class UserPage extends React.Component {
                         }
 
     }
-
-    // componentDidMount = () => {
-    //     //I did think about changing these here and in the backend, but decided it was awkward either way
-    //    this.props.getUserNotifications();
-    //    this.props.getUserSubscriptions();
-    //    this.props.getUserSearches();
-    // }
 
     requestResults = () => {
         this.props.getUserSubscriptions();
@@ -111,7 +103,7 @@ class UserPage extends React.Component {
         this.setState({
                         showFullScreenPane:true, 
                         FullScreenPaneComponent: component,
-                      
+                        componentProps: {results: null},
                         menu: this.getMenu(component)
                         });
 
@@ -119,7 +111,7 @@ class UserPage extends React.Component {
     
         data.date = Date.parse(data.date);
 
-        this.fetchApi.getChileCompraData(data)
+        this.props.fetchApi.getChileCompraData(data)
             .then(response => {
                                 this.setState({
                                                 showFullScreenPane: true, 
@@ -147,12 +139,12 @@ class UserPage extends React.Component {
            this.setState({
                         showFullScreenPane:true, 
                         FullScreenPaneComponent: null,
-                      
+                        componentProps: {results: null},
                         menu: this.getMenu(component)
                         });
 
 
-        userApi.getResultHistory(resultId)
+        this.props.userApi.getResultHistory(resultId)
             .then(response => { 
                                 this.setState({
                                                 showFullScreenPane: true, 
@@ -182,11 +174,6 @@ class UserPage extends React.Component {
         return(
             <div className="jumbotron" style={{"minHeight": document.documentElement.clientHeight}}>
 
-
-
-
-
-
                 <FullScreenPane 
                     show={this.state.showFullScreenPane}
                     hide={this.hideFullScreenPane}
@@ -205,7 +192,7 @@ class UserPage extends React.Component {
                 />
 
                 <Flash 
-                    type={"info"} 
+                    type="info"
                     messages={this.props.messages} 
                 />
 
@@ -245,7 +232,9 @@ function mapStateToProps(state, ownProps) {
             userSubscriptions: state.userSubscriptions,
             userSearches: state.userSearches,
             userNotifications: state.userNotifications,
-            messages: state.messages
+            messages: state.messages,
+            userApi: userApi,
+            fetchApi: fetchApi
         }
 }
 

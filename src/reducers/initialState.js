@@ -54,7 +54,7 @@ const initialState = {
         offset: 0,
         order_by: {fields: initialFieldsOrderBy, order: "descending"}
     },
-    messages: {errors: [], info: []}
+    messages: {Errores: [], Info: []}
 }
 
 export default initialState;

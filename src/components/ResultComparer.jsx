@@ -63,7 +63,7 @@ class ResultComparer extends React.Component {
                         <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
                             {keyName}
                         </span>
-                        <div className="object-container" ref={(element) => { this.containers[number] = element} }>
+                        <div className="object-container" ref={(element) => { this.containers[number] = element} } key={`object-containerArray${number}`}>
                         {
                             Object.keys(object).map((currentKey) => {
 
@@ -83,10 +83,10 @@ class ResultComparer extends React.Component {
             let number = this.counter;
             
             return (<div className="object-data-container" key={number}>        
-                        <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} }>
+                        <span className="object-container-name" onClick={() => {this.toggleOpen(this.containers[number])} } key={`objectContainerName${number}`}>
                             {keyName}
                         </span>
-                        <div className="object-container" ref={(element) => { this.containers[number] = element} }>
+                        <div className="object-container" ref={(element) => { this.containers[number] = element} } key={`object-containerObject${number}`}>
                         {
                             
 
@@ -123,7 +123,7 @@ class ResultComparer extends React.Component {
                                             let netDifferencesArray = differences.map(element => {
 
                                                 let stringifiedValue = JSON.stringify(Object.keys(element.value));
-                                                console.log("stringi", stringifiedValue)
+                                            
                                                 if(stringifiedValue === toIgnore) {
                                                     return null;
                                                 }else {
@@ -155,11 +155,11 @@ class ResultComparer extends React.Component {
                                 return null;
                             }
                             return (
-                                    <div className="single-difference-container">
+                                    <div className="single-difference-container" key={`single-difference-container${index}`}>
                                     {
-                                        Object.keys(currentResult.value).map((currentKey) => {
+                                        Object.keys(currentResult.value).map((currentKey, index) => {
                                             return (
-                                                    <div className="difference-item">
+                                                    <div className="difference-item" key={`single-difference${index}`}>
                                                         {this.renderValues(currentResult.value[currentKey], currentKey)}
                                                     </div>
                                                     );
