@@ -13,7 +13,6 @@ const Notifications = (props) => {
         event.stopPropagation();
     }
     const deleteNotification = (key) => {
-        console.log("you wanted to delete notification nr", key);
         props.deleteNotification(key)
     }
 
