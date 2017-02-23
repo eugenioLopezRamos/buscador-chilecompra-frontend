@@ -6,12 +6,12 @@ const SelectionField = ({estadosLicitacion, onChange}) => {
             onChange(event);
         }
 
-        var values = []
+        let values = [];
         if(typeof estadosLicitacion != "undefined") {
             //Object format = {"suspendida": "19"}. Will look into it later if this format is still the most appropiate one (instead of {"19": "suspendida"});
             values = Object.keys(estadosLicitacion).map(nombreEstado => {
                 let codigo;
-                ["", undefined].includes(estadosLicitacion[nombreEstado]) ? codigo = "*" : codigo = `${estadosLicitacion[nombreEstado]}`;
+                estadosLicitacion[nombreEstado] ? codigo = `${estadosLicitacion[nombreEstado]}` : codigo = "*";
 
                 let newObject = {};
                 let newKey = nombreEstado;
@@ -24,14 +24,13 @@ const SelectionField = ({estadosLicitacion, onChange}) => {
 
         return (
             <div>
-                <select className="col-xs-12 col-md-10 col-lg-4 no-gutter" id="estadosLicitacion-select" onChange={handleChange} >
+                <select className="col-xs-12 col-md-10 col-lg-4 no-gutter" onChange={handleChange} >
                   {
-                      values.map( (e, i) => {
+                      values.map((value, index) => {
                         
-                          let valorKey = Object.keys(e)[0];
-                          let valorTexto = e[valorKey];
-
-                          return <option value={valorTexto} key={i}>{`${valorKey} (${valorTexto})`}</option>
+                          let valorKey = Object.keys(value)[0];
+                          let valorTexto = value[valorKey];
+                          return <option value={valorTexto} key={index}>{`${valorKey} (${valorTexto})`}</option>
 
                         })
                   }      
