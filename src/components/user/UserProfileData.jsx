@@ -5,7 +5,7 @@ import * as UserProfileActions from '../../actions/UserActions';
 import {capitalize} from '../../utils/miscUtils';
 import Flash from '../Flash.jsx';
 
-class UserProfileData extends React.Component {
+export class UserProfileData extends React.Component {
 
     constructor(props) {
 
@@ -16,21 +16,8 @@ class UserProfileData extends React.Component {
         this.capitalize = (string) => { return capitalize(string); }
     }
 
-    handleChange = (event) => {
-
-        let allowedFields = this.showParams.map(e => { 
-                                    
-                                    return Object.keys(e)[0]
-
-                                });
-
-        let field = allowedFields.filter(e => {
-            return event.target === this.refs[e];
-        }).join("");
-      
-        let action = "modifyUserProfileDataInput" + this.capitalize(field) ;
-
-
+    handleChange = (event, fieldName) => {
+        let action = "modifyUserProfileDataInput" + this.capitalize(fieldName) ;
         this.props.userProfileActions[action](event.target.value);
     }
 
@@ -46,17 +33,22 @@ class UserProfileData extends React.Component {
             return null;
         }
 
-        let fields = this.showParams.map(e => {
-                let currentKey = Object.keys(e)[0];
+        let fields = this.showParams.map(field => {
+                // fieldName = name, email, currentPasswod...etc
+                let fieldName = Object.keys(field)[0];
                 let inputType = "input";
-                let isPasswordOrMail = currentKey.match(/password|email/i);
+                let isPasswordOrMail = fieldName.match(/password|email/i);
+                //inputType becomes password or email, according to what was found.       
                 if(isPasswordOrMail) {
-                    //inputType becomes password or email, according to what was found.
-                    inputType = isPasswordOrMail[0];
+                    inputType = isPasswordOrMail[0].toLowerCase();
                 }
-                return (<div key={currentKey}>
-                            <label className="title full-width">{e[currentKey]}</label>
-                            <input key={currentKey} ref={currentKey} value={user[currentKey]} onChange={this.handleChange} type={inputType}/>
+                return (<div className="user-profile-data-field" key={fieldName}>
+                            <label className="title full-width">{field[fieldName]}</label>
+                            <input className="user-profile-field-input"
+                                   key={fieldName}
+                                   value={user[fieldName]}
+                                   onChange={(event) => {this.handleChange(event, fieldName)}}
+                                   type={inputType}/>
                         </div>)
             });
 
@@ -73,7 +65,7 @@ class UserProfileData extends React.Component {
         return (
             <div className="jumbotron text-center" style={{"minHeight": document.documentElement.clientHeight}}>
                 <Flash messages={this.props.messages}/>
-                <label>Aquí puedes editar los datos de tu perfil</label>
+                <label className="user-profile-description">Aquí puedes editar los datos de tu perfil</label>
                 {this.userData()}
                 <button className="btn btn-primary info" onClick={this.handleClick}>Enviar datos</button>
             </div>
