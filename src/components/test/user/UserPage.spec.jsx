@@ -4,6 +4,12 @@ import {UserPage} from '../../user/UserPage.jsx';
 import objectAssign from 'object-assign';
 
 function setup() {
+    const responsePromise = (value) => {
+
+        return new Promise(function(resolve, reject) {
+                resolve(value);
+        });
+    }
     const props = {
         user: {
             id: 1,
@@ -68,7 +74,10 @@ function setup() {
         getResultHistory: jest.fn(),
         loadChilecompraData: jest.fn(() => {mock: "mockValue"}),
         userApi: {
-            getResultHistory: jest.fn(() => "getResultHistory")
+            getResultHistory: (value) => responsePromise(value)
+        },
+        fetchApi: {
+            getChileCompraData: (value) => responsePromise(value)
         }
     }
 
@@ -79,19 +88,6 @@ function setup() {
         wrapper
     }
 }
-
-
-
-        // this.state = {
-        //     showFullScreenPane: false,
-        //     FullScreenPaneComponent: null,
-        //     componentProps: {},
-        //     menu: null,
-        //     menuProps: {},
-        //     showModal: false,
-        //     enteredNewSubscriptionName: "",
-        //     modalDefaultName: null
-        // }
 
 describe('Container', () => {
     const {wrapper, props} = setup();
@@ -160,9 +156,14 @@ describe('Container', () => {
 
             const testFunctionChangesState = (fn, args, expectedValue) => {
                 //clone the state before calling the state changing function
-                let initialState = objectAssign({}, state);
+                let initialState = objectAssign({}, instance.state);
                 //Invoke the function
-                fn(args);
+                if(Object.prototype.toString.call(args) === "[object Array]") {
+                    fn.apply(null, args);
+                }else {
+                    fn(args);
+                }
+
                 //Is the new state (instance.state) equal to the expected new state?
                 // (objectAssign initialState << expectedValue);
                 expect(instance.state).toEqual(objectAssign(initialState, expectedValue));
@@ -192,64 +193,65 @@ describe('Container', () => {
             //onInput (instance) this.onSubscriptionNewNameInput
             let newSubscriptionName = "new name";
             expectedValue = {enteredNewSubscriptionName: newSubscriptionName};
-            let argument = {target: {value: newSubscriptionName}};
-            testFunctionChangesState(modal.props().onInput, argument, expectedValue);
+            let args = {target: {value: newSubscriptionName}};
+            testFunctionChangesState(modal.props().onInput, args, expectedValue);
 
             //Flash functions - NONE
 
             //userProfile functions
             const userProfile = wrapper.find('UserProfile').at(0);
+            //are actions being passed correctly?
+            expect(userProfile.props().actions).toEqual(instance.actions);
 
+            // Tests showing a stored search 
+            let mockComponent = <div></div>;
+            let mockIndex = 0;
+            args = [mockComponent, mockIndex];
 
-            // this.showStoredSearch
-            // this.executeStoredSearch
-            // this.getResultHistory
-            // this.showModal
+            expectedValue = {
+                    showFullScreenPane: true, 
+                    FullScreenPaneComponent: mockComponent,
+                    componentProps: {
+                        defaultValues: {
+                            defaultState: props.userSearches.value[mockIndex]                    
+                        },
+                        saveMenu: instance.components.UpdateSearchMenu,
+                        createSearches: props.updateUserSearches,
+                        defaultSearchId: props.userSearches.id[mockIndex],
+                        defaultSearchName: props.userSearches.name[mockIndex]
+                    },
+            }
+            testFunctionChangesState(userProfile.props().showStoredSearch, args, expectedValue);
+
+            // args are the same!
+            let mockData = props.userSearches[mockIndex];
             
+            expectedValue = {
+                  showFullScreenPane: true, 
+                  FullScreenPaneComponent: mockComponent, 
+                  componentProps: {results: null},
+                  menu: null
+                 }    
 
-            // actions (vienen de props): 
-                        // getUserSubscriptions: props.getUserSubscriptions,
-                        // updateSubscription: props.updateSubscription,
-                        // deleteSubscription: props.deleteSubscription,
-                        // getUserSearches: props.getUserSearches,
-                        // updateUserSearches: props.updateUserSearches,
-                        // deleteUserSearches: props.deleteUserSearches,
-
-            //showStoredSearch - Sets state: 
-
-                // { 
-                //     showFullScreenPane: true, 
-                //     FullScreenPaneComponent: component,
-                //     componentProps: {
-                //         defaultValues: {
-                //             defaultState: this.props.userSearches.value[index]                    
-                //         },
-                //         saveMenu: this.components.UpdateSearchMenu,
-                //         createSearches: this.props.updateUserSearches,
-                //         defaultSearchId: searchId,
-                //         defaultSearchName: searchName
-                //     },
-                // }
-            
-            // executeStoredSearch - Sets state:
-
-                //  {
-                //   showFullScreenPane: true, 
-                //   FullScreenPaneComponent: component, 
-                //   componentProps: {results: response },
-                //   menu: this.getMenu(component)
-                //  }    
-
+            testFunctionChangesState(userProfile.props().executeStoredSearch, args, expectedValue);
+            //TODO: Not quite sure about this one, need to see more about how it works in testing (in reality in the browser this 
+            // does work, just need to verify that the test if indeed working correctly with the mock promise);
+            expectedValue = expectedValue.componentProps.results = props.fetchApi.getChileCompraData("mock response")
+            expect(wrapper.update().instance().state).toEqual(objectAssign(instance.state, expectedValue));
+        
             // getResultHistory - Sets state: 
 
-                // {
-                // showFullScreenPane: true, 
-                // FullScreenPaneComponent: component, 
-                // componentProps: {results: response},
-                // menu: this.getMenu(component)
-                // }           
-                        
-
+            expectedValue = {
+                showFullScreenPane: true, 
+                FullScreenPaneComponent: mockComponent, 
+                componentProps: {results: null},
+                menu: null
+            };
+            mockComponent = <div></div>
+            
+            testFunctionChangesState(userProfile.props().getResultHistory, args, expectedValue);           
+            expectedValue = expectedValue.componentProps.results = props.userApi.getResultHistory("result mock");                    
+            expect(wrapper.update().instance().state).toEqual(objectAssign(instance.state, expectedValue));
             //showModal - Sets state:
               
               // 

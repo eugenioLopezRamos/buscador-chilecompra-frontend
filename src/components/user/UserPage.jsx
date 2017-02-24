@@ -23,7 +23,8 @@ import fetchApi from '../../api/fetchApi';
 export class UserPage extends React.Component {
     constructor(props) {
         super(props);
-       // this.fetchApi = fetchApi;
+        // this.fetchApi = fetchApi;
+        // this.userApi = userApi;
         this.state = {
             showFullScreenPane: false,
             FullScreenPaneComponent: null,
@@ -44,7 +45,7 @@ export class UserPage extends React.Component {
 
         this.getMenu = (component) => {
 
-            //TODO: remove? return menu according to component
+            //TODO: remove
             switch(component) {
                 case this.components.SearchResults:
                     return null;
@@ -110,7 +111,7 @@ export class UserPage extends React.Component {
         let data = objectAssign({}, this.props.userSearches.value[index]);
     
         data.date = Date.parse(data.date);
-
+        console.log("FETCHAPI", this.props.fetchApi);
         this.props.fetchApi.getChileCompraData(data)
             .then(response => {
                                 this.setState({
@@ -223,7 +224,6 @@ UserPage.propTypes = {
     userNotifications: PropTypes.object,
     messages: PropTypes.object
     //tbi
-
 }
 
 function mapStateToProps(state, ownProps) {
