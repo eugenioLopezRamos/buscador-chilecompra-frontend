@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import Flash from './Flash';
 
 
-class AuthorizationWrapper extends React.Component {
+export class AuthorizationWrapper extends React.Component {
     constructor(props, {store}) {
         super(props);
         this.dispatch = store.dispatch;

@@ -10,12 +10,12 @@ import {connect} from 'react-redux';
 //TODO: Should should a Flash when successfully signed up!
 
 
-class Introduction extends React.Component {
+export class Introduction extends React.Component {
     //TODO: make this a separate file!
     signup = () => {
         let signup = null
         if(!this.props.isAuthenticated) {
-            signup = <div>
+            signup = <div key="signup">
                         <p className="text-center">Regístrate</p>
 
                         <SignupForm 
@@ -33,22 +33,18 @@ class Introduction extends React.Component {
     render = () => {
 
         return (
-            <div className="container jumbotron" style={{height: document.documentElement.clientHeight}}>
+            <div key="introduction-key" className="container jumbotron" style={{height: document.documentElement.clientHeight}}>
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
-                <br />
-                <div className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.
-                <br />
-                Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
-                <br />
+          
+                <div key="introduction-text" className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.
+              
+                    Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.
+                </div>
                 {this.signup()}
-
-
             </div>
         )
     }
 }
-
-// proptypes..
 
 Introduction.propTypes = {
     isAuthenticated: PropTypes.bool,

@@ -7,7 +7,6 @@ import * as types from '../constants/actionTypes';
 
 
 const App = ({children}, {store}) => {
-
     const hideNavbar = () => {
         let navbar = store.getState().display.showNavbar;
         let notifications = store.getState().display.showNotifications;
@@ -17,16 +16,16 @@ const App = ({children}, {store}) => {
         }
     }
    return( 
-            <div style={{"backgroundColor": "#eee", "minHeight": "50vmax", "minWidth": "100%", "display": "inline-block"} } onClick={hideNavbar}>
+            <div key="app-main" style={{"backgroundColor": "#eee", "minHeight": "50vmax", "minWidth": "100%", "display": "inline-block"} } 
+                 id="app-component-root"
+                 onClick={hideNavbar}>
                 <Header />
-                    {children}
+                   {children}
                 <Footer />
             </div>
    )
 }
    
-
-
 App.PropTypes = {
     children: PropTypes.object,
 }

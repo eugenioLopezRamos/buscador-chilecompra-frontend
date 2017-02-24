@@ -38,7 +38,7 @@ const SignupForm = (props) => {
 
     return (
         
-        <div className="signup-form col-xs-12 col-md-8">
+        <div key="signupForm" className="signup-form col-xs-12 col-md-8">
  
 
             <label className="col-xs-12 col-md-8 text-center">Nombre</label>
