@@ -1,62 +1,136 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux';
-import Flash from '../Flash';
+import {shallow} from 'enzyme';
+import AuthorizationWrapper from '../AuthorizationWrapper';
+import configureMockStore from 'redux-mock-store';
+
+//Possible wrapees 
+import Introduction from '../Introduction';
+import InputFieldsContainer from '../InputFieldsContainer';
+import SearchesSaver from '../SearchesSaver';
+import UserPage from '../UserPage';
+import UserProfileData from '../UserProfileData';
+
+//actions
+import * as API from './actions/fetchActions';
+import createSearches from './actions/UserActions';
+//menus
+import SearchesSaver from '../SearchesSaver';
+import initialState from '../reducers/initialState';
 
 
-class AuthorizationWrapper extends React.Component {
-    constructor(props, {store}) {
-        super(props);
-        this.dispatch = store.dispatch;
-        //TODO: I'm....not quite sure about the "recommendability" of this one...
-
-        // Binds the actions passed in the "actions" prop from 'routes.js' to the dispatch
-        // This is done so we can reuse a couple of components (especially InputFieldsContainer)
-        // by using versions that behave slightly differently.
-        // In the case of InputFieldsContainer the code is kept the same except the two redux-store connected
-        // functions, where we want to have the following differences:
-        
-        // /busqueda -> InputFieldsContainer has a button to submit the form, which the one from UserProfile doesnt,
-        // and /busqueda -> InputFieldsContainer saves a new search query when saving search query.
-
-        // UserProfile -> InputFieldsContainer can't submit the form proper AND when saving the terms in the input boxes
-        // (the state if you will), it will modify the already existing search query instead of creating a new one
-
-        this.actions = (() => {
-            if(props.actions) {
-                return Object.keys(props.actions).reduce((boundActionsObject, currentKey) => {
-                    boundActionsObject[currentKey] = bindActionCreators(props.actions[currentKey], this.dispatch)
-                    return boundActionsObject;    
-                }, {});
-            }
-        })()
-
-        this.saveMenu = this.props.saveMenu ? this.props.saveMenu : null;
-        this.defaultValues = this.props.componentDefaultValues ? this.props.componentDefaultValues : null;
-    }
-
-    render = () => {
-        if(this.props.isAuthenticated && this.props.user) {
-            return <this.props.component {...this.actions}
-                                         defaultValues={this.defaultValues}
-                                         saveMenu={this.saveMenu}
-                    />
-        }
-        return <this.props.renderFailure />
-    }
-}
-
-function mapStateToProps(state, ownProps) {
+const mockStore = configureMockStore();
+const contextObject = (store) => {
     return {
-            user: state.userData,
-            isAuthenticated: state.isAuthenticated,
-            messages: state.messages
+        context: {
+            store: store
+        },
+        childContextTypes: {
+            store: React.PropTypes.Object
         }
-}
+    };
+};
+const userMock = {
+            id: 1,
+            provider: "email",
+            uid: "email@example.com",
+            name: "test-user",
+            nickname: null,
+            image: "",
+            email: "email@example.com",
+            created_at: "2016-12-22T12:42:17.461-03:00",
+            updated_at: "2017-02-23T17:14:03.002-03:00"
+};
 
 
-AuthorizationWrapper.contextTypes = {
-    store: React.PropTypes.object
-}
 
-export default connect(mapStateToProps)(AuthorizationWrapper);
+function noAuthSetup() {
+
+    const store = mockStore({user:null, isAuthenticated: false, messages: {Info: [], Errores: []}});
+    const noAuthWrapper = shallow(<AuthorizationWrapper
+                                    component={inputFieldsContainer}
+                                   />, contextObject(store));
+
+    return {
+        noAuthWrapper
+    }
+};
+
+function inputFieldsSetup() {
+
+    const store = mockStore({
+                            user: userMock,
+                            isAuthenticated: true,
+                            messages: {
+                                Info: [], Errores: []
+                            }
+                            });
+    
+    const inputFieldsWrapper = shallow(<AuthorizationWrapper
+                                        component={inputFieldsContainer}
+                                        saveMenu={SearchesSaver}
+                                        actions={{createSearches, API}}
+                                        componentDefaultValues={{
+                                            defaultState: initialState.searchQueryValues
+                                        }}
+                                        renderFailure={Introduction}
+                                        />, contextObject(store));
+
+    return {
+        inputFieldsWrapper
+    }
+};
+
+function userPageSetup() {
+
+    const store = mockStore({user: userMock, isAuthenticated: true, messages: {Info:[], Errores:[]}})
+
+    const userPageWrapper = shallow(
+                                    <AuthorizationWrapper
+                                        component={UserPage}
+                                        renderFailure={Introduction}
+                                    />, contextObject);
+    return {
+        userPageWrapper
+    }
+};
+
+function UserProfileDataSetup() {
+
+    const store = mockStore({user: userMock, isAuthenticated: true, messages: {Info:[], Errores:[]}})
+
+    const userProfileDataWrapper = shallow(
+                                    <AuthorizationWrapper
+                                        component={UserPage}
+                                        renderFailure={Introduction}
+                                    />, contextObject);
+
+    return {
+        userProfileDataWrapper
+    }
+};
+
+
+
+describe('Component', () => {
+    const {noAuthWrapper} = noAuthSetup();
+    const {inputFieldsWrapper} = inputFieldsSetup();
+    const {userPageWrapper} = userPageSetup();
+    const {userProfileDataWrapper} = UserProfileDataSetup();
+
+
+    describe('AuthorizationWrapper', () => {
+
+        it('Should render self and subcomponents', () => {
+
+
+
+        });
+
+        it('Should correctly invoke functions', () => {
+
+
+
+        });
+
+    });
+});
