@@ -137,7 +137,9 @@ describe('Container', () => {
             expect(userProfile.props().userNotifications).toEqual(props.userNotifications);
             expect(userProfile.props().userSubscriptions).toEqual(props.userSubscriptions);
             expect(userProfile.props().userSearches).toEqual(props.userSearches);
-            expect(userProfile.props().actions).toEqual(instance.actions);
+          //  expect(userProfile.props().actions).toEqual(instance.actions);
+            expect(userProfile.props().deleteUserSearches).toEqual(props.deleteUserSearches);
+            expect(userProfile.props().deletUserSubscription).toEqual(props.deleteUserSubscription);
             expect(userProfile.props().showStoredSearch).toEqual(instance.showStoredSearch);
             expect(userProfile.props().executeStoredSearch).toEqual(instance.executeStoredSearch);
             expect(userProfile.props().getResultHistory).toEqual(instance.getResultHistory);
@@ -147,13 +149,7 @@ describe('Container', () => {
         });
 
         it('Should correctly call functions passed as props', () => {
-
-            const testPropsFunctionWorks = (fn, target, action, actionArgs) => {
-                expect(fn.mock.calls.length).toBe(0);
-                target.simulate(action, actionArgs);
-                expect(fn.mock.calls.length).toBe(1);
-            }
-
+            //TODO: Make these tests use real components instead of mocks.
             const testFunctionChangesState = (fn, args, expectedValue) => {
                 //clone the state before calling the state changing function
                 let initialState = objectAssign({}, instance.state);
@@ -170,8 +166,6 @@ describe('Container', () => {
             }
 
             //Fullscreen pane functions: 
-
-
             //hide
             const fullScreenPane = wrapper.find('FullScreenPane').at(0);
             let expectedValue = {
@@ -240,28 +234,26 @@ describe('Container', () => {
             expect(wrapper.update().instance().state).toEqual(objectAssign(instance.state, expectedValue));
         
             // getResultHistory - Sets state: 
+            expectedValue = {
+                showFullScreenPane: true, 
+                FullScreenPaneComponent: null, 
+                componentProps: {results: null},
+                menu: null
+            };
+
+            testFunctionChangesState(userProfile.props().getResultHistory, args, expectedValue);
 
             expectedValue = {
                 showFullScreenPane: true, 
                 FullScreenPaneComponent: mockComponent, 
-                componentProps: {results: null},
+                componentProps: {results: "result mock"},
                 menu: null
             };
-            mockComponent = <div></div>
-            
-            testFunctionChangesState(userProfile.props().getResultHistory, args, expectedValue);           
-            expectedValue = expectedValue.componentProps.results = props.userApi.getResultHistory("result mock");                    
             expect(wrapper.update().instance().state).toEqual(objectAssign(instance.state, expectedValue));
-            //showModal - Sets state:
-              
-              // 
+
             let name = "default name"
             expectedValue = {showModal: true, modalDefaultName: name, enteredNewSubscriptionName: ""};
             testFunctionChangesState(userProfile.props().showModal, name, expectedValue);   
-
-
-
-
         });
     });
 });

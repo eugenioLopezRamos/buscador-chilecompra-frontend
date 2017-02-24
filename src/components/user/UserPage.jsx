@@ -56,16 +56,6 @@ export class UserPage extends React.Component {
             }
         }
 
-        this.actions = {
-                        getUserSubscriptions: props.getUserSubscriptions,
-                        updateSubscription: props.updateSubscription,
-                        deleteSubscription: props.deleteSubscription,
-                        getUserSearches: props.getUserSearches,
-                        updateUserSearches: props.updateUserSearches,
-                        deleteUserSearches: props.deleteUserSearches,
-                        
-                        }
-
     }
 
     requestResults = () => {
@@ -202,7 +192,8 @@ export class UserPage extends React.Component {
                              userNotifications = {this.props.userNotifications} 
                              userSubscriptions={this.props.userSubscriptions}
                              userSearches={this.props.userSearches}
-                             actions={this.actions}
+                             deleteUserSearches={this.props.deleteUserSearches}
+                             deleteUserSubscription={this.props.deleteSubscription}
                              showStoredSearch={this.showStoredSearch}
                              executeStoredSearch={this.executeStoredSearch}
                              getResultHistory={this.getResultHistory}
