@@ -1,6 +1,7 @@
 import React from 'react';
 
 const FullScreenPane = (props) => {
+  //  console.log("PROPS", props);
     //not needed, but React gives a warning if I make these just render null and then call them on the return statement
     // "React.createElement: type should not be null, undefined, boolean, or number."
     const menu = props.menu ? <props.menu /> : null;
@@ -24,6 +25,7 @@ const FullScreenPane = (props) => {
     //TODO: .prompt-background-container uses !important to make the first div under it forcefully 100% width
     // See some way to NOT use !important
     return (<div className="prompt-background" onClick={hide} ref={(background) => {paneBackground = background;}}>
+                {console.log("PANE", paneBackground)}
                 <div className="prompt-background-container">
                     {component}
                     {menu}
