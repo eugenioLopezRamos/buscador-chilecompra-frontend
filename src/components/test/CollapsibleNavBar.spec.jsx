@@ -1,123 +1,157 @@
 import React from 'react';
-import {PropTypes} from 'react';
-import Login from '../Login.jsx';
-import {deleteUserNotification as deleteNotification} from '../../actions/UserActions';
-import * as displayActions from '../../actions/DisplayActions';
-import * as authInfoInputsActions from '../../actions/authInfoInputsActions';
-import * as authInfoResultsActions from '../../actions/authInfoResultsActions';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import * as utils from '../../utils/authUtils';
-import UserDropdown from '../../user/UserDropdown';
-/* DO NOTE THAT THIS GETS HIDDEN BY AN ACTION DISPATCHED ON <APP /> WHEN CLICKING, SINCE OTHERWISE IT WOULD BE VERY CUMBERSOME TO DO */
+import {shallow} from 'enzyme';
+import {CollapsibleNavBar} from '../CollapsibleNavBar';
 
-class CollapsibleNavBar extends React.Component {
-    constructor(props) {
-        super(props);
+function authSetup() {
+    const mockNotifications = {"8": "Cambios en la licitacion XXX-YYY-ZZZ"};
+
+    const authProps = {
+        showNavbar: true,
+        showNotifications: true,
+        loginData: {
+            email: "",
+            password: "",
+            message: null,
+            result: null
+        },
+        isAuthenticated: true,
+        displayActions: {
+            toggleNavbarDisplay: jest.fn(),
+            toggleNotificationsDisplay: jest.fn()
+        },
+        notifications: mockNotifications,
+        authInfoInputsActions: {
+            loginInputEmail: jest.fn(),
+            loginInputPassword: jest.fn()
+        },
+        authInfoResultsActions: {
+            submitLoginInfo: jest.fn(),
+            sendLogoutInfo: jest.fn()
+        },
+        deleteNotification: jest.fn()
 
     }
-    handleClick = (event) => {
-        event.stopPropagation();
-        this.props.displayActions.toggleNavbarDisplay();
+
+    const authWrapper = shallow(<CollapsibleNavBar {...authProps}/>);
+
+    return {
+        authWrapper,
+        authProps
+    }
+}
+
+function noAuthSetup() {
+    const mockNotifications = null;
+
+    const noAuthProps = {
+        showNavbar: true,
+        showNotifications: true,
+        loginData: {
+            email: "",
+            password: "",
+            message: null,
+            result: null
+        },
+        isAuthenticated: false,
+        displayActions: {
+            toggleNavbarDisplay: jest.fn()
+        },
+        notifications: mockNotifications,
+        authInfoInputsActions: {
+            loginInputEmail: jest.fn(),
+            loginInputPassword: jest.fn()
+        },
+        authInfoResultsActions: {
+            submitLoginInfo: jest.fn(),
+            sendLogoutInfo: jest.fn()
+        },
+        deleteNotification: jest.fn()
+
     }
 
-    handleLogin = () => {
-        let data = {
-                    email: this.props.loginData.email,
-                    password: this.props.loginData.password
+    const noAuthWrapper = shallow(<CollapsibleNavBar {...noAuthProps}/>);
+
+    return {
+        noAuthWrapper,
+        noAuthProps
+    }
+}
+
+describe('Components', () => {
+
+    describe('CollapsibleNavbar', () => {
+        const {authWrapper, authProps} = authSetup();
+        const {noAuthWrapper, noAuthProps} = noAuthSetup();
+
+        function checkPropFunctionCalled(action, fn) {
+            expect(fn.mock.calls.length).toEqual(0);
+            action();
+            expect(fn.mock.calls.length).toEqual(1);
+
+
         }
-        this.props.authInfoResultsActions.submitLoginInfo(data)
 
-    }
+        it('Should render self and subcomponents', () => {
+            
+            //WHEN NOT AUTHENTICATED
+            //renders root
+            expect(noAuthWrapper.find('.dropdown-container').length).toBe(1);
+            //renders the correct button when not logged in
+            expect(noAuthWrapper.find('button.btn.navbar-toggle').length).toBe(1);
+            //navbar is shown
+            expect(noAuthWrapper.find('.navbar-collapse.no-gutter').length).toEqual(1); 
+            //renders correct dropdown menu when not logged in
+            expect(noAuthWrapper.find('Login').length).toBe(1);  
+            const login = noAuthWrapper.find('Login');
+            const loginProps = login.props();
+            expect(loginProps.loginData).toEqual(noAuthProps.loginData);
+            expect(loginProps.handleChangeEmail).toEqual(noAuthProps.authInfoInputsActions.loginInputEmail);
+            expect(loginProps.handleChangePassword).toEqual(noAuthProps.authInfoInputsActions.loginInputPassword);
+            expect(loginProps.handleClickSubmit).toEqual(noAuthWrapper.instance().handleLogin);
+            expect(noAuthProps.authInfoResultsActions.submitLoginInfo.mock.calls.length).toEqual(0);
+            //can't use .simulate, shallow doesn't render <Login/>
+            loginProps.handleClickSubmit();
+            expect(noAuthProps.authInfoResultsActions.submitLoginInfo.mock.calls.length).toEqual(1);
 
-    dropdown = () => {
-        //sets a default button
-        let button = <button type="button" className="btn navbar-toggle"  data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"
-                      onClick={this.handleClick}>        
-                            <i className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></i>
-                            <span className="sr-only">Mostrar/esconder navegación</span>
-                     </button>;
-        //changes it to the correct button if the user is authenticated
-        if(this.props.isAuthenticated){
+            // WHEN AUTHENTICATED 
 
-               button =  <button 
-                            className="btn btn-default dropdown-toggle user-menu" 
-                            type="button"
-                            id="dropdownMenu1"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="true"
-                            onClick={this.handleClick}>
-                            Menú
-                            <span className="caret"></span>
-                        </button>
-
-        }
-        //sets a default menu to allow logins
-        let menu = <Login loginData={this.props.loginData} 
-                        handleChangeEmail={this.props.authInfoInputsActions.loginInputEmail}
-                        handleChangePassword={this.props.authInfoInputsActions.loginInputPassword}
-                        handleClickSubmit={() => handleLogin}
-                    />
-        //changes to the user menu if authenticated
-  
-        if(this.props.isAuthenticated) {
-
-            menu = <UserDropdown 
-                    visible={this.props.showNavbar}
-                    handleLogout={this.props.authInfoResultsActions.sendLogoutInfo}
-                    notifications={this.props.notifications}
-                    showNotifications={this.props.showNotifications}
-                    toggleNotifications={this.props.displayActions.toggleNotificationsDisplay}
-                    deleteNotification={this.props.deleteNotification}
-                   />
-
-        }
-
-        return {button, menu}
+            //renders component root when logged in
+            expect(authWrapper.find('.dropdown-container.logged-in').length).toBe(1);
+            //renders the correct button when logged in
+            expect(authWrapper.find('button.btn.btn-default.dropdown-toggle.user-menu').length).toBe(1);
+            const dropdownBtn = authWrapper.find('button.btn.btn-default.dropdown-toggle.user-menu');
+            const dropdownBtnProps = dropdownBtn.props();
+            expect(dropdownBtnProps.onClick).toEqual(authWrapper.instance().handleClick);
+            //toggleNavbarDisplay hasn't been called
+            expect(authProps.displayActions.toggleNavbarDisplay.mock.calls.length).toEqual(0);
+            // should call it
+            dropdownBtn.simulate("click", {stopPropagation: () => "propagation stopped"});
+            expect(authProps.displayActions.toggleNavbarDisplay.mock.calls.length).toEqual(1);
 
 
-    }
-    
-    render = () => {
-        let self = this;
-        return  (
-            <div className={this.props.isAuthenticated ? "dropdown-container logged-in" : "dropdown-container"}>
-                {self.dropdown().button}
-                <div className={self.props.showNavbar ? "navbar-collapse no-gutter" : "navbar-collapse collapse no-gutter"}>
-                {self.dropdown().menu}
-                </div>
-            </div>
-            ); 
-    }
-};
 
-CollapsibleNavBar.propTypes = {
-    showNavbar: PropTypes.bool.isRequired,
-    loginData: PropTypes.object.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired
-};
+            //navbar is shown
+            expect(authWrapper.find('.navbar-collapse.no-gutter').length).toEqual(1);            
+            //renders the correct dropdown menu when logged in
+            expect(authWrapper.find('UserDropdown').length).toBe(1);
+            const userDropdown = authWrapper.find('UserDropdown');
+            const userDropdownProps = userDropdown.props();
+            //check existence of props that are values
+            expect(userDropdownProps.visible).toEqual(authProps.showNavbar);
+            expect(userDropdownProps.notifications).toEqual(authProps.notifications);
+            expect(userDropdownProps.showNotifications).toEqual(authProps.showNotifications);
+            
+            //check props that are functions
+            expect(userDropdownProps.handleLogout).toEqual(authProps.authInfoResultsActions.sendLogoutInfo);
+            checkPropFunctionCalled(userDropdownProps.handleLogout, authProps.authInfoResultsActions.sendLogoutInfo);
 
+            expect(userDropdownProps.toggleNotifications).toEqual(authProps.displayActions.toggleNotificationsDisplay);
+            checkPropFunctionCalled(userDropdownProps.toggleNotifications, authProps.displayActions.toggleNotificationsDisplay)
 
-function mapStateToProps(state, ownProps) {
-  return {
-    showNavbar: state.display.showNavbar,
-    loginData: state.loginData,
-    isAuthenticated: state.isAuthenticated,
-    notifications: state.userNotifications,
-    showNotifications: state.display.showNotifications
-  };
-};
+            
+            expect(userDropdownProps.deleteNotification).toEqual(authProps.deleteNotification);
+            checkPropFunctionCalled(userDropdownProps.deleteNotification, authProps.deleteNotification);
 
-
-function mapDispatchToProps(dispatch) {
-  return {
-    displayActions: bindActionCreators(displayActions, dispatch),
-    authInfoInputsActions: bindActionCreators(authInfoInputsActions, dispatch),
-    authInfoResultsActions: bindActionCreators(authInfoResultsActions, dispatch),
-    deleteNotification: bindActionCreators(deleteNotification, dispatch)
-  };
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(CollapsibleNavBar);
+        });
+    });
+});
