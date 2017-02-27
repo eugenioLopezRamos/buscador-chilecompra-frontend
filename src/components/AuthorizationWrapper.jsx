@@ -7,7 +7,7 @@ import Flash from './Flash';
 export class AuthorizationWrapper extends React.Component {
     constructor(props, {store}) {
         super(props);
-        this.dispatch = store.dispatch;
+     
         //TODO: I'm....not quite sure about the "recommendability" of this one...
 
         // Binds the actions passed in the "actions" prop from 'routes.js' to the dispatch
@@ -25,7 +25,7 @@ export class AuthorizationWrapper extends React.Component {
         this.actions = (() => {
             if(props.actions) {
                 return Object.keys(props.actions).reduce((boundActionsObject, currentKey) => {
-                    boundActionsObject[currentKey] = bindActionCreators(props.actions[currentKey], this.dispatch)
+                    boundActionsObject[currentKey] = bindActionCreators(props.actions[currentKey], store.dispatch)
                     return boundActionsObject;    
                 }, {});
             }
@@ -36,6 +36,7 @@ export class AuthorizationWrapper extends React.Component {
     }
 
     render = () => {
+
         if(this.props.isAuthenticated && this.props.user) {
             return <this.props.component {...this.actions}
                                          defaultValues={this.defaultValues}

@@ -18,7 +18,7 @@ import {createUserSearches as createSearches} from '../actions/UserActions';
 import * as API from '../actions/fetchActions';
 
 
-class InputFieldsContainer extends React.PureComponent {
+export class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
  
         super(props);
