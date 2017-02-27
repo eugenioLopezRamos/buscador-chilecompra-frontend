@@ -25,7 +25,6 @@ const FullScreenPane = (props) => {
     //TODO: .prompt-background-container uses !important to make the first div under it forcefully 100% width
     // See some way to NOT use !important
     return (<div className="prompt-background" onClick={hide} ref={(background) => {paneBackground = background;}}>
-                {console.log("PANE", paneBackground)}
                 <div className="prompt-background-container">
                     {component}
                     {menu}
