@@ -1,202 +1,138 @@
-import React, {PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
+import {shallow} from 'enzyme';
+import {InputFieldsContainer} from '../InputFieldsContainer';
 import {helpers} from '../../helpers/inputFieldsContainerHelper';
-//import * as displayActions from '../actions/DisplayActions';
-import {bindActionCreators} from 'redux';
-import SearchResults from '../SearchResults.jsx';
-import DatePicker from '../../inputs/DateField.jsx';
-import SelectionField from '../../inputs/SelectionField.jsx';
-import AutoFillerInput from '../../inputs/AutoFillerInput.jsx';
-import SearchField from '../../inputs/SearchField.jsx';
 import SearchesSaver from '../SearchesSaver';
-import Flash from '../Flash.jsx';
+import initialState from '../../reducers/initialState';
 import moment from 'moment';
-import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 
+function setup() {
+        const searchResults = null;
+        const organismosPublicos =  [{"*": "Todos"},  {111: "Organismo 1"}, {222: "Organismo 2"}];
+        const estadosLicitacion = {111: "Estado 1", 222: "Estado 2"};
+        const searchQueryValues =  initialState.searchQueryValues;
+        const messages = initialState.messages;
 
-import {createUserSearches as createSearches} from '../actions/UserActions';
-import * as API from '../actions/fetchActions';
-
-
-class InputFieldsContainer extends React.PureComponent {
-    constructor(props) {
- 
-        super(props);
-               
-        const inputFieldsOffset = 0;
-        const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
-        this.helpers = helpers;
-        // la otra opcion es usar un estado en que se trae todo desde el inicial y se añade el 
-        // organismosPublicosFilteredSubset
-        this.state = {
-           ...this.props.defaultValues.defaultState,
-           organismosPublicosFilteredSubset: this.props.organismosPublicos,
-        };
+    const props = {
+        searchResults,
+        organismosPublicos,
+        estadosLicitacion,
+        searchQueryValues,
+        messages,
+        saveMenu: SearchesSaver,
+        defaultValues: {defaultState: initialState.searchQueryValues}
     }
 
-    componentWillReceiveProps = (nextProps) => {
-        //TODO: There is probably some better way to do this.
-        // In any case, these shouldn't change since the fetch request to do this is only called
-        // when successfully logging in (with a componentWillReceiveProps callback on <Root />)
-        if(nextProps.organismosPublicos != this.props.organismosPublicos) {
-            this.setState({organismosPublicosFilteredSubset: nextProps.organismosPublicos});
-        }
-    }
+    const wrapper = shallow(<InputFieldsContainer {...props}/>);
 
-    handleCreateSearches = (name) => {
-        this.props.createSearches(this.state, name);
-    }
-
-    setStartDate = (value) => {
-        this.setState(this.helpers.setStartDate(value));
-    }
-    setEndDate = (value) => {
-        this.setState(this.helpers.setEndDate(value));
-    }
-
-    toggleDateAlwaysFromToday = () => {
-        this.setState(this.helpers.toggleDateAlwaysFromToday(this.state.alwaysFromToday));
-    }
-
-    toggleDateAlwaysToToday = () => {
-        this.setState(this.helpers.toggleDateAlwaysToToday(this.state.alwaysToToday));
-    }
-
-    estadoLicitacionSelect = (event) => {
-        this.setState(this.helpers.estadoLicitacionSelect(event.target.value))
-    }
-    
-    pickOrganismoPublico = (event) => {
-        this.setState(this.helpers.pickOrganismoPublico(event.target.value));
-    }
-
-
-    autoFillerInputChange = (organismos, value) => {
-        //TODO: simplify this (duplication of data!)
-        this.setState(this.helpers.autoFillerInputChange(organismos, value));
-    }
-    
-    rutInput = (event) => {
-        this.setState(this.helpers.rutInput(event.target.value));
-    }
-
-    codigoLicitacionInput = (event) => {
-        this.setState(this.helpers.codigoLicitacionInputChange(event.target.value));
-    }
-
-    palabrasClaveInput = (value) => {
-        this.setState(this.helpers.palabrasClaveInput(value));
-    }
-
-    render = () => {
-  
-        return (    
-              
-                    <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 
-                        <Flash 
-                            type="info" 
-                            messages={this.props.messages}
-                            messagesHandler={this.state.messagesHandler}
-                        />
-                        <div className="fixed-size-searchTab-container">
-                        <label>Selecciona un rango de fechas:</label>
-                            <DatePicker
-                                startDate={moment(this.state.startDate)}
-                                endDate={moment(this.state.endDate)} 
-
-                                setStartDate={this.setStartDate}
-                                setEndDate={this.setEndDate}
-
-                                toggleDateAlwaysFromToday={this.toggleDateAlwaysFromToday}
-                                toggleDateAlwaysToToday={this.toggleDateAlwaysToToday}
-
-                                alwaysFromToday={this.state.alwaysFromToday}
-                                alwaysToToday={this.state.alwaysToToday}
-                            />
-
-                            <label>Estado de la licitación (código estado)</label>
-                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.estadoLicitacionSelect} />
-
-                            <label>Según comprador (código organismo público)</label>
-                                <AutoFillerInput 
-                                    organismosPublicos={this.props.organismosPublicos}
-                                    organismosPublicosFilter={this.state.organismosPublicosFilter}
-                                    organismosPublicosFilteredSubset={this.state.organismosPublicosFilteredSubset}
-                                    selectedOrganismoPublico={this.state.selectedOrganismoPublico} 
-
-                                    onSelectionChange={this.pickOrganismoPublico}
-                                    onInputChange={this.autoFillerInputChange}
-                                />
-
-                            <label>Según RUT proveedor</label>
-                            <input
-                                className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                                key="rut-proveedor" 
-                                placeholder="Ejemplo: 1.111.111-1"
-                                defaultValue={this.state.rutProveedor} 
-
-                                onChange={this.rutInput}/>
-                        
-                            <label>Código de licitación</label>
-                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                                key="cod-licitacion" 
-                                placeholder="Buscar por código de licitación"
-                                defaultValue={this.state.codigoLicitacion}
-
-                                onChange={this.codigoLicitacionInput}
-                            />
-                            
-                            
-                            <label>Según palabras clave</label>
-                                <SearchField 
-                                    value={this.state.palabrasClave} 
-
-                                    onChange={this.palabrasClaveInput} 
-
-                                    onSubmit={() => {this.props.API.loadChilecompraData(this.state)}} 
-                                />
-                                
-                            {< this.props.saveMenu handleSearches={this.handleCreateSearches}/>}
-
-                        </div>
-
-                            <div className="col-xs-12 no-gutter">
-                                <SearchResults searchQueryValues={this.props.searchQueryValues} results={this.props.searchResults}/>
-                            </div>
-                        
-                    </div>        
-        );
-   }
-}
-
-InputFieldsContainer.propTypes = {
-
-    searchResults: PropTypes.object,
-    organismosPublicos: PropTypes.array.isRequired,
-    estadosLicitacion: PropTypes.object.isRequired,
-}
-
-function mapStateToProps(state, ownProps) {
 
     return {
-        searchResults: state.searchResults,
-        organismosPublicos: state.organismosPublicos,
-        estadosLicitacion: state.estadosLicitacion,
-        searchQueryValues: state.searchQueryValues,
-        messages: state.messages
-        
-    };
-};
+        wrapper,
+        props
+    }
+}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    //actions: bindActionCreators(actions, dispatch),
-  // API: bindActionCreators(API, dispatch),
-   // displayActions: bindActionCreators(displayActions, dispatch),
-  //  createSearches: bindActionCreators(createSearches, dispatch),
-   // createResults: bindActionCreators(createResults, dispatch),
-  };
-};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
-export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
+
+describe('Container', () => {
+
+
+    describe('InputFieldsContainer', () => {
+        const {wrapper, props} = setup();
+        const instance = wrapper.instance();
+        const state = instance.state;
+        const minuteInMs = 60 * 1000;
+        //TODO: Add sinon console.error stubs...
+
+        it('Should render self and subcomponents', () => {
+            //root
+            expect(wrapper.find('div.container.inputfields.jumbotron').length).toEqual(1);
+            //Flash
+            const flash = wrapper.find('Flash'); 
+            expect(flash.length).toEqual(1);
+            expect(flash.props().type).toEqual("info");
+            expect(flash.props().messages).toEqual(props.messages);
+            expect(flash.props().messagesHandler).toEqual(state.messagesHandler);
+            // search fields
+            expect(wrapper.find('div.fixed-size-searchTab-container').length).toEqual(1);
+            //DatePicker
+            expect(wrapper.find('label.date-range').length).toEqual(1);
+            const dateField = wrapper.find('DateField');
+            expect(dateField.length).toEqual(1);
+            //TODO: DatePicker props
+            //measuring dates by margin of error since moment changes every time its called;
+            expect(dateField.props().startDate - state.startDate < minuteInMs).toBe(true);
+            expect(dateField.props().endDate - state.endDate < minuteInMs).toBe(true);
+            expect(dateField.props().setStartDate).toEqual(instance.setStartDate);
+            expect(dateField.props().setEndDate).toEqual(instance.setEndDate);
+            expect(dateField.props().toggleDateAlwaysFromToday).toEqual(instance.toggleDateAlwaysFromToday);
+            expect(dateField.props().toggleDateAlwaysToToday).toEqual(instance.toggleDateAlwaysToToday);
+            
+            //select Estado licitacion
+            expect(wrapper.find('label.select-licitacion').length).toEqual(1);
+            const selectionField = wrapper.find('SelectionField');
+            expect(selectionField.length).toEqual(1);
+            expect(selectionField.props().estadosLicitacion).toEqual(props.estadosLicitacion);
+            expect(selectionField.props().onChange).toEqual(instance.estadoLicitacionSelect);
+
+            // select Organismo Publico
+            expect(wrapper.find('label.select-orgPub').length).toEqual(1);
+            const autoFiller = wrapper.find('AutoFillerInput');
+            expect(autoFiller.length).toEqual(1);
+            expect(autoFiller.props().organismosPublicos).toEqual(props.organismosPublicos);
+            expect(autoFiller.props().organismosPublicosFilter).toEqual(state.organismosPublicosFilter);
+            expect(autoFiller.props().organismosPublicosFilteredSubset).toEqual(state.organismosPublicosFilteredSubset);
+            expect(autoFiller.props().selectedOrganismoPublico).toEqual(state.selectedOrganismoPublico);
+            expect(autoFiller.props().onSelectionChange).toEqual(instance.pickOrganismoPublico);
+            expect(autoFiller.props().onInputChange).toEqual(instance.autoFillerInputChange);
+
+            //rut proveedor
+            expect(wrapper.find('label.rut-proveedor').length).toEqual(1);
+            const rutProveedor = wrapper.find('input#rut-proveedor');
+            expect(rutProveedor.props().className).toEqual("col-xs-12 col-md-10 col-lg-4 no-gutter")
+            expect(rutProveedor.props().placeholder).toEqual("Ejemplo: 1.111.111-1");
+            expect(rutProveedor.props().defaultValue).toEqual(state.rutProveedor);
+            expect(rutProveedor.props().onChange).toEqual(instance.rutInput);
+
+            // codigo licitacion
+            expect(wrapper.find('label.codigo-licitacion').length).toEqual(1);
+            const codigoLicitacion = wrapper.find('input#codigo-licitacion');
+            expect(codigoLicitacion.props().className).toEqual("col-xs-12 col-md-10 col-lg-4 no-gutter");
+            expect(codigoLicitacion.props().placeholder).toEqual("Buscar por código de licitación");
+            expect(codigoLicitacion.props().defaultValue).toEqual(state.codigoLicitacion);
+            expect(codigoLicitacion.props().onChange).toEqual(instance.codigoLicitacionInput);
+
+            // palabras clave
+            expect(wrapper.find('label.palabras-clave').length).toEqual(1);
+            const searchField = wrapper.find('SearchField');
+            expect(searchField.props().value).toEqual(state.palabrasClave);
+            expect(searchField.props().onChange).toEqual(instance.palabrasClaveInput);
+            expect(searchField.props().onSubmit).toEqual(instance.handleSubmit);
+
+            // SearchesSaver
+            const searchesSaver = wrapper.find('SearchesSaver');
+            expect(searchesSaver.length).toEqual(1);
+            expect(searchesSaver.props().handleSearches).toEqual(instance.handleCreateSearches);
+            //TODO: Check into these 2, I think they're not used anymore
+            expect(searchesSaver.props().defaultSearchName).toEqual(props.defaultSearchName);
+            expect(searchesSaver.props().defaultId).toEqual(props.defaultSearchId);
+
+            // SearchResults
+            const searchResults = wrapper.find('Connect(SearchResults)');
+            expect(searchResults.props().searchQueryValues).toEqual(props.searchQueryValues);
+            expect(searchResults.props().results).toEqual(props.searchResults);
+
+        });
+
+        it('Should correctly call functions', () => {
+
+
+            
+
+        });
+
+
+    });
+
+
+});

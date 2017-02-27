@@ -4,7 +4,7 @@ import {helpers} from '../helpers/inputFieldsContainerHelper';
 //import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
 import SearchResults from './SearchResults.jsx';
-import DatePicker from './inputs/DateField.jsx';
+import DateField from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
@@ -103,6 +103,12 @@ export class InputFieldsContainer extends React.PureComponent {
         this.setState(this.helpers.palabrasClaveInput(value));
     }
 
+    handleSubmit = () => {
+
+      this.props.API.loadChilecompraData(this.state);
+      
+    }
+
     render = () => {
   
         return (    
@@ -114,8 +120,8 @@ export class InputFieldsContainer extends React.PureComponent {
                             messagesHandler={this.state.messagesHandler}
                         />
                         <div className="fixed-size-searchTab-container">
-                        <label>Selecciona un rango de fechas:</label>
-                            <DatePicker
+                        <label className="date-range">Selecciona un rango de fechas:</label>
+                            <DateField
                                 startDate={moment(this.state.startDate)}
                                 endDate={moment(this.state.endDate)} 
 
@@ -129,10 +135,10 @@ export class InputFieldsContainer extends React.PureComponent {
                                 alwaysToToday={this.state.alwaysToToday}
                             />
 
-                            <label>Estado de la licitación (código estado)</label>
+                            <label className="select-licitacion">Estado de la licitación (código estado)</label>
                                 <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.estadoLicitacionSelect} />
 
-                            <label>Según comprador (código organismo público)</label>
+                            <label className="select-orgPub">Según comprador (código organismo público)</label>
                                 <AutoFillerInput 
                                     organismosPublicos={this.props.organismosPublicos}
                                     organismosPublicosFilter={this.state.organismosPublicosFilter}
@@ -143,8 +149,9 @@ export class InputFieldsContainer extends React.PureComponent {
                                     onInputChange={this.autoFillerInputChange}
                                 />
 
-                            <label>Según RUT proveedor</label>
+                            <label className="rut-proveedor">Según RUT proveedor</label>
                             <input
+                                id="rut-proveedor"
                                 className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="rut-proveedor" 
                                 placeholder="Ejemplo: 1.111.111-1"
@@ -152,8 +159,10 @@ export class InputFieldsContainer extends React.PureComponent {
 
                                 onChange={this.rutInput}/>
                         
-                            <label>Código de licitación</label>
-                            <input className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
+                            <label className="codigo-licitacion">Código de licitación</label>
+                            <input 
+                                id="codigo-licitacion"
+                                className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
                                 key="cod-licitacion" 
                                 placeholder="Buscar por código de licitación"
                                 defaultValue={this.state.codigoLicitacion}
@@ -162,13 +171,13 @@ export class InputFieldsContainer extends React.PureComponent {
                             />
                             
                             
-                            <label>Según palabras clave</label>
+                            <label className="palabras-clave">Según palabras clave</label>
                                 <SearchField 
                                     value={this.state.palabrasClave} 
 
                                     onChange={this.palabrasClaveInput} 
 
-                                    onSubmit={() => {this.props.API.loadChilecompraData(this.state)}} 
+                                    onSubmit={this.handleSubmit} 
                                 />
                                 
                             {< this.props.saveMenu
