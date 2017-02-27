@@ -1,48 +1,74 @@
 import React from 'react';
-import {getObjectPropsWithValues} from '../../utils/miscUtils';
-import {deleteMessages} from '../../actions/messageActions';
-import {toJSON} from '../../utils/miscUtils'; // just JSON.stringify, but shorter
+import {shallow} from 'enzyme';
+import Flash from '../Flash';
+import configureMockStore from 'redux-mock-store';
+import * as types from '../../constants/actionTypes';
 
-const Flash = (props, {store}) =>  {
+const mockStore = configureMockStore();
+const store = mockStore();
 
-    const handleClick = () => {
-        store.dispatch(deleteMessages());
-    }
-    const messagesHandler = props.messagesHandler || null;
-
-    //needs json stringify because [] == [] => false
-    if(toJSON(props.messages.info) === toJSON([]) && 
-        toJSON(props.messages.errors) === toJSON([]) ){
-        return null;
-    }
-    else {
-        // get only the properties that have values (instead of just containing objects which themselves have more properties.)
-        let messages = getObjectPropsWithValues(props.messages)
-        return(
-                <div className="flash-center" onClick={handleClick}>
-                    <div className="message-wrap">
-                    {
-                        Object.keys(messages).map((e) => {
-                            //usar el valor de e para el handler q le voy a pasar a la function!
-                            // ej: "errores", "guardado con exito", "repetido"
-                            if(messages[e].length === 0) { return null}
-                            return(<div key={`${e}-title`} className="info">
-                                        <div>{`${e}:`}</div>
-                                        <span>{messagesHandler ? messagesHandler(messages[e]) : messages[e]}</span>
-                            </div>) 
-                        })
-                    }
-                    </div>
-                </div>
-        )
-
-
-    }
-
+const contextObject = {
+    context: {store},
+    childContextTypes: {store: React.PropTypes.Object}
 }
 
-Flash.contextTypes = {
-    store: React.PropTypes.object
+function setup() {
+    const props = {
+        messagesHandler: undefined,
+        messages: {
+            Info: "Mock Info",
+            Errores: "Mock Error"
+        }
+    }
+
+
+    const wrapper = shallow(<Flash {...props}/>, contextObject)
+
+
+    return {wrapper, props}
 }
 
-export default Flash;
+
+describe('Component', () => {
+
+    const {wrapper, props} = setup();
+
+    describe('Flash', () => {
+
+        it('Should render self and subcomponents', () => {
+
+            //renders root
+            expect(wrapper.find('.flash-center').length).toEqual(1);
+            //renders message wrap
+            expect(wrapper.find('.message-wrap').length).toEqual(1);
+            //renders body of message
+            const messageTypes = Object.keys(props.messages).length;
+            //This test assumes that there is one message per type (per flash).
+            // as messages are deleted from the flash when hiding it, I take it as a 
+            //  reasonable assumption
+            expect(wrapper.find('.info').length).toEqual(messageTypes);
+            expect(wrapper.find('.message-type').length).toEqual(messageTypes);
+            expect(wrapper.find('.message-body').length).toEqual(messageTypes);
+            const messageBodies = wrapper.find('.message-body');
+            messageBodies.forEach((body, index) => {
+                let currentType = Object.keys(props.messages)[index];
+                expect(body.text()).toEqual(props.messages[currentType]);
+            })
+
+
+        });
+        
+        it('Should test that functions are called correctly', () => {
+
+            const componentRoot = wrapper.find('.flash-center');
+            const componentRootProps = componentRoot.props();
+            const expectedActions = [{type: types.MESSAGES_DELETE_MESSAGES}];
+
+            componentRoot.simulate("click");
+            expect(store.getActions()).toEqual(expectedActions);
+
+        });
+
+    });
+});
+

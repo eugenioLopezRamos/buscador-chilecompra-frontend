@@ -10,13 +10,17 @@ const Flash = (props, {store}) =>  {
     const messagesHandler = props.messagesHandler || null;
 
     let concatMessages = Object.keys(props.messages).reduce((accumulator, currentKey) => {
+        //Is there a message in that key or is it just empty?
         if(props.messages[currentKey]) {
+            //if there is, add it to the array of messages
             return accumulator.concat(props.messages[currentKey]);
         }
+        //else just return
         return accumulator;
     }, []);
 
     if(concatMessages.length === 0) {
+        //did we end up with an empty array ^? return null
         return null;
     }
     else {
@@ -31,8 +35,8 @@ const Flash = (props, {store}) =>  {
                             // ej: "errores", "guardado con exito", "repetido"
                             if(!messages[e] || messages[e].length === 0) { return null}
                             return(<div key={`${e}-title`} className="info">
-                                        <div>{`${e}:`}</div>
-                                        <span>{messagesHandler ? messagesHandler(messages[e]) : messages[e]}</span>
+                                        <div className="message-type">{`${e}:`}</div>
+                                        <span className="message-body">{messagesHandler ? messagesHandler(messages[e]) : messages[e]}</span>
                             </div>) 
                         })
                     }
