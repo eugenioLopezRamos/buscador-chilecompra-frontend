@@ -1,40 +1,77 @@
 import React from 'react'
+import {shallow} from 'enzyme';
+import Login from '../Login';
 
-const Login = (props) => {
 
+function setup() {
 
-    const handleChangeEmail = (event) => {
-        props.handleChangeEmail(event.target.value);
+    const props = {
+        handleChangeEmail: jest.fn(),
+        handleChangePassword: jest.fn(),
+        handleClickSubmit: jest.fn(),
+        loginData: {email: "", password: ""}
     }
 
-    const handleChangePassword = (event) => {
-        props.handleChangePassword(event.target.value)
-    }
-    const handleClickSubmit = (event) => {
-        event.preventDefault();
-        props.handleClickSubmit();
-    }
+    const wrapper = shallow(<Login {...props}/>);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-    }   
+    return {wrapper, props}
+}
 
-    return (
-            <form className="navbar-form navbar-right" role="form">
-                <span className="login-span">Tienes cuenta? Ingresa:</span>
-                <div className="form-group">
-                <input value={props.loginData.email} type="text" placeholder="Email" className="form-control" onChange={handleChangeEmail} />
-                </div>
-                <div className="form-group">
-                <input value={props.loginData.password} type="password" placeholder="Contraseña" className="form-control" onChange={handleChangePassword} />
-                </div>
-                <button type="submit" 
-                    className="btn btn-success"
-                    onSubmit={handleSubmit}
-                    onClick={handleClickSubmit}
-                    >Enviar</button>
-            </form>
-    );
-};
+describe('Component', () => {
+    const {wrapper, props} = setup();
 
-export default Login;
+    describe('Login', () => {
+
+        it('Should render self and subcomponents', () => {
+            //root
+            expect(wrapper.find('form.navbar-form.navbar-right').length).toEqual(1);
+            
+            expect(wrapper.find('span.login-span').length).toEqual(1);
+            expect(wrapper.find('span.login-span').text()).toEqual("Tienes cuenta? Ingresa:");
+
+            expect(wrapper.find('div.form-group').length).toEqual(2);
+            const inputs = wrapper.find('input.form-control');
+            expect(inputs.length).toEqual(2);
+            
+            expect(inputs.at(0).props().type).toEqual("text");
+            expect(inputs.at(0).props().placeholder).toEqual("Email");
+            expect(typeof inputs.at(0).props().onChange).toEqual("function")
+
+            expect(inputs.at(1).props().type).toEqual("password");
+            expect(inputs.at(1).props().placeholder).toEqual("Contraseña");
+            expect(typeof inputs.at(1).props().onChange).toEqual("function");
+
+            const submitButton = wrapper.find('button.btn.btn-success')
+            expect(submitButton.length).toEqual(1);
+            expect(typeof submitButton.props().onSubmit).toEqual("function");
+            expect(typeof submitButton.props().onClick).toEqual("function");
+
+        });
+
+        it('Should invoke functions', () => {
+
+            const callFunctionFromProps = (target, action, actionArgs, propFunction) => {
+
+                expect(propFunction.mock.calls.length).toEqual(0);
+                target.props()[action](actionArgs);
+                expect(propFunction.mock.calls.length).toEqual(1);
+
+            };
+            const inputs = wrapper.find('input.form-control');
+            const emailInput = inputs.at(0);
+            const passwordInput = inputs.at(1);
+            const submitButton = wrapper.find('button.btn.btn-success');
+
+            callFunctionFromProps(emailInput, "onChange", {target: {value:"aaa@example.com"}}, props.handleChangeEmail);
+            callFunctionFromProps(passwordInput, "onChange", {target: {value:"s3cr3tp4ssw0rd"}}, props.handleChangePassword);
+            callFunctionFromProps(submitButton, "onClick", {preventDefault: () => undefined}, props.handleClickSubmit);
+            expect(submitButton.props().onSubmit({preventDefault: () => undefined})).toEqual(null);
+
+
+
+
+        });
+
+    });
+
+});
