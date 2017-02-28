@@ -19,12 +19,13 @@ class JSONSchemaCheckboxes extends React.Component {
 
         this.containerCounter = 0;
         this.containers = new Array;
+        this.tags = [];
     }
 
 
 
     toggleDisplay = (target, event) => {
-        //debugger
+  
         let display = getComputedStyle(target).display;
         event.target.classList.toggle("json-schema-label-closed");
         event.target.classList.toggle("json-schema-label-open");
@@ -43,38 +44,32 @@ class JSONSchemaCheckboxes extends React.Component {
 
 
 
-    checkColumnHandler = (target, event) => {
-        let saveValue = target.slice(1);
+    checkColumnHandler = (tag, event) => {
+        // saveValue => the "tag" excluding the 0th element ("Base") which is only cosmetic
+        let saveValue = tag.slice(1);
+        // makes a copy of the state.picked property
         let newPicked = this.state.picked.slice();
        //create a new copy of the object.
-
+       
+       // if event.target.checked is true, it means that IT WAS
+       // unchecked (since the event fires onChange => it changed from !checked to checked)
        if(event.target.checked) {
             
             newPicked.push(saveValue);
             this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
        }
        else {
-            let toSplice = -1;
-            //search the index of the item that's already in the array
-            newPicked.map((element, index) => {
-                if(JSON.stringify(element) === JSON.stringify(saveValue)) {
-                    toSplice = index;
-                };
-            });
-            //remove that item from the array
-            newPicked.splice(toSplice,1);
-            this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
+           //if it was checked => !checked then remove the tag
+            let splicedArray = utils.removeArrayFromArray(saveValue, newPicked);
+            this.setState({picked: splicedArray}, this.props.changeColumns(splicedArray));
        }
 
     }
 
-
-    applyColumnsChange = () => {
-        this.props.changeColumns(this.state.picked);
-    }
-
     renderCheckboxes = (object, tags) => {
         let self = this;
+        //keep each array of tags as an instance variable so they can be tested...
+        this.tags.push(tags);
         //renders non primitves at the end (looks cleaner)
         let renderLater = new Array;
 
@@ -83,6 +78,7 @@ class JSONSchemaCheckboxes extends React.Component {
 
         //the current value of the counter
         let number = this.containerCounter;
+
         let currentTag = tags[tags.length - 1];
       
         return(
@@ -117,14 +113,16 @@ class JSONSchemaCheckboxes extends React.Component {
                                 }
                                 return checked;
                             }
+                            //adds to the instance var tags - Used for testing only.
+                            this.tags.push(tags.concat(element));
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
                                         {utils.camelCaseToNormalCase(element)}
-                                      
+                                    
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" 
                                                key={"json-schema" + index}
                                                checked={isChecked()}
-                                               onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
+                                               onChange={ (event) => {this.checkColumnHandler(tags.concat(element), event)} }
                                         />
                                    </label>
                         }

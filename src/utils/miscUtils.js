@@ -205,3 +205,15 @@ export const camelCaseToNormalCase = (string) => {
         
 }
 
+export const removeArrayFromArray = (array, containerArray) => {
+    let toSplice = -1;
+    //search the index of the item that's already in the array
+    containerArray.map((element, index) => {
+        if(JSON.stringify(element) === JSON.stringify(array)) {
+            toSplice = index;
+        };
+    });
+    //remove that item from the array
+    containerArray.splice(toSplice,1);
+    return containerArray;
+}

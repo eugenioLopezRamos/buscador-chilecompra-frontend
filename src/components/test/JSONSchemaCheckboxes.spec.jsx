@@ -1,188 +1,133 @@
 import React from 'react';
-import * as utils from '../../utils/miscUtils';
+import {shallow} from 'enzyme';
+import JSONSchemaCheckBoxes from '../JSONSchemaCheckboxes';
+import {chileCompraResponseExample} from '../../utils/objectSchemaExamples';
+import {isPrimitive} from '../../utils/miscUtils';
+import {RESULTS_INITIAL_CHECKBOXES} from '../../constants/resultsInitialCheckboxes';
+import {getObjectSchema} from '../../utils/miscUtils';
 import objectAssign from 'object-assign';
-import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
-import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
 
-class JSONSchemaCheckboxes extends React.Component {
-    //props: {schema: {...}}
-    constructor(props) {
-        super(props);
+function setup() {
 
-        this.state = {
-            picked: RESULTS_INITIAL_CHECKBOXES
-        }
-
-        this.objectSchema = (() => {
-            return utils.getObjectSchema(chileCompraResponseExample)
-        })();
-
-        this.containerCounter = 0;
-        this.containers = new Array;
+    const props = {
+        changeColumns: jest.fn()
     }
 
+    const wrapper = shallow(<JSONSchemaCheckBoxes {...props}/>);
 
-
-    toggleDisplay = (target, event) => {
-        //debugger
-        let display = getComputedStyle(target).display;
-        event.target.classList.toggle("json-schema-label-closed");
-        event.target.classList.toggle("json-schema-label-open");
-
-
-        if(display === "none") {
-            target.className = "checkboxes-container";
-            // event.target.classList.remove("json-schema-label-closed");
-            // event.target.classList.add("json-schema-label-open");
-        }else {
-            target.className = "checkboxes-container no-display";
-            // event.target.classList.add("json-schema-label-closed");
-            // event.target.classList.remove("json-schema-label-open");
-        }
-    }
-
-
-
-    checkColumnHandler = (target, event) => {
-        let saveValue = target.slice(1);
-        let newPicked = this.state.picked.slice();
-       //create a new copy of the object.
-
-       if(event.target.checked) {
-            
-            newPicked.push(saveValue);
-            this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
-       }
-       else {
-            let toSplice = -1;
-            //search the index of the item that's already in the array
-            newPicked.map((element, index) => {
-                if(JSON.stringify(element) === JSON.stringify(saveValue)) {
-                    toSplice = index;
-                };
-            });
-            //remove that item from the array
-            newPicked.splice(toSplice,1);
-            this.setState({picked: newPicked}, this.props.changeColumns(newPicked));
-       }
-
-    }
-
-
-    applyColumnsChange = () => {
-        this.props.changeColumns(this.state.picked);
-    }
-
-    renderCheckboxes = (object, tags) => {
-        let self = this;
-        //renders non primitves at the end (looks cleaner)
-        let renderLater = new Array;
-
-        //used as id for each container to be ref'd on the <label onClick> handler
-        this.containerCounter++;
-
-        //the current value of the counter
-        let number = this.containerCounter;
-        let currentTag = tags[tags.length - 1];
-      
-        return(
-            <div>         
-                {
-                    utils.isOnlyNumbers(currentTag) ? 
-                    <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
-                        <span className="glyphicon glyphicon-triangle-right"></span>
-                        <span className="glyphicon glyphicon-triangle-bottom"></span>
-                        {`${parseInt(currentTag) + 1})`}
-                    </label>
-                        : 
-                    <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
-                        <span className="glyphicon glyphicon-triangle-right"></span>
-                        <span className="glyphicon glyphicon-triangle-bottom"></span>
-                        {utils.camelCaseToNormalCase(currentTag)}
-                    </label>
-                }
-                <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
- 
-                {   
-                    object.map((element, index) => {
-                        //If it's a primitive, return a checkbox;
-                        if(utils.isPrimitive(element)) {
-                            //decide if checked=true or checked=false on the <input>
-                            let isChecked = () => {
-                                let checked = false;
-                                let pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
-                                let path = JSON.stringify(tags.concat(element).slice(1)); //removes "Base", keeps the rest
-                                if(pickedCheckboxes.indexOf(path) > -1) {
-                                    checked=true;
-                                }
-                                return checked;
-                            }
-                            return <label className="json-schema-checkbox-label" key={"label" + index }>
-                                        {utils.camelCaseToNormalCase(element)}
-                                      
-                                        <input className="json-schema-checkbox" 
-                                               type="checkbox" 
-                                               key={"json-schema" + index}
-                                               checked={isChecked()}
-                                               onChange={ (box) => {this.checkColumnHandler(tags.concat(element), box)} }
-                                        />
-                                   </label>
-                        }
-                    //Else, create a function that, when called, renders this element.
-                    // Then push it to the renderLater array, so it can be rendered later.
-                   
-                    let fn = () => { 
-
-                            if(JSON.stringify(Object.keys(element)) === JSON.stringify(["Items"])) {
-                                //console.log("element", element);
-                                let newItems = {Items: ["Cantidad", "Listado"]};
-
-                                return Object.keys(newItems).map ((subKey, subIndex) => {
-                                    return self.renderCheckboxes(newItems[subKey], tags.concat(`${subKey}`));
-                                });
-                            }
-
-                            return Object.keys(element).map ((subKey, subIndex) => {
-                                return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
-                            });
-                        }         
-                    renderLater.push(fn);
-                    })
-
-                   
-                }
-                {
-                    renderLater.map(element => {
-                        return element();
-                    })
-                }
-                </div>
-            
-            </div>
-        )
-        
-
-      
-
-
-    } 
-
-    render = () => {
-         // debugger
-        let schemaArray = this.objectSchema;
-
-        return(
-                <div className="fixed-size-searchTab-container">
-                    <h4>Filtrar columnas</h4>
-                    <div className="schema-object-container">
-                        {this.renderCheckboxes(schemaArray, ["Base"])}
-                    </div>
-
-                </div>
-                )
-
-
-    }
+    return {wrapper, props};
 }
 
-export default JSONSchemaCheckboxes;
+function countObjectProps(object){
+    let propsAmount = 0;
+
+    Object.keys(object).map((key) => {
+        if(key === "Items") {
+                // add 1 for "Cantidad" + 1 for "Listado"
+                // because "Listado" is not rendered as checkboxes (since each licitacion)
+                // has a different amount of Listado items with different amount of keys etc etc
+                propsAmount += 2;
+        }
+        else if(object[key] && !isPrimitive(object[key])) {
+            propsAmount += countObjectProps(object[key]);
+        }
+        else {
+            propsAmount += 1  
+        }
+
+    });
+
+    return propsAmount
+
+}
+
+describe('Component', () => {
+
+    describe('JSONSchemaCheckBoxes', () => {
+        const {wrapper, props} = setup();
+        const instance = wrapper.instance();
+        const state = instance.state;
+        const checkboxAmount = countObjectProps(chileCompraResponseExample);
+     
+
+
+        it('Should render self and subcomponents', () => {
+
+            //root
+            expect(wrapper.find('div.fixed-size-searchTab-container').length).toEqual(1);
+            //action guide
+            expect(wrapper.find('h4').length).toEqual(1);
+            expect(wrapper.find('h4').text()).toEqual('Filtrar columnas');
+            //checkboxes container
+            expect(wrapper.find('div.schema-object-container').length).toEqual(1);
+
+            //renders the correct amount of checkboxes
+            expect(wrapper.find('input[type="checkbox"]').length).toEqual(checkboxAmount);
+            //The correct number of checkboxes are checked at the beginnning
+            expect(wrapper.find('input[type="checkbox"][checked=true]').length).toEqual(RESULTS_INITIAL_CHECKBOXES.length)
+
+            //loads the initial checked checkboxes state
+            expect(state.picked).toEqual(RESULTS_INITIAL_CHECKBOXES);
+            expect(instance.objectSchema).toEqual(getObjectSchema(chileCompraResponseExample));
+
+        });
+
+        it('Should invoke functions correctly', () => {
+            
+            const functionChangesState = (target, action, actionArgs, expectedStateChange) => {
+                const initialState = instance.state;
+                target.props()[action](actionArgs);
+    
+
+                expect(instance.state).toEqual(objectAssign(instance.state, expectedStateChange));
+            }
+
+            // Will pick a random checkbox index
+            const randomNumber = Math.floor(Math.random() * checkboxAmount); 
+
+            const checkboxes = wrapper.find('input[type="checkbox"]')
+            const testCheckbox = checkboxes.at(randomNumber);
+
+            let mockTag = instance.tags[randomNumber];
+            let isAlreadyChecked = () => {
+                // If state.picked includes our mockTag, it is checked (picked)
+                if(JSON.stringify(instance.state.picked).includes(JSON.stringify(mockTag))) {
+                    return true;
+                }
+                return false;
+            };
+
+
+            let expectedStateChange;
+            function createExpectedStateChange() {
+                if(isAlreadyChecked()) {
+                    let pickedCopy = instance.state.picked.slice();
+                    expectedStateChange = {
+                        picked: utils.removeArrayFromArray(mockTag, pickedCopy)
+                    }
+                    
+                }else {
+                    expectedStateChange = {
+                        picked: instance.state.picked.concat(mockTag)
+                    }
+                }
+            }
+            createExpectedStateChange();
+            //checks if prop function fires
+            expect(props.changeColumns.mock.calls.length).toEqual(0);
+            //if checked => unchecks (and viceversa)
+            functionChangesState(testCheckbox, "onChange", {target: testCheckbox.props()}, expectedStateChange);
+            //checks if prop function fires
+            expect(props.changeColumns.mock.calls.length).toEqual(1);
+            createExpectedStateChange();
+            // if unchecked => checks (and viceversa)
+            functionChangesState(testCheckbox, "onChange", {target: testCheckbox.props()}, expectedStateChange);
+            //checks if prop function fires
+            expect(props.changeColumns.mock.calls.length).toEqual(2);           
+            
+        });
+
+    });
+
+
+});
