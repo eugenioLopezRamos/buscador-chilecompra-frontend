@@ -1,79 +1,58 @@
-import React, {PropTypes} from 'react';
-import {Link} from 'react-router';
-import SignupForm from '../SignupForm.jsx';
-import {bindActionCreators} from 'redux';
-import * as signupInputActions from '../../actions/signupInputsActions';
-import * as signupResultsActions from '../../actions/signupResultsActions';
-import {connect} from 'react-redux';
+import React from 'react';
+import {shallow} from 'enzyme';
+import {Introduction} from '../Introduction';
 
-class Introduction extends React.Component {
-    //TODO: make this a separate file!
-    signup = () => {
-        let signup = null
-        if(!this.props.isAuthenticated) {
-            signup = <div>
-                        <p className="text-center">Regístrate</p>
-
-                        <SignupForm 
-                            inputActions={this.props.signupInputActions} 
-                            signupResult={this.props.signupResult}
-                            signupInfo={this.props.signupInfo}
-                            resultsActions={this.props.signupResultsActions}
-
-                        />
-                    </div>
+function setup() {
+    //TODO: Make signup use message from the base store
+    const props = {
+        isAuthenticated: false,
+        signupResult: {message: null, result: null},
+        signupInfo: {
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: ""
+        },
+        signupInputActions: {
+            signupInputsName: jest.fn(),
+            signUpInputsEmail: jest.fn(),
+            signupInputsPassword: jest.fn(),
+            signupInputsPasswordConf: jest.fn()
+        },
+        signupResultsActions:{
+            sendSignUpDate: jest.fn()
         }
-        return signup;
     }
-    
-    render = () => {
 
-        return (
-            <div className="container jumbotron" style={{height: document.documentElement.clientHeight}}>
-                <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
-                <br />
-                <div className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.
-                <br />
-                Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.</div>
-                <br />
-                {this.signup()}
+    const wrapper = shallow(<Introduction {...props}/>);
 
-
-            </div>
-        )
-    }
+    return {wrapper, props};
 }
 
-// proptypes..
 
-Introduction.propTypes = {
-    signupName: PropTypes.string,
-    signupEmail: PropTypes.string,
-    signupPassword: PropTypes.string,
-    signupPasswordConf: PropTypes.string,
-    isAuthenticated: PropTypes.bool,
-    signupResults: PropTypes.object,
-    signupInfo: PropTypes.object
-}
+describe('Component', () => {
 
-function mapStateToProps(state, ownProps) {
-    return {
-        signupName: state.signup.info.name,
-        signupEmail: state.signup.info.email,
-        signupPassword: state.signup.info.password,
-        signupPasswordConf: state.signup.info.password_confirmation,
-        signupResult: state.signup.result,
-        signupInfo: state.signup.info,
-        isAuthenticated: state.isAuthenticated
-    }
-} 
-function mapDispatchToProps(dispatch) {
+    describe('Introduction', () =>{
+        const {wrapper, props} = setup();
+        it('Should render self and subcomponents', () => {
+            //root
+            expect(wrapper.find('.container.jumbotron').length).toEqual(1);
+            const h2 = wrapper.find('h2.text-center')
+            expect(h2.length).toEqual(1);
+            expect(h2.text()).toEqual('¿Qué es buscador ChileCompra?');
+            const introductionText = wrapper.find('div.text-center');
+            expect(introductionText.length).toEqual(1);
+            expect(introductionText.text()).toEqual('Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan. Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.')
+            
+            const signupForm = wrapper.find('SignupForm');
+            expect(signupForm.length).toEqual(1);
+            expect(signupForm.props().inputActions).toEqual(props.signupInputActions);
+            expect(signupForm.props().signupResult).toEqual(props.signupResult);
+            expect(signupForm.props().signupInfo).toEqual(props.signupInfo);
+            expect(signupForm.props().resultsActions).toEqual(props.signupResultsActions);
 
-    return {
-        signupInputActions: bindActionCreators(signupInputActions, dispatch),
-        signupResultsActions: bindActionCreators(signupResultsActions, dispatch)
-    }
+        });
+    });
 
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Introduction);
+});
