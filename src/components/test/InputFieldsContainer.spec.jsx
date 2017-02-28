@@ -5,6 +5,7 @@ import {helpers} from '../../helpers/inputFieldsContainerHelper';
 import SearchesSaver from '../SearchesSaver';
 import initialState from '../../reducers/initialState';
 import moment from 'moment';
+import objectAssign from 'object-assign';
 
 function setup() {
         const searchResults = null;
@@ -125,9 +126,83 @@ describe('Container', () => {
         });
 
         it('Should correctly call functions', () => {
+            let expectedStateChange;
+
+            function checkIfFunctionCalled(target, action, actionArgs, expectedStateChange) {
 
 
+               const initialState = instance.state;
+
+                if(Object.prototype.toString.call(actionArgs) === "[object Array]") {
+                    target.props()[action].call(null, ...actionArgs);
+                }
+                else {
+                    target.props()[action](actionArgs);
+                }
+
+                expect(instance.state).toEqual(objectAssign(initialState, expectedStateChange))
+            }
+
+            //DateField
+            const dateField = wrapper.find('DateField');
+            //set startDate
+            let expectedStartDate = Object.freeze(moment());
+            expectedStateChange = {startDate: expectedStartDate};
+            checkIfFunctionCalled(dateField, "setStartDate", expectedStartDate, expectedStateChange);
+            //set endDate
+            let expectedEndDate = Object.freeze(moment());
+            expectedStateChange = {endDate: expectedEndDate};
+            checkIfFunctionCalled(dateField, "setEndDate", expectedEndDate, expectedStateChange);
+            //toggle always from today
+            let expectedDate = Object.freeze(moment());
+            expectedStateChange = {
+                alwaysFromToday: !instance.state.alwaysFromToday,
+                alwaysToToday: !instance.state.alwaysToToday,
+                startDate: expectedDate,
+                endDate: expectedDate
+            }
+            checkIfFunctionCalled(dateField, "toggleDateAlwaysFromToday", instance.state.alwaysFromToday, expectedStateChange);
             
+            //toggle always To Today
+            expectedDate = Object.freeze(moment());
+            expectedStateChange = {
+                alwaysToToday: !instance.state.alwaysToToday,
+                endDate: expectedDate
+            }
+            checkIfFunctionCalled(dateField, "toggleDateAlwaysToToday", instance.state.alwaysToToday, expectedStateChange);
+
+            // //Estados Licitaacion
+
+            const selectionField = wrapper.find('SelectionField');
+    
+            let possibleValues = Object.keys(props.estadosLicitacion)
+                                       .map((key, index, array) => {
+                                            return {[key]: array[key]}
+                                        });
+
+            let expectedValue;
+            possibleValues.forEach(value => {
+                expectedStateChange = {
+                    selectedEstadoLicitacion: value
+                };
+                checkIfFunctionCalled(selectionField, "onChange", {target: {value}}, expectedStateChange);
+            });
+
+            // //autoFiller
+            
+
+
+
+            //     onSelectionChange={this.pickOrganismoPublico}
+            //     onInputChange={this.autoFillerInputChange}
+            // //rutInput
+            //     onChange={this.rutInput}
+
+            // //searchField
+            //     onChange={this.palabrasClaveInput} 
+            //     onSubmit={this.handleSubmit} 
+            // //saveMenu
+            //     handleSearches={this.handleCreateSearches}
 
         });
 

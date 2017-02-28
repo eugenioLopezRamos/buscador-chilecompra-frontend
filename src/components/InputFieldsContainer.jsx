@@ -46,6 +46,8 @@ export class InputFieldsContainer extends React.PureComponent {
     // - They actually handle creating OR updating a search,
     // depending on the props passed to InputFieldsContainer
     handleCreateSearches = (args) => {
+
+        //TODO: Change this function's name to handleCreateOrUpdateSearches ?
         //When creating a search, args is a NAME that is given by typing into any
         //inputfield
         // When updating, it is an array with the searchName and searchId, used to locate
