@@ -204,3 +204,4 @@ export const camelCaseToNormalCase = (string) => {
     return normalCase;
         
 }
+

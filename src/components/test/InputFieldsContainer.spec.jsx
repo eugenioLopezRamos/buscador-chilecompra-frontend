@@ -6,6 +6,7 @@ import SearchesSaver from '../SearchesSaver';
 import initialState from '../../reducers/initialState';
 import moment from 'moment';
 import objectAssign from 'object-assign';
+import {deepFreeze} from '../../utils/miscUtils';
 
 function setup() {
         const searchResults = null;
@@ -21,6 +22,8 @@ function setup() {
         searchQueryValues,
         messages,
         saveMenu: SearchesSaver,
+        API: {loadChilecompraData: jest.fn()},
+        createSearches: jest.fn(),
         defaultValues: {defaultState: initialState.searchQueryValues}
     }
 
@@ -127,11 +130,26 @@ describe('Container', () => {
 
         it('Should correctly call functions', () => {
             let expectedStateChange;
+            const mockDate = Object.freeze(moment(instance.state.startDate));
+            const minuteInMs = 60 * 1000;
+
+            function checkDates(target, action, actionArgs, expectedStateChange) {
+                const initialState = instance.state;
+                
+                target.props()[action](actionArgs);
+
+                let newState = objectAssign(initialState, expectedStateChange);
+                expect(instance.state.startDate - newState.startDate < minuteInMs).toEqual(true)
+                expect(instance.state.endDate - newState.endDate < minuteInMs).toEqual(true)
+
+
+            }
 
             function checkIfFunctionCalled(target, action, actionArgs, expectedStateChange) {
 
 
                const initialState = instance.state;
+               
 
                 if(Object.prototype.toString.call(actionArgs) === "[object Array]") {
                     target.props()[action].call(null, ...actionArgs);
@@ -146,30 +164,34 @@ describe('Container', () => {
             //DateField
             const dateField = wrapper.find('DateField');
             //set startDate
-            let expectedStartDate = Object.freeze(moment());
+            let expectedStartDate = mockDate;
             expectedStateChange = {startDate: expectedStartDate};
-            checkIfFunctionCalled(dateField, "setStartDate", expectedStartDate, expectedStateChange);
+            checkDates(dateField, "setStartDate", expectedStartDate, expectedStateChange);
             //set endDate
-            let expectedEndDate = Object.freeze(moment());
+            let expectedEndDate = mockDate
             expectedStateChange = {endDate: expectedEndDate};
-            checkIfFunctionCalled(dateField, "setEndDate", expectedEndDate, expectedStateChange);
+            checkDates(dateField, "setEndDate", expectedEndDate, expectedStateChange);
             //toggle always from today
-            let expectedDate = Object.freeze(moment());
+            let expectedDate = mockDate
             expectedStateChange = {
                 alwaysFromToday: !instance.state.alwaysFromToday,
                 alwaysToToday: !instance.state.alwaysToToday,
                 startDate: expectedDate,
                 endDate: expectedDate
             }
-            checkIfFunctionCalled(dateField, "toggleDateAlwaysFromToday", instance.state.alwaysFromToday, expectedStateChange);
+            checkDates(dateField, "toggleDateAlwaysFromToday", instance.state.alwaysFromToday, expectedStateChange);
             
             //toggle always To Today
-            expectedDate = Object.freeze(moment());
+            expectedDate = mockDate
             expectedStateChange = {
                 alwaysToToday: !instance.state.alwaysToToday,
                 endDate: expectedDate
             }
-            checkIfFunctionCalled(dateField, "toggleDateAlwaysToToday", instance.state.alwaysToToday, expectedStateChange);
+            checkDates(dateField, "toggleDateAlwaysToToday", instance.state.alwaysToToday, expectedStateChange);
+
+            //Remove dates, already tested + always have trouble with ms differences
+            delete(instance.state.startDate);
+            delete(instance.state.endDate);
 
             // //Estados Licitaacion
 
@@ -188,21 +210,81 @@ describe('Container', () => {
                 checkIfFunctionCalled(selectionField, "onChange", {target: {value}}, expectedStateChange);
             });
 
-            // //autoFiller
+            //autoFiller
+                //on selection change
+            const autoFiller = wrapper.find('AutoFillerInput');
+            possibleValues = props.organismosPublicos;
+
+            possibleValues.forEach(value => {
+                expectedStateChange = {
+                    selectedOrganismoPublico: value
+                };
+                checkIfFunctionCalled(autoFiller, "onSelectionChange", {target: {value}}, expectedStateChange);
+            });
+                //on input change
             
+            // mock = [{"*": "Todos"},  {111: "Organismo 1"}, {222: "Organismo 2"}];
+            // thus our mock inputs: 
+            
+            let mockInputs = ["todos", "ismo 1", "ismo 2"];
+            mockInputs.forEach((value, index) => {
+                //does a reset of the state to avoid objectAssign not deleting values (since it just merges them)
+                // then applies our changes to check if they end up equal
+                instance.setState({selectedOrganismoPublico: null, selectedOrganismoPublicosFilteredSubset: null, organismosPublicosFilter: ""},
+                () => {
+                    expectedStateChange = objectAssign(instance.state);
+                    if(value === "todos") {
+                        expectedStateChange.organismosPublicosFilter = value;
+                        expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
+                        expectedStateChange.selectedOrganismoPublicosFilteredSubset = props.organismosPublicos;          
+                    }
+                    else {
+                        expectedStateChange.organismosPublicosFilter = value;
+                        expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
+                        expectedStateChange.selectedOrganismoPublicosFilteredSubset = [props.organismosPublicos[index]];
+                    }
+                    
+                    checkIfFunctionCalled(autoFiller, "onInputChange", [props.organismosPublicos, value], expectedStateChange);
+                });
+            });
 
-
-
-            //     onSelectionChange={this.pickOrganismoPublico}
-            //     onInputChange={this.autoFillerInputChange}
             // //rutInput
-            //     onChange={this.rutInput}
+            const rutProveedor = wrapper.find('input#rut-proveedor');
+            let rutMock = "7.777.777-7";
+            expectedStateChange = {
+                rutProveedor: rutMock
+            }
+            checkIfFunctionCalled(rutProveedor, "onChange", {target: {value: rutMock}},expectedStateChange);
 
+            //Codigo licitacion
+            const codigoLicitacion = wrapper.find('input#codigo-licitacion');
+            let codigoLicitacionValue = "XXX-YYY-ZZZZ";
+            expectedStateChange = {
+                codigoLicitacion: codigoLicitacionValue
+            }
+            checkIfFunctionCalled(codigoLicitacion, "onChange", {target: {value: codigoLicitacionValue}}, expectedStateChange);
+            //onChange
+        
             // //searchField
-            //     onChange={this.palabrasClaveInput} 
-            //     onSubmit={this.handleSubmit} 
+            const searchField = wrapper.find('SearchField');
+            let searchFieldValue = "mock palabra clave";
+            expectedStateChange = {
+                palabrasClave: searchFieldValue
+            };
+            checkIfFunctionCalled(searchField, "onChange", searchFieldValue, expectedStateChange);
+            //submit
+            expect(props.API.loadChilecompraData.mock.calls.length).toEqual(0);
+            searchField.props().onSubmit();
+            expect(props.API.loadChilecompraData.mock.calls.length).toEqual(1);        
+
+
+
             // //saveMenu
-            //     handleSearches={this.handleCreateSearches}
+            const searchesSaver = wrapper.find('SearchesSaver');
+            expect(props.createSearches.mock.calls.length).toEqual(0);
+            searchesSaver.props().handleSearches("mock name")
+            expect(props.createSearches.mock.calls.length).toEqual(1);
+  
 
         });
 
