@@ -1,52 +1,67 @@
 import React from 'react';
+import {shallow} from 'enzyme';
+import ObjectDetails from '../ObjectDetails';
+import {chileCompraResponseExample} from '../../utils/objectSchemaExamples';
 import * as utils from '../../utils/miscUtils';
 
+// Object Details is used to display the Items property on Licitaciones
+function setup() {
 
-const ObjectDetails = ({objectData}) => {
-
-    const objectHandler = (object) => {
-        //TODO: Add a renderLater like on JSONSchemaCheckboxes
-        return Object.keys(object).map((key, index) => {
-
-            if(utils.isPrimitive(object[key])) {
-                    if(!object[key]) {
-                        return `${utils.camelCaseToNormalCase(key)}: (vacío)`
-                    }
-                    return <div key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>
-            }
-
-            return <li className="object-details-subObject-title" key={`li-${index}`}>
-                    {utils.camelCaseToNormalCase(key)}: <div key={`object-details-subobject-${index}`} className="object-details-subObject">{objectHandler(object[key])}</div>
-                   </li>; 
-        });
+    const props = {
+        objectData: chileCompraResponseExample.Listado[0].Items.Listado
     }
+    const wrapper = shallow(<ObjectDetails {...props}/>);
 
-    return(
-        <ul key="base">
-        {
-
-            objectData.map((value, index) => {
-
-                if(utils.isPrimitive(value)){
-                        return <div key={`primitive-base-div-${index}`}>
-                                <h4>{`${index+1}) `}</h4>
-                                <li key={`primitive-base-li-${index}`}>{value}</li>
-                            </div>
-                }
-
-                return <div key={`object-base-div-${index}`}>
-                        <h4 key={`object-base-h4-${index}`}>{`${index + 1}) `}</h4>
-                        {objectHandler(value)}
-                      </div>
-
-            })
-        }
-
-        </ul>
-    )
-
-
-
+    return {wrapper, props};
 }
 
-export default ObjectDetails;
+function countPropTypes(object) {
+
+    let primitivesCount = 0;
+    let objectsCount = 0;
+
+
+    Object.keys(object).map(key => {
+
+        if(object[key] && utils.isPrimitive(object[key])) {
+            primitivesCount += 1;
+        } 
+        else if(!object[key]) {
+            primitivesCount += 1;
+        }
+        else {
+            let result  = countPropTypes(object[key]);
+            let primitivesSubCount = result.primitivesCount;
+            let objectsSubCount = result.objectsCount;
+            primitivesCount += primitivesSubCount;
+            //+1 because it was an object, but might return zero it's something like {key1: "value1"}
+            objectsCount += objectsSubCount + 1;
+        }
+    });
+
+    return {primitivesCount, objectsCount};
+}
+
+describe('Component', () => {
+
+    const {wrapper, props} = setup();
+    const {primitivesCount, objectsCount} = countPropTypes(props.objectData);
+
+
+    describe('ObjectDetails', () => {
+
+        it('Should render self and subcomponents', () => {
+
+            expect(wrapper.find('ul.object-details-root').length).toEqual(1);
+            expect(wrapper.find('.object-details-primitive').length + wrapper.find('.object-details-root-primitive').length).toEqual(primitivesCount);
+            expect(wrapper.find('.object-details-root-subObject').length + wrapper.find('.object-details-subObject').length).toEqual(objectsCount);
+
+
+
+        });
+
+
+    })
+
+
+});

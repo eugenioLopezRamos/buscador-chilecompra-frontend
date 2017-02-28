@@ -67,9 +67,6 @@ describe('Component', () => {
             callFunctionFromProps(submitButton, "onClick", {preventDefault: () => undefined}, props.handleClickSubmit);
             expect(submitButton.props().onSubmit({preventDefault: () => undefined})).toEqual(null);
 
-
-
-
         });
 
     });

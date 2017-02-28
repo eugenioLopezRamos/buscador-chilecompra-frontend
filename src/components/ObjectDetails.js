@@ -5,14 +5,14 @@ import * as utils from '../utils/miscUtils';
 const ObjectDetails = ({objectData}) => {
 
     const objectHandler = (object) => {
-        //TODO: Add a renderLater like on JSONSchemaCheckboxes
+        //TODO: Add a renderLater like on JSONSchemaCheckboxes?
         return Object.keys(object).map((key, index) => {
 
             if(utils.isPrimitive(object[key])) {
                     if(!object[key]) {
-                        return `${utils.camelCaseToNormalCase(key)}: (vacío)`
+                        return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: (vacío)`</div>
                     }
-                    return <div key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>
+                    return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>
             }
 
             return <li className="object-details-subObject-title" key={`li-${index}`}>
@@ -22,19 +22,19 @@ const ObjectDetails = ({objectData}) => {
     }
 
     return(
-        <ul key="base">
+        <ul key="base" className="object-details-root">
         {
 
             objectData.map((value, index) => {
 
                 if(utils.isPrimitive(value)){
-                        return <div key={`primitive-base-div-${index}`}>
+                        return <div className="object-details-root-primitive" key={`primitive-base-div-${index}`}>
                                 <h4>{`${index+1}) `}</h4>
                                 <li key={`primitive-base-li-${index}`}>{value}</li>
                             </div>
                 }
 
-                return <div key={`object-base-div-${index}`}>
+                return <div className="object-details-root-subObject" key={`object-base-div-${index}`}>
                         <h4 key={`object-base-h4-${index}`}>{`${index + 1}) `}</h4>
                         {objectHandler(value)}
                       </div>
