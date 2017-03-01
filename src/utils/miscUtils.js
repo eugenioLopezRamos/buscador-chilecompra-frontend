@@ -100,11 +100,15 @@ export const getObjectSchema = (object) => {
     } , new Array) 
 }
 
-export const objectComparer = (object, secondObject, differencesAccumulator) => {
+export const objectComparer = (object, secondObject, differencesContainer) => {
     
     //TODO: DRY this up
     // Remove differencesAccumulator, just set it here instead of as an argument
+    let differencesAccumulator = differencesContainer;
 
+    if(typeof differencesAccumulator === "undefined" || typeof differencesAccumulator === "null") {
+        differencesAccumulator = {}
+    }
     const baseObject = object || {};
     const baseSecondObject = secondObject || {};
 

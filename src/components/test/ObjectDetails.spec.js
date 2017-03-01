@@ -15,7 +15,7 @@ function setup() {
     return {wrapper, props};
 }
 
-function countPropTypes(object) {
+function countPropsPerTypes(object) {
 
     let primitivesCount = 0;
     let objectsCount = 0;
@@ -23,14 +23,11 @@ function countPropTypes(object) {
 
     Object.keys(object).map(key => {
 
-        if(object[key] && utils.isPrimitive(object[key])) {
+        if(utils.isPrimitive(object[key])) {
             primitivesCount += 1;
         } 
-        else if(!object[key]) {
-            primitivesCount += 1;
-        }
         else {
-            let result  = countPropTypes(object[key]);
+            let result  = countPropsPerTypes(object[key]);
             let primitivesSubCount = result.primitivesCount;
             let objectsSubCount = result.objectsCount;
             primitivesCount += primitivesSubCount;
@@ -45,7 +42,7 @@ function countPropTypes(object) {
 describe('Component', () => {
 
     const {wrapper, props} = setup();
-    const {primitivesCount, objectsCount} = countPropTypes(props.objectData);
+    const {primitivesCount, objectsCount} = countPropsPerTypes(props.objectData);
 
 
     describe('ObjectDetails', () => {
@@ -55,8 +52,6 @@ describe('Component', () => {
             expect(wrapper.find('ul.object-details-root').length).toEqual(1);
             expect(wrapper.find('.object-details-primitive').length + wrapper.find('.object-details-root-primitive').length).toEqual(primitivesCount);
             expect(wrapper.find('.object-details-root-subObject').length + wrapper.find('.object-details-subObject').length).toEqual(objectsCount);
-
-
 
         });
 

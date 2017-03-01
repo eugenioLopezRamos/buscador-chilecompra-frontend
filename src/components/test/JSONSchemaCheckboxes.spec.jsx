@@ -26,9 +26,10 @@ function countObjectProps(object){
                 // add 1 for "Cantidad" + 1 for "Listado"
                 // because "Listado" is not rendered as checkboxes (since each licitacion)
                 // has a different amount of Listado items with different amount of keys etc etc
+                // it is rendered as a link to be displayed in a <ObjectDetails /> component
                 propsAmount += 2;
         }
-        else if(object[key] && !isPrimitive(object[key])) {
+        else if(!isPrimitive(object[key])) {
             propsAmount += countObjectProps(object[key]);
         }
         else {
