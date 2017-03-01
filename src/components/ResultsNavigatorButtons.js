@@ -24,6 +24,8 @@ const ResultsNavigatorButtons = (props) => {
         goToPageInput.value = "";
 
         if(parseInt(number) != number) {
+
+            //TODO: Change alert into html
             alert("Ingrese un número");
             return;
         }
@@ -98,13 +100,13 @@ const ResultsNavigatorButtons = (props) => {
     return <div className="results-navigator-buttons-container">
     
                 <div className="page-picker-container">
-                    <label>Mostrar página:</label>
+                    <label className="show-page">Mostrar página:</label>
                     <div className="inputs">
                         <input 
                             type="number"
                             min="1"
                             max={props.pages}
-                            placeholder="Pagina"
+                            placeholder="Página"
                             defaultValue={null}
                             ref={(input) => {goToPageInput = input}}
                             onChange={(event) => {goToPageInput = event.target}}
