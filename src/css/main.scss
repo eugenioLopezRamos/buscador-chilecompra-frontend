@@ -430,8 +430,11 @@ span.movable-title-container {
     font-size: 1.2em;
 }
 .object-container {
-    display: flex;
+    display: none;
     flex-direction: column;
+    &.display-flex {
+        display:flex;
+    }
 }
 
 .object-data-container {

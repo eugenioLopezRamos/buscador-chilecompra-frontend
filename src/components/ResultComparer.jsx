@@ -23,15 +23,7 @@ class ResultComparer extends React.Component {
     toggleOpen = (event, target) => {
         event.stopPropagation();
         
-        let currentDisplayStatus = target.style.display;
-
-        if(currentDisplayStatus === "none"){
-            target.style.display = "flex";
-        } 
-        else {
-            target.style.display = "none";
-        }
-    
+        target.classList.toggle('display-flex');
     }
 
     //differences => [{result1 with result2}, {result2 with result3}, {result3 with result4}]
@@ -48,7 +40,7 @@ class ResultComparer extends React.Component {
     }
 
     renderValues = (object, keyName) => {
-        //TODO: refactor this.
+        //TODO: refactor this?
 
         //Could do this with a switch too, maybe it would be more readable?
         //IF OBJECT IS A PRIMITIVE
@@ -73,7 +65,7 @@ class ResultComparer extends React.Component {
                             {keyName}
                         </span>
                         {/*this contains the data in the array (its keys)*/}
-                        <div className="object-container type-array" ref={(element) => { this.containers[number] = element} } key={`object-containerArray${number}`}>
+                        <div className="object-container display-flex type-array" ref={(element) => { this.containers[number] = element} } key={`object-containerArray${number}`}>
                         {
                             Object.keys(object).map((currentKey) => {
 
@@ -97,7 +89,7 @@ class ResultComparer extends React.Component {
                         <span className="object-container-name type-pojo" onClick={(event) => {this.toggleOpen(event,this.containers[number])} } key={`objectContainerName${number}`}>
                             {keyName}
                         </span>
-                        <div className="object-container type-pojo" ref={(element) => { this.containers[number] = element} } key={`object-containerObject${number}`}>
+                        <div className="object-container display-flex type-pojo" ref={(element) => { this.containers[number] = element} } key={`object-containerObject${number}`}>
                         {
                             Object.keys(object).map((currentKey) => {
                                 let keys = Object.keys(object);
@@ -210,7 +202,7 @@ class ResultComparer extends React.Component {
                                 En caso de haber variaciones sólo de FechaCreacion, estas se 
                                 han obviado
                             </p>                         
-                            <div className="detalle">Detalle de variaciones</div>
+                            <div className="detail">Detalle de variaciones</div>
                         </div>
                         <div className="all-differences-each">
                             {renderDifferences()}

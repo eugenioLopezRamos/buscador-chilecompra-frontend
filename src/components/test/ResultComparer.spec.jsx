@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {shallow} from 'enzyme';
 import ResultComparer from '../ResultComparer';
 import {resultComparerMockData, emptyResultComparerMockData} from '../../__mocks__/resultComparerMock';
+import {objectComparer, searchInObject} from '../../utils/miscUtils';
 
 //results Comparere has a bug when clicking the results to ttoggle their display
 // UPDATE: Seems fixed with stopPropagation()
@@ -36,7 +37,7 @@ describe('Component', () => {
 
         it('Should correctly render self and subcomponents', () => {
 
-            function checkCommonElements() {
+            function checkCommonElements(currentWrapper) {
                 expect(currentWrapper.find('.result-comparer-root').length).toEqual(1);
                 expect(currentWrapper.find('.result-comparer-main-title').length).toEqual(1);
                 expect(currentWrapper.find('.result-comparer-main-title').text()).toEqual('Variaciones del resultado');
@@ -44,19 +45,58 @@ describe('Component', () => {
                 expect(currentWrapper.find('.original-result-container').length).toEqual(1);
                 expect(currentWrapper.find('.all-differences-container').length).toEqual(1);
                 expect(currentWrapper.find('.all-differences-title').length).toEqual(1);
-                expect(currentWrapper.find('.all-differences-title .detalle').text()).toEqual('Detalle de variaciones');
+                expect(currentWrapper.find('.all-differences-title .detail').text()).toEqual('Detalle de variaciones');
                 expect(currentWrapper.find('.all-differences-title-note').length).toEqual(1);
                 expect(currentWrapper.find('.all-differences-title-note').text()).toEqual('En caso de haber variaciones sólo de FechaCreacion, estas se han obviado')
                 expect(currentWrapper.find('.all-differences-each').length).toEqual(1);
+                expect(currentWrapper.find('.single-difference-container').length).toEqual(1);
             }
 
-            let currentWrapper;
+
             //With no comparison (that is, there have been no changes to a results info)
-            currentWrapper = emptyComparisonWrapper;
-            checkCommonElements();
+     
+            checkCommonElements(emptyComparisonWrapper);
+
+            expect(emptyComparisonWrapper.find('.single-difference-container').text()).toEqual('Sin variaciones');
 
 
+          
+            checkCommonElements(comparisonWrapper);
+            //.difference-item is one per property of the base object (Using our mock, one for the differences 
+            //in "Listado" and one for the differences in "FechaCreacion")
+            expect(comparisonWrapper.find('.difference-item').length).toEqual(2);
+            // differences can be either POJO or array - These are just the containers
+            expect(comparisonWrapper.find('.difference-item .object-data-container').length).toEqual(18);
+            //get the amount of values (so, the primitives)
+            expect(comparisonWrapper.find('.difference-item .object-data-container .primitive').length).toEqual(25);
+
+            // check that the values are correctly
+            const primitiveValues = comparisonWrapper.find('.difference-item .object-data-container .primitive');
+
+            const baseValue = resultComparerMockData[0];
+            const nextValue = resultComparerMockData[1];
+
+            const comparedValues = objectComparer(baseValue, nextValue);
+            //instance.differences are the same as objectComparer?
+            expect(comparisonWrapper.instance().differences()).toEqual([comparedValues]);
 
         });
+
+        it('Should invoke functions correctly', () => {
+            const instance = comparisonWrapper.instance();
+            //These are hideable;
+            const objectDataContainers = comparisonWrapper.find('.difference-item .object-container-name');
+            let randomNumber = Math.floor(Math.random() * objectDataContainers.length - 1);
+
+            const originalToggleOpen = instance.toggleOpen.bind({});
+
+            instance.toggleOpen = jest.fn();
+
+            expect(instance.toggleOpen.mock.calls.length).toBe(0);
+     
+            objectDataContainers.at(randomNumber).props().onClick();
+            // TODO: see some way to test this more strictly? 
+            expect(instance.toggleOpen.mock.calls.length).toBe(1);
+        })
     });
 });
