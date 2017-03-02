@@ -58,8 +58,8 @@ export class SearchResults extends React.PureComponent {
             }
         }
 
-        changeColumns = (newColumns, schema) => {
-            this.setState({columns: newColumns, resultsSchema: schema});
+        changeColumns = (newColumns) => {
+            this.setState({columns: newColumns});
         } 
 
         //TODO: Get this to a helper or something...

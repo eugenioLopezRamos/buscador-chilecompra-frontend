@@ -8,7 +8,7 @@ import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
 import {resultComparerMockData} from '../../__mocks__/resultComparerMock';
 import nock from 'nock';
 import localStorageMock from '../../constants/testLocalStorage';
-
+import ObjectDetails from '../ObjectDetails';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';
 import {isPrimitive} from '../../utils/miscUtils';
@@ -17,7 +17,7 @@ if(!window.localStorage) {
     window.localStorage = localStorageMock();
     localStorage = localStorageMock();
 }
-
+process.env.API_HOST= "http://localhost:3000";
 function setup() {
     const props = {
         searchQueryValues: searchQueryValuesMock,
@@ -211,18 +211,20 @@ describe('Component', () => {
             runTests(wrapper);
 
             // Try a couple different values from JSONSchemaCheckboxes...
+            let newColumns = instance.state.columns.slice(2);
 
+            const JSONSchemaCheckboxes = wrapper.find('JSONSchemaCheckboxes');
 
-            let newColumns = instance.state.columns.concat([["Listado", "0", "Items"]])
-            wrapper.setState({columns: newColumns});
+            JSONSchemaCheckboxes.props().changeColumns(newColumns);
             runTests(wrapper);
 
             newColumns = instance.state.columns.slice(2);
-            wrapper.setState({columns: newColumns});
+
+            JSONSchemaCheckboxes.props().changeColumns(newColumns);
             runTests(wrapper);
 
             newColumns = instance.state.columns.concat([["Listado", "0", "TipoPago"], ["Listado", "0", "Estimacion"]])
-            wrapper.setState({columns: newColumns});
+            JSONSchemaCheckboxes.props().changeColumns(newColumns);
             runTests(wrapper);
 
             //plays a fadein animation when loading new results
@@ -239,6 +241,9 @@ describe('Component', () => {
             expect(instance.animClass).toEqual('search-results-ul1');
             runTests(wrapper);
 
+            newColumns = instance.state.columns.concat([["Listado", "0", "Items"]])
+            JSONSchemaCheckboxes.props().changeColumns(newColumns);
+            runTests(wrapper);
 
 
         });
@@ -252,13 +257,21 @@ describe('Component', () => {
 
 
                 const fullScreenPane = wrapper.find('FullScreenPane');
-                const JSONSchemaCheckboxes = wrapper.find('JSONSchemaCheckboxes')
+
 
                 const sortDescending = wrapper.find('span.glyphicon.glyphicon-chevron-down');
                 const sortAscending = wrapper.find('span.glyphicon.glyphicon-chevron-up');
 
-                const showObjectDetail = wrapper.find('span.col-search-xs-3 a');
+                let column = searchResultsMock.values[0].value.Listado[0].Items;
 
+                const showObjectDetail = wrapper.find('span.search.col-xs-3 a');
+                showObjectDetail.at(0).props().onClick({preventDefault: () => undefined});
+                expect(wrapper.instance().state.fullScreenPane).toEqual({show:true,
+                                                                         component: ObjectDetails,
+                                                                         componentProps: {objectData: column},
+                                                                         menu: null,
+                                                                         menuProps: {}
+                                                                        })
 
       
                 const subscriptionButton = wrapper.find('.search.col-xs-3.half button.btn-primary.col-xs-12.subscription-button');
