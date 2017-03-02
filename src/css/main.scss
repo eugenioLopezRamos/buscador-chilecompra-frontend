@@ -159,6 +159,10 @@ span.movable-title-container {
     word-break: break-word;
 }
 
+.result-history-button {
+    @extend .subscription-button;
+}
+
 .autofiller.select {
     width: 100%;
 }

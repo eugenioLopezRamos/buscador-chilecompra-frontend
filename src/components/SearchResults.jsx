@@ -315,7 +315,7 @@ export class SearchResults extends React.PureComponent {
                                     }
 
                                             <span className="search col-xs-3 half" key={"result history key " + index } >
-                                                <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.getResultHistory(index)}}>
+                                                <button className="btn btn-primary col-xs-12 result-history-button" onClick={() => {this.getResultHistory(index)}}>
                                                     Ver historia
                                                 </button>
                                             </span>
