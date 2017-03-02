@@ -12,6 +12,8 @@ import ObjectDetails from '../ObjectDetails';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';
 import {isPrimitive} from '../../utils/miscUtils';
+import {RESULTS_OFFSET_AMOUNT}  from '../../constants/resultsOffset';
+
 
 if(!window.localStorage) {
     window.localStorage = localStorageMock();
@@ -252,12 +254,15 @@ describe('Component', () => {
             
 
 
+
                 const modal = wrapper.find('Modal');
+                modal.props().hideModal();
+                expect(wrapper.instance().state.showModal).toEqual(false);
 
 
 
                 const fullScreenPane = wrapper.find('FullScreenPane');
-
+                
 
                 const sortDescending = wrapper.find('span.glyphicon.glyphicon-chevron-down');
                 const sortAscending = wrapper.find('span.glyphicon.glyphicon-chevron-up');
@@ -271,7 +276,9 @@ describe('Component', () => {
                                                                          componentProps: {objectData: column},
                                                                          menu: null,
                                                                          menuProps: {}
-                                                                        })
+                                                                        });
+                fullScreenPane.props().hide();
+                expect(wrapper.instance().state.fullScreenPane.show).toEqual(false);
 
       
                 const subscriptionButton = wrapper.find('.search.col-xs-3.half button.btn-primary.col-xs-12.subscription-button');
@@ -327,6 +334,27 @@ describe('Component', () => {
 
     
 
+
+            // Missing: result navigator buttons!
+                const offset = RESULTS_OFFSET_AMOUNT;
+                const resultsNavigatorButtons = wrapper.find('ResultsNavigatorButtons').at(0);
+                //We'll mock the same value
+                nock("http://localhost:3000")
+                    .post('/api/get_info')
+                    .reply(200, searchResultsMock);
+                //add 200 to offset (next page);
+                let page = 2;
+                resultsNavigatorButtons.props().paginatorButtonClickHandler(this.props.results.offset + offset);
+                // Do async action...
+
+
+                // go to page X
+                
+
+
+                        
+                        //paginatorButtonClickHandler={this.offsetChangeHandler}
+                        //pageButtonClickHandler={this.setOffsetHandler}
 
 
         });
