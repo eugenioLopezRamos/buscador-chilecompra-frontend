@@ -23,7 +23,7 @@ describe('Component', () => {
     
     describe('ResultsNavigatorButtons', () => {
         
-
+        
         it('Should render self and subcomponents', () => {
 
             let {wrapper, props} = setup();
@@ -32,6 +32,8 @@ describe('Component', () => {
                 expect(currentWrapper.find('label.show-page').length).toEqual(1);
                 expect(currentWrapper.find('label.show-page').text()).toEqual('Mostrar página:');
                 expect(currentWrapper.find('div.inputs').length).toEqual(1);
+                expect(currentWrapper.find('button.go-to-result-button').length).toEqual(1);
+
                 const pickPageInput = currentWrapper.find('div.inputs input');
                 expect(pickPageInput.length).toEqual(1);
                 expect(pickPageInput.props().type).toEqual("number");
@@ -39,6 +41,7 @@ describe('Component', () => {
                 expect(pickPageInput.props().max).toEqual(pages);
                 expect(pickPageInput.props().placeholder).toEqual("Página");
                 expect(pickPageInput.props().defaultValue).toEqual(null);
+                
                 // there are no refs on SFC's using enzyme
                 expect(typeof pickPageInput.props().onChange).toEqual("function");
 
@@ -58,20 +61,34 @@ describe('Component', () => {
                 let activeButtonIndex;
                 if(pages > maxPages){
                     buttonsAmount = maxPages;
-                    activeButtonIndex = currentPage > maxPages ? buttonsAmount - 1 : currentPage;
-                  //  expect(wrapper.find('.page-select-buttons .page-button').at(activeButtonIndex).hasClass('active')).toEqual(true);
+    
+                    let pagesDiff = pages - currentPage;
+                    //maxPages is a number (1...maxPages)
+                    // currentPage is an index
+                    activeButtonIndex = currentPage >= maxPages - 1 ? buttonsAmount - pagesDiff  : currentPage;
+                    if(currentPage >= pages) {
+                        // will render just 1 button
+                        activeButtonIndex = 0;
+                    }       
                 }
                 else {
                     buttonsAmount = pages;
                     activeButtonIndex = currentPage;
+    
                 }
                 //button at(currentPage) is active
                 expect(wrapper.find('.page-select-buttons .page-button').at(activeButtonIndex).hasClass('active')).toEqual(true);
-                expect(currentWrapper.find('.page-select-buttons .page-button').length).toEqual(buttonsAmount);
-                //only one active button
-                expect(currentWrapper.find('.page-select-buttons .page-button.active').length).toEqual(1);
+                //if currentPage > pages -> will render only one button, so:
+                if(currentPage > pages) {
+                    expect(currentWrapper.find('.page-select-buttons .page-button').length).toEqual(1);  
+                }else {
+                    expect(currentWrapper.find('.page-select-buttons .page-button').length).toEqual(buttonsAmount);
+                }
 
+                //there must be only one active button
+                expect(currentWrapper.find('.page-select-buttons .page-button.active').length).toEqual(1);
             }
+
             const maxPages = 8;
             let currentPage = props.currentPage;
             let pages = props.pages;
@@ -82,27 +99,55 @@ describe('Component', () => {
             currentPage = 6;
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
-          //  expect(wrapper.find('.page-select-buttons .page-button').at(props.currentPage).hasClass('active')).toEqual(true);
+
             currentPage = 7;
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
-          //  expect(wrapper.find('.page-select-buttons .page-button').at(props.currentPage).hasClass('active')).toEqual(true);
+
             pages = 10;
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
-         //   expect(wrapper.find('.page-select-buttons .page-button').at(props.currentPage).hasClass('active')).toEqual(true);
+
             currentPage = 3;
             pages = 7;
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
-           // expect(wrapper.find('.page-select-buttons .page-button').at(props.currentPage).hasClass('active')).toEqual(true);
+
+            currentPage = 9;
+            pages = 10;
+            wrapper.setProps({currentPage, pages});
+            testComponent(wrapper);
+
+            currentPage = 15000;
+            wrapper.setProps({currentPage, pages});
+            testComponent(wrapper);              
 
         });
 
         it('Should correctly invoke functions', () => {
+            let {wrapper, props} = setup();
+            const pagePickerButtons = wrapper.find('.page-select-buttons .page-button');
+            const goToPageInput = 
+
+            expect(props.pageButtonClickHandler.mock.calls.length).toEqual(0);
+            pagePickerButtons.forEach((element, index) => {
+                element.props().onClick(index)
+            });
+
+            expect(props.pageButtonClickHandler.mock.calls.length).toEqual(pagePickerButtons.length);
 
 
+            // For these two another (mildly annoying option) would be to rewrite the input + button
+            // into a Component...
 
+            //TODO: See how to test the onChange event on the <input/>, it involves using a ref in a stateless functional component...
+            // const pickPageInput = currentWrapper.find('div.inputs input');
+            
+            //TODO: See how to test this, it uses the ref...
+            // const goToButton = wrapper.find('button.go-to-result-button');
+            // goToButton.props().onClick()
+
+            // expect(props.pageButtonClickHandler.mock.calls.length).toEqual(pagePickerButtons.length + 1);
 
         });
     });

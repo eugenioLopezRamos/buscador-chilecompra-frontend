@@ -80,20 +80,25 @@ const ResultsNavigatorButtons = (props) => {
                 show = show.concat(showButtonsArray.slice(currentPage, currentPage + 4 + toAdd))
             }
 
+            if(currentPage > props.pages && index === props.pages - 1) {
+                return <button className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                        {index+1}
+                       </button>             
+            }
+
             if(index === props.currentPage) {
 
                 return <button className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
                         {index+1}
                        </button>      
-
-
             }
-          
+
             else if(show.includes(index)) {
                return <button className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
                         {index+1}
                       </button>        
             }
+
         }
 
 
