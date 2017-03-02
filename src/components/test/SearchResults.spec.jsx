@@ -5,10 +5,18 @@ import {shallow} from 'enzyme';
 import {SearchResults} from '../SearchResults';
 import {searchResultsMock} from '../../__mocks__/searchResultsMock';
 import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
+import {resultComparerMockData} from '../../__mocks__/resultComparerMock';
+import nock from 'nock';
+import localStorageMock from '../../constants/testLocalStorage';
+
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';
 import {isPrimitive} from '../../utils/miscUtils';
 
+if(!window.localStorage) {
+    window.localStorage = localStorageMock();
+    localStorage = localStorageMock();
+}
 
 function setup() {
     const props = {
@@ -237,7 +245,12 @@ describe('Component', () => {
 
         it('Should correctly invoke functions', () => {
             
+
+
                 const modal = wrapper.find('Modal');
+
+
+
                 const fullScreenPane = wrapper.find('FullScreenPane');
                 const JSONSchemaCheckboxes = wrapper.find('JSONSchemaCheckboxes')
 
@@ -247,12 +260,60 @@ describe('Component', () => {
                 const showObjectDetail = wrapper.find('span.col-search-xs-3 a');
 
 
-             //   let index = 
+      
                 const subscriptionButton = wrapper.find('.search.col-xs-3.half button.btn-primary.col-xs-12.subscription-button');
-                
-                
-                
+                //mocks the value used on the function
+                let index = 0;
+                subscriptionButton.at(0).props().onClick();
+                expect(wrapper.instance().state.showModal).toEqual(true);
+                modal.props().hideModal();
+                expect(wrapper.instance().state.showModal).toEqual(false);
+
+
+
+                //mocks the response from the server...
+
+                let resultId = props.results.values[0].id;
+
+                const initialHeaders = {
+                    'access-token': '111',
+                    'uid': 'example@examplemail.com',
+                    'client': '53k1237',
+                    'content-type':'application/json',
+                    'accept':'application/json',
+                    'accept-encoding':'gzip,deflate',
+                    'user-agent':"node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+                    'connection':'close'
+                };
+
+                localStorage.setItem("session", JSON.stringify(initialHeaders));
+                nock(`${process.env.API_HOST}/api/results/`)
+                    .get(`/history?id=${resultId}`)
+                    .reply(200,resultComparerMockData); 
+            
                 const getResultHistoryButton = wrapper.find('.search.col-xs-3.half button.btn-primary.col-xs-12.result-history-button');
+                getResultHistoryButton.at(0).props().onClick();
+                expect(wrapper.instance().state.fullScreenPane.show).toEqual(true);
+                expect(wrapper.instance().state.fullScreenPane.component).toEqual(null);
+                expect(wrapper.instance().state.fullScreenPane.componentProps).toEqual({});
+
+                // Not quite sure how to simulate an async update here, so...
+                wrapper.setState({
+                        fullScreenPane: {
+                            show: true,
+                            component: 'ResultsComparer',
+                            componentProps: {
+                                results: resultComparerMockData
+                            }
+                        }
+                    });
+    
+                expect(wrapper.instance().state.fullScreenPane.show).toEqual(true);
+                expect(wrapper.instance().state.fullScreenPane.component).toEqual('ResultsComparer');
+                expect(wrapper.instance().state.fullScreenPane.componentProps.results).toEqual(resultComparerMockData);
+
+    
+
 
 
         });
