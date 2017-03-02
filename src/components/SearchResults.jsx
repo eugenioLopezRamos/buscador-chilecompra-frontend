@@ -20,6 +20,7 @@ import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes'
 import userApi from '../api/userApi';
 import ResultsNavigatorButtons from './ResultsNavigatorButtons';
 import * as API from '../actions/fetchActions';
+import * as helpers from '../helpers/searchResultsHelpers';
 
 //TODO: Chunk this container a bit more
 export class SearchResults extends React.PureComponent {
@@ -48,7 +49,7 @@ export class SearchResults extends React.PureComponent {
                     menuProps: {},
                 }
             }
-            
+            this.mockResult = [{value: chileCompraResponseExample}];
         }
 
         componentWillReceiveProps(nextProps) {
@@ -62,44 +63,7 @@ export class SearchResults extends React.PureComponent {
         } 
 
         //TODO: Get this to a helper or something...
-        applyFilter = (selectedItems, results) => {
-  
-            let columns = results.map(currentResult => {
-              
-                let newObject = {};
-                selectedItems.map(subElement => {
-                //selectedItems is an array of arrays! Need to flatten.
-                    return subElement.reduce((prev, curr, currIndex) => {
-
-                    //on the last item, do special stuff
-                    if(currIndex === subElement.length -1) {
-                        let value = "No incluye campo o está vacío";
-                        try { value = prev[curr] }
-                        catch(error){value = "No incluye campo o está vacío"};
-
-                        //Some fields(keys of the JSON object) exist more than once, on different levels of "deepness" within
-                        // the object's structure. In this case, we append the previous key, to make it
-                        // easier to differentiate them
-                        if(newObject[curr]) {
-                            let previousItemKey = subElement[currIndex-1] ? subElement[currIndex-1] : "Base";
-                            if(utils.isOnlyNumbers(previousItemKey)) {
-                                previousItemKey = `${parseInt(previousItemKey) + 1})`;
-                            }
-                            return newObject[`${previousItemKey}${curr}`] = value;
-                        }
-                        return newObject[curr] = value;
-                    }
-
-                    return prev[curr];
-
-                    }, currentResult.value);
-                })
-                
-                return newObject;
-            });
-
-            return columns;
-        }
+        applyFilter = (selectedItems, results) => {return helpers.applyFilter(selectedItems, results)}
 
         showObjectDetail = (objectData) => {
 
@@ -216,38 +180,19 @@ export class SearchResults extends React.PureComponent {
          }
 
          sortByColumn = (field, order) => {
-         //Currently disabled. It works, but the results are not stable so it looks really weird.
-         // Once I solve the stability issue, this should be used 
-         //when the totalresults count is <= 200 (or whatever the limit is)
+             //client side sort currently not implemented - Will probably have to sort with mergeSort since it is stable
+             let newQueryValues = helpers.sortByColumn(field, order, this.props.searchQueryValues);
+             this.props.API.loadChilecompraData(newQueryValues);
+         } 
 
-           // So, here we'll have 2 ways of sorting. 
-           // If results.count > {RESULTS_OFFSET_AMOUNT} from /src/constants/resultsOffset.js (as of this writing, 200)
-           // send a request to the server, get the results again, order them, THEN send them back over to frontend
-           // If results.count <= limit hacerlo local (that is, in the frontend)
-
-
-           // This is done HERE: 
-                    // if(this.props.results.count <= 200) {
-                    //   //  alert("menor q 200");
-                    //     let results = this.props.results;
-                    //     return someFile.sortResultsInFrontend(results, field, order);
-
-                    
-                    // }
-            // However the sort is not stable so it looks weird when you make it "change"
-            // by spamming click on column X (which stays as is), which makes the other columns
-            // move around
-
-            let newQueryValues = objectAssign({}, this.props.searchQueryValues);
-            // object assign doesnt deep clone.
-            newQueryValues.order_by = objectAssign({}, this.props.searchQueryValues.order_by)
-            newQueryValues.order_by.order = order;
-       
-
-            newQueryValues.order_by.fields = field;
-      
-            this.props.API.loadChilecompraData(newQueryValues);
-         }
+         resultsNavigatorButtons = () => {
+            return <ResultsNavigatorButtons 
+                        pages={parseInt(this.props.results.count/this.props.results.limit)+1}
+                        paginatorButtonClickHandler={this.offsetChangeHandler}
+                        pageButtonClickHandler={this.setOffsetHandler}
+                        currentPage={parseInt(this.props.results.offset/this.props.results.limit)}                                                       
+                    />
+            }
 
 
         render = () => {
@@ -261,24 +206,18 @@ export class SearchResults extends React.PureComponent {
         
         else {
             let self = this;
-            let mockResult = [{value: chileCompraResponseExample}];
-            let titlesToRender = this.applyFilter(this.state.columns, mockResult);
-            let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
 
-            let resultsNavigatorButtons = () => {
-                                                return <ResultsNavigatorButtons 
-                                                            pages={parseInt(this.props.results.count/this.props.results.limit)+1}
-                                                            paginatorButtonClickHandler={this.offsetChangeHandler}
-                                                            pageButtonClickHandler={this.setOffsetHandler}
-                                                            currentPage={parseInt(this.props.results.offset/this.props.results.limit)}                                                       
-                                                        />
-                                                }
+           // TODO: See some way of taking this logic out?
+           // Maybe make the titles one component and the rows another?
+            let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
+            let titlesToRender = this.applyFilter(this.state.columns, this.mockResult);
+
+
   
             return (
             <div className="searchResults-container-div">
 
                     <JSONSchemaCheckboxes 
-                    //    results={this.props.results.values}
                         changeColumns={this.changeColumns}
                     />            
                         
@@ -308,7 +247,7 @@ export class SearchResults extends React.PureComponent {
                     </div>
                     <ul className={this.animClass}>
                         
-                        {resultsNavigatorButtons()}
+                        {this.resultsNavigatorButtons()}
 
                         <div className="results-data-container">
                             <div className="title-container" >   
@@ -346,17 +285,15 @@ export class SearchResults extends React.PureComponent {
                             </div>
 
 
-
-
-
-
-
                             <div className="results-li-container" onScroll={this.handleScroll}>
                             {
                             elementsToRender.map((row, index) => {
                                 return <li className="search-results" key={index}>
                                     {
                                             Object.values(row).map((column, index) => {
+                                                {/*if the column given is not a primitive, make a "link" to the items 
+                                                (which really is just a FullScreenPane with the item details.
+                                                As of this writing (March 2nd 2017) this only happens with Listado[0].Items*/}
                                                 if(!utils.isPrimitive(column)) {
                                                     return <span className="search col-xs-3" key={"column key" + index}>
                                                                 <a href="#" 
@@ -394,7 +331,7 @@ export class SearchResults extends React.PureComponent {
                             </div>
                         </div>
 
-                        {resultsNavigatorButtons()}
+                        {this.resultsNavigatorButtons()}
 
 
                         </ul>

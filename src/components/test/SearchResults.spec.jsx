@@ -1,9 +1,12 @@
 import React from 'react';
+// mount is unusable for me - Takes about 3 mins to test this component alone...
+//import {mount} from 'enzyme';
 import {shallow} from 'enzyme';
 import {SearchResults} from '../SearchResults';
 import {searchResultsMock} from '../../__mocks__/searchResultsMock';
 import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
+import {camelCaseToNormalCase} from '../../utils/miscUtils';
 
 function setup() {
     const props = {
@@ -68,6 +71,70 @@ describe('Component', () => {
             expect(resultsNavigatorButtons.at(0).props().pageButtonClickHandler).toEqual(instance.setOffsetHandler);
             expect(resultsNavigatorButtons.at(0).props().currentPage).toEqual(parseInt(props.results.offset/props.results.limit));
 
+            // The part that actually has the results in it
+            expect(wrapper.find('.results-data-container').length).toEqual(1);
+            
+            //Titles/headers
+            expect(wrapper.find('.title-container').length).toEqual(1);
+            const movableContainer = wrapper.find('span.movable-title-container')
+            expect(movableContainer.length).toEqual(1);
+       
+            //TODO: see some way of testing this with {mount} without it taking 3 minutes per component?
+            //this ref is used to make the titles move when scrolling the scrollbar (if the columns don't fit a single screen)
+            //And yes, it's...not quite optimal to do it like this...
+            instance.resultTitles = movableContainer.at(0);
+            expect(movableContainer).toEqual(wrapper.instance().resultTitles);
+            
+            //titles:
+                //These are the selectable ones
+            const selectableTitles = wrapper.find('span.search.title.col-xs-3.searchable');
+            expect(selectableTitles.length).toEqual(state.columns.length);
+
+            selectableTitles.forEach((title, index) => {
+                let stateColumn = state.columns[index];
+                expect(title.text()).toEqual(camelCaseToNormalCase(stateColumn[stateColumn.length - 1]));
+            });
+
+
+                // "Historia" and "Suscribirse" - Those are always included
+            const defaultTitles = wrapper.find('span.search.title.col-xs-3.half');
+            expect(defaultTitles.length).toEqual(2)
+            expect(defaultTitles.at(0).text()).toEqual('Historia');
+            expect(defaultTitles.at(1).text()).toEqual('Suscribirse');
+
+                // buttons  to sort (chevron up/down) -> equals state.columns.length * 2 because
+                // each title has an up and a down button
+            const chevrons = wrapper
+                                .find('span.search.title.col-xs-3.searchable .glyphicon')
+                                .filterWhere(element => !element.hasClass("filler"))
+            expect(chevrons.length).toEqual(state.columns.length * 2);
+            
+            chevrons.forEach(chevron => {
+                // its an anonymous function that returns a call to instance.sortByColumns
+                // so can't test onClick === instance.sortByColumns
+                expect(typeof chevron.props().onClick).toEqual("function")
+            });
+
+            // rows container
+            const resultsRowsContainer = wrapper.find('.results-li-container');
+            expect(resultsRowsContainer.length).toEqual(1);
+            expect(resultsRowsContainer.props().onScroll).toEqual(instance.handleScroll);
+            
+            //rows
+            const rows = wrapper.find('.search-results');
+            //one row per searchResult
+            expect(rows.length).toEqual(searchResultsMock.count);
+            // expect state.columns.length + 2 (historia + suscribirse) amount of columns
+            // divide by searchResultsMock.count because rows.find(...) will be columns * rows;
+            expect(rows.find('.search.col-xs-3').length/searchResultsMock.count).toEqual((state.columns.length + 2))
+
+            rows.forEach((row, index) => {
+
+                if(index < 3) {
+                    console.log("ROW TEXT", row.text());
+                }
+
+            });
 
 
 
