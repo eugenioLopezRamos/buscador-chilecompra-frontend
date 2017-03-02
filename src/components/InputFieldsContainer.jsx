@@ -217,7 +217,7 @@ function mapStateToProps(state, ownProps) {
         
     };
 };
-
+//TODO: trim this;
 function mapDispatchToProps(dispatch) {
   return {
     //actions: bindActionCreators(actions, dispatch),

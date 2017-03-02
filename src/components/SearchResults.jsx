@@ -22,7 +22,7 @@ import ResultsNavigatorButtons from './ResultsNavigatorButtons';
 import * as API from '../actions/fetchActions';
 
 //TODO: Chunk this container a bit more
-class SearchResults extends React.PureComponent {
+export class SearchResults extends React.PureComponent {
 
         constructor(props) {
             super(props);
@@ -298,8 +298,8 @@ class SearchResults extends React.PureComponent {
                         menu={this.state.menu}  
                     />
                 
-                    <div className="cantidad-resultados">Se encontraron {this.props.results.count} resultados: </div>
-                    <div className="cantidad-resultados">
+                    <div className="results-amount">Se encontraron {this.props.results.count} resultados: </div>
+                    <div className="results-amount">
                         Mostrando resultados desde el {parseInt(this.props.results.offset) + 1} al {
                             //Math.max(1, this.props.results.count - (this.props.results.offset + this.props.results.limit))
                             Math.min(this.props.results.offset + this.props.results.limit, this.props.results.count)
