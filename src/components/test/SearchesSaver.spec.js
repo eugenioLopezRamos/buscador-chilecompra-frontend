@@ -1,55 +1,83 @@
 import React from 'react';
-import Modal from '../inputs/Modal.jsx';
-//import Flash from './Flash.jsx';
+import {shallow} from 'enzyme';
+import SearchesSaver from '../SearchesSaver';
 
-class SearchesSaver extends React.Component {
+function setup() {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-                      showModal: false,
-                      enteredSearchName: "",
-                     }
-    }
-    
-    onSearchNameInput = (event) => {
-        this.setState({enteredSearchName: event.target.value});
-    }
+    const props = {
+        handleSearches: jest.fn()
+    };
 
-    handleSearches = () => {
+    const wrapper = shallow(<SearchesSaver {...props}/>);
 
-        this.setState({showModal: false, enteredSearchName: ""})
-        this.props.handleSearches(this.state.enteredSearchName)
-    }
+    return {wrapper, props};
+};
 
-    showModal = () => {
-        this.setState({showModal: true});
-    }
 
-    hideModal = () => {
-        this.setState({showModal: false});
-    }
+describe('Component', () => {
 
-    render = () => {
-        return (
-            <div className="col-xs-12 no-gutter save-search-buttons">
-                <Modal 
-                    isModalShown={this.state.showModal} 
-                    modalValue={this.state.enteredSearchName}
-                    handler={this.handleSearches}
-                    hideModal={this.hideModal}
-                    onInput={this.onSearchNameInput}
-                />
-                <button 
-                    type="button"
-                    className="btn btn-primary col-xs-6 col-md-4 col-md-offset-4 allow-wrap" 
-                    onClick={this.showModal}>
-                    Guardar parámetros de búsqueda
-                </button>
+    describe('SearchesSaver', () => {
 
-            </div>
-            )
-    }
-}
+        const {wrapper, props} = setup();
+        const instance = wrapper.instance();
+        const state = instance.state;
 
-export default SearchesSaver;
+        it('Should render self and subcomponents', () => {
+
+            //root
+            expect(wrapper.find('div.col-xs-12.no-gutter.save-search-buttons').length).toEqual(1);
+            
+            //modal
+            const modal = wrapper.find('Modal');
+            expect(modal.length).toEqual(1);
+            expect(modal.props().isModalShown).toBe(state.showModal);
+            expect(modal.props().modalValue).toBe(state.enteredSearchName);
+            expect(modal.props().handler).toBe(instance.handleSearches);
+            expect(modal.props().hideModal).toBe(instance.hideModal);
+            expect(modal.props().onInput).toBe(instance.onSearchNameInput);
+
+            const showModalButton = wrapper.find('button.btn.btn-primary.col-xs-6.col-md-4.col-md-offset-4.allow-wrap');
+            expect(showModalButton.length).toEqual(1);
+            expect(showModalButton.props().onClick).toEqual(instance.showModal);
+            expect(showModalButton.text()).toEqual('Guardar parámetros de búsqueda');
+
+            //state
+            expect(state.showModal).toEqual(false);
+            expect(state.enteredSearchName).toEqual("");
+
+        });
+
+        it('Should invoke functions correctly', () => {
+
+            const modal = wrapper.find('Modal');  
+            const showModalButton = wrapper.find('button.btn.btn-primary.col-xs-6.col-md-4.col-md-offset-4.allow-wrap');
+
+            // should make modal shown
+
+            showModalButton.props().onClick();
+            expect(instance.state.showModal).toEqual(true);
+            
+            //should change enteredSearchName
+            let mockEvent = {target: {value: "a new search name value"}}
+            modal.props().onInput(mockEvent);
+            expect(instance.state.enteredSearchName).toEqual(mockEvent.target.value);
+
+            //handle searches
+            expect(props.handleSearches.mock.calls.length).toEqual(0);
+            modal.props().handler();
+            expect(instance.state.showModal).toEqual(false);
+            expect(props.handleSearches.mock.calls.length).toEqual(1);
+
+            //open again...
+            showModalButton.props().onClick();
+            expect(instance.state.showModal).toEqual(true);
+            //then check if it closes correctly
+            modal.props().hideModal();
+            expect(instance.state.showModal).toEqual(false);
+
+
+        });
+
+
+    });
+});
