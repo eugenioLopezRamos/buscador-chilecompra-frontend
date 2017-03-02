@@ -128,15 +128,51 @@ describe('Component', () => {
             // divide by searchResultsMock.count because rows.find(...) will be columns * rows;
             expect(rows.find('.search.col-xs-3').length/searchResultsMock.count).toEqual((state.columns.length + 2))
 
-            rows.forEach((row, index) => {
 
-                if(index < 3) {
-                    console.log("ROW TEXT", row.text());
+            let columns = [];
+
+            let maxColumns = state.columns.length + 2 - 1; // for clarity.
+            let count = 0;
+
+            rows.children().map(e => e).forEach((row, index, array) => {
+                //sets rows on columns
+                columns[count] ? columns[count].push(row) : columns[count] = [row];
+                count++;
+                if(count > maxColumns) {
+                    count = 0;
+                }
+            });
+
+            //slice excludes the last two columns (Historia and Suscribirse)
+         columns.slice(0, columns.length - 2).forEach((column, columnIndex) => {
+
+            column.forEach((row, rowIndex) => {
+                let searchResultFieldValue = instance.state.columns[columnIndex]
+                                        .reduce((accumulator, currentKey) => {
+                                            return accumulator[currentKey]
+                                        },searchResultsMock.values[rowIndex].value);
+            
+                expect(row.text()).toEqual(searchResultFieldValue);
+            });
+         });
+            //here we test that they have the correct values
+        expect(columns.slice(columns.length - 2).length).toEqual(2);
+
+        columns.slice(columns.length - 2).forEach((column, columnIndex) => {
+
+            column.forEach((row, rowIndex)=> {
+                if(columnIndex === 0) {
+                    expect(row.text()).toEqual("Ver historia");
+                }
+                if(columnIndex === 1) {
+                    expect(row.text()).toEqual("Suscribirse");
+                }
+                else if (columnIndex > 1) {
+                    throw new Error("More than two fixed columns!");
                 }
 
             });
-
-
+         });
 
         });
 
