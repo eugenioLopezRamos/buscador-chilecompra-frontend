@@ -7,6 +7,8 @@ import {searchResultsMock} from '../../__mocks__/searchResultsMock';
 import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';
+import {isPrimitive} from '../../utils/miscUtils';
+
 
 function setup() {
     const props = {
@@ -28,6 +30,7 @@ describe('Component', () => {
 
         it('Should render self and subcomponents', () => {
 
+            const tests = (wrapper) => {
             //root 
             expect(wrapper.find('div.searchResults-container-div').length).toEqual(1);
             
@@ -88,10 +91,10 @@ describe('Component', () => {
             //titles:
                 //These are the selectable ones
             const selectableTitles = wrapper.find('span.search.title.col-xs-3.searchable');
-            expect(selectableTitles.length).toEqual(state.columns.length);
+            expect(selectableTitles.length).toEqual(instance.state.columns.length);
 
             selectableTitles.forEach((title, index) => {
-                let stateColumn = state.columns[index];
+                let stateColumn = instance.state.columns[index];
                 expect(title.text()).toEqual(camelCaseToNormalCase(stateColumn[stateColumn.length - 1]));
             });
 
@@ -107,7 +110,7 @@ describe('Component', () => {
             const chevrons = wrapper
                                 .find('span.search.title.col-xs-3.searchable .glyphicon')
                                 .filterWhere(element => !element.hasClass("filler"))
-            expect(chevrons.length).toEqual(state.columns.length * 2);
+            expect(chevrons.length).toEqual(instance.state.columns.length * 2);
             
             chevrons.forEach(chevron => {
                 // its an anonymous function that returns a call to instance.sortByColumns
@@ -126,16 +129,17 @@ describe('Component', () => {
             expect(rows.length).toEqual(searchResultsMock.count);
             // expect state.columns.length + 2 (historia + suscribirse) amount of columns
             // divide by searchResultsMock.count because rows.find(...) will be columns * rows;
-            expect(rows.find('.search.col-xs-3').length/searchResultsMock.count).toEqual((state.columns.length + 2))
-
+            expect(rows.find('.search.col-xs-3').length/searchResultsMock.count).toEqual((instance.state.columns.length + 2))
 
             let columns = [];
-
-            let maxColumns = state.columns.length + 2 - 1; // for clarity.
+            // for clarity => state.columns.length (to be gotten the searchResults) + 2 ("Historia", "Suscribirse")
+            // - 1 (becomes zero indexed);
+            let maxColumns = instance.state.columns.length + 2 - 1; 
             let count = 0;
 
             rows.children().map(e => e).forEach((row, index, array) => {
                 //sets rows on columns
+                //if column doesn't exist, create it, else push the row to it.
                 columns[count] ? columns[count].push(row) : columns[count] = [row];
                 count++;
                 if(count > maxColumns) {
@@ -144,35 +148,61 @@ describe('Component', () => {
             });
 
             //slice excludes the last two columns (Historia and Suscribirse)
-         columns.slice(0, columns.length - 2).forEach((column, columnIndex) => {
+            columns.slice(0, columns.length - 2).forEach((column, columnIndex) => {
 
-            column.forEach((row, rowIndex) => {
-                let searchResultFieldValue = instance.state.columns[columnIndex]
-                                        .reduce((accumulator, currentKey) => {
-                                            return accumulator[currentKey]
-                                        },searchResultsMock.values[rowIndex].value);
+                column.forEach((row, rowIndex) => {
+                    //bring the value...
+                    let searchResultFieldValue = instance.state.columns[columnIndex]
+                                            .reduce((accumulator, currentKey, index, array) => {
+                                                if(index === array.length - 1 && !isPrimitive(accumulator[currentKey])){
+                                                    //This should happen on Listado[0].Items
+                                                    return "Ver detalle"
+                                                }
+
+                                                return accumulator[currentKey]
+                                            },searchResultsMock.values[rowIndex].value);
+                                            
+                    // is the value in the row equal to the value in the searchResult? - Everything as string
+                    expect(row.text()).toEqual(`${searchResultFieldValue}`);
+                });
+            });
             
-                expect(row.text()).toEqual(searchResultFieldValue);
+            //here we test that the fixed columns ("Historia", "Suscribirse") have the correct values
+            expect(columns.slice(columns.length - 2).length).toEqual(2);
+
+            columns.slice(columns.length - 2).forEach((column, columnIndex) => {
+
+                column.forEach((row, rowIndex)=> {
+                    if(columnIndex === 0) {
+                        expect(row.text()).toEqual("Ver historia");
+                    }
+                    if(columnIndex === 1) {
+                        expect(row.text()).toEqual("Suscribirse");
+                    }
+                    else if (columnIndex > 1) {
+                        throw new Error("More than two fixed columns!");
+                    }
+
+                });
             });
-         });
-            //here we test that they have the correct values
-        expect(columns.slice(columns.length - 2).length).toEqual(2);
 
-        columns.slice(columns.length - 2).forEach((column, columnIndex) => {
+        }
+        
+            tests(wrapper);
 
-            column.forEach((row, rowIndex)=> {
-                if(columnIndex === 0) {
-                    expect(row.text()).toEqual("Ver historia");
-                }
-                if(columnIndex === 1) {
-                    expect(row.text()).toEqual("Suscribirse");
-                }
-                else if (columnIndex > 1) {
-                    throw new Error("More than two fixed columns!");
-                }
 
-            });
-         });
+            // Try a couple different values from JSONSchemaCheckboxes...
+            let newColumns = instance.state.columns.concat([["Listado", "0", "Items"]])
+            wrapper.setState({columns: newColumns});
+            tests(wrapper);
+
+            newColumns = instance.state.columns.slice(2);
+            wrapper.setState({columns: newColumns});
+            tests(wrapper);
+
+            newColumns = instance.state.columns.concat([["Listado", "0", "TipoPago"], ["Listado", "0", "Estimacion"]])
+            wrapper.setState({columns: newColumns});
+            tests(wrapper);
 
         });
 
