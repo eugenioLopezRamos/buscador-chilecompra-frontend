@@ -1,103 +1,114 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
+import * as reducers from '../authenticationActionsReducer';
 import objectAssign from 'object-assign';
+import * as responses from '../../constants/authenticationActionsReducerResponses';
 
-export const loginDataSetter = (state = initialState.loginData, action) => {
-    let newState = {};
+describe('Authentication actions reducer', () => {
 
-    switch(action.type) {
+    it('Test that actions return the initial state', () => {
 
-        case types.USER_LOGIN_EMAIL_INPUT:
-            return objectAssign({}, state, {email: action.value});
+        function returnsInitialState(action, initialStateProp) {
+            expect(reducers[action](undefined, {type: "mock"})).toEqual(initialState[initialStateProp]);
+        }
 
-        case types.USER_LOGIN_PASSWORD_INPUT:
-            return objectAssign({}, state,  {password: action.value});
+        returnsInitialState("loginDataSetter", "loginData");
+        returnsInitialState("isAuthenticatedSetter", "isAuthenticated");
+        returnsInitialState("userDataSetter", "userData");
+    });
 
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
+    it('returns the expected state when calling loginDataSetter', () => {
+        function compareResults(action, value=action.value) {
+            expect(objectAssign({}, initialState[stateProp], value)).toEqual(reducers.loginDataSetter(undefined, action))
+        }
 
-            newState = objectAssign({}, 
-                                    state, 
-                                    {email: "", password: "", message: "Bienvenido!", result: "success"});
+        const stateProp = "loginData";
+        let type = undefined;
+        let value = undefined;
+        let action = {type, value};
 
-            return newState;
+        action.type = types.USER_LOGIN_EMAIL_INPUT;
+        action.value = "aaa@email.com";
+        compareResults(action, {email: action.value});
 
-        case types.USER_SEND_LOGIN_INFO_FAILURE:
-            console.log("ERROR", action.response);
-            newState = objectAssign({},
-                                    state, 
-                                    {email: "", 
-                                     password: "", 
-                                     message: "Hubo un error al ingresar tus datos. Por favor intentalo de nuevo",
-                                     result: "failure"});
-            return newState;
+        action.type = types.USER_LOGIN_PASSWORD_INPUT;
+        action.value = "s3cr3tp4ss";
+        compareResults(action, {password: action.value});
+        
+        action.type = types.USER_SEND_LOGIN_INFO_SUCCESS;
+        compareResults(action, responses.loginSuccess);
+        
+        action.type = types.USER_SEND_LOGIN_INFO_FAILURE;
+        compareResults(action, responses.loginFailure);
 
-        case types.USER_LOGOUT_SUCCESS:
-            newState = objectAssign({}, state, {email: "", password: "", message: "Has salido exitosamente", result: "logout-success"});
-            return newState;
+        action.type = types.USER_LOGOUT_SUCCESS;
+        compareResults(action, responses.logoutSuccess);
 
-        case types.USER_LOGOUT_FAILURE:
-            newState = objectAssign({}, state, {email: "", password: "", message: "Hubo un error, favor intentar de nuevo", result: "logout-failure"});
-            return newState;
+        action.type = types.USER_LOGOUT_FAILURE;
+        compareResults(action, responses.logoutFailure);
 
-        default:
-            return state;
-    }
+    });
+
+    it('returns the expected state when calling isAuthenticatedSetter', () => {
+        function compareResults(action, value=action.value) {
+            expect(value).toEqual(reducers.isAuthenticatedSetter(undefined, action))
+        }
+
+        const stateProp = "isAuthenticated";
+        let type = undefined;
+        let value = undefined;
+        let action = {type, value};
+
+        action.type = types.USER_SEND_LOGIN_INFO_SUCCESS;
+        compareResults(action, true);
+
+        action.type = types.USER_SEND_LOGIN_INFO_FAILURE;
+        compareResults(action, false);
+        
+        action.type = types.USER_LOGOUT_SUCCESS;
+        compareResults(action, initialState.isAuthenticated);
+
+        action.type = types.USER_LOGOUT_FAILURE;
+        compareResults(action, initialState.isAuthenticated);
+
+        action.type = types.USER_VALIDATE_TOKEN_SUCCESS;
+        compareResults(action, true);
+
+        action.type = types.USER_VALIDATE_TOKEN_FAILURE;
+        compareResults(action, false);
+
+    });
+
+    it('returns the expected state when calling userDataSetter', () => {
+        function compareResults(action, value=action.response) {
+            expect(value).toEqual(reducers.userDataSetter(undefined, action))
+        }
+        const stateProp = "userData";
+        let type = undefined;
+        let response = undefined;
+        let action = {type, response};
+
+        action.type = types.USER_SEND_LOGIN_INFO_SUCCESS;
+        action.response = {body: {data: {id: 1}}}
+        compareResults(action, action.response);
+        
+        action.type = types.USER_SEND_LOGIN_INFO_FAILURE;
+        compareResults(action, null);
+
+        action.type = types.USER_LOGOUT_SUCCESS;
+        compareResults(action, initialState.userData);
+
+        action.type = types.USER_LOGOUT_FAILURE;
+        compareResults(action, initialState.userData);
+
+        action.type = types.USER_VALIDATE_TOKEN_SUCCESS;
+        compareResults(action, action.response.body.data);
+
+        action.type = types.USER_VALIDATE_TOKEN_FAILURE;
+        compareResults(action, null);
+    });
 
 
-}
 
-export const isAuthenticatedSetter = (state = initialState.isAuthenticated, action) => {
 
-    switch(action.type) {
-
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return true;
-
-        case types.USER_SEND_LOGIN_INFO_FAILURE:
-            return false;
-
-        case types.USER_LOGOUT_SUCCESS:
-            return initialState.isAuthenticated;
-
-        case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
-            return state;
-        case types.USER_VALIDATE_TOKEN_SUCCESS:
-            return true;
-        case types.USER_VALIDATE_TOKEN_FAILURE:
-            return false;
-        default:
-            return state;
-    }
-}
-
-export const userDataSetter = (state = initialState.userData, action) => {
-
-    switch(action.type) {
-
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return action.response;
-
-        case types.USER_SEND_LOGIN_INFO_FAILURE:
-            return null;
-
-        case types.USER_LOGOUT_SUCCESS:
-            return initialState.userData;
-
-        case types.USER_LOGOUT_FAILURE: //Unneeded(could just use the default action), but included for clarity.
-            return initialState.isAuthenticated;
-
-        case types.USER_VALIDATE_TOKEN_SUCCESS:
-            return action.response.body.data;
-            
-        case types.USER_VALIDATE_TOKEN_FAILURE:
-            return null;
-            
-        case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-            return action.response.body;
-
-        default:
-            return state;
-
-    }
-
-}
+})
