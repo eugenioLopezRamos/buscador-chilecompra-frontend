@@ -1,39 +1,52 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import displayActionsReducer from '../displayActionsReducer';
 
 
-export const displayActionsReducer = (state = initialState.display, action) => {
-    switch(action.type) {
-        case types.TOGGLE_NAVBAR_VISIBILITY:
-            return objectAssign({}, state, {showNavbar: !state.showNavbar });
-        
-        case types.NAVBAR_OFF:
-            return objectAssign({}, state, {showNavbar: false});
+describe('Reducer', () => {
 
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
-            return objectAssign({}, state, {showNavbar: false, showNotifications: false});
-        
-        case types.USER_LOGOUT_SUCCESS:
-            return objectAssign({}, state, {showNavbar: false, showNotifications: false});
+    describe('DisplayActions reducer', () => {
 
-        case types.TOGGLE_NOTIFICATIONS_VISIBILITY:
-            return objectAssign({}, state, {showNotifications: !state.showNotifications});
-        
-        case types.HIDE_ALL:
-            return objectAssign({}, state, {showNavbar: false, showNotifications: false})
-        default:
-            return state;
-    };
-};
+        it('Should correctly return default state', () => {
+            expect(displayActionsReducer(undefined, {type: undefined})).toEqual(initialState.display);
+        });
+
+        it('Should correctly return state according to action', () => {
+            function compareResults(action, expectedResult) {
+                expect(expectedResult).toEqual(displayActionsReducer(undefined, action));
+            }
+            
+            let action = {type: undefined};
+            let expectedResult = initialState.display;
+
+            action.type = types.TOGGLE_NAVBAR_VISIBILITY;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: !expectedResult.showNavbar})
+            compareResults(action, expectedResult);
+
+            action.type = types.NAVBAR_OFF;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: false})
+            compareResults(action, expectedResult);
+
+            action.type = types.USER_SEND_LOGIN_INFO_SUCCESS;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: false, showNotifications: false})
+            compareResults(action, expectedResult);
+
+            action.type = types.USER_LOGOUT_SUCCESS;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: false, showNotifications: false})
+            compareResults(action, expectedResult);
+
+            action.type = types.TOGGLE_NOTIFICATIONS_VISIBILITY;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: false, showNotifications: !initialState.showNotifications})
+            compareResults(action, expectedResult);
 
 
+            action.type = types.HIDE_ALL;
+            expectedResult = objectAssign({}, expectedResult, {showNavbar: false, showNotifications: false})
+            compareResults(action, expectedResult);
 
-// export function searchTypeReducer(state = initialState.searchType, action) {
-//     switch(action.type) {
-//         case types.CHANGE_SEARCH_TYPE:
-//             return action.value;
-//         default: 
-//             return state;
-//     };
-// };
+        });
+
+
+    });
+});

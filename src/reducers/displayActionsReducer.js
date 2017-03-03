@@ -27,13 +27,4 @@ export const displayActionsReducer = (state = initialState.display, action) => {
     };
 };
 
-
-
-// export function searchTypeReducer(state = initialState.searchType, action) {
-//     switch(action.type) {
-//         case types.CHANGE_SEARCH_TYPE:
-//             return action.value;
-//         default: 
-//             return state;
-//     };
-// };
+export default displayActionsReducer;
