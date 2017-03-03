@@ -1,26 +1,34 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import fetchReducer from '../fetchReducer';
 
-export default function fetchReducer(state = initialState.searchResults, action){
-  //  let newState = state;
-    switch(action.type) {
-        case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
-       // debugger
-            return action.data;
 
-        case types.FETCH_CHILECOMPRA_DATA_FAILURE:
-            console.log("action error", action);
-            return action.error;
-        case types.REORDER_CHILECOMPRA_DATA_SUCCESS:
-            return objectAssign({}, state, action.data);
-        case types.REORDER_RESULTS_FRONTEND_SUCCESS:
-            return action.data;
-        case types.REORDER_RESULTS_FRONTEND_FAILURE:
-            return state;
+describe('Reducers', () => {
 
-        default:
-            return state;
+    describe('fetch reducer', () => {
 
-    }
-}
+        it('Should return states correctly', () => {
+            function compareResults(action, expectedValue) {
+                expect(expectedValue).toEqual(fetchReducer(undefined, action));
+            }
+
+            let action = {type: undefined};
+            compareResults(action, initialState.searchResults);
+
+            action.data = {data: "Here's some data"};
+            action.type = types.FETCH_CHILECOMPRA_DATA_SUCCESS;
+            compareResults(action, action.data);
+
+            action.error = {error: "mistakes were made"};
+            action.type = types.FETCH_CHILECOMPRA_DATA_FAILURE;
+            compareResults(action, action.error);
+
+
+        });
+
+
+    })
+
+
+})
