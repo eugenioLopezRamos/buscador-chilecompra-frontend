@@ -7,19 +7,23 @@ const ResultsNavigatorButtons = (props) => {
     let goToPageInput = "";
 
     const incrementOffset = () => {
-     
+        // user clicks ">>"
         props.paginatorButtonClickHandler(offset);
     }
 
     const decrementOffset = () => {
+        //user clicks "<<"
         props.paginatorButtonClickHandler(-offset);
     }
 
     const setOffset = (times) => {
+        // user clicks button [1] (a certain page number)
+        // shouldn't exceed props.pages since that button shouldn't exist.
         props.pageButtonClickHandler(offset * times);
     }
 
     const handleGoTo = () => {
+        //user types in a page number on the input field
         let number = goToPageInput.value - 1;
         goToPageInput.value = "";
 

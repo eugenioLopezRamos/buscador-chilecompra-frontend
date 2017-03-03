@@ -13,7 +13,7 @@ import ObjectDetails from '../ObjectDetails';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';
 import {isPrimitive} from '../../utils/miscUtils';
 import {RESULTS_OFFSET_AMOUNT}  from '../../constants/resultsOffset';
-
+import * as API from '../../actions/fetchActions';
 
 if(!window.localStorage) {
     window.localStorage = localStorageMock();
@@ -23,7 +23,9 @@ process.env.API_HOST= "http://localhost:3000";
 function setup() {
     const props = {
         searchQueryValues: searchQueryValuesMock,
-        results: searchResultsMock
+        results: searchResultsMock,
+        API: {loadChilecompraData: jest.fn()},
+        createUserSubscription: jest.fn()
     }
 
     const wrapper = shallow(<SearchResults {...props}/>);
@@ -32,7 +34,7 @@ function setup() {
 }
 
 describe('Component', () => {
-
+            //TODO: This is a bit messy, see some way to refactor this?
     describe('SearchResults', () => {
         let {wrapper, props} = setup();
         const instance = wrapper.instance();
@@ -42,7 +44,6 @@ describe('Component', () => {
 
             const runTests = (wrapper) => {
             //root 
-          //  console.log("PROPS", props);
                 if(!props.results) {
                     expect(wrapper.type()).toEqual(null);
                     return;
@@ -251,9 +252,6 @@ describe('Component', () => {
         });
 
         it('Should correctly invoke functions', () => {
-            
-
-
 
                 const modal = wrapper.find('Modal');
                 modal.props().hideModal();
@@ -332,31 +330,20 @@ describe('Component', () => {
                 expect(wrapper.instance().state.fullScreenPane.component).toEqual('ResultsComparer');
                 expect(wrapper.instance().state.fullScreenPane.componentProps.results).toEqual(resultComparerMockData);
 
-    
-
-
-            // Missing: result navigator buttons!
                 const offset = RESULTS_OFFSET_AMOUNT;
                 const resultsNavigatorButtons = wrapper.find('ResultsNavigatorButtons').at(0);
-                //We'll mock the same value
-                nock("http://localhost:3000")
-                    .post('/api/get_info')
-                    .reply(200, searchResultsMock);
-                //add 200 to offset (next page);
+
                 let page = 2;
-                resultsNavigatorButtons.props().paginatorButtonClickHandler(this.props.results.offset + offset);
-                // Do async action...
-
-
-                // go to page X
-                
-
-
-                        
-                        //paginatorButtonClickHandler={this.offsetChangeHandler}
-                        //pageButtonClickHandler={this.setOffsetHandler}
-
-
+                expect(props.API.loadChilecompraData.mock.calls.length).toEqual(0);
+                //forwards one page...
+                resultsNavigatorButtons.props().paginatorButtonClickHandler(props.results.offset + offset);
+                expect(props.API.loadChilecompraData.mock.calls.length).toEqual(1);
+                //then back again
+                resultsNavigatorButtons.props().paginatorButtonClickHandler(props.results.offset + offset);
+                expect(props.API.loadChilecompraData.mock.calls.length).toEqual(2);                
+                //go to page X
+                resultsNavigatorButtons.props().pageButtonClickHandler(page * offset);
+                expect(props.API.loadChilecompraData.mock.calls.length).toEqual(3);
         });
     });
 });
