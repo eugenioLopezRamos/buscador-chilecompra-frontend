@@ -24,34 +24,44 @@ const SignupForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        //for testing
+        return "handle submit";
     }
 
-    let flashType = "";
 
-    if(props.signupResult.result === "success") {
-        flashType = "alert alert-success";
-    }
-    if(props.signupResult.result === "failure") {
-
-        flashType = "alert alert-danger";
-    }
 
     return (
-        
+        //TODO: Add client side verifications for email, password len && password confirmation
         <div key="signupForm" className="signup-form col-xs-12 col-md-8">
  
 
             <label className="col-xs-12 col-md-8 text-center">Nombre</label>
-            <input value={props.signupInfo.name} className="col-xs-12 col-md-8" type="textarea" placeholder="Nombre" onChange={handleChangeName}/>
+            <input value={props.signupInfo.name}
+                   className="col-xs-12 col-md-8"
+                   type="textarea"
+                   placeholder="Nombre"
+                   onChange={handleChangeName}/>
 
             <label className="col-xs-12 col-md-8  text-center">Mail</label>
-            <input value={props.signupInfo.email} className="col-xs-12 col-md-8" type="email" placeholder="Email" onChange={handleChangeEmail} />
+            <input value={props.signupInfo.email}
+                   className="col-xs-12 col-md-8"
+                   type="email"
+                   placeholder="Email"
+                   onChange={handleChangeEmail} />
 
             <label className="col-xs-12 col-md-8 text-center">Contraseña - mínimo 8 caracteres</label>
-            <input value={props.signupInfo.password} className="col-xs-12 col-md-8" type="password" placeholder="********" onChange={handleChangePassword}/>
+            <input value={props.signupInfo.password}
+                   className="col-xs-12 col-md-8"
+                   type="password"
+                   placeholder="********"
+                   onChange={handleChangePassword}/>
 
             <label className="col-xs-12 col-md-8 text-center">Confirmar contraseña</label>
-            <input value={props.signupInfo.password_confirmation} className="col-xs-12 col-md-8 " type="password" placeholder="********" onChange={handleChangePasswordConf}/>
+            <input value={props.signupInfo.password_confirmation}
+                   className="col-xs-12 col-md-8"
+                   type="password"
+                   placeholder="********"
+                   onChange={handleChangePasswordConf}/>
             
             <button 
                 className="btn btn-primary btn-lg col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4"
@@ -63,5 +73,4 @@ const SignupForm = (props) => {
 }
 
 export default SignupForm;
-         //TODO: Make this flash usse the messages reducer
-         //  <Flash type={flashType} className="signup-flash" messages={props.signupResult.message}/>
+         //TODO: Make this flash use the messages reducer

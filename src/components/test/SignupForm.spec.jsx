@@ -1,65 +1,113 @@
 import React from 'react';
-import Flash from '../Flash.jsx';
+import {shallow} from 'enzyme';
+import SignupForm from '../SignupForm';
 
-const SignupForm = (props) => {
 
-    const handleChangeName = (event) => {
-        props.inputActions.signupInputsName(event.target.value);
-    }
-    const handleChangeEmail = (event) => {
-        props.inputActions.signupInputsEmail(event.target.value);
-    }
-    const handleChangePassword = (event) => {
-        props.inputActions.signupInputsPassword(event.target.value);
-    }
-    const handleChangePasswordConf = (event) => {
-        props.inputActions.signupInputsPasswordConf(event.target.value);
-    }
+function setup() {
 
-    const handleClick = (event) => {
-        props.resultsActions.sendSignupData();
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const props = {
+        signupInfo: {
+            name: "",
+            email: "",
+            password: "",
+            password_confirmation: ""
+        },
+        inputActions: {
+            signupInputsName: jest.fn(),
+            signupInputsEmail: jest.fn(),
+            signupInputsPassword: jest.fn(),
+            signupInputsPasswordConf: jest.fn()
+        }
     }
 
-    let flashType = "";
+    const wrapper = shallow(<SignupForm {...props}/>);
 
-    if(props.signupResult.result === "success") {
-        flashType = "alert alert-success";
-    }
-    if(props.signupResult.result === "failure") {
+    return {wrapper, props};
 
-        flashType = "alert alert-danger";
-    }
-
-    return (
-        
-        <div className="signup-form col-xs-12 col-md-8">
- 
-
-            <label className="col-xs-12 col-md-8 text-center">Nombre</label>
-            <input value={props.signupInfo.name} className="col-xs-12 col-md-8" type="textarea" placeholder="Nombre" onChange={handleChangeName}/>
-
-            <label className="col-xs-12 col-md-8  text-center">Mail</label>
-            <input value={props.signupInfo.email} className="col-xs-12 col-md-8" type="email" placeholder="Email" onChange={handleChangeEmail} />
-
-            <label className="col-xs-12 col-md-8 text-center">Contraseña - mínimo 8 caracteres</label>
-            <input value={props.signupInfo.password} className="col-xs-12 col-md-8" type="password" placeholder="********" onChange={handleChangePassword}/>
-
-            <label className="col-xs-12 col-md-8 text-center">Confirmar contraseña</label>
-            <input value={props.signupInfo.password_confirmation} className="col-xs-12 col-md-8 " type="password" placeholder="********" onChange={handleChangePasswordConf}/>
-            
-            <button 
-                className="btn btn-primary btn-lg col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4"
-                onClick={handleClick}
-                onSubmit={handleSubmit}
-                >Enviar información</button>
-        </div>
-    )
 }
 
-export default SignupForm;
-         //TODO: Make this flash usse the messages reducer
-         //  <Flash type={flashType} className="signup-flash" messages={props.signupResult.message}/>
+
+describe('Component', () => {
+    
+    const {wrapper, props} = setup();
+
+    describe('SignupForm', () => {
+        
+        it('Should render self and subcomponents', () => {
+            function checkInputPropValues(input, propName) {
+                expect(input.props().value).toEqual(props.signupInfo[propName]);
+            }
+
+            //root
+            expect(wrapper.find('.signup-form.col-xs-12.col-md-8').length).toEqual(1);
+            //labels
+            const labels = wrapper.find('label.col-xs-12.col-md-8.text-center');
+            expect(labels.length).toEqual(4);
+            const expectedValues = ["Nombre", "Mail", "Contraseña - mínimo 8 caracteres", "Confirmar contraseña"];
+            labels.forEach((label, index) => {
+                expect(label.text()).toEqual(expectedValues[index])
+            });
+            //inputs
+            const inputs = wrapper.find('input.col-xs-12.col-md-8');
+            expect(inputs.length).toEqual(4);
+
+            const [inputName, inputEmail, inputPassword, inputPasswordConfirmation] = inputs.map(e => e);
+
+            checkInputPropValues(inputName, "name");
+            expect(inputName.props().type).toEqual("textarea");
+            expect(inputName.props().placeholder).toEqual("Nombre");
+            expect(typeof inputName.props().onChange).toEqual("function");
+
+            checkInputPropValues(inputEmail, "email");
+            expect(inputEmail.props().type).toEqual("email");
+            expect(inputEmail.props().placeholder).toEqual("Email");
+            expect(typeof inputEmail.props().onChange).toEqual("function");
+
+
+            checkInputPropValues(inputPassword, "password");
+            expect(inputPassword.props().type).toEqual("password");
+            expect(inputPassword.props().placeholder).toEqual("********");
+            expect(typeof inputPassword.props().onChange).toEqual("function");
+
+            checkInputPropValues(inputPasswordConfirmation, "password_confirmation");
+            expect(inputPasswordConfirmation.props().type).toEqual("password");
+            expect(inputPasswordConfirmation.props().placeholder).toEqual("********");
+            expect(typeof inputPasswordConfirmation.props().onChange).toEqual("function");
+
+            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-md-4.col-md-offset-4');
+            expect(submitButton.length).toEqual(1);
+            expect(typeof submitButton.props().onClick).toEqual("function");
+            expect(typeof submitButton.props().onSubmit).toEqual("function");
+            expect(submitButton.text()).toEqual("Enviar información");
+        });
+
+        it('Should correctly invoke functions', () => {
+
+            const inputs = wrapper.find('input.col-xs-12.col-md-8');
+            const [inputName, inputEmail, inputPassword, inputPasswordConfirmation] = inputs.map(e => e);
+
+            let mockTarget = {target: {value: "mock"}}
+            expect(props.inputActions.signupInputsName.mock.calls.length).toEqual(0);
+            inputName.props().onChange(mockTarget);
+            expect(props.inputActions.signupInputsName.mock.calls.length).toEqual(1);        
+
+            expect(props.inputActions.signupInputsEmail.mock.calls.length).toEqual(0);
+            inputEmail.props().onChange(mockTarget);
+            expect(props.inputActions.signupInputsEmail.mock.calls.length).toEqual(1);    
+
+            expect(props.inputActions.signupInputsPassword.mock.calls.length).toEqual(0);
+            inputPassword.props().onChange(mockTarget);
+            expect(props.inputActions.signupInputsPassword.mock.calls.length).toEqual(1);    
+
+            expect(props.inputActions.signupInputsPasswordConf.mock.calls.length).toEqual(0);
+            inputPasswordConfirmation.props().onChange(mockTarget);
+            expect(props.inputActions.signupInputsPasswordConf.mock.calls.length).toEqual(1);
+
+            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-md-4.col-md-offset-4');
+            
+            expect(submitButton.props().onSubmit({preventDefault: () => null})).toEqual("handle submit");
+
+
+        });
+    });
+});
