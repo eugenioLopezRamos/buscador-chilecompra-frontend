@@ -25,7 +25,7 @@ describe('Component', () => {
             //button
             expect(button.length).toEqual(1);
             expect(typeof button.props().onClick).toEqual("function");
-            expect(buttons.text()).toEqual("Guardar cambios");
+            expect(button.text()).toEqual("Guardar cambios");
 
         });
 
