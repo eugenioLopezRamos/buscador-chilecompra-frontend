@@ -15,12 +15,12 @@ const contextObject = {
    store: store
   },
   childContextTypes: {
-    store: React.PropTypes.Object
+    store: React.PropTypes.object
   }
 };
 
 function setup() {
- //   const authorizationWrapper = <AuthorizationWrapper />;
+
     const introduction = <Introduction key="intro-mock-key" />;
 
     const props = {

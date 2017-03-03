@@ -1,70 +1,82 @@
-import React, { Component, PropTypes } from 'react';
-import { Provider } from 'react-redux';
-//import DevTools from './DevTools'; // to be installed
-import { Router } from 'react-router';
-import {connect} from 'react-redux';
+import React, {PropTypes} from 'react';
+import {shallow} from 'enzyme';
+import {Root} from '../Root';
+import configureMockStore from 'redux-mock-store';
 import routes from '../../routes';
-import {onLoadFetchOrgPub} from '../../actions/onLoadFetchOrgPub';
-import {onLoadFetchEstLic} from '../../actions/onLoadFetchEstLic';
+import localStorageMock from '../../constants/testLocalStorage';
 
-import {getUserSubscriptions} from '../../actions/UserActions';
-import {getUserSearches} from '../../actions/UserActions';
-import {getUserNotifications} from '../../actions/UserActions';
-import {validateToken} from '../../actions/authInfoResultsActions';
+if(!window.localStorage) {
+   window.localStorage = localStorageMock();
+}
 
-class Root extends Component {
-    constructor(props) {
-        super(props);
-        this.store = props.store;
-        this.dispatch = this.store.dispatch;
-        this.history = props.history;
+
+const mockStore = configureMockStore();
+
+
+function setup() {
+
+
+    const store = mockStore();
+
+    //store in this case is passed as prop instead!
+    const props = {
+        isAuthenticated: false,
+        userData: null,
+        store,
+        actions: {
+            getUserSubscriptions: jest.fn(),
+            getUserSearches: jest.fn(),
+            getUserNotifications: jest.fn(),
+            validateToken: jest.fn(),
+            getOrganismosPublicos: jest.fn(),
+            getEstadosLicitacion: jest.fn()
+        },
+        history: {}
 
     }
+    const wrapper = shallow(<Root {...props}/>);
+    
+    return {wrapper, props};
+}
 
-    componentWillMount = () => {
-        if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
-            this.dispatch(validateToken());
-        }
-    }
 
-    componentWillReceiveProps = (nextProps) => {
+describe('Component', () => {
+    const {wrapper, props} = setup();
+    describe('Root', () => {
 
-        if(!this.props.isAuthenticated || !this.props.userData) {
+        it('Should render self and subcomponents', () => {
+            // root
+            const provider = wrapper.find('Provider'); 
+            expect(provider.length).toEqual(1);
+            expect(provider.props().store).toEqual(props.store);
+            // router container div
+            expect(wrapper.find('div').length).toEqual(1);
 
-            if(nextProps.isAuthenticated && nextProps.userData) {
-                this.dispatch(getUserNotifications());
-                this.dispatch(getUserSubscriptions());
-                this.dispatch(getUserSearches());  
-                this.dispatch(onLoadFetchOrgPub());
-                this.dispatch(onLoadFetchEstLic());
+            //router
+            const router = wrapper.find('Router');
+            expect(router.length).toEqual(1);
+            expect(router.props().history).toEqual(props.history);
+            expect(router.props().routes).toEqual(routes);
+
+        });
+
+        it('Should invoke functions', () => {
+
+            const checkIfPropFunctionsAreCalled = (action, propAction=action) => {
+
+                expect(props.actions[propAction].mock.calls.length).toEqual(0);
+                props.actions[action]();
+                expect(props.actions[propAction].mock.calls.length).toEqual(1);
             }
-        }
-    }
 
-    render = () => {
-        return( <Provider store={this.store}>
-                    <div>
-                        <Router history={this.history} routes={routes}/>  
-                   </div>
-                </Provider>
-                )
-    }
-}
+            checkIfPropFunctionsAreCalled("validateToken");
+            checkIfPropFunctionsAreCalled("getUserNotifications");
+            checkIfPropFunctionsAreCalled("getUserSubscriptions");
+            checkIfPropFunctionsAreCalled("getUserSearches");
+            checkIfPropFunctionsAreCalled("getOrganismosPublicos");
+            checkIfPropFunctionsAreCalled("getEstadosLicitacion");
+        });
 
-
-Root.propTypes = {
-    store: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-
-}
-
-function mapStateToProps(state, ownProps) {
-    return {
-        isAuthenticated: state.isAuthenticated,
-        userData: state.userData
-    }
-}
-
-export default connect(mapStateToProps)(Root);
-
+    });
+});
 

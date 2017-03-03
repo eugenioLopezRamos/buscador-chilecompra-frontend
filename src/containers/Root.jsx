@@ -4,26 +4,19 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import {connect} from 'react-redux';
 import routes from '../routes';
-import {onLoadFetchOrgPub} from '../actions/onLoadFetchOrgPub';
-import {onLoadFetchEstLic} from '../actions/onLoadFetchEstLic';
 
-import {getUserSubscriptions} from '../actions/UserActions';
-import {getUserSearches} from '../actions/UserActions';
-import {getUserNotifications} from '../actions/UserActions';
-import {validateToken} from '../actions/authInfoResultsActions';
 
-class Root extends Component {
+export class Root extends Component {
     constructor(props) {
         super(props);
         this.store = props.store;
-        this.dispatch = this.store.dispatch;
+        this.dispatch = props.store.dispatch;
         this.history = props.history;
-
     }
 
     componentWillMount = () => {
         if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
-            this.dispatch(validateToken());
+            this.dispatch(this.props.actions.validateToken());
         }
     }
 
@@ -32,11 +25,11 @@ class Root extends Component {
         if(!this.props.isAuthenticated || !this.props.userData) {
 
             if(nextProps.isAuthenticated && nextProps.userData) {
-                this.dispatch(getUserNotifications());
-                this.dispatch(getUserSubscriptions());
-                this.dispatch(getUserSearches());  
-                this.dispatch(onLoadFetchOrgPub());
-                this.dispatch(onLoadFetchEstLic());
+                this.dispatch(this.props.actions.getUserNotifications());
+                this.dispatch(this.props.actions.getUserSubscriptions());
+                this.dispatch(this.props.actions.getUserSearches());  
+                this.dispatch(this.props.actions.getOrganismosPublicos());
+                this.dispatch(this.props.actions.getEstadosLicitacion());
             }
         }
     }
@@ -54,7 +47,8 @@ class Root extends Component {
 
 Root.propTypes = {
     store: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
 
 }
 

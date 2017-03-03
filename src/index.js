@@ -20,13 +20,26 @@ import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You 
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
 
+import {getUserSubscriptions} from './actions/UserActions';
+import {getUserSearches} from './actions/UserActions';
+import {getUserNotifications} from './actions/UserActions';
+import {validateToken} from './actions/authInfoResultsActions';
+import {onLoadFetchOrgPub as getOrganismosPublicos} from './actions/onLoadFetchOrgPub';
+import {onLoadFetchEstLic as getEstadosLicitacion} from './actions/onLoadFetchEstLic';
+
+
+
 const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
+const actions = {getUserSubscriptions, getUserSearches,
+				 getUserNotifications, validateToken,
+				 getOrganismosPublicos, getEstadosLicitacion}
+
 
 render(
    <AppContainer>
-    <Root store={store} history={history} />
+    <Root store={store} history={history} actions={actions} />
    </AppContainer>, document.getElementById("app")
     );
 
