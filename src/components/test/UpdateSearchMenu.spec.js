@@ -1,15 +1,41 @@
 import React from 'react';
+import {shallow} from 'enzyme';
+import UpdateSearchMenu from '../UpdateSearchMenu';
 
+function setup() {
+    const props = {
+        handleSearches: jest.fn()
+    }
 
-const UpdateSearchMenu = (props) => {
+    const wrapper = shallow(<UpdateSearchMenu {...props}/>)
 
-
-    return (
-        <div className="prompt-buttons-container">
-            <button type="button" className="btn btn-primary prompt-menu-button" onClick={props.handleSearches}>
-                Guardar cambios
-            </button>
-        </div>
-    )
+    return {wrapper, props};
 }
-export default UpdateSearchMenu;
+
+describe('Component', () => {
+    const {wrapper, props} = setup();
+
+    describe('UpdateSearchMenu', () => {
+        it('Should render self and subcomponents', () => {
+
+            //root
+            expect(wrapper.find('div.prompt-buttons-container').length).toEqual(1);
+            const button = wrapper.find('button.btn.btn-primary.prompt-menu-button');
+
+            //button
+            expect(button.length).toEqual(1);
+            expect(typeof button.props().onClick).toEqual("function");
+            expect(buttons.text()).toEqual("Guardar cambios");
+
+        });
+
+        it('Should invoke functions', () => {
+
+            const button = wrapper.find('button.btn.btn-primary.prompt-menu-button'); 
+            expect(props.handleSearches.mock.calls.length).toEqual(0);
+            button.props().onClick()
+            expect(props.handleSearches.mock.calls.length).toEqual(1);
+
+        });
+    });
+});
