@@ -1,23 +1,27 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import onLoadFetchOrgPubReducer from '../onLoadFetchOrgPubReducer';
 
-export default function onLoadFetchOrgPubReducer(state = initialState.organismosPublicos, action){
-    let newState = {};
 
-    switch(action.type) {
-        case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:
-            // let organismos = {};
-            // let toArray = Object.keys(action.value).map (e => {
-            //     return organismos[e] = action.value[e];
-            // }) 
-            // toArray.unshift({"*": "Todos"});
-            // //return objectAssign({}, state, toArray) // hard to use since I need to filter them before rendering
-            // return toArray; //newState was not needed in this case
-            return action.value;
+describe('Reducers', () => {
 
-        default:
-            return state
+    describe('Fetch organismos publicos reducer', () => {
 
-    }
-}
+        it('Shoud return correct states', () => {
+            const reducer = onLoadFetchOrgPubReducer;
+
+            let action = {type: undefined, value: undefined};
+            let initialValue = initialState.organismosPublicos;
+
+            expect(initialValue).toEqual(reducer(undefined, action))
+
+            let mockValue = {1111: "Organismo publico 1"}
+            action = {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: mockValue};
+            let expectedValue = mockValue;
+
+            expect(expectedValue).toEqual(reducer(undefined, action))
+
+        });
+    });
+});
