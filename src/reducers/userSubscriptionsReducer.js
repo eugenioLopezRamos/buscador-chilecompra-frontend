@@ -3,7 +3,7 @@ import objectAssign from 'object-assign';
 import * as types from '../constants/actionTypes';
 
 export const userSubscriptionsReducer = (state = initialState.userSubscriptions, action) => {
-    let newState = objectAssign({}, state)
+
     switch(action.type) {
 
         case types.USER_GET_RESULT_SUBSCRIPTIONS:
@@ -11,7 +11,7 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
             return state;
         
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
-            return objectAssign({}, newState, action.value);
+            return objectAssign({}, state, action.value);
 
         case types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE:
             return state;

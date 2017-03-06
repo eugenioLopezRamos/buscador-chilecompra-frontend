@@ -1,46 +1,58 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import {userSubscriptionsReducer as reducer} from '../userSubscriptionsReducer';
 
 
-export const userSubscriptionsReducer = (state = initialState.userSubscriptions, action) => {
-    let newState = objectAssign({}, state)
-    switch(action.type) {
+describe('Reducers', () => {
 
-        case types.USER_GET_RESULT_SUBSCRIPTIONS:
-            //TODO: add loading anim
-            return state;
-        
-        case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
-            return objectAssign({}, newState, action.value);
+    describe('user subscriptions reducer', () => {
 
-        case types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE:
-            return state;
+        it('Should return the correct state', () => {
 
-        case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return action.value.subscriptions;
-        case types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE:
-            return state;
-        
-        // USER_CREATE... doesnt case here since it only returns a message, that goes into the messages reducer
+            let initialValue = initialState.userSubscriptions;
+            let expectedValue = initialValue;
+            let action = {type: undefined, value: undefined};
+            let mockValue;
 
-        case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return action.value.subscriptions;
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-        case types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE:
-            return action.value.subscriptions;
+            action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS};
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-        case types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS:
-            return action.value.subscriptions;
-
-        case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
-            return action.value.subscriptions;
-        case types.USER_LOGOUT_SUCCESS:
-            return initialState.userSubscriptions;
+            mockValue = {"Suscrip1": 111, "suscrip2": 222};
+            action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS, value: mockValue};
+            expectedValue = objectAssign({}, initialValue, mockValue);
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
 
+            action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE};
+            expectedValue = initialValue;
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-        default:
-            return state;
-    }
-}
+            mockValue["suscript3"] = 333;
+            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value: {subscriptions: mockValue}};
+            expectedValue = action.value.subscriptions;
+            expect(expectedValue).toEqual(reducer(undefined, action));
+
+            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE};
+            expectedValue = initialValue;
+            expect(expectedValue).toEqual(reducer(undefined, action));
+
+            mockValue["suscript3"] = 777;
+            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value: {subscriptions: mockValue}};
+            expectedValue = action.value.subscriptions;
+            expect(expectedValue).toEqual(reducer(undefined, action));
+
+            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE};
+            expectedValue = initialValue;
+            expect(expectedValue).toEqual(reducer(undefined, action));
+
+            delete mockValue["Suscrip1"];
+            action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value:{subscriptions: mockValue}};
+            expectedValue = mockValue;
+            expect(expectedValue).toEqual(reducer(undefined, action));
+        });
+    });
+
+});
