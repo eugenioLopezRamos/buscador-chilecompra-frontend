@@ -86,7 +86,9 @@ describe('Component', () => {
             const instance = comparisonWrapper.instance();
             //These are hideable;
             const objectDataContainers = comparisonWrapper.find('.difference-item .object-container-name');
-            let randomNumber = Math.floor(Math.random() * objectDataContainers.length - 1);
+
+            //TODO: ...will probably have to take a look at this, the random might fail, well, randomly.
+            let randomNumber = Math.floor(Math.random() * objectDataContainers.length - 2);
 
             const originalToggleOpen = instance.toggleOpen.bind({});
 
