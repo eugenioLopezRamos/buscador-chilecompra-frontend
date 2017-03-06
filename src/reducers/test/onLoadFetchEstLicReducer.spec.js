@@ -1,20 +1,27 @@
-    // organismosPublicos: {"1": "No hay organismos públicos disponibles en este momento"},
-    // codigosLicitacion: {"1": "No hay códigos disponibles en este momento"},
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import onLoadFetchEstLicReducer from '../onLoadFetchEstLicReducer';
 
-// export const ONLOAD_FETCH_ORG_PUB_SUCCESS = 'ONLOAD_FETCH_ORG_PUB_SUCCESS';
-// export const ONLOAD_FETCH_ORG_PUB_FAILURE = 'ONLOAD_FETCH_ORG_PUB_FAILURE';
-// export const ONLOAD_FETCH_EST_LIC_SUCCESS = 'ONLOAD_FETCH_EST_LIC_SUCCESS';
-// export const ONLOAD_FETCH_EST_LIC_FAILURE = 'ONLOAD_FETCH_EST_LIC_FAILURE';
+describe('Reducers', () => {
 
-export default function onLoadFetchEstLicReducer(state = initialState.estadosLicitacion, action){
-    switch(action.type) {
-        case types.ONLOAD_FETCH_EST_LIC_SUCCESS:
-            return objectAssign({}, state, action.value )
-        default:
-            return state
+    describe('fetch Estados Licitacion Reducer', () => {
+        
+        it('Should return correct states', () => {
+            const reducer = onLoadFetchEstLicReducer;
 
-    }
-}
+            //should return default state
+            let expectedValue = initialState.estadosLicitacion;
+            let action = {type: undefined, value: undefined};
+            expect(expectedValue).toEqual(reducer(undefined, action))
+
+
+            let mockValue = {1: "Estado Licitacion 1"};
+            action = {type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value: mockValue};
+            expectedValue = objectAssign({}, initialState.estadosLicitacion, mockValue);
+            expect(expectedValue).toEqual(reducer(undefined, action))
+
+
+        });
+    });
+});

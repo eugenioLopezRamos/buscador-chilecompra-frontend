@@ -8,7 +8,7 @@ export const onLoadFetchEstLicSuccess = (value) => {
 export const onLoadFetchEstLic = () => {
     return (dispatch) => {
         return fetchApi.getEstadosLicitacion()
-        .then( orgs => {
+        .then(orgs => {
             dispatch(onLoadFetchEstLicSuccess(orgs))
         })
         .catch(error => {throw error })
