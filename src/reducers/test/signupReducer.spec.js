@@ -1,59 +1,54 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import signupReducer from '../signupReducer';
 
-const signupReducer = (state = initialState.signup, action) => {
+describe('Reducers', () => {
 
-    let newState = state;
-    let newInfo = objectAssign({}, state.info);
-    let newResult = objectAssign({}, state.result);
+    describe('signup reducer', () => {
+        
+        it('Should return the correct states', () => {
+            const reducer = signupReducer;
 
-    switch(action.type) {
-        ////////////// FIRST THE INPUT HANDLERS
-        case types.USER_SIGNUP_INPUT_NAME:
+            //default
+            let action = {type: undefined, info: undefined, result: undefined};
+            let initialValue = initialState.signup;
+            let expectedValue;
+            let mockValue;
 
+            expect(initialValue).toEqual(reducer(undefined, action));
 
-            newInfo.name = action.value
-            newState = objectAssign({}, state, {info:newInfo});
+            //INPUTS
+            mockValue = "signupname-111";
+            action = {type: types.USER_SIGNUP_INPUT_NAME, value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {info: {name: mockValue}});
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-            return newState;
-            
-        case types.USER_SIGNUP_INPUT_EMAIL:
-            //Here I'll probably put some email validation...
+            mockValue = "email@email.com";
+            action = {type: types.USER_SIGNUP_INPUT_EMAIL, value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {info: {email: mockValue}});
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-            newInfo.email = action.value;
-            newState = objectAssign({}, state, {info:newInfo});
-            return newState
+            mockValue = "secret-password";
+            action = {type: types.USER_SIGNUP_INPUT_PASSWORD, value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {info: {password: mockValue}});
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-        case types.USER_SIGNUP_INPUT_PASSWORD:
-            //Length validation goes here...
-            newInfo.password = action.value;
-            newState = objectAssign({}, state, {info:newInfo});
-            return newState
+            mockValue = "secret-password";
+            action = {type: types.USER_SIGNUP_INPUT_PASSWORD_CONFIRMATION, value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {info: {password_confirmation: mockValue}});
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-        case types.USER_SIGNUP_INPUT_PASSWORD_CONFIRMATION:
-        //...
-            newInfo.password_confirmation = action.value;
-            newState = objectAssign({}, state, {info:newInfo});
-            return newState
+            mockValue = "success";
+            action = {type: types.USER_SEND_SIGNUP_INFO_SUCCESS, message: "Successfully signed up!", value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {result: {message: action.message, result: action.value}});
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
-            
-        /////////////////// AND NOW THE RESULT HANDLERS
-        case types.USER_SEND_SIGNUP_INFO_SUCCESS:
-            [newInfo.name, newInfo.email, newInfo.password, newInfo.password_confirmation] = ["", "","", ""];
-            newState = objectAssign({}, state, {info: newInfo},{result: {message: action.message, result: action.value}});
-            return newState;
-            
-        case types.USER_SEND_SIGNUP_INFO_FAILURE:
+            mockValue = "failure";
+            action = {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: "Error while trying to sign up", value: mockValue};
+            expectedValue = objectAssign({}, initialValue, {result: {message: action.message, result: action.value}});
+            expect(expectedValue).toEqual(reducer(undefined, action));          
 
-            newState = objectAssign({}, state, {info:newInfo}, {result: {message: action.message, result: action.value}});
-            return newState;
-        // case types.USER_LOGIN_SUCCESS...
-        // case types.USER_LOGIN_FAILURE...
-           
-        default:
-            return newState;
-    };
-    
-}
-export default signupReducer;
+        });
+    });
+});
