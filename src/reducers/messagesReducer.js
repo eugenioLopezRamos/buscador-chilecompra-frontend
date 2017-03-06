@@ -3,14 +3,13 @@ import initialState from './initialState';
 import objectAssign from 'object-assign';
 
 const messagesReducer = (state = initialState.messages, action) => {
-    let newState = objectAssign({}, state);
-    let newMessages;
-    let info = state.info;
-    let errors = state.errors;
+
+    let info;
+    let errors;
 
     if(action.value && action.value.message) {
-        info = action.value.message.info || state.info;
-        errors = action.value.message.errors || state.errors;
+       info = action.value.message.info ? action.value.message.info : state.Info;
+       errors = action.value.message.errors ? action.value.message.errors : state.Errores;
     }
     //TODO: There has to be a way to simplify all this boilerplate...
     // maybe just with
@@ -21,6 +20,7 @@ const messagesReducer = (state = initialState.messages, action) => {
     // case types.TYPE_NPLUS1:
     // return objectAssign(...);
     //TODO: DRY this with case fallthrough I guesss....
+
     switch(action.type) {
 
         case types.MESSAGES_DELETE_MESSAGES:
@@ -28,18 +28,17 @@ const messagesReducer = (state = initialState.messages, action) => {
             
             //PROFILE
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
+        //TODO: Probably will have to move this constants off here
             return objectAssign({}, state, {Info: ["Datos actualizados exitosamente"]});
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
-       //debugger
-           // newMessages = action.error.errors.full_messages;
             return objectAssign({}, state, {Errores: errors});
             
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
             return state;
 
-        case types.USER_GET_RESULT_SUBSCRIPTION_FAILURE:
+        case types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE:
             return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
@@ -64,34 +63,32 @@ const messagesReducer = (state = initialState.messages, action) => {
 
             //SEARCHES
         case types.USER_CREATE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_CREATE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
         
         case types.USER_UPDATE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_UPDATE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_DELETE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {info, errors});  
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         case types.USER_DELETE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
             //NOTIFICATIONS
         case types.USER_GET_NOTIFICATIONS_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
         case types.USER_GET_NOTIFICATIONS_FAILURE:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
         case types.USER_DELETE_NOTIFICATION_SUCCESS:
-            return objectAssign({}, state, {info, errors});
+            return objectAssign({}, state, {Info: info, Errores: errors});
         case types.USER_DELETE_NOTIFICATION_FAILURE:
-            return objectAssign({}, state, {info, errors});
-
-               
+            return objectAssign({}, state, {Info: info, Errores: errors});
 
         default:
             return state;
