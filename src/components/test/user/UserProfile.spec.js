@@ -142,7 +142,6 @@ describe('Component', () => {
             
             const searchBtnSelector = 'div.profile-stored-searches li.list-group-item.saved-items button.btn.btn-primary.pull-right';
             const searchButtons = wrapper.find(searchBtnSelector);
-            console.log("sercah LEN", searchButtons.length);
             // STORED SEARCHES
             // Ejecutar
             let ejecutarSearchButton = searchButtons.at(0);

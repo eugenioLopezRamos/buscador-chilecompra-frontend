@@ -35,7 +35,7 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
                                 image: action.response.image});
 
         case types.USER_VALIDATE_TOKEN_SUCCESS:
-
+        // TODO: Probably try to normalize this a bit, probably on the backend?
             return objectAssign({}, 
                                 state, 
                                 {

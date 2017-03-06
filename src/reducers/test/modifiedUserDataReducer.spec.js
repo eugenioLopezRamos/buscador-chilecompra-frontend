@@ -1,69 +1,85 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
+import modifiedUserDataReducer from '../modifiedUserDataReducer';
 
 
-const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) => {
-    switch(action.type) {
+describe('Reducers', () => {
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_NAME:
-            return objectAssign({}, state, {name: action.value});
+    describe('modifiedUserDataReducer', () => {
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_IMAGE:
-            return objectAssign({}, state, {image: action.value});
+        it('Should correctly return states', () => {
+            let action = {type: undefined, value: undefined}
+            let initialValue = initialState.modifiedUserData;
+            let expectedValue = initialValue;
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL:
-            return objectAssign({}, state, {email: action.value});
+            const compareResults = (action, expectedValue) => {
+                expect(expectedValue).toEqual(modifiedUserDataReducer(undefined, action));
+            };
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD:
-            return objectAssign({}, state, {currentPassword: action.value});
+            // returns default
+            compareResults(action, expectedValue)
+                // INPUTS
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NAME, value: "my name is <NAME>"};
+            expectedValue = objectAssign({}, initialValue, {name: action.value});
+            compareResults(action, expectedValue);
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD:
-            return objectAssign({}, state, {password: action.value});
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_IMAGE, value: "www.image.com/img/image.jpg"};
+            expectedValue = objectAssign({}, initialValue, {image: action.value});
+            compareResults(action, expectedValue);
 
-        case types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION:
-            return objectAssign({}, state, {passwordConfirmation: action.value});
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_EMAIL, value: "email@freeemail.com"};
+            expectedValue = objectAssign({}, initialValue, {email: action.value});
+            compareResults(action, expectedValue);
 
-            //THESE ARE ON LOGIN
-        case types.USER_SEND_LOGIN_INFO_SUCCESS:
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_CURRENT_PASSWORD, value: "current-Password-1234"};
+            expectedValue = objectAssign({}, initialValue, {currentPassword: action.value});
+            compareResults(action, expectedValue);
 
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD, value: "new-password-4321"};
+            expectedValue = objectAssign({}, initialValue, {password: action.value});
+            compareResults(action, expectedValue);
 
-            return objectAssign({}, 
-                                state, 
-                                {name: action.response.name, 
-                                 email: action.response.email,
-                                image: action.response.image});
-
-        case types.USER_VALIDATE_TOKEN_SUCCESS:
-
-            return objectAssign({}, 
-                                state, 
-                                {
-                                 name: action.response.body.data.name,
-                                 currentPassword: "",
-                                 password: "", 
-                                 passwordConfirmation: "",
-                                 email: action.response.body.data.email,
-                                 image: action.response.body.data.image
-                                });
-
-         case types.USER_VALIDATE_TOKEN_FAILURE:
-            return objectAssign({}, 
-                                state, 
-                                {
-                                 currentPassword: ""
-                                });
-
-        case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-            return objectAssign({}, state, {currentPassword: ""})
-        case types.USER_LOGOUT_SUCCESS:
-            return initialState.modifiedUserData;
+            action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NEW_PASSWORD_CONFIRMATION, value: "new-password-4321"};
+            expectedValue = objectAssign({}, initialValue, {passwordConfirmation: action.value});
+            compareResults(action, expectedValue);
 
 
-        default:
-            return state;
-    }
-};
+                //RESPONSES
+            action = {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: {name: "pedro-perez", email: "aaa@bbb.cl", image: "imgurl.fake/img.jpg"}}
+            expectedValue = objectAssign({}, initialValue, action.response);
+            compareResults(action, expectedValue);
 
 
-export default modifiedUserDataReducer;
+            let response = {
+                body: {
+                    data: {
+                        name: "username-111",
+                        currentPassword: "",
+                        password: "",
+                        passwordConfirmation: "",
+                        email: "email@example.com",
+                        image: "imageurl.com/imgs/img.jpg"
+                    }
+                }
+            }
+            action  = {type: types.USER_VALIDATE_TOKEN_SUCCESS, response};
+            expectedValue = objectAssign({}, initialValue, response.body.data);
+            compareResults(action, expectedValue);
+
+            action  = {type: types.USER_VALIDATE_TOKEN_FAILURE};
+            expectedValue = objectAssign({}, initialValue, {currentPassword: ""});
+            compareResults(action, expectedValue);            
+
+            action  = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS};
+            expectedValue = objectAssign({}, initialValue, {currentPassword: ""});
+            compareResults(action, expectedValue);       
+
+
+            action  = {type: types.USER_MODIFY_PROFILE_DATA_FAILURE};
+            expectedValue = initialState.modifiedUserData;
+            compareResults(action, expectedValue);       
+
+        });
+    });
+});

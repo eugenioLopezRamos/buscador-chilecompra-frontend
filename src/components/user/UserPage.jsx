@@ -101,7 +101,6 @@ export class UserPage extends React.Component {
         let data = objectAssign({}, this.props.userSearches.value[index]);
     
         data.date = Date.parse(data.date);
-        console.log("FETCHAPI", this.props.fetchApi);
         this.props.fetchApi.getChileCompraData(data)
             .then(response => {
                                 this.setState({

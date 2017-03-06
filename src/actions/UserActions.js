@@ -6,7 +6,7 @@ import objectAssign from 'object-assign';
 
 export const modifyUserProfileDataSuccess = () => {
      
-    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
+    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}}
 };
 
 export const modifyUserProfileDataFailure = (value) => {

@@ -30,10 +30,6 @@ describe('Reducers', () => {
                 }
             }
             
-            // let infoMessage;
-            // let errorMessages;
-            // let messages = {Info: infoMessage, Errores: errorMessages}
-
             //Should return  initialState (default case):
 
             compareResults(action, initialState.messages);
@@ -42,20 +38,24 @@ describe('Reducers', () => {
             action = {type: types.MESSAGES_DELETE_MESSAGES};
             compareResults(action, initialState.messages);
 
-            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS}
-            let expectedValue = {Info: ["Datos actualizados exitosamente"], Errores: initialErrors};
+
+                //PROFILE DATA
+            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}}
+            let expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
             action = {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, value: {message: {errors: "No se pudo modificar los datos de perfil"}}};
-            expectedValue = {Info: initialInfo, Errores: action.value.message.errors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
+
+                //SUBSCRIPTIONS
             action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS};
             expectedValue = {Info: initialInfo, Errores: initialErrors};
             compareResults(action, expectedValue);
 
             action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE, value: {message: {errors: "No se pudo obtener subscripciones"}}};
-            expectedValue = {Info: initialInfo, Errores: action.value.message.errors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
             action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripción creada con éxito!"}}};
@@ -63,32 +63,27 @@ describe('Reducers', () => {
             compareResults(action, expectedValue);
 
             action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: "Error al crear suscripción"}}};
-            expectedValue = {Info: initialInfo, Errores: action.value.message.errors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-
             action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripcion actualizada con éxito"}}};
-            expectedValue = {Info: action.value.message.info, Errores: initialErrors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
             action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: "Fallo al actualizar suscripción"}}};
-            expectedValue = {Info: initialInfo, Errores: action.value.message.errors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
             action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripción borrada exitosamente"}}};
-            expectedValue = {Info: action.value.message.info, Errores: initialErrors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
             action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {errors: "Fallo al borrar suscripción"}}};
-            expectedValue = {Info: initialInfo, Errores: action.value.message.errors};
+            expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
 
-
-        //     //SEARCHES
-        // case types.USER_CREATE_SEARCHES_SUCCESS:
-        //     return objectAssign({}, state, {Info: info, Errores: errors});
-
+                //SEARCHES
             action = {type: types.USER_CREATE_SEARCHES_SUCCESS, value: {message: {info: "Busqueda creada con éxito"}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
@@ -113,6 +108,7 @@ describe('Reducers', () => {
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
+                //NOTIFICATIONS
             action = {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value: {message: {info: "Notificaciones solicitadas con éxito"}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
@@ -128,9 +124,6 @@ describe('Reducers', () => {
             action = {type: types.USER_DELETE_NOTIFICATION_FAILURE, value: {message: {errors: "Error al intentar borrar notificacion"}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
-
-
-
 
         });
 

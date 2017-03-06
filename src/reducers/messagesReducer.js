@@ -29,7 +29,7 @@ const messagesReducer = (state = initialState.messages, action) => {
             //PROFILE
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
         //TODO: Probably will have to move this constants off here
-            return objectAssign({}, state, {Info: ["Datos actualizados exitosamente"]});
+            return objectAssign({}, state, {Info: info});
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
             return objectAssign({}, state, {Errores: errors});
