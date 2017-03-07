@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-
+import utils from '../utils/authUtils';
 
 class fetchApi {
 
@@ -23,37 +23,51 @@ class fetchApi {
                     }
                  
        // let query = queryFields.join("&");
-
+        let headers = utils.setHeaders();
         return fetch(`${process.env.API_HOST}/api/get_info`,
         {
-            headers: {
-                'Content-Type': "application/json",
-                'Accept': "application/json"
-            },
+            headers,
             method: "POST",
             body: JSON.stringify(body)
         }
         )
-            .then(response => response.json() )
+            .then(response => {
+                if(response.status >= 200 && response.status <300) {
+                    return response.json();
+                }
+                throw response;
+            })
             .catch(error => {return error })
 
     }
 
     static getOrganismosPublicos() {
-        return fetch("http://localhost:3000/api/get_misc_info?info=organismos_publicos")
-        .then(function(response) { return response.json() })
-        .catch( error => { return error } )    
+        let headers = utils.setHeaders();
+        return fetch("http://localhost:3000/api/get_misc_info?info=organismos_publicos", {headers})
+        .then(response => { 
+            if(response.status >= 200 && response.status < 300) {
+                return response.json();
+            }
+            throw response;
+        })
+   //   .catch( error => { return error } )    
     }
 
     static getEstadosLicitacion() {
-        return fetch("http://localhost:3000/api/get_misc_info?info=estados_licitacion")
-        .then(function(response) { return response.json() })
-        .catch( error => { return error } )   
+        let headers = utils.setHeaders();
+        return fetch("http://localhost:3000/api/get_misc_info?info=estados_licitacion", {headers})
+        .then(response => { 
+            if(response.status >= 200 && response.status < 300) {
+                return response.json();
+            }
+            throw response;
+        })
+      //  .catch( error => { return error } )   
     }
 
 
     static shortGetChileCompraData(state) {
-
+        let headers = utils.setHeaders();
         let queryFields = [
             `estadoLicitacion=${state.selectedEstadoLicitacion}`,
             `codigoLicitacion=${state.codigoLicitacion}`,
@@ -67,10 +81,7 @@ class fetchApi {
 
 
         return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
-        {headers: {
-                'Content-Type': "application/json",
-                'Accept': "application/json"
-        }}
+        {headers}
         )
             .then(response => response.json() )
             .catch(error => {return error }) 

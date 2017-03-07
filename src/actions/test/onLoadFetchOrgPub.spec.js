@@ -4,6 +4,15 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import {onLoadFetchOrgPub} from '../onLoadFetchOrgPub'; 
 
+//TODO: add tests for the failure
+import localStorageMock from '../../constants/testLocalStorage';
+
+// Mocks localStorage - Since it saves headers info to localStorage
+if(!window.localStorage) {
+   window.localStorage = localStorageMock();
+   localStorage = localStorageMock();
+}
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares)
 describe('Fetches Organismos Publicos from the backend', () => {
@@ -13,6 +22,14 @@ describe('Fetches Organismos Publicos from the backend', () => {
     })
 
     it('Should successfully fetch a list of organismos publicos from the backend',  () => {
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
         const expectedResponse = {
             1: "Organismo uno",
             2: "Organismo dos",

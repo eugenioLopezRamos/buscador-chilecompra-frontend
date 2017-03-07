@@ -86,9 +86,9 @@ describe('Component', () => {
             const instance = comparisonWrapper.instance();
             //These are hideable;
             const objectDataContainers = comparisonWrapper.find('.difference-item .object-container-name');
-
-            //TODO: ...will probably have to take a look at this, the random might fail, well, randomly.
-            let randomNumber = Math.floor(Math.random() * objectDataContainers.length - 2);
+            // Was random (code is commented out) - Chose the middle as a compromise since it failed randomly due to 
+            // randomNumber not existing
+            let randomNumber = Math.floor(objectDataContainers.length / 2); //Math.floor(Math.random() * objectDataContainers.length - 2);
 
             const originalToggleOpen = instance.toggleOpen.bind({});
 

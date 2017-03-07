@@ -7,6 +7,14 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import utils from '../../utils/authUtils';
 
+import localStorageMock from '../../constants/testLocalStorage';
+
+// Mocks localStorage - Since it saves headers info to localStorage
+if(!window.localStorage) {
+   window.localStorage = localStorageMock();
+   localStorage = localStorageMock();
+}
+
 
 // Mocks dev env process.env.API_HOST
 process.env.API_HOST = "http://localhost:3000";
@@ -20,7 +28,14 @@ describe('Tests chilecompra result fetcher', () => {
     });
 
     it('should get chilecompra data from the backend successfully', () => {
-   
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
+
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+
         const requestBody = {
             codigoLicitacion: "",
             startDate: "2017-02-19T22:26:09.832Z",
@@ -62,7 +77,14 @@ describe('Tests chilecompra result fetcher', () => {
     it('should get chilecompra data from the backend unsuccessfully', () => {
         //TODO: This one should return FETCH_CHILECOMPRA_DATA_FAILURE and
         //put an error message on a flash
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
 
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        
         const requestBody = {
             totally_not_valid_field: "randomValue"
         }

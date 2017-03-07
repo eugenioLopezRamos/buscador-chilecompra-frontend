@@ -13,6 +13,11 @@ export const onLoadFetchOrgPubSuccess = (value) => {
     return { type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: toArray }
 }
 
+export const onLoadFetchOrgPubFailure = (value) => {
+        //TODO: Make these actions appear in the <Flash> (messages reducer)
+    return {type: types.ONLOAD_FETCH_ORG_PUB_FAILURE, value}
+}
+
 export const onLoadFetchOrgPub = () => {
 
     return (dispatch) => {
@@ -23,7 +28,7 @@ export const onLoadFetchOrgPub = () => {
             dispatch(onLoadFetchOrgPubSuccess(orgs))
 
         })
-        .catch(error => {throw error })
+        .catch(error => {dispatch(onLoadFetchOrgPubFailure(error))})
 
     }
 }
