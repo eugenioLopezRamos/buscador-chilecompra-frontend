@@ -86,12 +86,6 @@ export class InputFieldsContainer extends React.PureComponent {
     pickOrganismoPublico = (value) => {
         this.setState(this.helpers.pickOrganismoPublico(value));
     }
-
-
-    autoFillerInputChange = (organismos, value) => {
-        //TODO: simplify this (duplication of data!)
-        this.setState(this.helpers.autoFillerInputChange(organismos, value));
-    }
     
     rutInput = (event) => {
         this.setState(this.helpers.rutInput(event.target.value));
@@ -112,7 +106,6 @@ export class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
-        console.log("STATE", this.state)
   
         return (    
               
@@ -149,7 +142,6 @@ export class InputFieldsContainer extends React.PureComponent {
                                     selectedOrganismoPublico={this.state.selectedOrganismoPublico} 
 
                                     onSelectionChange={this.pickOrganismoPublico}
-                                    onInputChange={this.autoFillerInputChange}
                                 />
 
                             <label className="rut-proveedor">Según RUT proveedor</label>

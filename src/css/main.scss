@@ -74,6 +74,14 @@ body {
 
 
 }
+.fixed-size-searchTab-container {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto 0 auto;
+}
+
 .container > .navbar-header {
     margin: 0;
 }
@@ -96,70 +104,6 @@ body {
     display:flex;
     flex-direction: column;
     
-}
-
-.title-container {
-    display:flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.title-container span {
-    display:flex;
-    justify-content: center;
-    text-align: center;
-    min-height:2.5em;
-   
-}
-
-.search {
-    border: 1px solid black;
-    word-wrap: break-word;
-    word-break: break-all;
-    cursor: default;
-
-    &.searchable {
-        cursor: pointer;
-        
-    }
-}
-
-.search-results {
-    list-style-type: none;
-    font-size: 1em;
-    width: 100%;
-    display: flex;
-}
-.title-container {
-    overflow: hidden;
-    width: calc(100% - 1em - 1px);
-}
-.results-li-container {
-    overflow: scroll;
-    border-bottom: 1px solid black;
-    max-height: 75vh;
-}
-
-span.movable-title-container {
-    width:100%;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.search.subscription-button-container {
-
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
-    display: flex;
-}
-.subscription-button {
-    margin: auto;
-    white-space: pre-line;
-    word-break: break-word;
-}
-
-.result-history-button {
-    @extend .subscription-button;
 }
 
 .autofiller.select {
@@ -556,14 +500,6 @@ span.movable-title-container {
         margin: 0 auto 0 auto;
     }
 
-
-
-    .searchtypes-picker-icon {
-        margin:auto;
-        height: 3 * $searchtype-picker-font-size;
-        text-align: center;
-        background-color: rgba(230, 230 ,230, 0.2)
-    }
 }
 
 @media all and (min-width: 1199px) {
@@ -574,17 +510,11 @@ span.movable-title-container {
         width: auto;
     }
     .fixed-size-searchTab-container {
-        width: auto;
+        width: 60%;
         max-width: 90%;
         margin: 0 auto 0 auto;
     }
-
-    .searchtypes-picker{
-        font-size: $searchtype-picker-font-size;
-        width: 40%;
-        margin: auto;
-    }
-
+    
     .user-menu {
         display: none;
     }
@@ -677,7 +607,7 @@ span.movable-title-container {
         width: auto;
     }
     .fixed-size-searchTab-container {
-        width: auto;
+        width: 60%;
         max-width: 70%;
         margin: 0 auto 0 auto;
     }
@@ -691,7 +621,7 @@ span.movable-title-container {
         width: auto;
     }
     .fixed-size-searchTab-container {
-        width: auto;
+        width: 30%;
         max-width: 50%;
         margin: 0 auto 0 auto;
     }

@@ -9,11 +9,6 @@ const AutoFillerInput = (props) => {
         props.onSelectionChange(value);
     }
 
-    // const handleInputChange = (event) => {
-    //     let {value} = event.target || event;
-    //     props.onInputChange(props.organismosPublicos, value);
-    // }
-
     const options = props.organismosPublicosFilteredSubset.map((orgNames, index) => {
     
         let key = Object.keys(orgNames)[0];
@@ -30,6 +25,7 @@ const AutoFillerInput = (props) => {
                         onChange={handleSelectionChange}
                         key="autofiller-select"
                         options={options}
+                        clearable={false}
                     />
                 </div>  
 
@@ -37,33 +33,3 @@ const AutoFillerInput = (props) => {
         )
 }
 export default AutoFillerInput;
-
-/*
-                    <select value={props.selectedOrganismoPublico} onChange={handleSelectionChange} key="autofiller-select">
-                        {   
-                    
-                            props.organismosPublicosFilteredSubset.map((e,i) => {
-                        
-                                let key = Object.keys(e)[0]
-                                return <option value={key} key={key}>{e[key]} ({key})</option>
-
-                                })
-                        }
-                    </select>*/
-/*
-                    <div className="selection-container">
-                    <input 
-                        value={props.organismosPublicosFilter}
-                
-                        className="col-xs-12 col-md-10 col-lg-4 no-gutter" 
-                        placeholder="Busca un organismo público (código o nombre)" 
-                        onChange={handleInputChange}
-                        />
-                    <Select 
-                        value={props.selectedOrganismoPublico}
-                        onChange={handleSelectionChange}
-                        key="autofiller-select"
-                        options={options}
-                    />
-
-                </div>  */
