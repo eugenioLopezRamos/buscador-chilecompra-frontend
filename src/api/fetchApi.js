@@ -4,9 +4,6 @@ import utils from '../utils/authUtils';
 class fetchApi {
 
     static getChileCompraData(state) {
-        
-        // let queryValues = state.searchQueryValues; //queryValues
-        // let searchType = state.searchType;
   
         let body = {
                         estadoLicitacion: state.selectedEstadoLicitacion,
@@ -22,7 +19,6 @@ class fetchApi {
                         order_by: state.order_by
                     }
                  
-       // let query = queryFields.join("&");
         let headers = utils.setHeaders();
         return fetch(`${process.env.API_HOST}/api/get_info`,
         {
@@ -50,7 +46,6 @@ class fetchApi {
             }
             throw response;
         })
-   //   .catch( error => { return error } )    
     }
 
     static getEstadosLicitacion() {
@@ -62,7 +57,7 @@ class fetchApi {
             }
             throw response;
         })
-      //  .catch( error => { return error } )   
+
     }
 
 
