@@ -42,7 +42,7 @@ class SearchesSaver extends React.Component {
                 />
                 <button 
                     type="button"
-                    className="btn btn-primary col-xs-6 col-md-4 col-md-offset-4 allow-wrap" 
+                    className="btn btn-primary col-xs-6 col-md-4 col-xs-offset-3 allow-wrap" 
                     onClick={this.showModal}>
                     Guardar parámetros de búsqueda
                 </button>

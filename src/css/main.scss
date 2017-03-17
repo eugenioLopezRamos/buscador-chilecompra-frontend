@@ -79,9 +79,11 @@ body {
     flex-direction: column;
     width: auto;
     max-width: 100%;
-    margin: 0 auto 0 auto;
+    margin: 0 5px 0 5px;
 }
-
+.container.jumbotron {
+    padding: 5px 0px;
+}
 .container > .navbar-header {
     margin: 0;
 }
@@ -123,6 +125,7 @@ body {
 .search-results-ul1, .search-results-ul2 {
     animation: searchResultsFadeIn1 1s forwards;
     padding: 0;
+    display:none;
 }
 
 .signup-form * {
@@ -514,7 +517,7 @@ body {
         max-width: 90%;
         margin: 0 auto 0 auto;
     }
-    
+
     .user-menu {
         display: none;
     }
@@ -546,6 +549,7 @@ body {
         width: 80%;
         margin-left: auto;
         margin-right: auto;
+        padding: 0px;
     }
 
     .prompt-background {

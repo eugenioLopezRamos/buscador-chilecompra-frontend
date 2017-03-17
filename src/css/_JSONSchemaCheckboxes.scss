@@ -2,7 +2,7 @@
 
 .json-schema-checkboxes-container {
     max-width: 100%;
-    width: 70%;
+    width: 100%;
     margin: 0 auto 0 auto;
 }
 .json-schema-label {
@@ -46,21 +46,49 @@
 
 
 .checkboxes-container {
-    padding-left: 29px;
+    padding-left: 2vmax;
+
     input {
-        transform: scale(1.8);
-        margin: 10px;
+        height: calc(0.875em * 2);
+        width: calc(0.875em * 2);
+        margin: auto auto 0 auto;
     }
     
 }
+.labels-container {
+
+    border: 1px solid rgba(50, 50, 50, 0.7);
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    &:empty {
+        border: none;
+    }
+}
 
 .json-schema-checkbox-label {
-    margin: 5px;
-    padding: 0 5px 0 5px;
-    border: 1px solid black;
+    margin: 0px;
+    padding: 5px;
+    min-width: 30%;
+    max-width: 30%;
+    flex-direction: column;
+    display:flex;
+    &.text {
+        padding: 0;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        border-right: none;
+        min-height: 2em;
+        max-width: 100%;
+        text-align: center;
+       // width: calc(100% - 3em);
+    }
+   // border: 1px solid black;
 }
+
+
 .json-schema-checkbox {
-    //yes, empty.
+    margin:0;
 }
 
 .filter-columns-container {

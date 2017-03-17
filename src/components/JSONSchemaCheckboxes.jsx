@@ -98,7 +98,7 @@ class JSONSchemaCheckboxes extends React.Component {
                     </label>
                 }
                 <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
- 
+               <div className="labels-container">
                 {   
                     object.map((element, index) => {
                         //If it's a primitive, return a checkbox;
@@ -116,7 +116,9 @@ class JSONSchemaCheckboxes extends React.Component {
                             //adds to the instance var tags - Used for testing only.
                             this.tags.push(tags.concat(element));
                             return <label className="json-schema-checkbox-label" key={"label" + index }>
-                                        {utils.camelCaseToNormalCase(element)}
+                                        <span className="json-schema-checkbox-label text">
+                                            {utils.camelCaseToNormalCase(element)}
+                                        </span>
                                     
                                         <input className="json-schema-checkbox" 
                                                type="checkbox" 
@@ -126,6 +128,7 @@ class JSONSchemaCheckboxes extends React.Component {
                                         />
                                    </label>
                         }
+                     
                     //Else, create a function that, when called, renders this element.
                     // Then push it to the renderLater array, so it can be rendered later.
                    
@@ -149,6 +152,7 @@ class JSONSchemaCheckboxes extends React.Component {
 
                    
                 }
+                </div>
                 {
                     renderLater.map(element => {
                         return element();
