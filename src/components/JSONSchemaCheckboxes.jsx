@@ -170,7 +170,7 @@ class JSONSchemaCheckboxes extends React.Component {
         let schemaArray = this.objectSchema;
 
         return(
-                <div className="fixed-size-searchTab-container">
+                <div className="json-schema-checkboxes-container">
                     <h4>Filtrar columnas</h4>
                     <div className="schema-object-container">
                         {this.renderCheckboxes(schemaArray, ["Base"])}
