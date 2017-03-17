@@ -28,6 +28,8 @@ class fetchApi {
         }
         )
             .then(response => {
+                let headers = utils.headerToObject(response);
+                utils.saveToStorage(headers);
                 if(response.status >= 200 && response.status <300) {
                     return response.json();
                 }
@@ -40,7 +42,9 @@ class fetchApi {
     static getOrganismosPublicos() {
         let headers = utils.setHeaders();
         return fetch("http://localhost:3000/api/get_misc_info?info=organismos_publicos", {headers})
-        .then(response => { 
+        .then(response => {
+            let headers = utils.headerToObject(response);
+            utils.saveToStorage(headers);
             if(response.status >= 200 && response.status < 300) {
                 return response.json();
             }
@@ -52,6 +56,9 @@ class fetchApi {
         let headers = utils.setHeaders();
         return fetch("http://localhost:3000/api/get_misc_info?info=estados_licitacion", {headers})
         .then(response => { 
+            let headers = utils.headerToObject(response);
+            utils.saveToStorage(headers);
+
             if(response.status >= 200 && response.status < 300) {
                 return response.json();
             }
@@ -78,7 +85,11 @@ class fetchApi {
         return fetch(`${process.env.API_HOST}/api/get_info?${query}`,
         {headers}
         )
-            .then(response => response.json() )
+            .then(response => {
+                let headers = utils.headerToObject(response);
+                utils.saveToStorage(headers);
+                response.json()
+            })
             .catch(error => {return error }) 
     }   
     

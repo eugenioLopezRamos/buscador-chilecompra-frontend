@@ -83,8 +83,8 @@ export class InputFieldsContainer extends React.PureComponent {
         this.setState(this.helpers.estadoLicitacionSelect(event.target.value))
     }
     
-    pickOrganismoPublico = (event) => {
-        this.setState(this.helpers.pickOrganismoPublico(event.target.value));
+    pickOrganismoPublico = (value) => {
+        this.setState(this.helpers.pickOrganismoPublico(value));
     }
 
 
@@ -112,6 +112,7 @@ export class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
+        console.log("STATE", this.state)
   
         return (    
               

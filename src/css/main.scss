@@ -19,6 +19,9 @@
     from {opacity: 0.2}
     to {opacity: 1}
 }
+.Select-placeholder {
+    
+}
 
 $main-jumbotron-margintop: 50px;
 $searchtype-picker-font-size: 1.5em;
@@ -125,8 +128,6 @@ body {
     list-style-type: none;
     font-size: 1em;
     width: 100%;
-    // border-left: 1px solid black;
-    // border-right: 1px solid black;
     display: flex;
 }
 .title-container {
@@ -134,8 +135,6 @@ body {
     width: calc(100% - 1em - 1px);
 }
 .results-li-container {
-    //TODO: Fix this so title resizes according to scrollbar
-    //visibility
     overflow: scroll;
     border-bottom: 1px solid black;
     max-height: 75vh;
