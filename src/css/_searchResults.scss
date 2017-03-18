@@ -4,13 +4,14 @@
     display:flex;
     flex-direction: row;
     width: 100%;
+    height: 2em;
 }
 
 .title-container span {
     display:flex;
     justify-content: center;
     text-align: center;
-    min-height:2.5em;
+ //  min-height:2.5em;
    
 }
 
@@ -31,6 +32,7 @@
         font-weight: bold;
         font-size: 1.15em;
         color: rgb(230, 230, 230);
+        min-width: 50%;
     }
 }
 
@@ -39,23 +41,34 @@ li.search-results {
     font-size: 1em;
     width: 100%;
     display: flex;
-    border: 1px solid grey;
+    border-left: 1px solid grey;
     
     span.search.col-xs-3 {
         border-right: 1px solid grey;
+        border-bottom: 1px solid grey;
         padding-top: 5px;
         padding-bottom: 5px;
         display:flex;
         font-size:1.1em;
+        min-width: 50%;
+        &.half {
+            min-width: 22.5%;
+            //min-width: 6%;
+            .title-text {
+                margin: auto;
+                min-height: 0;
+            }
+        }
         &.half:last-of-type {
-            border-right: none;
+            border-right: 1px solid grey;
         }
     }
     
 }
 .title-container {
     overflow: hidden;
-    width: calc(100% - 1em - 1px);
+    width: 100%;
+   // width: calc(100% - 1em - 1px);
 }
 .results-li-container {
     overflow: scroll;
@@ -90,10 +103,15 @@ span.movable-title-container {
 .searchResults-container-div {
     min-width: 70vw;
 }
+.search.title.col-xs-3.half {
+    min-width: 22.5%;
+}
+
 .search.title.col-xs-3.searchable {
     .title-spans-container {
         display:flex;
         width:100%;
+
     }
 
     .title-text {
@@ -167,4 +185,9 @@ span.movable-title-container {
 
 }
 
-
+.search-results-ul1, .search-results-ul2 {
+    animation: searchResultsFadeIn1 1s forwards;
+    padding: 0;
+    width:100%;
+    max-width: 100vw;
+}

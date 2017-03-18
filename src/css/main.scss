@@ -122,11 +122,7 @@ body {
     padding: 0;
 }
 
-.search-results-ul1, .search-results-ul2 {
-    animation: searchResultsFadeIn1 1s forwards;
-    padding: 0;
-    display:none;
-}
+
 
 .signup-form * {
     margin: 5px auto 5px auto;
@@ -453,14 +449,7 @@ body {
     min-width: 12.5%;
     min-height: 1.5em;
  
-    &.half {
-        width: 12.5%;
-        min-width: 6%;
-        .title-text {
-            margin: auto;
-            min-height: 0;
-        }
-    }
+
 }
 
 .date-field-container {
