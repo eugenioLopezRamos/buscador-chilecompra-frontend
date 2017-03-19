@@ -9,6 +9,7 @@ export default function fetchReducer(state = initialState.searchResults, action)
             return action.data;
 
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
+        console.log("ACTION", action)
             return action.error;
             //maybe will enable them later (if I make client side sorting work)
         // case types.REORDER_CHILECOMPRA_DATA_SUCCESS:

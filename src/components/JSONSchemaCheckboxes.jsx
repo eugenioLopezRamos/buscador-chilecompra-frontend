@@ -3,6 +3,8 @@ import * as utils from '../utils/miscUtils';
 import objectAssign from 'object-assign';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples'
 import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
+import CheckboxLabel from './CheckboxLabel.jsx';
+
 
 class JSONSchemaCheckboxes extends React.Component {
     //props: {schema: {...}}
@@ -13,13 +15,12 @@ class JSONSchemaCheckboxes extends React.Component {
             picked: RESULTS_INITIAL_CHECKBOXES
         }
 
-        this.objectSchema = (() => {
-            return utils.getObjectSchema(chileCompraResponseExample)
-        })();
+        this.objectSchema = utils.getObjectSchema(chileCompraResponseExample);
 
         this.containerCounter = 0;
         this.containers = new Array;
         this.tags = [];
+        this.pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
     }
 
 
@@ -42,7 +43,16 @@ class JSONSchemaCheckboxes extends React.Component {
         }
     }
 
+     //decide if checked=true or checked=false on the <input>
+    isChecked = (fullTag) => {
+        let checked = false;
 
+        let path = JSON.stringify(fullTag.slice(1)); //removes "Base", keeps the rest
+        if(this.pickedCheckboxes.indexOf(path) > -1) {
+            checked=true;
+        }
+        return checked;
+    }
 
     checkColumnHandler = (tag, event) => {
         // saveValue => the "tag" excluding the 0th element ("Base") which is only cosmetic
@@ -80,79 +90,63 @@ class JSONSchemaCheckboxes extends React.Component {
         let number = this.containerCounter;
 
         let currentTag = tags[tags.length - 1];
-      
+        
+        let currentTagString = utils.isOnlyNumbers(currentTag) ? `${parseInt(currentTag) + 1})` : utils.camelCaseToNormalCase(currentTag);
+
         return(
             <div>         
                 {
-                    utils.isOnlyNumbers(currentTag) ? 
                     <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
                         <span className="glyphicon glyphicon-triangle-right"></span>
                         <span className="glyphicon glyphicon-triangle-bottom"></span>
-                        {`${parseInt(currentTag) + 1})`}
-                    </label>
-                        : 
-                    <label className="json-schema-label json-schema-label-closed" onClick={(event) => {this.toggleDisplay(this.containers[number], event) }} >
-                        <span className="glyphicon glyphicon-triangle-right"></span>
-                        <span className="glyphicon glyphicon-triangle-bottom"></span>
-                        {utils.camelCaseToNormalCase(currentTag)}
+                        {currentTagString}
                     </label>
                 }
                 <div className="checkboxes-container no-display" ref={(checkbox) => this.containers[number] = checkbox }>
-               <div className="labels-container">
-                {   
-                    object.map((element, index) => {
-                        //If it's a primitive, return a checkbox;
-                        if(utils.isPrimitive(element)) {
-                            //decide if checked=true or checked=false on the <input>
-                            let isChecked = () => {
-                                let checked = false;
-                                let pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
-                                let path = JSON.stringify(tags.concat(element).slice(1)); //removes "Base", keeps the rest
-                                if(pickedCheckboxes.indexOf(path) > -1) {
-                                    checked=true;
+                    <div className="labels-container">
+                        {   
+                            object.map((element, index) => {
+                                //If it's a primitive, return a checkbox;
+                                if(utils.isPrimitive(element)) {
+                                    let fullTag = tags.concat(element);
+                                    //adds to the instance var tags - Used for testing only.
+                                    this.tags.push(fullTag);
+                                    return <CheckboxLabel 
+                                                key={"checkboxlabel"+ index}
+                                                item={element}
+                                                tag={fullTag}
+                                                id={index}
+                                                isChecked={this.isChecked}
+                                                handler={this.checkColumnHandler} 
+                                            />
                                 }
-                                return checked;
-                            }
-                            //adds to the instance var tags - Used for testing only.
-                            this.tags.push(tags.concat(element));
-                            return <label className="json-schema-checkbox-label" key={"label" + index }>
-                                        <span className="json-schema-checkbox-label text">
-                                            {utils.camelCaseToNormalCase(element)}
-                                        </span>
-                                    
-                                        <input className="json-schema-checkbox" 
-                                               type="checkbox" 
-                                               key={"json-schema" + index}
-                                               checked={isChecked()}
-                                               onChange={ (event) => {this.checkColumnHandler(tags.concat(element), event)} }
-                                        />
-                                   </label>
+                            
+                            //Else, create a function that, when called, renders this element.
+                            // Then push it to the renderLater array, so it can be rendered later.
+                        
+                                let fn = () => { 
+
+                                        if(JSON.stringify(Object.keys(element)) === JSON.stringify(["Items"])) {
+                                            //Since this is a special case,values are hardcoded
+                                            let newItems = {Items: ["Cantidad", "Listado"]};
+
+                                            return Object.keys(newItems).map ((subKey, subIndex) => {
+                                                return self.renderCheckboxes(newItems[subKey], tags.concat(`${subKey}`));
+                                            });
+                                        }
+
+                                        return Object.keys(element).map ((subKey, subIndex) => {
+                                            return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
+                                        });
+                                    };
+
+                            renderLater.push(fn);
+                            })
+
+                        
                         }
-                     
-                    //Else, create a function that, when called, renders this element.
-                    // Then push it to the renderLater array, so it can be rendered later.
-                   
-                    let fn = () => { 
-
-                            if(JSON.stringify(Object.keys(element)) === JSON.stringify(["Items"])) {
-                                //console.log("element", element);
-                                let newItems = {Items: ["Cantidad", "Listado"]};
-
-                                return Object.keys(newItems).map ((subKey, subIndex) => {
-                                    return self.renderCheckboxes(newItems[subKey], tags.concat(`${subKey}`));
-                                });
-                            }
-
-                            return Object.keys(element).map ((subKey, subIndex) => {
-                                return self.renderCheckboxes(element[subKey], tags.concat(`${subKey}`));
-                            });
-                        }         
-                    renderLater.push(fn);
-                    })
-
-                   
-                }
-                </div>
+                        </div>
+                        
                 {
                     renderLater.map(element => {
                         return element();
@@ -162,22 +156,15 @@ class JSONSchemaCheckboxes extends React.Component {
             
             </div>
         )
-        
-
-      
-
-
     } 
 
     render = () => {
-         // debugger
-        let schemaArray = this.objectSchema;
 
         return(
                 <div className="json-schema-checkboxes-container">
                     <h4>Filtrar columnas</h4>
                     <div className="schema-object-container">
-                        {this.renderCheckboxes(schemaArray, ["Base"])}
+                        {this.renderCheckboxes(this.objectSchema, ["Base"])}
                     </div>
 
                 </div>
