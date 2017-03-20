@@ -27,7 +27,9 @@ const Notifications = (props) => {
                                         key={"numero" + element}
                                         onClick={notificationClickHandler}
                                         >
-                                            {props.notifications[element]}
+                                            <span className="notification-text">
+                                                {props.notifications[element]}
+                                            </span>
                                             <span
                                                 className="glyphicon glyphicon-remove"
                                                 onClick={() => {deleteNotification(element)}}

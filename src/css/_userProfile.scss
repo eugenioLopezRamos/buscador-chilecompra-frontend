@@ -2,19 +2,34 @@
 
 }
 
+.jumbotron.user-profile-page-main-container{
+    padding: 15px 7px 15px 7px;
+}
+
 .perfil-datos {
     font-size:1em;
     height: 20%;
 }
+
 .no-show {
     display: none;
+}
+.profile-stored-searches {
+    h2 {
+        text-align: center;
+    }
+}
+
+.profile-stored-subscriptions {
+    h2 {
+        text-align: center;
+    }
 }
 
 .saved-items {
     height: 3em;
     display: flex;
     margin: auto;
-
     padding: 0;
 }
 

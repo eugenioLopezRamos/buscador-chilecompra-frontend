@@ -22,7 +22,8 @@ class ResultComparer extends React.Component {
     //}       result4: {...}
     toggleOpen = (event, target) => {
         event.stopPropagation();
-        
+        event.target.classList.toggle('open');
+        event.target.classList.toggle('closed');
         target.classList.toggle('display-flex');
     }
 
@@ -43,6 +44,8 @@ class ResultComparer extends React.Component {
         //TODO: refactor this?
 
         //Could do this with a switch too, maybe it would be more readable?
+        let renderLater = [];
+
         //IF OBJECT IS A PRIMITIVE
         if(utils.isPrimitive(object)) {
             //simply render key : value in spans
@@ -54,16 +57,28 @@ class ResultComparer extends React.Component {
         
         // IF OBJECT IS AN ARRAY
         if(utils.isArray(object)) {
-            this.counter++
+            //We wont have a wrapper div around the items of the array,
+            //since those will be handled either by isPOJO or isPrimitive
+            // so we need to skip 1 on the counter, hence +2;
+            this.counter = this.counter + 2;
             let number = this.counter;
+            let title = null;
+            if(keyName) {
+                title = (
+                        <span className="object-container-name type-array open" onClick={(event) => {this.toggleOpen(event, this.containers[number])} }>
+                            <span className="glyphicon glyphicon-triangle-right"></span>
+                            <span className="glyphicon glyphicon-triangle-bottom"></span>
+                            {keyName}
+                        </span>
+                        )
+            
+            }
             //Arrays contain data, which we can toggle to show, thus we need to have refs
             // to target them with this.toggleOpen
             //We make a container for the array then iterate over its data with renderValues
             return (<div className="object-data-container type-array" key={number}>
                         {/* this span has the array's name and is clickable to toggle the info's display status*/}
-                        <span className="object-container-name type-array" onClick={(event) => {this.toggleOpen(event, this.containers[number])} }>
-                            {keyName}
-                        </span>
+                           {title} 
                         {/*this contains the data in the array (its keys)*/}
                         <div className="object-container display-flex type-array" ref={(element) => { this.containers[number] = element} } key={`object-containerArray${number}`}>
                         {
@@ -79,16 +94,26 @@ class ResultComparer extends React.Component {
                         }
                         </div>
                     </div>)
+
         }
         //IF OBJECT IS A POJO
         if(utils.isPOJO(object)) {
             this.counter++
             let number = this.counter;
+            let title = null;
+            if(keyName) {
+               title = (
+               <span className="object-container-name type-pojo open" onClick={(event) => {this.toggleOpen(event,this.containers[number])} } key={`objectContainerName${number}`}>
+                    <span className="glyphicon glyphicon-triangle-right"></span>
+                    <span className="glyphicon glyphicon-triangle-bottom"></span>
+                    {keyName}
+                </span>
+               )
+            }
+
             //Same as above, container with a clickable span with the object's name (keyName) for toggling display and a <div> that contains the object's data.
             return (<div className="object-data-container type-pojo" key={number}>        
-                        <span className="object-container-name type-pojo" onClick={(event) => {this.toggleOpen(event,this.containers[number])} } key={`objectContainerName${number}`}>
-                            {keyName}
-                        </span>
+                        {title}
                         <div className="object-container display-flex type-pojo" ref={(element) => { this.containers[number] = element} } key={`object-containerObject${number}`}>
                         {
                             Object.keys(object).map((currentKey) => {
@@ -109,6 +134,7 @@ class ResultComparer extends React.Component {
                         }
                         </div>
                     </div>)
+
         }
     }
     
@@ -122,8 +148,8 @@ class ResultComparer extends React.Component {
                                         if(stringifiedValue === toIgnore) {
                                             return accumulator;
                                         }else {
-                                        accumulator.push(element.value);
-                                        return accumulator;
+                                            accumulator.push(element.value);
+                                            return accumulator;
                                         }
                                         
                                     }, [])

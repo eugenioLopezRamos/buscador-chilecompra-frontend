@@ -162,7 +162,7 @@ export class UserPage extends React.Component {
         }
 
         return(
-            <div className="jumbotron" style={{"minHeight": document.documentElement.clientHeight}}>
+            <div className="jumbotron user-profile-page-main-container" style={{"minHeight": document.documentElement.clientHeight}}>
 
                 <FullScreenPane 
                     show={this.state.showFullScreenPane}

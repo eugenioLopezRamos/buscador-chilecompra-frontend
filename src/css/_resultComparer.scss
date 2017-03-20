@@ -1,0 +1,150 @@
+$object-container-padding: 13px;
+
+.main-result-comparer-container {
+    display:flex;
+  //  padding: 10px 25px 10px 25px;
+    margin:auto;
+  //  justify-content: center;
+
+}
+
+.result-comparer-main-title {
+    text-align:center;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.object-data-container {
+    padding-left: $object-container-padding / 2;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.original-result-container {
+    display:flex;
+    flex-direction: column;
+    width:80%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 47%;
+    &> .object-data-container {
+        padding-left: $object-container-padding;
+    }
+}
+.original-result-title {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.all-differences-container {
+    display:flex;
+    flex-direction: column;
+    min-width: 47%;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 47%;
+    overflow: scroll;
+}
+
+.all-differences-title {
+   @extend .original-result-title;
+
+   .all-differences-title-note {
+        display: none;
+        position: absolute;
+        /* display: flex; */
+        font-size: 1em;
+        z-index: 9003;
+        background-color: beige;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        padding: 5px;
+   }
+   &:hover {
+       .all-differences-title-note {
+           display:flex;
+       }
+   }
+
+
+
+}
+
+.all-differences-each {
+    display:flex;
+   // flex-direction: column;
+}
+
+.primitive {
+    word-wrap: break-word;
+    border-left: 1px solid black;
+    padding-left: 10px;
+    
+    .inPrimitive-key {
+        font-weight: bold;
+    }
+}
+
+.single-difference-container {
+    display:flex;
+    flex-direction: column;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.difference-item {
+
+}
+
+.object-container-name {
+    margin-left: -$object-container-padding / 2;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em;
+
+    &.open {
+       .glyphicon.glyphicon-triangle-right {
+            display:none;
+        }
+
+        .glyphicon.glyphicon-triangle-bottom {
+            display: initial;
+        }
+    }
+
+    &.closed {
+
+       .glyphicon.glyphicon-triangle-right {
+            display:initial;
+        }
+
+        .glyphicon.glyphicon-triangle-bottom {
+            display: none;
+        }
+    }
+
+
+
+}
+.object-container {
+    display: none;
+    flex-direction: column;
+
+    &.display-flex {
+        display:flex;
+
+
+    }
+}
+
+.object-container-name.closed {
+
+
+}
+
