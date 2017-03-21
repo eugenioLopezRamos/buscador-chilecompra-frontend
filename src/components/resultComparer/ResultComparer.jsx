@@ -95,6 +95,7 @@ class ResultComparer extends React.Component {
                                     <div className="single-difference-container" key={`single-difference-container${index}`}>
                                     {
                                         Object.keys(currentResult.value).map((currentKey, index) => {
+                                     
                                             return (
                                                     <div className="difference-item" key={`single-difference${index}`}>
                                                 
