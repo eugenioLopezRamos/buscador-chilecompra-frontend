@@ -29,12 +29,16 @@ class ResultComparer extends React.Component {
 
     //differences => [{result1 with result2}, {result2 with result3}, {result3 with result4}]
     differences = () => {
-       return this.props.results.reduce((accumulator, element, index) => {
+        let self = this;
+       return this.props.results.reduce((accumulator, element, index, array) => {
                     if(index === this.props.results.length-1) {
                         return accumulator;
                     }
+                   // debugger
+                    //takes chunks of two and compares them
                     let toCompare = this.props.results.slice(index, index+2);
-                    accumulator.push(utils.objectComparer(toCompare[0], toCompare[1]));
+                    
+                    accumulator.push(utils.objectComparer(toCompare[0].value, toCompare[1].value));
                     return accumulator;
                 }, [])
             
@@ -47,12 +51,12 @@ class ResultComparer extends React.Component {
                                     let toIgnore = JSON.stringify(["FechaCreacion"]);
                                     let netDifferencesArray = this.differences().reduce((accumulator, element) => {
 
-                                        let stringifiedValue = JSON.stringify(Object.keys(element.value));
+                                        let stringifiedValue = JSON.stringify(Object.keys(element));
                                     
                                         if(stringifiedValue === toIgnore) {
                                             return accumulator;
                                         }else {
-                                            accumulator.push(element.value);
+                                            accumulator.push(element);
                                             return accumulator;
                                         }
                                         
@@ -80,13 +84,12 @@ class ResultComparer extends React.Component {
         // while in the others we'll show only the differences using utils.objectComparer(firstObject, secondObject, differencesContainer)
 
         let firstResult = this.props.results.slice(0, 1)[0];
-        let differences = this.differences();
         let self = this;
-
+    //   debugger
 
         let renderDifferences = () => {
             if(self.areThereDifferences.value) {
-                return differences
+                return self.areThereDifferences.differences
                         .map((currentResult, index) => {
                             if(!self.areThereDifferences.differences[index]) {
                                 return null;
@@ -94,7 +97,7 @@ class ResultComparer extends React.Component {
                             return (
                                     <div className="single-difference-container" key={`single-difference-container${index}`}>
                                     {
-                                        Object.keys(currentResult.value).map((currentKey, index) => {
+                                        Object.keys(currentResult).map((currentKey, index) => {
                                      
                                             return (
                                                     <div className="difference-item" key={`single-difference${index}`}>
@@ -102,7 +105,7 @@ class ResultComparer extends React.Component {
                                                         <ResultComparerObjectRenderer
                                                                     key={`ResultComparerObjectRenderer${currentKey}`}
                                                                     handleToggleOpen={self.toggleOpen}
-                                                                    object={currentResult.value[currentKey]}
+                                                                    object={currentResult[currentKey]}
                                                                     keyName={currentKey}
                                                                 />                                                      
                                                    
