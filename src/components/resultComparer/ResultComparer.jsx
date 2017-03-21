@@ -2,17 +2,17 @@ import React, {PropTypes} from 'react';
 //import {Link} from 'react-router';
 //import {connect} from 'react-redux';
 //import {bindActionCreators} from  'redux';
-import * as types from '../constants/actionTypes';
-import * as utils from '../utils/miscUtils';
+import * as types from '../../constants/actionTypes';
+import * as utils from '../../utils/miscUtils';
 import objectAssign from 'object-assign';
-
+import ResultComparerObjectRenderer from './ResultComparerObjectRenderer';
 
 
 class ResultComparer extends React.Component {
     constructor(props) {
         super(props);
-        this.counter = 0;
-        this.containers = [];
+        // this.counter = 0;
+        // this.containers = [];
 
     }
         //props.results = {
@@ -20,11 +20,11 @@ class ResultComparer extends React.Component {
   //          result2: {...},
 //            result3: {...},
     //}       result4: {...}
-    toggleOpen = (event, target) => {
+    toggleOpen = (event, container) => {
         event.stopPropagation();
         event.target.classList.toggle('open');
         event.target.classList.toggle('closed');
-        target.classList.toggle('display-flex');
+        container.classList.toggle('display-flex');
     }
 
     //differences => [{result1 with result2}, {result2 with result3}, {result3 with result4}]
@@ -40,103 +40,7 @@ class ResultComparer extends React.Component {
             
     }
 
-    renderValues = (object, keyName) => {
-        //TODO: refactor this?
 
-        //Could do this with a switch too, maybe it would be more readable?
-        let renderLater = [];
-
-        //IF OBJECT IS A PRIMITIVE
-        if(utils.isPrimitive(object)) {
-            //simply render key : value in spans
-            return <span className="primitive" key={`${keyName}${object}`}>
-                    <span className="inPrimitive-key">{keyName}:</span>
-                    <span className="inPrimitive-value"> {object}</span>
-                  </span>;
-        }
-        
-        // IF OBJECT IS AN ARRAY
-        if(utils.isArray(object)) {
-            //We wont have a wrapper div around the items of the array,
-            //since those will be handled either by isPOJO or isPrimitive
-            // so we need to skip 1 on the counter, hence +2;
-            this.counter = this.counter + 2;
-            let number = this.counter;
-            let title = null;
-            if(keyName) {
-                title = (
-                        <span className="object-container-name type-array open" onClick={(event) => {this.toggleOpen(event, this.containers[number])} }>
-                            <span className="glyphicon glyphicon-triangle-right"></span>
-                            <span className="glyphicon glyphicon-triangle-bottom"></span>
-                            {keyName}
-                        </span>
-                        )
-            
-            }
-            //Arrays contain data, which we can toggle to show, thus we need to have refs
-            // to target them with this.toggleOpen
-            //We make a container for the array then iterate over its data with renderValues
-            return (<div className="object-data-container type-array" key={number}>
-                        {/* this span has the array's name and is clickable to toggle the info's display status*/}
-                           {title} 
-                        {/*this contains the data in the array (its keys)*/}
-                        <div className="object-container display-flex type-array" ref={(element) => { this.containers[number] = element} } key={`object-containerArray${number}`}>
-                        {
-                            Object.keys(object).map((currentKey) => {
-
-                                let keyName = null;
-
-                                if(Object.keys(object).length > 1) {
-                                    keyName = `${parseInt(currentKey,10) + 1})`;
-                                }
-                                return this.renderValues(object[currentKey], keyName);
-                            })
-                        }
-                        </div>
-                    </div>)
-
-        }
-        //IF OBJECT IS A POJO
-        if(utils.isPOJO(object)) {
-            this.counter++
-            let number = this.counter;
-            let title = null;
-            if(keyName) {
-               title = (
-               <span className="object-container-name type-pojo open" onClick={(event) => {this.toggleOpen(event,this.containers[number])} } key={`objectContainerName${number}`}>
-                    <span className="glyphicon glyphicon-triangle-right"></span>
-                    <span className="glyphicon glyphicon-triangle-bottom"></span>
-                    {keyName}
-                </span>
-               )
-            }
-
-            //Same as above, container with a clickable span with the object's name (keyName) for toggling display and a <div> that contains the object's data.
-            return (<div className="object-data-container type-pojo" key={number}>        
-                        {title}
-                        <div className="object-container display-flex type-pojo" ref={(element) => { this.containers[number] = element} } key={`object-containerObject${number}`}>
-                        {
-                            Object.keys(object).map((currentKey) => {
-                                let keys = Object.keys(object);
-
-                                let keyName = currentKey;
-                                //if keyname is an int, turn it from zero indexed to 1 indexed => "add one"
-                                
-                                if(parseInt(keyName) == keyName) {
-                                    keyName = `${parseInt(keyName) + 1})`;
-                                    if(keys.length === 1) {
-                                        keyName = null;
-                                    }
-                                }
-                            
-                                return this.renderValues(object[currentKey], keyName);
-                            })
-                        }
-                        </div>
-                    </div>)
-
-        }
-    }
     
     areThereDifferences = (() => {
                                     //Consider no differences if the only thing that was modified was FechaCreacion
@@ -193,7 +97,15 @@ class ResultComparer extends React.Component {
                                         Object.keys(currentResult.value).map((currentKey, index) => {
                                             return (
                                                     <div className="difference-item" key={`single-difference${index}`}>
-                                                        {this.renderValues(currentResult.value[currentKey], currentKey)}
+                                                
+                                                        <ResultComparerObjectRenderer
+                                                                    key={`ResultComparerObjectRenderer${currentKey}`}
+                                                                    handleToggleOpen={self.toggleOpen}
+                                                                    object={currentResult.value[currentKey]}
+                                                                    keyName={currentKey}
+                                                                />                                                      
+                                                   
+
                                                     </div>
                                                     );
                                         })
@@ -217,7 +129,12 @@ class ResultComparer extends React.Component {
                         <div className="original-result-title">Resultado</div>
                         { 
                             Object.keys(firstResult.value).map((currentKey) => {
-                                return this.renderValues(firstResult.value[currentKey], currentKey);
+                                return <ResultComparerObjectRenderer
+                                            key={`ResultComparerObjectRenderer${currentKey}`}
+                                            handleToggleOpen={self.toggleOpen}
+                                            object={firstResult.value[currentKey]}
+                                            keyName={currentKey}
+                                        />
                             })
                         }
                     </div>

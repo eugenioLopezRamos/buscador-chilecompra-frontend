@@ -15,7 +15,7 @@ import SearchResults from '../SearchResults.jsx';
 import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
-import ResultComparer from '../ResultComparer.jsx';
+import ResultComparer from '../resultComparer/ResultComparer.jsx';
 import UpdateSearchMenu from '../UpdateSearchMenu';
 import fetchApi from '../../api/fetchApi';
 

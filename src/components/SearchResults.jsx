@@ -15,7 +15,7 @@ import * as utils from '../utils/miscUtils';
 import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
-import ResultsComparer from './ResultComparer.jsx'
+import ResultsComparer from './resultComparer/ResultComparer.jsx'
 import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
 import userApi from '../api/userApi';
 import ResultsNavigatorButtons from './ResultsNavigatorButtons';
