@@ -1,3 +1,5 @@
+
+
 .prompt-background {
     background-color: rgba(238, 238 ,238, 0.7);
     position: fixed;
@@ -12,12 +14,12 @@
 }
 
 .prompt-background-container {
-    margin: 15% auto 0 auto;
+    margin: $main-jumbotron-margintop auto 0 auto;
     background-color: #eee;
     border: 3px solid #bce8f1;
     border-radius: 10px;
     //max-height: 90%;
-    height:90%;
+    height:87.5%;//calc(90vh - #{$main-jumbotron-margintop});
     //max-width:100%;
     overflow:auto;
 

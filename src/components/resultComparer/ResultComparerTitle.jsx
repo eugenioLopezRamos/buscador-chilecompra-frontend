@@ -8,7 +8,7 @@ const ResultComparerTitle = ({keyName, type, handler}) => {
     }
     return (
       
-        <span className={`object-container-name type-${type} open`} onClick={(event) => {console.log("CLICK");handler(event)}}>
+        <span className={`object-container-name type-${type} open`} onClick={(event) => {handler(event)}}>
             <span className="glyphicon glyphicon-triangle-right"></span>
             <span className="glyphicon glyphicon-triangle-bottom"></span>
             {keyName}

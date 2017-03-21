@@ -24,10 +24,22 @@ const Login = (props) => {
             <form className="navbar-form navbar-right" role="form">
                 <span className="login-span">Tienes cuenta? Ingresa:</span>
                 <div className="form-group">
-                    <input value={props.loginData.email} type="text" placeholder="Email" className="form-control" onChange={handleChangeEmail} />
+                    <input value={props.loginData.email} type="text"
+                        placeholder="Email"
+                        className="form-control"
+                        onChange={handleChangeEmail} 
+                        onClick={(event) => event.stopPropagation() }
+                    />
                 </div>
                 <div className="form-group">
-                    <input value={props.loginData.password} type="password" placeholder="Contraseña" className="form-control" onChange={handleChangePassword} />
+                    <input 
+                        value={props.loginData.password}
+                        type="password"
+                        placeholder="Contraseña"
+                        className="form-control"
+                        onChange={handleChangePassword} 
+                        onClick={(event) => event.stopPropagation() }                        
+                        />
                 </div>
                 <button type="submit" 
                     className="btn btn-success"

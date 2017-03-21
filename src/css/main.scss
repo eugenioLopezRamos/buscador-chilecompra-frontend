@@ -3,6 +3,9 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
+$main-jumbotron-margintop: 50px;
+$searchtype-picker-font-size: 1.5em;  
 @import 'userProfile';
 @import 'pageSelection';
 @import 'JSONSchemaCheckboxes';
@@ -22,8 +25,7 @@
     to {opacity: 1}
 }
 
-$main-jumbotron-margintop: 50px;
-$searchtype-picker-font-size: 1.5em;
+
 
 
 select {

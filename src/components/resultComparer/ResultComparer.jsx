@@ -124,6 +124,7 @@ class ResultComparer extends React.Component {
 
         return (
             <div className="result-comparer-root" style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
+
                 <div className="result-comparer-main-title">
                     Variaciones del resultado
                 </div>
@@ -131,6 +132,7 @@ class ResultComparer extends React.Component {
                 <div className="main-result-comparer-container">
                     <div className="original-result-container">
                         <div className="original-result-title">Resultado</div>
+                        <div className="original-result-data">
                         { 
                             Object.keys(firstResult.value).map((currentKey) => {
                                 return <ResultComparerObjectRenderer
@@ -141,6 +143,7 @@ class ResultComparer extends React.Component {
                                         />
                             })
                         }
+                        </div>
                     </div>
 
                     <div className="all-differences-container">

@@ -19,7 +19,11 @@ export class CollapsibleNavBar extends React.Component {
     }
     handleClick = (event) => {
         event.stopPropagation();
-        this.props.displayActions.toggleNavbarDisplay();
+
+
+            this.props.displayActions.toggleNavbarDisplay();
+
+
     }
 
     handleLogin = () => {
