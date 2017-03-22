@@ -6,13 +6,13 @@ import * as types from '../../constants/actionTypes';
 import * as utils from '../../utils/miscUtils';
 import objectAssign from 'object-assign';
 import ResultComparerObjectRenderer from './ResultComparerObjectRenderer';
-
+import * as resultComparerHelpers from './resultComparerHelper';
+//TODO: See how to export resultComparerHelpers.netDifferencesRenderer into a SFC
 
 class ResultComparer extends React.Component {
     constructor(props) {
         super(props);
         this.renderLaterFirstResult = [];
-        this.renderLaterDifferences = [];
     }
         //props.results = {
  //           result1: {...},
@@ -42,35 +42,9 @@ class ResultComparer extends React.Component {
             
     }
 
-    areThereDifferences = (() => {
-                                    //Consider no differences if the only thing that was modified was FechaCreacion
-                                    let toIgnore = JSON.stringify(["FechaCreacion"]);
-                                    let netDifferencesArray = this.differences().reduce((accumulator, element) => {
+    areThereDifferences = (() => resultComparerHelpers.areThereDifferences(this))(this);
 
-                                        let stringifiedValue = JSON.stringify(Object.keys(element));
-                                    
-                                        if(stringifiedValue === toIgnore) {
-                                            return accumulator;
-                                        }else {
-                                            accumulator.push(element);
-                                            return accumulator;
-                                        }
-                                        
-                                    }, [])
-
-                                    let unignoredDifferencesAmount = netDifferencesArray.length;
-
-                                    if(unignoredDifferencesAmount === 0) {
-                                        return {
-                                            value: false
-                                        }
-                                    }
-                                    return {
-                                        value: true,
-                                        differences: netDifferencesArray
-                                    }
-
-                                })();
+    renderDifferences = (areThereDifferences, rendererGenerator) => resultComparerHelpers.netDifferencesRenderer(areThereDifferences, rendererGenerator);
 
     rendererGenerator = (currentResult, currentKey) => (<ResultComparerObjectRenderer
                                                                     key={`ResultComparerObjectRenderer${currentKey}`}
@@ -79,52 +53,14 @@ class ResultComparer extends React.Component {
                                                                     keyName={currentKey}
                                                         />) 
 
-
     render = () => {
         // We take the first result because that one should be shown in full
         // while in the others we'll show only the differences using utils.objectComparer(firstObject, secondObject, differencesContainer)
 
         let firstResult = this.props.results.slice(0, 1)[0].value;
         let self = this;
-    //   debugger
-
-        let renderDifferences = () => {
-            if(self.areThereDifferences.value) {
-                return self.areThereDifferences.differences
-                        .map((currentResult, index) => {
-                            if(!self.areThereDifferences.differences[index]) {
-                                return null;
-                            }
-                            return (
-                                    <div className="single-difference-container" key={`single-difference-container${index}`}>
-                                    {
-                                        Object.keys(currentResult).map((currentKey, index) => {
-                                            let elementReturner = () => this.rendererGenerator(currentResult, currentKey)
-                                            return (
-                                                    <div className="difference-item" key={`single-difference${index}`}>
-
-                                                        {
-                                                        utils.isPrimitive(currentResult[currentKey]) ?
-                                                            this.renderLaterDifferences.push(elementReturner) && null
-                                                            :
-                                                            elementReturner()
-                                                        }
-                                                   
-                                                    </div>
-                                                    );
-                                        })
-                                    }
-                                    {
-                                        this.renderLaterDifferences.map(elementReturner => elementReturner())
-                                    }       
-                                    </div>
-                                    )  
-                        })
-            }
-            return <div className="single-difference-container">Sin variaciones</div>;
-        }
-    
-
+        let areThereDifferences = self.areThereDifferences;
+        let rendererGenerator = self.rendererGenerator;
         return (
             <div className="result-comparer-root" style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
 
@@ -163,7 +99,7 @@ class ResultComparer extends React.Component {
                                 <div className="detail">Detalle de variaciones</div>
                             </div>
                             <div className="all-differences-each">
-                                {renderDifferences()}
+                            {this.renderDifferences(areThereDifferences, rendererGenerator)}
                             </div>
                         </div>
 
