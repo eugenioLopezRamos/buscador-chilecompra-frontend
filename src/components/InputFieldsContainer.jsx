@@ -22,7 +22,15 @@ export class InputFieldsContainer extends React.PureComponent {
     constructor(props) {
  
         super(props);
-               
+        this.showResults = (() => {
+            let prop = props.showSearchResultsComponent 
+            if(prop === false){
+                return false;
+            }
+            return true;
+
+        })();
+        
         const inputFieldsOffset = 0;
         const initialFieldsOrderBy = RESULTS_INITIAL_CHECKBOXES_ORDER_BY;
         this.helpers = helpers;
@@ -132,7 +140,10 @@ export class InputFieldsContainer extends React.PureComponent {
                             />
 
                             <label className="select-licitacion">Estado de la licitación (código estado)</label>
-                                <SelectionField estadosLicitacion={this.props.estadosLicitacion} onChange={this.estadoLicitacionSelect} />
+                                <SelectionField 
+                                    estadosLicitacion={this.props.estadosLicitacion}
+                                    onChange={this.estadoLicitacionSelect} 
+                                />
 
                             <label className="select-orgPub">Según comprador (código organismo público)</label>
                                 <AutoFillerInput 
@@ -151,8 +162,8 @@ export class InputFieldsContainer extends React.PureComponent {
                                 key="rut-proveedor" 
                                 placeholder="Ejemplo: 1.111.111-1"
                                 defaultValue={this.state.rutProveedor} 
-
-                                onChange={this.rutInput}/>
+                                onChange={this.rutInput}
+                            />
                         
                             <label className="codigo-licitacion">Código de licitación</label>
                             <input 
@@ -169,9 +180,7 @@ export class InputFieldsContainer extends React.PureComponent {
                             <label className="palabras-clave">Según palabras clave</label>
                                 <SearchField 
                                     value={this.state.palabrasClave} 
-
                                     onChange={this.palabrasClaveInput} 
-
                                     onSubmit={this.handleSubmit} 
                                 />
                                 
@@ -182,10 +191,15 @@ export class InputFieldsContainer extends React.PureComponent {
                              />}
 
                         </div>
+                        {
+                            this.showResults ? 
+                                <div className="col-xs-12 no-gutter">
+                                    <SearchResults searchQueryValues={this.props.searchQueryValues} results={this.props.searchResults}/>
+                                </div> 
+                                :
+                                null              
+                        }
 
-                            <div className="col-xs-12 no-gutter">
-                                <SearchResults searchQueryValues={this.props.searchQueryValues} results={this.props.searchResults}/>
-                            </div>
                         
                     </div>        
         );

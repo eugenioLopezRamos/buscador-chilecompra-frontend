@@ -1,4 +1,5 @@
 import objectAssign from 'object-assign';
+import * as utils from '../utils/miscUtils';;
 
 export const applyFilter = (selectedItems, results) => {
   

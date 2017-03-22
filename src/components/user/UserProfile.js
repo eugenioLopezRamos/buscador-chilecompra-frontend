@@ -19,10 +19,10 @@ const UserProfile = (props) => {
         props.deleteUserSubscription(name);   
     }
 
-    const handleShowSubscriptionHistory = (component, resultId) => {
+    const handleShowSubscriptionHistory = (component, resultId, resultName) => {
         // do a request to the API for all records with CodigoExterno equal to Result.where(id: resultId).first.value["Listado"][0]["CodigoExterno"]
-        //
-        props.getResultHistory(component, resultId);
+        // and the resultName is used only on the front end so the user can have a reference of what he/she clicked
+        props.getResultHistory(component, resultId, resultName);
     }
 
     return(
@@ -54,9 +54,16 @@ const UserProfile = (props) => {
                 {
                     props.userSubscriptions && Object.keys(props.userSubscriptions).length > 0 ? Object.keys(props.userSubscriptions).map((subscription, index) => {
                         let resultId = props.userSubscriptions[subscription];
+                        let resultName = subscription;
                         return <li className="list-group-item saved-items" key={"results" + subscription}>
-                                <span className="saved-items-description">{subscription}</span>
-                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleShowSubscriptionHistory(props.components.ResultComparer, resultId)}}>Mostrar</button>
+                              
+                                    <span className="saved-items-description">
+                                          <div className="desc-text">
+                                        {subscription}
+                                          </div>
+                                        </span>
+                              
+                                <button type="button" className="btn btn-primary pull-right" onClick={() => {handleShowSubscriptionHistory(props.components.ResultComparer, resultId, resultName)}}>Mostrar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {props.showModal(subscription)}}>Modificar</button>
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {handleSubscriptionDelete(subscription)}}>Eliminar</button>
                                </li>

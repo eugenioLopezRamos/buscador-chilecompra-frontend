@@ -11,9 +11,8 @@ import ResultComparerObjectRenderer from './ResultComparerObjectRenderer';
 class ResultComparer extends React.Component {
     constructor(props) {
         super(props);
-        // this.counter = 0;
-        // this.containers = [];
-
+        this.renderLaterFirstResult = [];
+        this.renderLaterDifferences = [];
     }
         //props.results = {
  //           result1: {...},
@@ -34,7 +33,6 @@ class ResultComparer extends React.Component {
                     if(index === this.props.results.length-1) {
                         return accumulator;
                     }
-                   // debugger
                     //takes chunks of two and compares them
                     let toCompare = this.props.results.slice(index, index+2);
                     
@@ -44,8 +42,6 @@ class ResultComparer extends React.Component {
             
     }
 
-
-    
     areThereDifferences = (() => {
                                     //Consider no differences if the only thing that was modified was FechaCreacion
                                     let toIgnore = JSON.stringify(["FechaCreacion"]);
@@ -76,14 +72,19 @@ class ResultComparer extends React.Component {
 
                                 })();
 
-
+    rendererGenerator = (currentResult, currentKey) => (<ResultComparerObjectRenderer
+                                                                    key={`ResultComparerObjectRenderer${currentKey}`}
+                                                                    handleToggleOpen={this.toggleOpen}
+                                                                    object={currentResult[currentKey]}
+                                                                    keyName={currentKey}
+                                                        />) 
 
 
     render = () => {
         // We take the first result because that one should be shown in full
         // while in the others we'll show only the differences using utils.objectComparer(firstObject, secondObject, differencesContainer)
 
-        let firstResult = this.props.results.slice(0, 1)[0];
+        let firstResult = this.props.results.slice(0, 1)[0].value;
         let self = this;
     //   debugger
 
@@ -98,22 +99,24 @@ class ResultComparer extends React.Component {
                                     <div className="single-difference-container" key={`single-difference-container${index}`}>
                                     {
                                         Object.keys(currentResult).map((currentKey, index) => {
-                                     
+                                            let elementReturner = () => this.rendererGenerator(currentResult, currentKey)
                                             return (
                                                     <div className="difference-item" key={`single-difference${index}`}>
-                                                
-                                                        <ResultComparerObjectRenderer
-                                                                    key={`ResultComparerObjectRenderer${currentKey}`}
-                                                                    handleToggleOpen={self.toggleOpen}
-                                                                    object={currentResult[currentKey]}
-                                                                    keyName={currentKey}
-                                                                />                                                      
-                                                   
 
+                                                        {
+                                                        utils.isPrimitive(currentResult[currentKey]) ?
+                                                            this.renderLaterDifferences.push(elementReturner) && null
+                                                            :
+                                                            elementReturner()
+                                                        }
+                                                   
                                                     </div>
                                                     );
                                         })
-                                    }                
+                                    }
+                                    {
+                                        this.renderLaterDifferences.map(elementReturner => elementReturner())
+                                    }       
                                     </div>
                                     )  
                         })
@@ -126,40 +129,47 @@ class ResultComparer extends React.Component {
             <div className="result-comparer-root" style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
 
                 <div className="result-comparer-main-title">
-                    Variaciones del resultado
+                    {`Variaciones del resultado: ${this.props.resultName}`} 
                 </div>
 
-                <div className="main-result-comparer-container">
-                    <div className="original-result-container">
-                        <div className="original-result-title">Resultado</div>
-                        <div className="original-result-data">
-                        { 
-                            Object.keys(firstResult.value).map((currentKey) => {
-                                return <ResultComparerObjectRenderer
-                                            key={`ResultComparerObjectRenderer${currentKey}`}
-                                            handleToggleOpen={self.toggleOpen}
-                                            object={firstResult.value[currentKey]}
-                                            keyName={currentKey}
-                                        />
-                            })
-                        }
-                        </div>
-                    </div>
 
-                    <div className="all-differences-container">
-                        <div className="all-differences-title">   
-                            <p className="all-differences-title-note">
-                                En caso de haber variaciones sólo de FechaCreacion, estas se 
-                                han obviado
-                            </p>                         
-                            <div className="detail">Detalle de variaciones</div>
+                <div className="main-result-comparer-container" >
+  
+
+                        <div className="original-result-container">
+                            <div className="original-result-title">Resultado</div>
+                            <div className="original-result-data">
+                            { 
+                                Object.keys(firstResult).map((currentKey) => {
+
+                                    let elementReturner = () => this.rendererGenerator(firstResult, currentKey);
+
+                                    return utils.isPrimitive(firstResult[currentKey]) ?
+                                            this.renderLaterFirstResult.push(elementReturner) && null         
+                                            :
+                                            elementReturner();
+                                })
+                            }
+                            {this.renderLaterFirstResult.map(elementReturner => elementReturner())}
+                            </div>
                         </div>
-                        <div className="all-differences-each">
-                            {renderDifferences()}
+
+                        <div className="all-differences-container">
+                            <div className="all-differences-title">   
+                                <p className="all-differences-title-note">
+                                    En caso de haber variaciones sólo de FechaCreacion, estas se 
+                                    han obviado
+                                </p>                         
+                                <div className="detail">Detalle de variaciones</div>
+                            </div>
+                            <div className="all-differences-each">
+                                {renderDifferences()}
+                            </div>
                         </div>
-                    </div>
+
                 
                 </div>
+
             </div>
         
         )

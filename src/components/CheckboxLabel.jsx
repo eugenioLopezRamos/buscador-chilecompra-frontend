@@ -18,7 +18,5 @@ export const CheckboxLabel = ({item, tag, id, isChecked, handler}) => (
             </label>
 )
 
-
-
 export default CheckboxLabel;
 

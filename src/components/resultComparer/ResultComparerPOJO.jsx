@@ -1,9 +1,10 @@
 import React from 'react';
 import ResultComparerTitle from './ResultComparerTitle';
-
+import * as utils from '../../utils/miscUtils';
 
 const ResultComparerPOJO = (props) => {
     let containers = [];
+    let renderLater = []
 
     const refFn = (element) => {containers.push(element)};
     const toggleOpenFn = (event) => {props.toggleOpen(event, containers[containers.length - 1])}
@@ -34,13 +35,22 @@ const ResultComparerPOJO = (props) => {
                             }
                         }
                     
-                        return <props.renderer
-                                 object={props.object[currentKey]}
-                                 keyName={keyName} 
-                                 key={`ResultComparerObjectRenderer${currentKey}`}
-                                 handleToggleOpen={props.toggleOpen}                              
-                               />;
+                        let element = <props.renderer
+                                            object={props.object[currentKey]}
+                                            keyName={keyName} 
+                                            key={`ResultComparerObjectRenderer${currentKey}`}
+                                            handleToggleOpen={props.toggleOpen}                              
+                                        />;
+                        let elementReturner = () => (element);
+
+                        return utils.isPrimitive(props.object[currentKey]) ? 
+                            renderLater.push(elementReturner) && null         
+                            :
+                            element;
                     })
+                }
+                {
+                    renderLater.map(elementReturner => elementReturner())
                 }
                 </div>
             </div>)

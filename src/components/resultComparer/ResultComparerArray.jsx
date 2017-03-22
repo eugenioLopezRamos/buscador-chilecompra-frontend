@@ -1,8 +1,10 @@
 import React from 'react';
 import ResultComparerTitle from './ResultComparerTitle';
+import * as utils from '../../utils/miscUtils';
 
 export const ResultComparerArray = (props) => {
     let containers = [];
+    let renderLater = [];
     //Arrays contain data, which we can toggle to show, thus we need to have refs
     // to target them with this.toggleOpen
     //We make a container for the array then iterate over its data with renderValues
@@ -28,13 +30,23 @@ export const ResultComparerArray = (props) => {
                         if(Object.keys(props.object).length > 1) {
                             keyName = `${parseInt(currentKey,10) + 1})`;
                         }
-                        return <props.renderer
-                                 object={props.object[currentKey]}
-                                 keyName={keyName} 
-                                 key={`ResultComparerObjectRenderer${currentKey}`}
-                                 handleToggleOpen={props.toggleOpen}                              
-                               />;
+
+                        let element = <props.renderer
+                                                object={props.object[currentKey]}
+                                                keyName={keyName} 
+                                                key={`ResultComparerObjectRenderer${currentKey}`}
+                                                handleToggleOpen={props.toggleOpen}                              
+                                            />;
+                        let elementReturner = () => (element);
+
+                        return utils.isPrimitive(props.object[currentKey]) ? 
+                            renderLater.push(elementReturner) && null         
+                            :
+                            element;
                     })
+                }
+                {
+                    renderLater.map(elementReturner => elementReturner())
                 }
                 </div>
             </div>)

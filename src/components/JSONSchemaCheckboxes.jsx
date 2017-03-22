@@ -20,7 +20,7 @@ class JSONSchemaCheckboxes extends React.Component {
         this.containerCounter = 0;
         this.containers = new Array;
         this.tags = [];
-        this.pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
+
     }
 
 
@@ -48,7 +48,8 @@ class JSONSchemaCheckboxes extends React.Component {
         let checked = false;
 
         let path = JSON.stringify(fullTag.slice(1)); //removes "Base", keeps the rest
-        if(this.pickedCheckboxes.indexOf(path) > -1) {
+        let pickedCheckboxes = this.state.picked.map(element => JSON.stringify(element));
+        if(pickedCheckboxes.indexOf(path) > -1) {
             checked=true;
         }
         return checked;

@@ -67,7 +67,7 @@ export class UserPage extends React.Component {
     }
 
     showStoredSearch = (component, index) => {
-
+        //component = InputFieldsCcontainer
         let searchId = this.props.userSearches.id[index];
         let searchName = this.props.userSearches.name[index];
         
@@ -76,10 +76,11 @@ export class UserPage extends React.Component {
                         FullScreenPaneComponent: component,
                         componentProps: {
                             defaultValues: {
-                                defaultState: this.props.userSearches.value[index]                    
+                                defaultState: this.props.userSearches.value[index],             
                             },
                             saveMenu: this.components.UpdateSearchMenu,
                             createSearches: this.props.updateUserSearches,
+                            showSearchResultsComponent: false,
                             defaultSearchId: searchId,
                             defaultSearchName: searchName
                         },
@@ -90,7 +91,7 @@ export class UserPage extends React.Component {
   
     
     executeStoredSearch = (component, index) => {
-      //  console.log("comp", component);
+      // component = searchResults
         this.setState({
                         showFullScreenPane:true, 
                         FullScreenPaneComponent: component,
@@ -99,14 +100,14 @@ export class UserPage extends React.Component {
                         });
 
         let data = objectAssign({}, this.props.userSearches.value[index]);
-    
+
         data.date = Date.parse(data.date);
         this.props.fetchApi.getChileCompraData(data)
             .then(response => {
                                 this.setState({
                                                 showFullScreenPane: true, 
                                                 FullScreenPaneComponent: component, 
-                                                componentProps: {results: response },
+                                                componentProps: {results: response},
                                                 menu: this.getMenu(component)
                                             });
                                 });
@@ -124,7 +125,7 @@ export class UserPage extends React.Component {
         this.setState({enteredNewSubscriptionName: event.target.value});
     }
 
-    getResultHistory = (component, resultId) => {
+    getResultHistory = (component, resultId, resultName) => {
         
            this.setState({
                         showFullScreenPane:true, 
@@ -139,7 +140,7 @@ export class UserPage extends React.Component {
                                 this.setState({
                                                 showFullScreenPane: true, 
                                                 FullScreenPaneComponent: component, 
-                                                componentProps: {results: response},
+                                                componentProps: {results: response, resultName},
                                                 menu: this.getMenu(component)
                                             });
                                 });
