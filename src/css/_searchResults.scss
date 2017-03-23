@@ -1,7 +1,4 @@
 //TODO: media queries...
-
-
-
 .search {
    // border: 1px solid black;
     word-wrap: break-word;
@@ -194,4 +191,22 @@ span.movable-title-container {
     padding: 0;
     width:100%;
     max-width: 100vw;
+}
+
+
+@media all and (min-width: 766px) {
+
+    .search.title.col-xs-3 {
+        min-width: 25%;
+        &.half {
+            min-width: 25%;
+        }
+    }
+    li.search-results span.search.col-xs-3 {
+        min-width: 25%;
+        &.half {
+            min-width: 25%;
+        }
+    }
+
 }
