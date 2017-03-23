@@ -1,30 +1,5 @@
-.page-button {
-    
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #286090;
-    cursor: pointer;
-    border-radius: 5px;
-    &.active {
-        background-color: #286090;
-        border: 1px solid white;
-        color: white;
-    }
-
-    &.prev-next {
-            /* background-color: white; */
-        color: #286090;
-        font-weight: bold;
-        width: 80px;
-        height: 35px;
-        display: flex;
-        flex-direction: center;
-        /* margin: auto; */
-        justify-content: center;
-        padding: 0;
-    }
-
-}
+$page-select-buttons-width: 3em;
+$max-displayable-page-select-buttons-any-mediaquery: 8;
 
 .page-picker-container {
     display:flex;
@@ -58,16 +33,35 @@
     padding: 10px 10px 10px 0;
     margin: 10px 10px 10px 0;
 
-    button {
+    // button {
+    //     display: flex;
+    //     justify-content: center;
+    //     margin: auto 15px auto 15px;
+    .page-button.prev-next {
         display: flex;
         justify-content: center;
         margin: auto 15px auto 15px;
-        
-    }
-    .page-button {
-        min-width: 3em;
-        display:flex;
+
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #286090;
+        cursor: pointer;
+        border-radius: 5px;
+            /* background-color: white; */
+        color: #286090;
+        font-weight: bold;
+        width: 80px;
+        height: 35px;
+        display: flex;
+        flex-direction: center;
+        /* margin: auto; */
         justify-content: center;
+        padding: 0;
+   //} 
+    }
+
+    .page-button {
+
     }
 }
 
@@ -77,20 +71,97 @@
 }
 
 .page-select-buttons{
+    $page-select-buttons-button-width: 42px;
+    $page-select-buttons-button-margin: 10px;
+    $max-displayable-page-select-buttons: 7;
+
+    $to-offset: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
+
+    //dont want to have median since that may have 2 points
+   /// $max-displayable-buttons-midpoint: $max-displayable-page-select-buttons / 2;
+
     display: flex;
-    max-width: 15em;
+    max-width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
    // justify-content: flex-end;
     margin: auto;
     overflow: hidden;
 
+    .page-button {
+        min-width: $page-select-buttons-button-width;
+        max-width: $page-select-buttons-button-width;
+        display:flex;
+        justify-content: center;
+        margin: $page-select-buttons-button-margin;
+        padding: 10px;
+        border: 1px solid #286090;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+
+    :first-child {
+        margin-left: $page-select-buttons-button-margin
+    }
+    @for $page_number from $max-displayable-page-select-buttons  to $max-displayable-page-select-buttons-any-mediaquery + 1{
+
+        &.buttons-offset-#{$page_number} { 
+            :first-child {
+                margin-left: calc(#{$page-number - $max-displayable-page-select-buttons + 1}  * -#{$page-select-buttons-button-width} - #{$page-number - $max-displayable-page-select-buttons + 2} * #{$page-select-buttons-button-margin});
+            }
+        }
+    }
+
+    // @for $page_number from $max-displayable-page-select-buttons to $max-displayable-page-select-buttons-any-mediaquery {
+
+    //     &.buttons-offset-#{$max-displayable-page-select-buttons}{
+    //         :first-child {
+    //             margin-left: calc(#{$max-displayable-page-select-buttons} * -#{$page-select-buttons-button-width} - #{$max-displayable-page-select-buttons} * #{$page-select-buttons-button-margin});
+    //         }
+    //     }
+
+
+
+    // }
+
+    // &.buttons-offset-0 {
+        
+    //     :first-child {
+    //         margin-left: $page-select-buttons-button-margin;
+    //     }
+    // }
+
+    // &.buttons-offset-1 {
+        
+    //     :first-child {
+    //         margin-left: calc(-#{$page-select-buttons-button-width} - #{$page-select-buttons-button-margin});
+    //     }
+    // }
+
+
+
+
+
+
+    .active {
+        background-color: #286090;
+        border: 1px solid white;
+        color: white;
+    }
+
+
 }
 
+
+
 @media all and (min-width: 768px) {
-   .page-select-buttons{
+
+
+
+//    .page-select-buttons{
    
    
    
-   }
+//    }
 
 
 

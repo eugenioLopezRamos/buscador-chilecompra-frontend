@@ -1,11 +1,14 @@
 import React from 'react';
 import {RESULTS_OFFSET_AMOUNT}  from '../constants/resultsOffset';
+import * as utils from '../utils/miscUtils';
+
 
 const ResultsNavigatorButtons = (props) => {
  
     const offset = RESULTS_OFFSET_AMOUNT;
     let goToPageInput = "";
     let pageSelectButtons = null;
+    const maxAmountOfPages = 8;
 
     const incrementOffset = () => {
         // user clicks ">>"
@@ -21,14 +24,14 @@ const ResultsNavigatorButtons = (props) => {
         // user clicks button [1] or [3] or whatever number (a certain page number)
         // shouldn't exceed props.pages since that button wouldn't exist.
 
-        const buttonWidth = getComputedStyle(event.target).width;
+      //  const buttonWidth = getComputedStyle(event.target).width;
 
-        if(times > currentPage) {
-            pageSelectButtons.style.transform = `translate(-${buttonWidth}px, 0)`
-        }
-        if(times < currentPage) {
-            pageSelectButtons.style.transform = `translate(${buttonWidth}px, 0)`        
-        }
+        // if(times > currentPage) {
+        //     pageSelectButtons.style.transform = `translate(-${buttonWidth}px, 0)`
+        // }
+        // if(times < currentPage) {
+        //     pageSelectButtons.style.transform = `translate(${buttonWidth}px, 0)`        
+        // }
 
 //hide them with margins!
 //pageSelectButtons.firstElementChild.style.marginLeft = `${buttonWidth}
@@ -81,50 +84,44 @@ const ResultsNavigatorButtons = (props) => {
     })()
 
 
-    const buttonRenderer = (element, index, array) => {
-        //TODO: Explain!
-            let currentPage = props.currentPage;
+    const buttonRenderer = (element, index, array, isActive = false) => {
+            if(isActive === true) {
 
-            const head = showButtonsArray.slice(Math.max(currentPage -4, 0), currentPage);
-            const tail = showButtonsArray.slice(currentPage, currentPage +4);
-
-            let show = head.concat(tail);
-
-
-            if(show.length < 8 && currentPageLocation === "tail") {
-                let toAdd = 8-show.length;
-
-                show = showButtonsArray.slice(currentPage - 4 - toAdd, currentPage).concat(show)
-
-            }
-
-            if(show.length < 8 && currentPageLocation === "head") {
-                let toAdd = 8-show.length;
-                show = show.concat(showButtonsArray.slice(currentPage, currentPage + 4 + toAdd))
-            }
-
-            if(currentPage > props.pages && index === props.pages - 1) {
-                return <button className="page-button active" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
-                        {index+1}
-                       </button>             
-            }
-
-            if(index === props.currentPage) {
-
-                return <button className="page-button active" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
-                        {index+1}
+                return <button className={`page-button active`} key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
+                        {element + 1}
                        </button>      
             }
 
-            else if(show.includes(index)) {
-               return <button className="page-button" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
-                        {index+1}
+            else {
+               return <button className={`page-button`} key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
+                        {element + 1}
                       </button>        
             }
-
         }
 
 
+    const buttonsArray = (() => {
+
+        let currentPage = props.currentPage;
+        let pages = props.pages;
+
+        let pagesArray =  Array.apply(null, {length: pages}).map((element, index) => index)
+
+        let chunkedArray = utils.chunkifyArray(pagesArray, maxAmountOfPages);
+
+        let activePageArrayIndex = parseInt(currentPage/maxAmountOfPages);
+
+
+        let activePageArray = chunkedArray[activePageArrayIndex];
+        let activePageIndex = activePageArray.indexOf(currentPage);
+        
+
+        return {activePageArray, activePageIndex}
+
+    })();
+
+
+    
     return <div className="results-navigator-buttons-container">
     
                 <div className="page-picker-container">
@@ -152,10 +149,14 @@ const ResultsNavigatorButtons = (props) => {
                         {"<<"}
                     </button>
 
-                    <div className="page-select-buttons" ref={(element) => pageSelectButtons = element}>
+                    <div className={`page-select-buttons buttons-offset-${buttonsArray.activePageIndex + 1}`} ref={(element) => pageSelectButtons = element}>
                     {
-                        Array.apply(null, {length: props.pages}).map((element, index, array) => {
-                            return buttonRenderer(element, index, array);
+                        buttonsArray.activePageArray.map((element, index, array) => {
+                            if(index === buttonsArray.activePageIndex) {
+                                return buttonRenderer(element, index, array, true);
+                            }
+                                return buttonRenderer(element, index, array);                           
+                            
                         })
                     }
                     </div>

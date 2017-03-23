@@ -223,13 +223,16 @@ export const removeArrayFromArray = (array, containerArray) => {
 }
 
 export const chunkifyArray = (array, itemsPerChunk = 1) => {
-    debugger
+
     function createChunk(array, start, size, result = []) {
+
         if(start >= array.length) {
             return result;
         }
+
         let chunk = array.slice(start, start + size);
         result.push(chunk);
+
         return createChunk(array, start + size, size, result)
     }
 
