@@ -1,5 +1,8 @@
 $page-select-buttons-width: 3em;
 $max-displayable-page-select-buttons-any-mediaquery: 8;
+$page-select-buttons-button-width: 42px;
+$page-select-buttons-button-margin: 10px;
+
 
 .page-picker-container {
     display:flex;
@@ -7,11 +10,17 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
     margin-top: 10px;
     margin-left: 10px;
 
+    .show-page {
+        text-align: center;
+    }
+
     .inputs {
         padding-top: 5px;
         padding-bottom: 15px;
         display:flex;
         min-width: 40px;
+        margin:auto;
+
         input {
             min-width: 100px;
         }
@@ -63,11 +72,11 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
         justify-content: center;
         padding: 0;
 
-        :first-of-type {
+        &:first-of-type {
             margin-left: 5px;
         }
 
-        :last-of-type {
+        &:last-of-type {
             margin-right: 5px;
         }
     }
@@ -83,17 +92,9 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
 }
 
 .page-select-buttons{
-    $page-select-buttons-button-width: 42px;
-    $page-select-buttons-button-margin: 10px;
     $max-displayable-page-select-buttons: 3;
 
     $to-offset: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
-
-    //dont want to have median since that may have 2 points
-   /// $max-displayable-buttons-midpoint: $max-displayable-page-select-buttons / 2;
-    // min-width: 50%;
-    // max-width: 50%;
-    // width: 50%;
 
     min-width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
     max-width:$max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
@@ -101,9 +102,6 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
 
 
     display: flex;
-    //TODO: Shorten
-   // max-width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + $max-displayable-page-select-buttons * ($max-displayable-page-select-buttons * $page-select-buttons-button-margin);
-   // justify-content: flex-end;
     margin: auto;
     overflow: hidden;
 
@@ -119,48 +117,11 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
         border-radius: 5px;
     }
 
-
+    //TODO: DRY this up with a SASS loop
     :first-child {
         margin-left: $page-select-buttons-button-margin
     }
-    // @for $page_number from $max-displayable-page-select-buttons  to $max-displayable-page-select-buttons-any-mediaquery + 1{
-    //     $curr_num: $page_number;
-    //     @if $curr_num/3 == 0 {
-    //       &.buttons-offset-#{$page_number} { 
-    //         :first-child {
-    //             $net-displayable-pages: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
 
-    //             $offset-buttons-times: $page-number - $net-displayable-pages;
-
-    //             $offset-margin: ($max-displayable-page-select-buttons-any-mediaquery -( $page_number - 1)) * $page-select-buttons-button-margin + (2 * $page-select-buttons-button-margin) + (2 *$page-select-buttons-button-margin);
-
-    //             $btn-offset: ($offset-buttons-times + 1) * - $page-select-buttons-button-width;
-    //             margin-left: calc(#{$btn-offset} - #{$offset-margin});
-    //             background-color: red !important;
-    //         }
-    //     }          
-    //     } 
-
-    //     @else{
-    //     &.buttons-offset-#{$page_number} { 
-    //         :first-child {
-    //             $net-displayable-pages: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
-
-    //             $offset-buttons-times: $page-number - $net-displayable-pages;
-
-    //             $offset-margin: ($max-displayable-page-select-buttons-any-mediaquery - $page_number) * $page-select-buttons-button-margin + (3 * $page-select-buttons-button-margin) + (2 *$page-select-buttons-button-margin);
-
-    //             $btn-offset: ($offset-buttons-times) * - $page-select-buttons-button-width;
-    //             margin-left: calc(#{$btn-offset} - #{$offset-margin});
-    //         }
-    //     }
-    //     }
-
-
-
-    // }
-    //TODO: DRY this up with some kind of sass loop
-    
     &.buttons-offset-4 {
         :first-child {
             margin-left: calc(-#{1 * $page-select-buttons-button-width} - #{ 2 * $page-select-buttons-button-margin - $page-select-buttons-button-margin});
@@ -193,16 +154,6 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
             margin-left: calc(-#{5 * $page-select-buttons-button-width} - #{ 10 * $page-select-buttons-button-margin - $page-select-buttons-button-margin});
         }      
     }
-    // .page-button:nth-of-type(3).active{
-    //     &.active  {
-    //     .page-button:first-of-type {
-
-    //     }
-   
-
-    // }
-    // - #{-$page-number + $max-displayable-page-select-buttons - 1} * #{$page-select-buttons-button-margin}
-//#{$max-displayable-page-select-buttons * $page-select-buttons-button-margin}
     .active {
         background-color: #286090;
         border: 1px solid white;
@@ -216,15 +167,92 @@ $max-displayable-page-select-buttons-any-mediaquery: 8;
 
 @media all and (min-width: 768px) {
 
+    .page-select-buttons {
+        $max-displayable-page-select-buttons: 6;
+
+        $to-offset: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
+
+        min-width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+        max-width:$max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+        width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+
+        &.buttons-offset-4 {
+            :first-child {
+                margin-left: 10px;
+            }      
+        }
 
 
-//    .page-select-buttons{
-   
-   
-   
-//    }
+        &.buttons-offset-5 {
+            :first-child {
+                margin-left: 10px;
+            }      
+        }
 
 
+        &.buttons-offset-6 {
+            :first-child {
+                margin-left: 10px;
+            }      
+        }
+
+
+        &.buttons-offset-7 {
+            :first-child {
+                margin-left: calc(-#{1 * $page-select-buttons-button-width} - #{ 8 * $page-select-buttons-button-margin - $page-select-buttons-button-margin});
+            }      
+        }
+
+        &.buttons-offset-8 {
+            :first-child {
+                margin-left: calc(-#{1 * $page-select-buttons-button-width} - #{ 8 * $page-select-buttons-button-margin - $page-select-buttons-button-margin});
+            }      
+        }
+    }
+}
+
+
+@media all and (min-width: 1199px) { 
+
+    .page-select-buttons-container {
+
+
+        .page-button.prev-next {
+            &:first-of-type {
+                margin-left: 10%;
+            }
+
+            &:last-of-type {
+                margin-right: 10%;
+            }
+
+        }
+
+    }
+
+    .page-select-buttons {
+
+        $max-displayable-page-select-buttons: 8;
+
+        $to-offset: $max-displayable-page-select-buttons-any-mediaquery - $max-displayable-page-select-buttons;
+
+        min-width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+        max-width:$max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+        width: $max-displayable-page-select-buttons * $page-select-buttons-button-width + 2 * $max-displayable-page-select-buttons * $page-select-buttons-button-margin;
+
+        
+        &.buttons-offset-7 {
+            :first-child {
+                margin-left: 10px;
+            }      
+        }
+
+        &.buttons-offset-8 {
+            :first-child {
+                margin-left: 10px;
+            }      
+        }
+    }
 
 
 }
