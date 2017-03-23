@@ -1,6 +1,8 @@
 import React from 'react';
 import * as utils from '../../utils/miscUtils';
 
+//TODO: transform this function into a stateless functional component somehow(currently it fails
+// with "invalid return value", however it works fine when called as a simple function)
 export const netDifferencesRenderer = (netDifferences, renderer) => {
 
     let renderLaterDifferences = [];

@@ -4,6 +4,8 @@
     display:flex;
     .notification-text {
         width: 80%;
+        color: #262626;
+        //padding: 3px 20px;
     }
 
     .glyphicon.glyphicon.glyphicon-remove {
@@ -11,6 +13,7 @@
         height: auto;
         width: 20%;
         font-size:1.2em;
+        color:#262626;
         &::before {
             margin:auto;
         }
@@ -37,7 +40,24 @@
 }
 
 
+@media all and (min-width: 766px) {
+  .list-group-item.notifications {
+      height: 100%;
+      flex-direction: row;
+        .notification-text {
+            width: 70%;
+            color: #262626;
+            padding: 3px;
+        }
+    }
 
+
+    .notifications-list-items-container {
+        left: 25px;
+        top: 45px;
+    }
+
+}
 
 @media all and (min-width: 1199px) {
     .notifications-list-items-container {

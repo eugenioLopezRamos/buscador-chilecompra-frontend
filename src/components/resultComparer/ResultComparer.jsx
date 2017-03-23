@@ -68,10 +68,7 @@ class ResultComparer extends React.Component {
                     {`Variaciones del resultado: ${this.props.resultName}`} 
                 </div>
 
-
                 <div className="main-result-comparer-container" >
-  
-
                         <div className="original-result-container">
                             <div className="original-result-title">Resultado</div>
                             <div className="original-result-data">
@@ -105,16 +102,10 @@ class ResultComparer extends React.Component {
 
                 
                 </div>
-
             </div>
-        
         )
-        
     }
-
-
 }
-
 ResultComparer.propTypes = {
     results: PropTypes.array.isRequired
 }
