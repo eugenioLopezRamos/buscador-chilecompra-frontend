@@ -61,11 +61,13 @@ class ResultComparer extends React.Component {
         let self = this;
         let areThereDifferences = self.areThereDifferences;
         let rendererGenerator = self.rendererGenerator;
+        let resultName = this.props.resultName ? `: ${this.props.resultName}` : "";
+
         return (
             <div className="result-comparer-root" style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
 
                 <div className="result-comparer-main-title">
-                    {`Variaciones del resultado: ${this.props.resultName}`} 
+                    {`Variaciones del resultado${resultName}`} 
                 </div>
 
                 <div className="main-result-comparer-container" >

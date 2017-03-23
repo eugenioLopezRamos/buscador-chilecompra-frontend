@@ -73,5 +73,26 @@
 
 .results-navigator-buttons-container {
     margin-left: 20px;
-    display:none;
+    max-width: 100vw;
+}
+
+.page-select-buttons{
+    display: flex;
+    max-width: 15em;
+   // justify-content: flex-end;
+    margin: auto;
+    overflow: hidden;
+
+}
+
+@media all and (min-width: 768px) {
+   .page-select-buttons{
+   
+   
+   
+   }
+
+
+
+
 }

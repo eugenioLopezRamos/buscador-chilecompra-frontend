@@ -40,7 +40,7 @@ const UserDropdown = (props) => {
                 <li><Link to="/perfil">Modificar datos</Link></li>
                 <li><Link to="/busqueda">Buscar</Link></li>
                 <li role="separator" className="divider"></li>
-                <li onClick={handleLogout}><Link to="/">Salir de la aplicación</Link></li>
+                <li onClick={handleLogout}><Link to="/">Salir</Link></li>
             </ul>        
         </div>
 

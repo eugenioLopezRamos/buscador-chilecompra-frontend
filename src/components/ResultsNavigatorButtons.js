@@ -5,6 +5,7 @@ const ResultsNavigatorButtons = (props) => {
  
     const offset = RESULTS_OFFSET_AMOUNT;
     let goToPageInput = "";
+    let pageSelectButtons = null;
 
     const incrementOffset = () => {
         // user clicks ">>"
@@ -16,9 +17,22 @@ const ResultsNavigatorButtons = (props) => {
         props.paginatorButtonClickHandler(-offset);
     }
 
-    const setOffset = (times) => {
-        // user clicks button [1] (a certain page number)
-        // shouldn't exceed props.pages since that button shouldn't exist.
+    const setOffset = (times, event) => {
+        // user clicks button [1] or [3] or whatever number (a certain page number)
+        // shouldn't exceed props.pages since that button wouldn't exist.
+
+        const buttonWidth = getComputedStyle(event.target).width;
+
+        if(times > currentPage) {
+            pageSelectButtons.style.transform = `translate(-${buttonWidth}px, 0)`
+        }
+        if(times < currentPage) {
+            pageSelectButtons.style.transform = `translate(${buttonWidth}px, 0)`        
+        }
+
+//hide them with margins!
+//pageSelectButtons.firstElementChild.style.marginLeft = `${buttonWidth}
+
         props.pageButtonClickHandler(offset * times);
     }
 
@@ -35,17 +49,18 @@ const ResultsNavigatorButtons = (props) => {
         }
         
         if(number > props.pages) {
+            //TODO: use a small component (<Flash> or <Modal>)
             alert(`Ingrese un numero entre 1 y ${props.pages}`);
             return;
         }
-       
+
         props.pageButtonClickHandler(offset * number)
         
     }
 
     const showButtonsArray = (() => {
         //return numerated pages, [0...props.pages]
-        return Array.apply(null, {length: props.pages}).map((element, index) => {return index})
+        return Array.apply(null, {length: props.pages}).map((element, index) => index)
     })()
 
     const currentPageLocation = (() => {
@@ -70,7 +85,11 @@ const ResultsNavigatorButtons = (props) => {
         //TODO: Explain!
             let currentPage = props.currentPage;
 
-            let show = showButtonsArray.slice(Math.max(currentPage -4, 0), currentPage).concat(showButtonsArray.slice(currentPage, currentPage +4))
+            const head = showButtonsArray.slice(Math.max(currentPage -4, 0), currentPage);
+            const tail = showButtonsArray.slice(currentPage, currentPage +4);
+
+            let show = head.concat(tail);
+
 
             if(show.length < 8 && currentPageLocation === "tail") {
                 let toAdd = 8-show.length;
@@ -85,20 +104,20 @@ const ResultsNavigatorButtons = (props) => {
             }
 
             if(currentPage > props.pages && index === props.pages - 1) {
-                return <button className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                return <button className="page-button active" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
                         {index+1}
                        </button>             
             }
 
             if(index === props.currentPage) {
 
-                return <button className="page-button active" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+                return <button className="page-button active" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
                         {index+1}
                        </button>      
             }
 
             else if(show.includes(index)) {
-               return <button className="page-button" key={`page ${index}`} onClick={() => {setOffset(index)}}>
+               return <button className="page-button" key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
                         {index+1}
                       </button>        
             }
@@ -133,7 +152,7 @@ const ResultsNavigatorButtons = (props) => {
                         {"<<"}
                     </button>
 
-                    <div className="page-select-buttons" style={{display: "flex", maxWidth: "100vw"} }>
+                    <div className="page-select-buttons" ref={(element) => pageSelectButtons = element}>
                     {
                         Array.apply(null, {length: props.pages}).map((element, index, array) => {
                             return buttonRenderer(element, index, array);
