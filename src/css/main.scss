@@ -17,7 +17,6 @@ $searchtype-picker-font-size: 1.5em;
     to {opacity: 1}
 }
 
-
 @import 'userProfile';
 @import 'pageSelection';
 @import 'JSONSchemaCheckboxes';
@@ -26,252 +25,33 @@ $searchtype-picker-font-size: 1.5em;
 @import 'fullScreenPane';
 @import 'resultComparer';
 @import 'header';
-
-
+@import 'inputFieldsContainer';
+@import 'body';
+@import 'reactDatePickerOverrides';
+@import 'dateField';
 
 select {
     max-width: 100%;
 }
-body {
-    background-color:rgb(238, 238, 238);
-}
-
-.jumbotron {
-    padding: 15px;
-    color: inherit;
-    background-color: #eee;
-    margin-top: $main-jumbotron-margintop;
-    margin-bottom: 0px;
-
-
-}
-.fixed-size-searchTab-container {
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    max-width: 100%;
-    margin: 0 5px 0 5px;
-}
-.container.jumbotron {
-    padding: 5px 0px;
-}
-.container > .navbar-header {
-    margin: 0;
-}
-
-.jumbotron .container:first-of-type {
-    height: 50%;
-    min-height: 320px;
-}
-
-.react-datepicker {
-    margin: 0 auto 0 0;
-    font-size:1em;
-}
-
-.react-datepicker__current-month {
-    font-size: 1em;
-}
-
-.container.inputfields {
-    display:flex;
-    flex-direction: column;
-    
-}
-
-.autofiller.select {
-    width: 100%;
-}
-.fullheight-btn {
-    height: 100%;
-}
-.react-datepicker__close-icon::after {
-    right: initial;
-    margin-left: -20px;
-}
 .no-gutter {
     padding: 0;
 }
-
-
-
-.signup-form * {
-    margin: 5px auto 5px auto;
-}
-.signup-form {
-    display: flex;
-    flex-direction: column;
-    float: none;
-    margin: auto;
+.allow-wrap {
+    white-space: initial;
 }
 
-.flash-center {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-    top: 0%;
-    z-index: 9001;
-   // pointer-events: none;
+.col-xs-3 {
+    min-width: 12.5%;
+    min-height: 1.5em;
 }
-
-.message-wrap {
-    white-space: pre-wrap;
-    position: absolute;
-  //  z-index: 9001;
-    min-height: 200px;
-    min-width: 300px;
-    margin: auto;
-    margin-top: 70px;
-    text-align: center;
-    padding: 5px 20px 5px 20px;
-    border-radius: 5px;
-    background-color: #eee;
-    border: 2px solid lightblue;
-    pointer-events: all;
-}
-
-
-
-.flash-message {
-
-    min-width: 360px;
-    width: 30%;
-    margin: auto;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-    color: #31708f;
-    border-radius: 5px;
-
-}
-
 
 .save-search-buttons {
     margin: 10px auto;
 }
 
 
-.allow-wrap {
-    //used for buttons to wrap text
-    white-space: initial;
-}
 
 
-
-
-
-
-.col-xs-3 {
-    min-width: 12.5%;
-    min-height: 1.5em;
- 
-
-}
-
-.date-field-container {
-    display:flex;
-    flex-direction: column;
-}
-
-.date-field-checkbox-container {
-    display:flex;
-    padding: 5px;
-    input {
-        transform: scale(1.5);
-        justify-content: center;
-        padding: 3px;
-    }
-    span {
-        margin-right: 15px;
-    }
-
-
-}
-
-@media all and (min-width: 700px) {
-
-    .login-span {
-
-        color: #eee;
-        display: inline;
-    }
-
-    .container.inputfields {
-        display:flex;
-        flex-direction: column;
-        min-width: 70%;
-        width: auto;
-        padding-top: 15px;
-        min-height: calc(100vh - 100px);
-    }
-    .fixed-size-searchTab-container {
-        width: auto;
-        max-width: 70%;
-        margin: 0 auto 0 auto;
-    }
-
-}
-
-@media all and (min-width: 1199px) {
-    .container.inputfields {
-        display:flex;
-        flex-direction: column;
-        min-width: 90%;
-        width: auto;
-    }
-    .fixed-size-searchTab-container {
-        width: 60%;
-        max-width: 90%;
-        margin: 0 auto 0 auto;
-    }
-
-    .jumbotron {
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0px;
-    }
-
-    .dropdown-menu-list-item {
-        color: white;
-        &.active {
-            text-decoration: none;
-            color: #262626;
-            background-color: #f5f5f5;
-        }
-    }
-
-}
-
-
-@media all and (min-width: 1400px) {
-    .container.inputfields {
-        min-width: 70%;
-        width: auto;
-    }
-    .fixed-size-searchTab-container {
-        width: 60%;
-        max-width: 70%;
-        margin: 0 auto 0 auto;
-    }
-
-
-}
-
-@media all and (min-width: 1600px) {
-    .container.inputfields {
-        min-width: 50%;
-        width: auto;
-    }
-    .fixed-size-searchTab-container {
-        width: 30%;
-        max-width: 50%;
-        margin: 0 auto 0 auto;
-    }
-}
 
 
 

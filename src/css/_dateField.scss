@@ -1,0 +1,19 @@
+.date-field-container {
+    display:flex;
+    flex-direction: column;
+}
+
+.date-field-checkbox-container {
+    display:flex;
+    padding: 5px;
+    input {
+        transform: scale(1.5);
+        justify-content: center;
+        padding: 3px;
+    }
+    span {
+        margin-right: 15px;
+    }
+
+
+}

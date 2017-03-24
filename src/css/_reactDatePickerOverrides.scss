@@ -1,0 +1,13 @@
+
+.react-datepicker {
+    margin: 0 auto 0 0;
+    font-size:1em;
+}
+
+.react-datepicker__current-month {
+    font-size: 1em;
+}
+.react-datepicker__close-icon::after {
+    right: initial;
+    margin-left: -20px;
+}

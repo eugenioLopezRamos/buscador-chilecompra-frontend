@@ -1,0 +1,97 @@
+
+body {
+    background-color:rgb(238, 238, 238);
+}
+
+.jumbotron {
+    padding: 15px;
+    color: inherit;
+    background-color: #eee;
+    margin-top: $main-jumbotron-margintop;
+    margin-bottom: 0px;
+    min-height: calc(100vh - 100px);
+}
+
+.container.jumbotron {
+    padding: 5px 0px;
+}
+
+.jumbotron .container:first-of-type {
+    height: 50%;
+    min-height: 320px;
+}
+
+
+.container.inputfields {
+    display:flex;
+    flex-direction: column;
+}
+
+
+@media all and (min-width: 700px) {
+
+    .container.inputfields {
+        display:flex;
+        flex-direction: column;
+        min-width: 70%;
+        width: auto;
+        padding-top: 15px;
+
+    }
+    .fixed-size-searchTab-container {
+        width: auto;
+        max-width: 70%;
+        margin: 0 auto 0 auto;
+    }
+}
+
+
+
+@media all and (min-width: 1199px) {
+
+    .container.inputfields {
+        display:flex;
+        flex-direction: column;
+        min-width: 90%;
+        width: auto;
+    }
+    .fixed-size-searchTab-container {
+        width: 60%;
+        max-width: 90%;
+        margin: 0 auto 0 auto;
+    }
+
+    .jumbotron {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0px;
+    }
+}
+
+
+@media all and (min-width: 1400px) {
+    .container.inputfields {
+        min-width: 70%;
+        width: auto;
+    }
+    .fixed-size-searchTab-container {
+        width: 60%;
+        max-width: 70%;
+        margin: 0 auto 0 auto;
+    }
+
+
+}
+
+@media all and (min-width: 1600px) {
+    .container.inputfields {
+        min-width: 50%;
+        width: auto;
+    }
+    .fixed-size-searchTab-container {
+        width: 30%;
+        max-width: 50%;
+        margin: 0 auto 0 auto;
+    }
+}

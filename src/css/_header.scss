@@ -1,7 +1,6 @@
-
-
-
-
+.container > .navbar-header {
+    margin: 0;
+}
 
 .navbar {
     margin-bottom: 0;
@@ -95,6 +94,12 @@
 
 @media all and (min-width: 766px) {
 
+    .login-span {
+
+        color: #eee;
+        display: inline;
+    }
+    
     .dropdown-menu-list-item {
         background-color: #262626;
         color: #f5f5f5;
@@ -179,4 +184,15 @@
         padding: 3px;
     }
 
+}
+@media all and (min-width: 1199px) {
+
+    .dropdown-menu-list-item {
+        color: white;
+        &.active {
+            text-decoration: none;
+            color: #262626;
+            background-color: #f5f5f5;
+        }
+    }
 }

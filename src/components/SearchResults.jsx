@@ -49,6 +49,7 @@ export class SearchResults extends React.PureComponent {
                     menuProps: {},
                 }
             }
+
             this.mockResult = [{value: chileCompraResponseExample}];
         }
 
@@ -134,8 +135,10 @@ export class SearchResults extends React.PureComponent {
         }
 
         handleScroll = (event) => {
+            //TODO: See some way to make this work, on mobile the scrolling title looks janky and feels very
+            //weird
             if(event.nativeEvent.target.scrollLeft >= 0) {
-                this.resultTitles.style.transform = `translate(-${event.nativeEvent.target.scrollLeft}px, 0)` 
+                this.resultTitles.style.transform = `translate(-${event.target.scrollLeft}px, 0)` 
                 
             }
             if(event.nativeEvent.target.scrollLeft < 0) {
@@ -248,7 +251,7 @@ export class SearchResults extends React.PureComponent {
                     <ul className={this.animClass}>
                         
                         {this.resultsNavigatorButtons()}
-
+                      
                         <div className="results-data-container">
                             <div className="title-container" >   
                                 <span className="movable-title-container" ref={(div) => {this.resultTitles = div}}>
@@ -330,7 +333,7 @@ export class SearchResults extends React.PureComponent {
                             }
                             </div>
                         </div>
-
+             
                         {this.resultsNavigatorButtons()}
 
 

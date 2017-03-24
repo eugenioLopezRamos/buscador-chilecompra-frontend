@@ -1,4 +1,6 @@
 //TODO: media queries...
+$border-color: 1px solid rgba(50, 50, 50, 0.4);
+
 .search {
    // border: 1px solid black;
     word-wrap: break-word;
@@ -11,50 +13,50 @@
     }
     &.title {
         border-radius: 10px 10px 0 0;
-        border: 1px solid grey;
+        border: $border-color;
         background-color: #145;
         font-weight: bold;
-        font-size: 1.15em;
+        text-align: center;
         color: rgb(230, 230, 230);
         min-width: 50%;
+        &.half {
+            min-width: 32.5%;
+        }
     }
 }
 
 li.search-results {
     list-style-type: none;
     font-size: 1em;
-    width: calc(100% - 1.5em);
+    //TODO: Fix less brittly
     display: flex;
-    border-left: 1px solid grey;
+    border-left: $border-color;
     margin-left: 0.5em;
-    
+    width: calc(100%);
     span.search.col-xs-3 {
-        border-right: 1px solid grey;
-        border-bottom: 1px solid grey;
+        border-right: $border-color;
+        border-bottom: $border-color;
         padding-top: 5px;
         padding-bottom: 5px;
         display:flex;
-        font-size:1.1em;
+    //   font-size:1.1em;
         min-width: 50%;
         &.half {
             min-width: 32.5%;
             //min-width: 6%;
-            .title-text {
-                margin: auto;
-                min-height: 0;
-            }
+
         }
         &.half:last-of-type {
-            border-right: 1px solid grey;
+            border-right: $border-color;
         }
     }
     
 }
 .title-container {
     overflow: hidden;
-    width: calc(100% + 0.5em);
-    margin-left: -0.5em;
-
+    width: 100%;
+    margin-left: -0.45em;
+    width: calc(100% + 0.45em);
     display:flex;
     flex-direction: row;
     height: 4em;
@@ -66,17 +68,16 @@ li.search-results {
         text-align: center;
     }
 
-   // width: calc(100% - 1em - 1px);
 }
 .results-li-container {
     overflow: scroll;
    // border-bottom: 1px solid black;
     max-height: 75vh;
-    width: calc(100% - 1em);
+    width: calc(100% - 1.5em);
 }
 
 span.movable-title-container {
-    width: calc(100% - 3em);
+    width: calc(100% - 2em);
     display: flex;
     justify-content: flex-start;
     margin-right: 1em;
@@ -106,32 +107,34 @@ span.movable-title-container {
     overflow:hidden;
     max-height: 100%;
 }
-.search.title.col-xs-3.half {
-    min-width: 32.5%;
-}
 
-.search.title.col-xs-3.searchable {
-    .title-spans-container {
-        display:flex;
-        width:100%;
-
-    }
+.search.title.col-xs-3{
+    $font-size: 0.9em;
 
     .title-text {
+        justify-content: center;
         min-height: 0;
         margin: auto;
         margin-left: 0%;
-        /* margin-right: 22px; */
-        /* word-wrap: break-word; */
         word-break: break-word;
-        /* white-space: pre; */
         display: flex;
         width: 60%;
         text-align: center;
         justify-content: center;
-
+        font-size: $font-size;
     }
-
+    &.half {
+        min-width: 32.5%;
+        .title-text {
+            width: 100%;
+        }
+    }
+    &.searchable  {
+        .title-spans-container {
+            display:flex;
+            width:100%;
+        }
+    }
 
     .glyphicon {
         top: 0;
@@ -203,12 +206,88 @@ span.movable-title-container {
         &.half {
             min-width: 25%;
         }
+        .glyphicon.glyphicon-chevron-down {
+            width: 20%;
+            font-size: 1.1em;
+        }
+        .glyphicon.glyphicon-chevron-up {
+                width: 20%;
+                font-size: 1.1em;
+        }
     }
     li.search-results span.search.col-xs-3 {
         min-width: 25%;
         &.half {
             min-width: 25%;
         }
+    }
+
+}
+@media all and (min-width: 1199px) {
+    $font-size: 0.8em;
+
+    .results-amount {
+        margin-left: 20%;
+    }
+
+    .search.title.col-xs-3 {
+        min-width: 15%;
+        width: 19%;
+        font-size: $font-size;
+        &.half {
+            width: 13.45%;
+            min-width: 13.45%;
+            .title-text {
+                font-size: $font-size;
+                margin: auto;
+            }
+        }
+    }
+    li.search-results span.search.col-xs-3 {
+        min-width: 15%;
+        width: 19%;
+
+
+        &.half {
+            
+            width: 13.5%;
+            min-width: 13.5%;
+            //TODO: Probably will have to use JS to fit text to container
+            .title-text {
+                font-size: $font-size;
+                margin: auto;
+            }
+        }
+    }
+
+    .title-container {
+       width: 100%;
+       margin-left: 0;
+    }
+
+    .results-li-container {
+       width: calc(100% - 0.5em);
+    }
+    li.search-results {
+        width: calc(100% - 1.5em);
+        margin-left: 1em;
+    }
+
+}
+
+
+@media all and (min-width: 1600px) {
+    span.movable-title-container {
+        width: calc(100% - 3em);
+    }
+    li.search-results {
+        margin-left: 0.5em;
+        width: calc(100% - 1.5em);
+
+    }
+    .title-container {
+        margin-left: -0.5em;
+        width: calc(100%);
     }
 
 }
