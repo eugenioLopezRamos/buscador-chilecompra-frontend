@@ -14,6 +14,7 @@
     color: #eee;
     /*position:fixed;*/
 }
+
 .login-span {
 
     color: #eee;
@@ -21,7 +22,8 @@
     flex-direction: row;
     width: 100%;
     padding: 15px;
-
+    margin: auto 10px auto auto;
+    text-align: right;
 }
 
 .navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
@@ -85,7 +87,7 @@
     padding:3px;
                 
     .notification-list-item-text {
-        padding: 3px 20px;
+        padding: 3px 18px;
     }
 
 }
@@ -93,11 +95,28 @@
 
 
 @media all and (min-width: 766px) {
+    form.navbar-form.navbar-right {
+        width: 74%;
+        display:flex;
+        .form-group {
+            width: 25%;
+            
+            input {
+                width: 100%;
+            }
+            
+        }
+        button {
+            height: 100%;
+            width: 25%;
+        }
+    }
 
     .login-span {
 
         color: #eee;
-        display: inline;
+        padding: 0;
+        width: 30%;
     }
     
     .dropdown-menu-list-item {
@@ -186,7 +205,9 @@
 
 }
 @media all and (min-width: 1199px) {
-
+    .dropdown-menu.dropdown-menu-right {
+        width: 70%;
+    }
     .dropdown-menu-list-item {
         color: white;
         &.active {

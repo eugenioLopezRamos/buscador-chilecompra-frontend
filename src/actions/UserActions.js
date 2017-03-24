@@ -117,7 +117,6 @@ export const createUserSubscription = (result_id, name) => {
                                 dispatch(createUserSubscriptionSuccess(response));
                                 })
                             .catch(error => {
-                               // console.log("HO", error)
                                 dispatch(createUserSubscriptionFailure(error));
                             });
     }

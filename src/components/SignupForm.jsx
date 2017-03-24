@@ -18,7 +18,6 @@ const SignupForm = (props) => {
     }
 
     const handleClick = (event) => {
-        console.log("props signupinfo", props.signupInfo);
         props.resultsActions.sendSignupData(props.signupInfo);
     }
 
@@ -32,42 +31,44 @@ const SignupForm = (props) => {
 
     return (
         //TODO: Add client side verifications for email, password len && password confirmation
-        <div key="signupForm" className="signup-form col-xs-12 col-md-8">
+        <div key="signupForm" className="signup-form col-xs-12 col-sm-10 col-sm-offset-1">
  
 
-            <label className="col-xs-12 col-md-8 text-center">Nombre</label>
+            <label className="signup-label">Nombre</label>
             <input value={props.signupInfo.name}
-                   className="col-xs-12 col-md-8"
+                   className="signup-input"
                    type="textarea"
                    placeholder="Nombre"
                    onChange={handleChangeName}/>
 
-            <label className="col-xs-12 col-md-8  text-center">Mail</label>
+            <label className="signup-label">Mail</label>
             <input value={props.signupInfo.email}
-                   className="col-xs-12 col-md-8"
+                   className="signup-input"
                    type="email"
                    placeholder="Email"
                    onChange={handleChangeEmail} />
 
-            <label className="col-xs-12 col-md-8 text-center">Contraseña - mínimo 8 caracteres</label>
+            <label className="signup-label">Contraseña - mínimo 8 caracteres</label>
             <input value={props.signupInfo.password}
-                   className="col-xs-12 col-md-8"
+                   className="signup-input"
                    type="password"
                    placeholder="********"
                    onChange={handleChangePassword}/>
 
-            <label className="col-xs-12 col-md-8 text-center">Confirmar contraseña</label>
+            <label className="signup-label">Confirmar contraseña</label>
             <input value={props.signupInfo.password_confirmation}
-                   className="col-xs-12 col-md-8"
+                   className="signup-input"
                    type="password"
                    placeholder="********"
                    onChange={handleChangePasswordConf}/>
             
             <button 
-                className="btn btn-primary btn-lg col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4"
+                className="btn btn-primary btn-lg col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3"
                 onClick={handleClick}
                 onSubmit={handleSubmit}
-                >Enviar información</button>
+                >Enviar información
+            </button>
+
         </div>
     )
 }

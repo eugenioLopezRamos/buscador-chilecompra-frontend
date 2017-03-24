@@ -30,7 +30,7 @@ export class Introduction extends React.Component {
     render = () => {
 
         return (
-            <div key="introduction-key" className="container jumbotron" style={{height: document.documentElement.clientHeight}}>
+            <div key="introduction-key" className="introduction container jumbotron">
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
           
                 <div key="introduction-text" className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.

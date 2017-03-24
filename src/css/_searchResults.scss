@@ -1,6 +1,11 @@
 //TODO: media queries...
 $border-color: 1px solid rgba(50, 50, 50, 0.4);
 
+.no-results {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .search {
    // border: 1px solid black;
     word-wrap: break-word;
@@ -104,7 +109,7 @@ span.movable-title-container {
 
 .searchResults-container-div {
     min-width: 70vw;
-    overflow:hidden;
+    overflow: scroll;
     max-height: 100%;
 }
 
@@ -200,7 +205,10 @@ span.movable-title-container {
 
 
 @media all and (min-width: 766px) {
-
+    
+    .no-results {
+        margin-left: 30%;
+    }
     .search.title.col-xs-3 {
         min-width: 25%;
         &.half {
@@ -225,6 +233,10 @@ span.movable-title-container {
 }
 @media all and (min-width: 1199px) {
     $font-size: 0.8em;
+
+    .no-results {
+        margin-left: 20%;
+    }
 
     .results-amount {
         margin-left: 20%;
@@ -261,7 +273,7 @@ span.movable-title-container {
     }
 
     .title-container {
-       width: 100%;
+       width: calc(100% - 1em);
        margin-left: 0;
     }
 
@@ -277,6 +289,11 @@ span.movable-title-container {
 
 
 @media all and (min-width: 1600px) {
+
+    .no-results {
+        margin-left: 35%;
+    }
+
     span.movable-title-container {
         width: calc(100% - 3em);
     }

@@ -204,7 +204,11 @@ export class SearchResults extends React.PureComponent {
         }
    
         if(this.props.results.count === 0) {
-            return <span className={this.animClass}>No se encontraron resultados</span>;            
+            return <span className={this.animClass}>
+                        <div className="no-results">
+                            No se encontraron resultados
+                        </div>
+                  </span>;            
         }
         
         else {

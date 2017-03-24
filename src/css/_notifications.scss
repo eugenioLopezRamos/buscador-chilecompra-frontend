@@ -4,7 +4,7 @@
     display:flex;
     .notification-text {
         width: 80%;
-        color: #262626;
+     //   color: #262626;
         //padding: 3px 20px;
     }
 
@@ -13,7 +13,7 @@
         height: auto;
         width: 20%;
         font-size:1.2em;
-        color:#262626;
+      //  color:#262626;
         &::before {
             margin:auto;
         }
@@ -47,14 +47,14 @@
       flex-direction: row;
         .notification-text {
             width: 70%;
-            color: #262626;
+        //    color: #262626;
             padding: 3px;
         }
     }
 
 
     .notifications-list-items-container {
-        left: 7px;
+        left: 10px;
         top: 50px;
     }
 
@@ -62,14 +62,16 @@
 
 @media all and (min-width: 1199px) {
     .notifications-list-items-container {
+            $border-color: rgba(33, 33, 33, 0.5);
             max-width: 350px;
             width: 320px;
-            left: -49px;
+            left: -55px;
             top: 50px;
-            border-left: 1px solid #212121;
-            border-bottom: 1px solid #212121;
-            border-right: 1px solid #212121;
-            border-radius: 0px 0px 5px 5px;
+            border-left: 1px solid $border-color;
+            border-bottom: 1px solid $border-color;
+            border-right: 1px solid $border-color;
+            border-radius: 0px 0px 3px 3px;
+           //border: 1px solid transparent;
 
             .list-group-item.notifications{
                 &:hover {

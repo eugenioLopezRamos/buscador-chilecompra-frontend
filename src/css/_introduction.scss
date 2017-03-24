@@ -1,0 +1,25 @@
+.introduction.container.jumbotron {
+    width: 100%;
+    
+    button {
+        margin-top: 10px;
+    }
+}
+
+@media all and (min-width: 768px) {
+
+    .introduction.container.jumbotron {
+        width: 60%;
+
+
+    }
+}
+
+@media all and (min-width: 1199px) {
+
+    .introduction.container.jumbotron {
+        width: 50%;
+
+
+    }
+}

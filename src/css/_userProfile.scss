@@ -5,6 +5,7 @@
 .jumbotron.user-profile-page-main-container{
     padding: 15px 7px 15px 7px;
     max-width: 100vw;
+   // overflow: auto;
 }
 
 .perfil-datos {
@@ -70,11 +71,6 @@
     }
 }
 
-// .saved-items-description {
-
-//     max-width: 25%;
-// }
-
 .full-width {
     width: 100%;
 }
@@ -89,9 +85,13 @@
     .jumbotron.user-profile-page-main-container {
         min-height: calc(100vh - 100px);
         height: calc(100vh - 100px);
-        max-width: 85%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 15%;
+        padding-right: 15%;
+        overflow: scroll;
+
     }
 
     .list-group-item.saved-items {
@@ -122,5 +122,26 @@
 
 
 @media all and (min-width: 1199px) { 
+    .jumbotron.user-profile-page-main-container {
+        padding-top: 5px;
+        padding-left: 22.5%;
+        padding-right: 22.5%;
+        .text-center {
+            margin-top: 10px;
+        }
 
+        .profile-stored-searches h2{
+            margin-top: 10px;
+        }
+
+    }
+
+    
+}
+@media all and (min-width: 1199px) { 
+    .jumbotron.user-profile-page-main-container {
+        padding-left: 27.5%;
+        padding-right: 27.5%;
+    
+    }
 }

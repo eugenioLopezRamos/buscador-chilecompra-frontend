@@ -20,7 +20,6 @@ class userApi {
     }
 
     static receiveNewAuthData(response) {
-    //    console.log("receive data", response)
         let headers = utils.headerToObject(response);
         let result = "failure";
         if (response && response.status >= 200 && response.status < 300) {

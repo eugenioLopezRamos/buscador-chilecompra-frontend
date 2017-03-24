@@ -8,3 +8,34 @@
     float: none;
     margin: auto;
 }
+
+.signup-label {
+    width: 100%;
+    text-align: center;
+}
+
+.signup-input {
+    width: 100%;
+}
+
+@media all and (min-width: 1199px){
+
+    .signup-label {
+        width: 60%;
+    }
+
+    .signup-input {
+        width: 60%;
+    }
+}
+
+@media all and (min-width: 1600px){
+
+    .signup-label {
+        width: 50%;
+    }
+
+    .signup-input {
+        width: 50%;
+    }
+}

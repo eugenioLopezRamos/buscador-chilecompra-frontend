@@ -6,7 +6,7 @@ import * as utils from '../../utils/miscUtils';
 export const netDifferencesRenderer = (netDifferences, renderer) => {
 
     let renderLaterDifferences = [];
-    console.log("ARETHERE", netDifferences, "RENDER", renderer);
+
     if(!netDifferences.value) {
         return null;
     }
@@ -22,7 +22,6 @@ export const netDifferencesRenderer = (netDifferences, renderer) => {
                           
                                 Object.keys(currentResult).map((currentKey, index) => {
                                     let elementReturner = () => renderer(currentResult, currentKey)
-                                    console.log("element", elementReturner())
                                     return (
                                             <div className="difference-item" key={`single-difference${index}`}>
                                                 {
