@@ -82,3 +82,45 @@
 .user-profile-data-update-container {
     padding: 15px;
 }
+
+
+
+@media all and (min-width: 768px) { 
+    .jumbotron.user-profile-page-main-container {
+        min-height: calc(100vh - 100px);
+        height: calc(100vh - 100px);
+        max-width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .list-group-item.saved-items {
+
+        $button-width: 12.5%;
+        button {
+            width: 12.5%;
+            margin: 0;
+        }
+        .saved-items-description {
+            width: auto;
+            margin-left: 0;
+            width: calc(100% - 3 * #{$button-width});
+            max-width: calc(100% - 3 * #{$button-width});
+            margin-top: auto;
+            margin-bottom: auto;
+
+            .desc-text {
+                height: auto;
+                //TODO: Make this a %?
+                max-width: 50vw;
+            }
+        }
+
+    }
+
+}
+
+
+@media all and (min-width: 1199px) { 
+
+}

@@ -18,10 +18,7 @@
     background-color: #eee;
     border: 3px solid #bce8f1;
     border-radius: 10px;
-    //max-height: 90%;
-    height:87.5%;//calc(90vh - #{$main-jumbotron-margintop});
-    //max-width:100%;
-  //  overflow:auto;
+    height:90.5%;
     max-width:100%;
     
     & > div:first-of-type {

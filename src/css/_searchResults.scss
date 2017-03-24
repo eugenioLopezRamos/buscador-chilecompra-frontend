@@ -103,6 +103,8 @@ span.movable-title-container {
 
 .searchResults-container-div {
     min-width: 70vw;
+    overflow:hidden;
+    max-height: 100%;
 }
 .search.title.col-xs-3.half {
     min-width: 32.5%;

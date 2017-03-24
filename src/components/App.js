@@ -16,7 +16,7 @@ const App = ({children}, {store}) => {
         }
     }
    return( 
-            <div key="app-main" style={{"backgroundColor": "#eee", "minHeight": "50vmax", "minWidth": "100%", "display": "inline-block"} } 
+            <div key="app-main" style={{"backgroundColor": "#eee","minWidth": "100%", "display": "inline-block"} } 
                  id="app-component-root"
                  onClick={hideNavbar}>
                 <Header />

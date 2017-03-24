@@ -117,7 +117,7 @@ export class InputFieldsContainer extends React.PureComponent {
   
         return (    
               
-                    <div className="container inputfields jumbotron"  style={{"minHeight": document.documentElement.clientHeight}}> 
+                    <div className="container inputfields jumbotron"> 
                         <Flash 
                             type="info" 
                             messages={this.props.messages}
