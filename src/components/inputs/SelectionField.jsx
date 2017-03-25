@@ -1,6 +1,8 @@
 import React from 'react';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
-const SelectionField = ({estadosLicitacion, onChange}) => {
+const SelectionField = ({selected, estadosLicitacion, onChange}) => {
 
         const handleChange = (event) => {
             onChange(event);
@@ -22,19 +24,26 @@ const SelectionField = ({estadosLicitacion, onChange}) => {
             })
         }
 
+        const options = values.map((element, index) => {
+
+            let key = Object.keys(element)[0];
+            let value = element[key];
+
+            return {value, key, label:`${key} (${value})` }
+
+        });
+
         return (
             <div>
-                <select className="col-xs-12 col-md-10 col-lg-4 no-gutter" onChange={handleChange} >
-                  {
-                      values.map((value, index) => {
-                        
-                          let valorKey = Object.keys(value)[0];
-                          let valorTexto = value[valorKey];
-                          return <option value={valorTexto} key={index}>{`${valorKey} (${valorTexto})`}</option>
 
-                        })
-                  }      
-                </select>
+                    <Select
+                        value={selected}
+                        onChange={handleChange}
+                        key="estado-licitacion-select"
+                        options={options}
+                        clearable={false}
+                    />
+
             </div>
             )
 

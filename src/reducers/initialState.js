@@ -48,7 +48,7 @@ const initialState = {
         endDate: initialDate,
         alwaysToToday: false,
         palabrasClave: "",
-        selectedEstadoLicitacion: "",
+        selectedEstadoLicitacion: "*",
         rutProveedor: "",
         offset: 0,
         order_by: {fields: initialFieldsOrderBy, order: "descending"}

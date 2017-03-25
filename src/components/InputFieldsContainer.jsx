@@ -87,8 +87,8 @@ export class InputFieldsContainer extends React.PureComponent {
         this.setState(this.helpers.toggleDateAlwaysToToday(this.state.alwaysToToday));
     }
 
-    estadoLicitacionSelect = (event) => {
-        this.setState(this.helpers.estadoLicitacionSelect(event.target.value))
+    estadoLicitacionSelect = ({value}) => {
+        this.setState(this.helpers.estadoLicitacionSelect(value))
     }
     
     pickOrganismoPublico = (value) => {
@@ -114,7 +114,7 @@ export class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
-  
+        console.log("tis", this.state.selectedEstadoLicitacion)
         return (    
               
                     <div className="container inputfields jumbotron"> 
@@ -141,6 +141,7 @@ export class InputFieldsContainer extends React.PureComponent {
 
                             <label className="select-licitacion">Estado de la licitación (código estado)</label>
                                 <SelectionField 
+                                    selected={this.state.selectedEstadoLicitacion}
                                     estadosLicitacion={this.props.estadosLicitacion}
                                     onChange={this.estadoLicitacionSelect} 
                                 />

@@ -66,22 +66,22 @@ const ResultsNavigatorButtons = (props) => {
         return Array.apply(null, {length: props.pages}).map((element, index) => index)
     })()
 
-    const currentPageLocation = (() => {
-        //is the current page in the first half ("head") or in the second half ("tails")
-        // of the array?
-        let middle = parseInt(showButtonsArray.length/2)
-        let location = "";
-       // debugger
+    // const currentPageLocation = (() => {
+    //     //is the current page in the first half ("head") or in the second half ("tails")
+    //     // of the array?
+    //     let middle = parseInt(showButtonsArray.length/2)
+    //     let location = "";
+    //    // debugger
 
-        if(props.currentPage > middle) {
-            location = "tail";
-        }
-        if(props.currentPage <= middle) {
-            location = "head";
-        }
+    //     if(props.currentPage > middle) {
+    //         location = "tail";
+    //     }
+    //     if(props.currentPage <= middle) {
+    //         location = "head";
+    //     }
 
-        return location;
-    })()
+    //     return location;
+    // })()
 
 
     const buttonRenderer = (element, index, array, isActive = false) => {

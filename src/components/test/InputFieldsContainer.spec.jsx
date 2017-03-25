@@ -77,7 +77,7 @@ describe('Container', () => {
             const selectionField = wrapper.find('SelectionField');
             expect(selectionField.length).toEqual(1);
             expect(selectionField.props().estadosLicitacion).toEqual(props.estadosLicitacion);
-            expect(selectionField.props().onChange).toEqual(instance.estadoLicitacionSelect);
+            expect(selectionField.props().onChange).toEqual(Object.keys(instance.estadoLicitacionSelect)[0]);
 
             // select Organismo Publico
             expect(wrapper.find('label.select-orgPub').length).toEqual(1);

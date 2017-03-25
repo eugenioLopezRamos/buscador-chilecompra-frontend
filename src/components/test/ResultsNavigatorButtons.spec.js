@@ -59,17 +59,24 @@ describe('Component', () => {
                 // max 8 buttons
                 let buttonsAmount;
                 let activeButtonIndex;
-                if(pages > maxPages){
-                    buttonsAmount = maxPages;
-    
+                if(pages >= maxPages){
+
+                    buttonsAmount = Math.min(pages, maxPages); //pages - ignoredPageGroups * maxPages;
+                    const ignoredPageGroups = parseInt(pages/maxPages) - 1;
+
+                    let groupsBeforeCurrentPage = (() => {
+                            if(currentPage > maxPages) {
+                                const groups = currentPage - parseInt(currentPage/maxPages) * maxPages;
+                                buttonsAmount = currentPage + 1 - groups * maxPages;
+                                return groups;
+                            } else {
+                                return 0;
+
+                            }
+                    })();
+
+                    activeButtonIndex = (currentPage - groupsBeforeCurrentPage * maxPages);
                     let pagesDiff = pages - currentPage;
-                    //maxPages is a number (1...maxPages)
-                    // currentPage is an index
-                    activeButtonIndex = currentPage >= maxPages - 1 ? buttonsAmount - pagesDiff  : currentPage;
-                    if(currentPage >= pages) {
-                        // will render just 1 button
-                        activeButtonIndex = 0;
-                    }       
                 }
                 else {
                     buttonsAmount = pages;
@@ -104,6 +111,7 @@ describe('Component', () => {
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
 
+            currentPage = 7;
             pages = 10;
             wrapper.setProps({currentPage, pages});
             testComponent(wrapper);
@@ -116,18 +124,13 @@ describe('Component', () => {
             currentPage = 9;
             pages = 10;
             wrapper.setProps({currentPage, pages});
-            testComponent(wrapper);
-
-            currentPage = 15000;
-            wrapper.setProps({currentPage, pages});
-            testComponent(wrapper);              
+            testComponent(wrapper);          
 
         });
 
         it('Should correctly invoke functions', () => {
             let {wrapper, props} = setup();
             const pagePickerButtons = wrapper.find('.page-select-buttons .page-button');
-            const goToPageInput = 
 
             expect(props.pageButtonClickHandler.mock.calls.length).toEqual(0);
             pagePickerButtons.forEach((element, index) => {

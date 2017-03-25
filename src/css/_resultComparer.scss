@@ -2,13 +2,8 @@ $object-container-padding: 13px;
 
 .main-result-comparer-container {
     display:flex;
-  //  padding: 10px 25px 10px 25px;
-   // flex-direction: column;
     margin:auto;
     max-width: 100%;
-   // max-height: calc(80% - $main-jumbotron-margintop);
-  //  justify-content: center;
-
 }
 .result-comparer-root {
     height: 100%;
@@ -43,7 +38,6 @@ $object-container-padding: 13px;
 .original-result-container {
     display:flex;
     flex-direction: column;
-   // width:80%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
@@ -84,7 +78,6 @@ $object-container-padding: 13px;
    .all-differences-title-note {
         display: none;
         position: absolute;
-        /* display: flex; */
         font-size: 1em;
         z-index: 9003;
         background-color: beige;
@@ -106,15 +99,6 @@ $object-container-padding: 13px;
     display:flex;
     overflow: scroll;
     width:auto;
-    // transform: rotate(180deg);
-
-    //     direction:ltr;
-
-    // & .single-difference-container{
-    //     transform: rotate(-180deg);
-    // direction: ltr;
-    // }
-   // flex-direction: column;
 }
 
 .primitive {
@@ -192,8 +176,15 @@ $object-container-padding: 13px;
     max-width: 100%;
 }
 
-.object-container-name.closed {
+@media all and (min-width: 1199px) {
+    .original-result-container {
+        min-width: 48%;
+        max-width: 48vw;
+    }
+    .all-differences-container {
+        min-width: 48%;
+        max-width: 48vw;
+    }
 
 
 }
-
