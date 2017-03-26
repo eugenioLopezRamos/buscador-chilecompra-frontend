@@ -55,7 +55,7 @@ describe('Component', () => {
         it('Should render self and subcomponents', () => {
 
             //root
-            expect(wrapper.find('div.fixed-size-searchTab-container').length).toEqual(1);
+            expect(wrapper.find('div.json-schema-checkboxes-container').length).toEqual(1);
             //action guide
             expect(wrapper.find('h4').length).toEqual(1);
             expect(wrapper.find('h4').text()).toEqual('Filtrar columnas');
@@ -63,9 +63,10 @@ describe('Component', () => {
             expect(wrapper.find('div.schema-object-container').length).toEqual(1);
 
             //renders the correct amount of checkboxes
-            expect(wrapper.find('input[type="checkbox"]').length).toEqual(checkboxAmount);
+            expect(wrapper.find('CheckboxLabel').length).toEqual(checkboxAmount);
             //The correct number of checkboxes are checked at the beginnning
-            expect(wrapper.find('input[type="checkbox"][checked=true]').length).toEqual(RESULTS_INITIAL_CHECKBOXES.length)
+            const checkedCheckboxes = wrapper.find('CheckboxLabel').filterWhere(box => box.props().isChecked === true);
+            expect(checkedCheckboxes.length).toEqual(RESULTS_INITIAL_CHECKBOXES.length);
 
             //loads the initial checked checkboxes state
             expect(state.picked).toEqual(RESULTS_INITIAL_CHECKBOXES);
@@ -77,7 +78,7 @@ describe('Component', () => {
             
             const functionChangesState = (target, action, actionArgs, expectedStateChange) => {
                 const initialState = instance.state;
-                target.props()[action](actionArgs);
+                target.props()[action].apply(null, actionArgs);
     
 
                 expect(instance.state).toEqual(objectAssign(instance.state, expectedStateChange));
@@ -86,7 +87,7 @@ describe('Component', () => {
             // Will pick a random checkbox index
             const randomNumber = Math.floor(Math.random() * checkboxAmount); 
 
-            const checkboxes = wrapper.find('input[type="checkbox"]')
+            const checkboxes = wrapper.find('CheckboxLabel');
             const testCheckbox = checkboxes.at(randomNumber);
 
             let mockTag = instance.tags[randomNumber];
@@ -116,13 +117,17 @@ describe('Component', () => {
             createExpectedStateChange();
             //checks if prop function fires
             expect(props.changeColumns.mock.calls.length).toEqual(0);
+
             //if checked => unchecks (and viceversa)
-            functionChangesState(testCheckbox, "onChange", {target: testCheckbox.props()}, expectedStateChange);
+            functionChangesState(testCheckbox, "handler", [testCheckbox.props().tag, {target: testCheckbox}], expectedStateChange);
+
+
+
             //checks if prop function fires
             expect(props.changeColumns.mock.calls.length).toEqual(1);
             createExpectedStateChange();
             // if unchecked => checks (and viceversa)
-            functionChangesState(testCheckbox, "onChange", {target: testCheckbox.props()}, expectedStateChange);
+            functionChangesState(testCheckbox, "handler", [testCheckbox.props().tag, {target: testCheckbox}], expectedStateChange);
             //checks if prop function fires
             expect(props.changeColumns.mock.calls.length).toEqual(2);           
             

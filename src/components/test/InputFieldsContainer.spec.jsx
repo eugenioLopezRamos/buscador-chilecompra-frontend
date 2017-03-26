@@ -77,7 +77,7 @@ describe('Container', () => {
             const selectionField = wrapper.find('SelectionField');
             expect(selectionField.length).toEqual(1);
             expect(selectionField.props().estadosLicitacion).toEqual(props.estadosLicitacion);
-            expect(selectionField.props().onChange).toEqual(Object.keys(instance.estadoLicitacionSelect)[0]);
+            expect(selectionField.props().onChange).toEqual(instance.estadoLicitacionSelect);
 
             // select Organismo Publico
             expect(wrapper.find('label.select-orgPub').length).toEqual(1);
@@ -192,7 +192,7 @@ describe('Container', () => {
             delete(instance.state.startDate);
             delete(instance.state.endDate);
 
-            // //Estados Licitaacion
+            // //Estados Licitacion
 
             const selectionField = wrapper.find('SelectionField');
     
@@ -206,7 +206,7 @@ describe('Container', () => {
                 expectedStateChange = {
                     selectedEstadoLicitacion: value
                 };
-                checkIfFunctionCalled(selectionField, "onChange", {target: {value}}, expectedStateChange);
+                checkIfFunctionCalled(selectionField, "onChange", {value}, expectedStateChange);
             });
 
             //autoFiller
@@ -218,33 +218,7 @@ describe('Container', () => {
                 expectedStateChange = {
                     selectedOrganismoPublico: value
                 };
-                checkIfFunctionCalled(autoFiller, "onSelectionChange", {target: {value}}, expectedStateChange);
-            });
-                //on input change
-            
-            // mock = [{"*": "Todos"},  {111: "Organismo 1"}, {222: "Organismo 2"}];
-            // thus our mock inputs: 
-            
-            let mockInputs = ["todos", "ismo 1", "ismo 2"];
-            mockInputs.forEach((value, index) => {
-                //does a reset of the state to avoid objectAssign not deleting values (since it just merges them)
-                // then applies our changes to check if they end up equal
-                instance.setState({selectedOrganismoPublico: null, selectedOrganismoPublicosFilteredSubset: null},
-                () => {
-                    expectedStateChange = objectAssign(instance.state);
-                    if(value === "todos") {
-           
-                        expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
-                        expectedStateChange.selectedOrganismoPublicosFilteredSubset = props.organismosPublicos;          
-                    }
-                    else {
-                    
-                        expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
-                        expectedStateChange.selectedOrganismoPublicosFilteredSubset = [props.organismosPublicos[index]];
-                    }
-                    
-                    checkIfFunctionCalled(autoFiller, "onInputChange", [props.organismosPublicos, value], expectedStateChange);
-                });
+                checkIfFunctionCalled(autoFiller, "onSelectionChange", value, expectedStateChange);
             });
 
             // //rutInput

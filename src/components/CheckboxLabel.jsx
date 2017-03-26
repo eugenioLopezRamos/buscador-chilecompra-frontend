@@ -12,7 +12,7 @@ export const CheckboxLabel = ({item, tag, id, isChecked, handler}) => (
                     <input className="json-schema-checkbox" 
                         type="checkbox" 
                         key={"json-schema" + id}
-                        checked={isChecked(tag)}
+                        checked={isChecked}
                         onChange={(event) => {handler(tag, event)} }
                     />
             </label>

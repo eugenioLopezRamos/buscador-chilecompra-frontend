@@ -80,12 +80,10 @@ export class UserPage extends React.Component {
                             },
                             saveMenu: this.components.UpdateSearchMenu,
                             createSearches: this.props.updateUserSearches,
-                            showSearchResultsComponent: false,
                             defaultSearchId: searchId,
                             defaultSearchName: searchName
                         },
-                      //  menu: this.getMenu(component)
-                     //   menuProps: {actions: this.updateSearches()}
+
                     });
     }
   

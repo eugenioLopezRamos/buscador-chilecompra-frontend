@@ -110,6 +110,7 @@ class JSONSchemaCheckboxes extends React.Component {
                                 //If it's a primitive, return a checkbox;
                                 if(utils.isPrimitive(element)) {
                                     let fullTag = tags.concat(element);
+                                    let isChecked = this.isChecked(fullTag);
                                     //adds to the instance var tags - Used for testing only.
                                     this.tags.push(fullTag);
                                     return <CheckboxLabel 
@@ -117,7 +118,7 @@ class JSONSchemaCheckboxes extends React.Component {
                                                 item={element}
                                                 tag={fullTag}
                                                 id={index}
-                                                isChecked={this.isChecked}
+                                                isChecked={isChecked}
                                                 handler={this.checkColumnHandler} 
                                             />
                                 }
