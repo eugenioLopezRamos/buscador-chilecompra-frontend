@@ -17,7 +17,7 @@ const FullScreenPane = (props) => {
     }
 
     const hide = (event) => {
-        event.stopPropagation();
+      
         if(event.target === paneBackground) {
             props.hide();
         }
