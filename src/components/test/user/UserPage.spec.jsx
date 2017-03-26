@@ -40,7 +40,6 @@ function setup() {
                 palabrasClave: "",
                 alwaysFromToday: false,
                 codigoLicitacion: "",
-                organismosPublicosFilter: "",
                 selectedEstadoLicitacion: "",
                 selectedOrganismoPublico: "*",
             },
@@ -54,7 +53,6 @@ function setup() {
                 palabrasClave: "",
                 alwaysFromToday: false,
                 codigoLicitacion: "",
-                organismosPublicosFilter: "va",
                 selectedEstadoLicitacion: "",
                 selectedOrganismoPublico: "7016"
             }],

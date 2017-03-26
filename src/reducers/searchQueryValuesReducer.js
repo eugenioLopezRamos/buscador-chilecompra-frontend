@@ -13,7 +13,7 @@ export default function searchQueryValuesReducer(state = initialState.searchQuer
             return objectAssign({}, state, action.query);
 
         case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:
-            return objectAssign({}, state, {organismosPublicosFilter: ""}, {organismosPublicosFilteredSubset: action.value});
+            return objectAssign({}, state, {organismosPublicosFilteredSubset: action.value});
 
 
         default:

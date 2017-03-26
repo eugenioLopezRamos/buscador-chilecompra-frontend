@@ -16,7 +16,6 @@ describe('Reducer', () => {
 
             // same as initialValue at definition, will change later;
             let queryValues = {
-                organismosPublicosFilter: "",
                 selectedOrganismoPublico: "*",
                 organismosPublicosFilteredSubset: [{"*":"Todos"}],
                 codigoLicitacion: "",
@@ -37,7 +36,6 @@ describe('Reducer', () => {
             //FETCH CHILECOMPRA DATA
                 //SUCCESS
             action = {type: types.FETCH_CHILECOMPRA_DATA_SUCCESS, query: queryValues};
-            queryValues.organismosPublicosFilter = "my very own filter";
 
             let expectedValue = objectAssign({}, initialValue, queryValues);
             expect(expectedValue).toEqual(reducer(undefined, action));
@@ -50,7 +48,7 @@ describe('Reducer', () => {
 
             //FETCH ORGANISMOS PUBLICOS
             action = {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: filteredOrganismos};
-            expectedValue = objectAssign({}, initialValue, {organismosPublicosFilter: ""}, {organismosPublicosFilteredSubset: filteredOrganismos});
+            expectedValue = objectAssign({}, initialValue, {organismosPublicosFilteredSubset: filteredOrganismos});
             expect(expectedValue).toEqual(reducer(undefined, action));
 
 

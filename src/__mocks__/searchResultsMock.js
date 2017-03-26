@@ -1,5 +1,4 @@
 export const searchQueryValuesMock = {
-organismosPublicosFilter: "vialidad",
 selectedOrganismoPublico: "7248",
 organismosPublicosFilteredSubset: [{7248: "MOP - Dirección de Vialidad"}],
 codigoLicitacion: "",

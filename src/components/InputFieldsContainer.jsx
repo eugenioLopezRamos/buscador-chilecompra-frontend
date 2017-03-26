@@ -149,7 +149,6 @@ export class InputFieldsContainer extends React.PureComponent {
                             <label className="select-orgPub">Según comprador (código organismo público)</label>
                                 <AutoFillerInput 
                                     organismosPublicos={this.props.organismosPublicos}
-                                    organismosPublicosFilter={this.state.organismosPublicosFilter}
                                     organismosPublicosFilteredSubset={this.state.organismosPublicosFilteredSubset}
                                     selectedOrganismoPublico={this.state.selectedOrganismoPublico} 
 

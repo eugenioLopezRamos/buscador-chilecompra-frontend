@@ -4,10 +4,10 @@ import 'react-select/dist/react-select.css';
 
 const AutoFillerInput = (props) => {
 
-    const handleSelectionChange = (event) => {
-        let {value} = event;
-        props.onSelectionChange(value);
-    }
+    // const handleSelectionChange = (event) => {
+    //     let {value} = event;
+    //     props.onSelectionChange(value);
+    // }
 
     const options = props.organismosPublicosFilteredSubset.map((orgNames, index) => {
     
@@ -22,9 +22,10 @@ const AutoFillerInput = (props) => {
                 <div className="selection-container">
                     <Select 
                         value={props.selectedOrganismoPublico}
-                        onChange={handleSelectionChange}
+                        onChange={(value) => props.onSelectionChange(value)}
                         key="autofiller-select"
                         options={options}
+                        placeholder="Busca un organismo público (código o nombre)"
                         clearable={false}
                     />
                 </div>  

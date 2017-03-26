@@ -84,7 +84,6 @@ describe('Container', () => {
             const autoFiller = wrapper.find('AutoFillerInput');
             expect(autoFiller.length).toEqual(1);
             expect(autoFiller.props().organismosPublicos).toEqual(props.organismosPublicos);
-            expect(autoFiller.props().organismosPublicosFilter).toEqual(state.organismosPublicosFilter);
             expect(autoFiller.props().organismosPublicosFilteredSubset).toEqual(state.organismosPublicosFilteredSubset);
             expect(autoFiller.props().selectedOrganismoPublico).toEqual(state.selectedOrganismoPublico);
             expect(autoFiller.props().onSelectionChange).toEqual(instance.pickOrganismoPublico);
@@ -230,16 +229,16 @@ describe('Container', () => {
             mockInputs.forEach((value, index) => {
                 //does a reset of the state to avoid objectAssign not deleting values (since it just merges them)
                 // then applies our changes to check if they end up equal
-                instance.setState({selectedOrganismoPublico: null, selectedOrganismoPublicosFilteredSubset: null, organismosPublicosFilter: ""},
+                instance.setState({selectedOrganismoPublico: null, selectedOrganismoPublicosFilteredSubset: null},
                 () => {
                     expectedStateChange = objectAssign(instance.state);
                     if(value === "todos") {
-                        expectedStateChange.organismosPublicosFilter = value;
+           
                         expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
                         expectedStateChange.selectedOrganismoPublicosFilteredSubset = props.organismosPublicos;          
                     }
                     else {
-                        expectedStateChange.organismosPublicosFilter = value;
+                    
                         expectedStateChange.selectedOrganismoPublico = Object.keys(props.organismosPublicos[index])[0];
                         expectedStateChange.selectedOrganismoPublicosFilteredSubset = [props.organismosPublicos[index]];
                     }

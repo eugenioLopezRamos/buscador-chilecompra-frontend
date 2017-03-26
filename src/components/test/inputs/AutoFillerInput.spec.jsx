@@ -11,7 +11,6 @@ function setup() {
     organismosPublicosFilteredSubset: [
         {7248: "MOP - Dirección de Vialidad"}
         ],
-    organismosPublicosFilter: "vialidad",
     selectedOrganismoPublico: {7248: "MOP - Dirección de Vialidad"},
     onSelectionChange: jest.fn(),
     onInputChange: jest.fn()
@@ -43,19 +42,12 @@ describe('Components', () => {
         expect(inputElement.length).toBe(1)
         
         //Values for the input element should be the filter that was input
-        expect(inputElementProps.value).toEqual(props.organismosPublicosFilter);
+        expect(inputElementProps.value).toEqual(props.selectedOrganismoPublico);
         
         expect(inputElementProps.placeholder).toEqual("Busca un organismo público (código o nombre)");
 
-
-        const selectElement = enzymeWrapper.find('select');
-        const selectElementProps = selectElement.props();
-
-        //select element should exist and should be 1
-        expect(selectElement.length).toBe(1);
-        //given mock filter "vialidad" (which produces organismosPublicosFilteredSubset as a prop),
         //there should be only 1 option on the select
-        expect(enzymeWrapper.find('option').length).toBe(1);
+        expect(inputElementProps.options.length).toEqual(props.organismosPublicosFilteredSubset.length);
 
 
     });
@@ -65,18 +57,11 @@ describe('Components', () => {
         const {enzymeWrapper, props} = setup();
 
         const inputElement = enzymeWrapper.find('.selection-container Select');
-        const inputElementProps = inputElement.props();
-        //tests inputting text into the <input/>
-        expect(props.onInputChange.mock.calls.length).toBe(0);
-        inputElement.simulate('change', {target: {value: ""}});
-        expect(props.onInputChange.mock.calls.length).toBe(1);
-
-        const selectElement = enzymeWrapper.find('select');
-        const selectElementProps = selectElement.props();
+        //Input is handled by react-select, so we don't test that.
 
         //tests selecting something on the select
         expect(props.onSelectionChange.mock.calls.length).toBe(0);
-        selectElement.simulate('change',{target: {value: "7248"}});
+        inputElement.simulate('change', "7248");
         expect(props.onSelectionChange.mock.calls.length).toBe(1);
 
     });

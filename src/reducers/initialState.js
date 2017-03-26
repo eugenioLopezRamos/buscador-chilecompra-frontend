@@ -36,10 +36,6 @@ const initialState = {
             },
     searchResults: null,
     searchQueryValues: {
-        // //organismosPublicosFilter se utiliza en el AutoFillerInput para mostrar solo un subarray de los organismos.
-        // o sea, { organismosPublicosFilter: "minister" } solo mostrará => ["ministerio del trabajo", "ministerio de hacienda" .... etc]
-        // selectedOrganismoPublico => el organismoPublico seleccionado en el campo <select> (o sea la <option>[0] al cargarse, o la que sea seleccionada por el usuario).
-        // y es la que se envia al servidor una vez que se realiza la acción "Submit"
         selectedOrganismoPublico: "*",
         organismosPublicosFilteredSubset: [{"*":"Todos"}],
         codigoLicitacion: "",
