@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {shallow} from 'enzyme';
 import ResultComparer from '../../resultComparer/ResultComparer';
 import {resultComparerMockData, emptyResultComparerMockData} from '../../../__mocks__/resultComparerMock';
-import {objectComparer, searchInObject} from '../../../utils/miscUtils';
+//import {objectComparer, searchInObject} from '../../../utils/miscUtils';
 import objectAssign from 'object-assign';
 
 
@@ -93,25 +93,19 @@ describe('Component', () => {
 
         it('Should invoke functions correctly', () => {
             let instance = comparisonWrapper.instance();
-
             instance.toggleOpen = jest.fn();
-            
-         //   console.log("INST", instance.toggleOpen)
-            //These are hideable;
+        
             const objectRenderers = comparisonWrapper.find('ResultComparerObjectRenderer');
-            // Was random (code is commented out) - Chose the middle as a compromise since it failed randomly due to 
-            // randomNumber not existing
-            let randomNumber = Math.floor(objectRenderers.length / 2);
-            expect(instance.toggleOpen.mock.calls.length).toBe(0);
-    
-            let testTarget = objectRenderers.at(randomNumber);
+
+            let testNumber = 3;
+            let testTarget = objectRenderers.at(testNumber);
 
             //Overwrites the normal handleToggleOpen function with the Jest mock function
-
+                        // TODO: see some way to test this more strictly/with less workarounds? 
             testTarget.props = () => objectAssign(testTarget.props, {handleToggleOpen: instance.toggleOpen})
- 
+
+            expect(instance.toggleOpen.mock.calls.length).toBe(0);
             testTarget.props().handleToggleOpen();
-            // TODO: see some way to test this more strictly? 
             expect(instance.toggleOpen.mock.calls.length).toBe(1);
         })
     });

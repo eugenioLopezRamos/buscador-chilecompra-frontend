@@ -21,8 +21,10 @@ const ResultComparerObjectRenderer = (props) => {
         //IF OBJECT IS A PRIMITIVE
         if(utils.isPrimitive(props.object)) {
             //simply render key : value in spans
+
+            //TODO: Probably could use something like uuid v4 for unique keys...
             return <ResultComparerPrimitive
-                    key={`primitive${counter + 1000* Math.random()}`}
+                    key={`primitive${counter + 100000* Math.random()}`}
                     keyName={props.keyName}
                     value={props.object}
                     />
