@@ -12,6 +12,7 @@ function setup() {
         {7248: "MOP - Dirección de Vialidad"}
         ],
     organismosPublicosFilter: "vialidad",
+    selectedOrganismoPublico: {7248: "MOP - Dirección de Vialidad"},
     onSelectionChange: jest.fn(),
     onInputChange: jest.fn()
   }
@@ -33,10 +34,14 @@ describe('Components', () => {
         //Component container should exist
         expect(enzymeWrapper.find('div').hasClass('selection-container')).toBe(true);
 
-        const inputElement = enzymeWrapper.find('.selection-container input.col-xs-12.col-md-10.col-lg-4.no-gutter');
+        const inputElement = enzymeWrapper.find('.selection-container Select');
         const inputElementProps = inputElement.props();
+
+      //  console.log("INPUT ELEMENT", inputElement);
+     //   console.log("ELEMENT PROPS", inputElementProps);
         //There should be one input element
         expect(inputElement.length).toBe(1)
+        
         //Values for the input element should be the filter that was input
         expect(inputElementProps.value).toEqual(props.organismosPublicosFilter);
         
@@ -59,7 +64,7 @@ describe('Components', () => {
 
         const {enzymeWrapper, props} = setup();
 
-        const inputElement = enzymeWrapper.find('.selection-container input.col-xs-12.col-md-10.col-lg-4.no-gutter');
+        const inputElement = enzymeWrapper.find('.selection-container Select');
         const inputElementProps = inputElement.props();
         //tests inputting text into the <input/>
         expect(props.onInputChange.mock.calls.length).toBe(0);

@@ -114,7 +114,7 @@ export class InputFieldsContainer extends React.PureComponent {
     }
 
     render = () => {
-        console.log("tis", this.state.selectedEstadoLicitacion)
+
         return (    
               
                     <div className="container inputfields jumbotron"> 

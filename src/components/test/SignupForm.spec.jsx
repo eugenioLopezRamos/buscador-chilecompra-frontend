@@ -39,16 +39,16 @@ describe('Component', () => {
             }
 
             //root
-            expect(wrapper.find('.signup-form.col-xs-12.col-md-8').length).toEqual(1);
+            expect(wrapper.find('.signup-form.col-xs-12.col-sm-10.col-sm-offset-1').length).toEqual(1);
             //labels
-            const labels = wrapper.find('label.col-xs-12.col-md-8.text-center');
+            const labels = wrapper.find('label.signup-label');
             expect(labels.length).toEqual(4);
             const expectedValues = ["Nombre", "Mail", "Contraseña - mínimo 8 caracteres", "Confirmar contraseña"];
             labels.forEach((label, index) => {
                 expect(label.text()).toEqual(expectedValues[index])
             });
             //inputs
-            const inputs = wrapper.find('input.col-xs-12.col-md-8');
+            const inputs = wrapper.find('input.signup-input');
             expect(inputs.length).toEqual(4);
 
             const [inputName, inputEmail, inputPassword, inputPasswordConfirmation] = inputs.map(e => e);
@@ -74,7 +74,7 @@ describe('Component', () => {
             expect(inputPasswordConfirmation.props().placeholder).toEqual("********");
             expect(typeof inputPasswordConfirmation.props().onChange).toEqual("function");
 
-            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-md-4.col-md-offset-4');
+            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-sm-6.col-sm-offset-3');
             expect(submitButton.length).toEqual(1);
             expect(typeof submitButton.props().onClick).toEqual("function");
             expect(typeof submitButton.props().onSubmit).toEqual("function");
@@ -83,7 +83,7 @@ describe('Component', () => {
 
         it('Should correctly invoke functions', () => {
 
-            const inputs = wrapper.find('input.col-xs-12.col-md-8');
+            const inputs = wrapper.find('input.signup-input');
             const [inputName, inputEmail, inputPassword, inputPasswordConfirmation] = inputs.map(e => e);
 
             let mockTarget = {target: {value: "mock"}}
@@ -103,7 +103,7 @@ describe('Component', () => {
             inputPasswordConfirmation.props().onChange(mockTarget);
             expect(props.inputActions.signupInputsPasswordConf.mock.calls.length).toEqual(1);
 
-            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-md-4.col-md-offset-4');
+            const submitButton = wrapper.find('button.btn.btn-primary.btn-lg.col-xs-8.col-xs-offset-2.col-sm-6.col-sm-offset-3');
             
             expect(submitButton.props().onSubmit({preventDefault: () => null})).toEqual("handle submit");
 
