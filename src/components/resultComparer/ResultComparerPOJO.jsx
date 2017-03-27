@@ -2,6 +2,8 @@ import React from 'react';
 import ResultComparerTitle from './ResultComparerTitle';
 import * as utils from '../../utils/miscUtils';
 
+//TODO: Just make resultComparerPOJO & resultComparerArray one and pass the keyName as a prop (only notable difference)
+
 const ResultComparerPOJO = (props) => {
     let containers = [];
     let renderLater = []
