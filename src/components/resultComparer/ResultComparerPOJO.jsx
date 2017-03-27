@@ -17,7 +17,7 @@ const ResultComparerPOJO = (props) => {
               
                     <ResultComparerTitle 
                         keyName={props.keyName}
-                        type="array"
+                        type="pojo"
                         handler={toggleOpenFn}
                     />
 
