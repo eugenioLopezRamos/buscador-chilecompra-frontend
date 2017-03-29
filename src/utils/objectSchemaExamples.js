@@ -130,7 +130,7 @@
                 }//Items object
             } //Listado primer (y unico) item
             ] //Listado array
-        } //const
+        }; //const
 
 
 

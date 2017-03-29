@@ -14,25 +14,25 @@ const App = ({children}, {store}) => {
         if(navbar || notifications) {
             store.dispatch({type: types.HIDE_ALL});
         }
-    }
+    };
    return( 
-            <div key="app-main" style={{"backgroundColor": "#eee","minWidth": "100%", "display": "inline-block"} } 
+            <div key="app-main" style={{"backgroundColor": "#eee","minWidth": "100%", "display": "inline-block"}} 
                  id="app-component-root"
                  onClick={hideNavbar}>
                 <Header />
                    {children}
                 <Footer />
             </div>
-   )
-}
+   );
+};
    
 App.PropTypes = {
     children: PropTypes.object,
-}
+};
 
 App.contextTypes = {
     store: React.PropTypes.object
-}
+};
  
  
 export default App;

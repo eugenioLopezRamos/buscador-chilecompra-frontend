@@ -9,7 +9,7 @@ class SearchesSaver extends React.Component {
         this.state = {
                       showModal: false,
                       enteredSearchName: "",
-                     }
+                     };
     }
     
     onSearchNameInput = (event) => {
@@ -18,8 +18,8 @@ class SearchesSaver extends React.Component {
 
     handleSearches = () => {
 
-        this.setState({showModal: false, enteredSearchName: ""})
-        this.props.handleSearches(this.state.enteredSearchName)
+        this.setState({showModal: false, enteredSearchName: ""});
+        this.props.handleSearches(this.state.enteredSearchName);
     }
 
     showModal = () => {
@@ -48,7 +48,7 @@ class SearchesSaver extends React.Component {
                 </button>
 
             </div>
-            )
+            );
     }
 }
 

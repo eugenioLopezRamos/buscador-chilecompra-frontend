@@ -20,7 +20,7 @@ describe('Reducers', () => {
 
         it('returns the expected state when calling loginDataSetter', () => {
             function compareResults(action, value=action.value) {
-                expect(objectAssign({}, initialState[stateProp], value)).toEqual(reducers.loginDataSetter(undefined, action))
+                expect(objectAssign({}, initialState[stateProp], value)).toEqual(reducers.loginDataSetter(undefined, action));
             }
 
             const stateProp = "loginData";
@@ -52,7 +52,7 @@ describe('Reducers', () => {
 
         it('returns the expected state when calling isAuthenticatedSetter', () => {
             function compareResults(action, value=action.value) {
-                expect(value).toEqual(reducers.isAuthenticatedSetter(undefined, action))
+                expect(value).toEqual(reducers.isAuthenticatedSetter(undefined, action));
             }
 
             const stateProp = "isAuthenticated";
@@ -82,7 +82,7 @@ describe('Reducers', () => {
 
         it('returns the expected state when calling userDataSetter', () => {
             function compareResults(action, value=action.response) {
-                expect(value).toEqual(reducers.userDataSetter(undefined, action))
+                expect(value).toEqual(reducers.userDataSetter(undefined, action));
             }
             const stateProp = "userData";
             let type = undefined;
@@ -90,7 +90,7 @@ describe('Reducers', () => {
             let action = {type, response};
 
             action.type = types.USER_SEND_LOGIN_INFO_SUCCESS;
-            action.response = {body: {data: {id: 1}}}
+            action.response = {body: {data: {id: 1}}};
             compareResults(action, action.response);
             
             action.type = types.USER_SEND_LOGIN_INFO_FAILURE;
@@ -109,4 +109,4 @@ describe('Reducers', () => {
             compareResults(action, null);
         });
     });
-})
+});

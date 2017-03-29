@@ -6,11 +6,11 @@ const UserDropdown = (props) => {
 
     const handleLogout = () => {
         props.handleLogout();
-    }
+    };
     const handleNotificationsClick = (event) => {
         event.stopPropagation();
         props.toggleNotifications();
-    }
+    };
     
     const notificationStyle = (() => {
         if(props.showNotifications) {
@@ -39,13 +39,13 @@ const UserDropdown = (props) => {
 
                 <li><Link to="/perfil">Modificar datos</Link></li>
                 <li><Link to="/busqueda">Buscar</Link></li>
-                <li role="separator" className="divider"></li>
+                <li role="separator" className="divider" />
                 <li onClick={handleLogout}><Link to="/">Salir</Link></li>
             </ul>        
         </div>
 
-    )
+    );
 
-}
+};
 
 export default UserDropdown;

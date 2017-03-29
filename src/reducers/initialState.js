@@ -50,6 +50,6 @@ const initialState = {
         order_by: {fields: initialFieldsOrderBy, order: "descending"}
     },
     messages: {Errores: [], Info: []}
-}
+};
 
 export default initialState;

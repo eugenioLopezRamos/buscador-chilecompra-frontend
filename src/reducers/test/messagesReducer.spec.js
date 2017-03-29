@@ -9,13 +9,13 @@ describe('Reducers', () => {
     describe('messagesReducer', () => {
 
         it('Should return states correctly', () => {
-            let action = {type: undefined, value: undefined}
+            let action = {type: undefined, value: undefined};
             let initialErrors = initialState.messages.Errores;
             let initialInfo = initialState.messages.Info;
 
             const compareResults = (action, expectedValue) => {
                 expect(expectedValue).toEqual(messagesReducer(undefined, action));
-            }
+            };
 
             const setExpectedValue = () => {
 
@@ -28,7 +28,7 @@ describe('Reducers', () => {
                 else {
                     return {Info: initialInfo, Errores: initialErrors};
                 }
-            }
+            };
             
             //Should return  initialState (default case):
 
@@ -40,7 +40,7 @@ describe('Reducers', () => {
 
 
                 //PROFILE DATA
-            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}}
+            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}};
             let expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 

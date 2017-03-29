@@ -1,13 +1,13 @@
 import fetchApi from '../api/fetchApi';
 import * as types from '../constants/actionTypes';
-import moment from 'moment';
+
 
 export const fetchChilecompraDataSuccess = (state, data) => {
     return {type:types.FETCH_CHILECOMPRA_DATA_SUCCESS, data, query: state};
 }; 
 export const fetchChilecompraDataFailure = (state, data) => {
-    return {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, data, query: state}
-}
+    return {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, data, query: state};
+};
 
 export const loadChilecompraData = (state) => {
 
@@ -23,4 +23,4 @@ export const shortLoadChilecompraData = (data) => {
       return function(dispatch) {
         return fetchApi.getChileCompraData(data);
     };  
-}
+};

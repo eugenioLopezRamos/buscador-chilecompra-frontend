@@ -16,12 +16,12 @@ export const netDifferencesRenderer = (netDifferences, renderer) => {
                     if(!netDifferences.differences[index]) {
                         return null;
                     }
-                    return <div className="single-difference-container" key={`single-difference-container${index}`}>
+                    return (<div className="single-difference-container" key={`single-difference-container${index}`}>
                       
                             {
                           
                                 Object.keys(currentResult).map((currentKey, index) => {
-                                    let elementReturner = () => renderer(currentResult, currentKey)
+                                    let elementReturner = () => renderer(currentResult, currentKey);
                                     return (
                                             <div className="difference-item" key={`single-difference${index}`}>
                                                 {
@@ -40,15 +40,15 @@ export const netDifferencesRenderer = (netDifferences, renderer) => {
                                 {renderLaterDifferences.map(elementReturner => elementReturner())}
                      
                                    
-                            </div>
+                            </div>);
                             
-                })
+                });
     }
     else {
         return <div className="single-difference-container">Sin variaciones</div>;
     }
 
-}
+};
 
 
 
@@ -67,18 +67,18 @@ export const areThereDifferences = (thisValue) => {
                                             return accumulator;
                                         }
                                         
-                                    }, [])
+                                    }, []);
 
                                     let unignoredDifferencesAmount = netDifferencesArray.length;
 
                                     if(unignoredDifferencesAmount === 0) {
                                         return {
                                             value: false
-                                        }
+                                        };
                                     }
                                     return {
                                         value: true,
                                         differences: netDifferencesArray
-                                    }
+                                    };
 
                                 };

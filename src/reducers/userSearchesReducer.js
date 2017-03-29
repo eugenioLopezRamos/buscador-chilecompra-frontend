@@ -37,4 +37,4 @@ export const userSearchesReducer = (state = initialState.userSearches, action) =
         default:
             return state;
     }
-}
+};

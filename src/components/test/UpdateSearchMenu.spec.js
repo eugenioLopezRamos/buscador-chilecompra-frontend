@@ -5,9 +5,9 @@ import UpdateSearchMenu from '../UpdateSearchMenu';
 function setup() {
     const props = {
         handleSearches: jest.fn()
-    }
+    };
 
-    const wrapper = shallow(<UpdateSearchMenu {...props}/>)
+    const wrapper = shallow(<UpdateSearchMenu {...props}/>);
 
     return {wrapper, props};
 }
@@ -33,7 +33,7 @@ describe('Component', () => {
 
             const button = wrapper.find('button.btn.btn-primary.prompt-menu-button'); 
             expect(props.handleSearches.mock.calls.length).toEqual(0);
-            button.props().onClick()
+            button.props().onClick();
             expect(props.handleSearches.mock.calls.length).toEqual(1);
 
         });

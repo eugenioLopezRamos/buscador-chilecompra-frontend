@@ -14,7 +14,7 @@ import url from 'url';
 import proxy from 'proxy-middleware';
 
 const bundler = webpack(config);
-var proxyOptions = url.parse('http://localhost:3001');
+let proxyOptions = url.parse('http://localhost:3001');
 proxyOptions.route = '/api'; // ['/test', '/get_misc_info', '/get_info', '/get_chilecompra_data', '/get_codigo_proveedor'];
 
 // Run Browsersync and use middleware for Hot Module Replacement

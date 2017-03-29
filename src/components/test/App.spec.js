@@ -28,7 +28,7 @@ function setup() {
           introduction          
         ],
         
-    }
+    };
 
 
     const wrapper = shallow(<App {...props}/>, contextObject);
@@ -36,7 +36,7 @@ function setup() {
     return {
         props,
         wrapper,
-    }
+    };
 }
 
 function altSetup() {
@@ -48,14 +48,14 @@ function altSetup() {
         children:  [
             authorizationWrapper,
         ]
-    }
+    };
 
     const altWrapper = shallow(<App {...altProps}/>, contextObject);
 
     return {
         altProps,
         altWrapper
-    }
+    };
 }
 
 describe('Container', () => {
@@ -82,11 +82,11 @@ describe('Container', () => {
 
         it('Should call functions correctly', () => {
 
-            const expectedActions = {type: types.HIDE_ALL}
+            const expectedActions = {type: types.HIDE_ALL};
             
 
             const root = wrapper.find('#app-component-root').at(0);
-            root.simulate("click")
+            root.simulate("click");
             expect(store.dispatch({type: types.HIDE_ALL})).toEqual(expectedActions);
             
 

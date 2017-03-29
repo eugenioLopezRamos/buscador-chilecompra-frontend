@@ -6,24 +6,24 @@ const Notifications = (props) => {
         if(props.show) {
             return "notifications";
         }
-        return "notifications no-display"
-    })()
+        return "notifications no-display";
+    })();
 
     const notificationClickHandler = (event) => {
         event.stopPropagation();
-    }
+    };
     const deleteNotification = (key) => {
-        props.deleteNotification(key)
-    }
+        props.deleteNotification(key);
+    };
 
 
     let notifications = () => {
         
         if(Object.keys(props.notifications).length === 0) {
-            return <li className="list-group-item notifications" key="no-notifications">No hay notificaciones</li>
+            return <li className="list-group-item notifications" key="no-notifications">No hay notificaciones</li>;
         }
         return Object.keys(props.notifications).map((element, index) => {
-                                return <li className="list-group-item notifications"
+                                return (<li className="list-group-item notifications"
                                         key={"numero" + element}
                                         onClick={notificationClickHandler}
                                         >
@@ -32,13 +32,12 @@ const Notifications = (props) => {
                                             </span>
                                             <span
                                                 className="glyphicon glyphicon-remove"
-                                                onClick={() => {deleteNotification(element)}}
-                                            >
-                                            </span>
-                                    </li>;
-                            })
+                                                onClick={() => {deleteNotification(element);}}
+                                             />
+                                    </li>);
+                            });
 
-    }
+    };
 
  return  (<div className={displayClass} >
                     <ul className="notifications-list-items-container">
@@ -47,9 +46,9 @@ const Notifications = (props) => {
                         notifications()
                     }
                     </ul>
-            </div>)
+            </div>);
 
-}
+};
 
 export default Notifications;
    

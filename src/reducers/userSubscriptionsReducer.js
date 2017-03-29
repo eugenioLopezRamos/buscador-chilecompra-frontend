@@ -42,4 +42,4 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
         default:
             return state;
     }
-}
+};

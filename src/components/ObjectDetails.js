@@ -10,16 +10,16 @@ const ObjectDetails = ({objectData}) => {
 
             if(utils.isPrimitive(object[key])) {
                     if(!object[key]) {
-                        return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: (vacío)`</div>
+                        return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: (vacío)`</div>;
                     }
-                    return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>
+                    return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>;
             }
 
-            return <li className="object-details-subObject-title" key={`li-${index}`}>
+            return (<li className="object-details-subObject-title" key={`li-${index}`}>
                     {utils.camelCaseToNormalCase(key)}: <div key={`object-details-subobject-${index}`} className="object-details-subObject">{objectHandler(object[key])}</div>
-                   </li>; 
+                   </li>); 
         });
-    }
+    };
 
     return(
         <ul key="base" className="object-details-root">
@@ -28,25 +28,25 @@ const ObjectDetails = ({objectData}) => {
             objectData.map((value, index) => {
 
                 if(utils.isPrimitive(value)){
-                        return <div className="object-details-root-primitive" key={`primitive-base-div-${index}`}>
+                        return (<div className="object-details-root-primitive" key={`primitive-base-div-${index}`}>
                                 <h4>{`${index+1}) `}</h4>
                                 <li key={`primitive-base-li-${index}`}>{value}</li>
-                            </div>
+                            </div>);
                 }
 
-                return <div className="object-details-root-subObject" key={`object-base-div-${index}`}>
+                return (<div className="object-details-root-subObject" key={`object-base-div-${index}`}>
                         <h4 key={`object-base-h4-${index}`}>{`${index + 1}) `}</h4>
                         {objectHandler(value)}
-                      </div>
+                      </div>);
 
             })
         }
 
         </ul>
-    )
+    );
 
 
 
-}
+};
 
 export default ObjectDetails;

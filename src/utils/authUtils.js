@@ -7,7 +7,7 @@ let utils = {
                 // all of these headers must exist, otherwise if we refresh the localStorage the app will logout client side but not server side
                 // These properties not existing happens because the auth_gem has a default setting of minimum 5 seconds between token change
                 // to allow for batch requests, so in those cases a new token will not be given
-                return
+                return;
             }else {
                 localStorage.removeItem("session");
                 localStorage.setItem("session", 
@@ -78,8 +78,8 @@ let utils = {
                
                 //Object.entries is more succint, but needs polyfills for IE/Safari, so using Object.keys instead
                 Object.keys(response.headers._headers).map(key => {
-                    headers.push([key, response.headers._headers[key].join("")])
-                })
+                    headers.push([key, response.headers._headers[key].join("")]);
+                });
             } 
             else {
                 let value;
@@ -95,6 +95,6 @@ let utils = {
             }, new Object); 
             return parsedHeader;
         }
- }
+ };
 
  export default utils;

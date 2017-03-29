@@ -33,7 +33,7 @@ export const loginDataSetter = (state = initialState.loginData, action) => {
     }
 
 
-}
+};
 
 export const isAuthenticatedSetter = (state = initialState.isAuthenticated, action) => {
 
@@ -60,7 +60,7 @@ export const isAuthenticatedSetter = (state = initialState.isAuthenticated, acti
         default:
             return state;
     }
-}
+};
 
 export const userDataSetter = (state = initialState.userData, action) => {
 
@@ -89,4 +89,4 @@ export const userDataSetter = (state = initialState.userData, action) => {
 
     }
 
-}
+};

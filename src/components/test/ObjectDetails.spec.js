@@ -9,7 +9,7 @@ function setup() {
 
     const props = {
         objectData: chileCompraResponseExample.Listado[0].Items.Listado
-    }
+    };
     const wrapper = shallow(<ObjectDetails {...props}/>);
 
     return {wrapper, props};
@@ -56,7 +56,7 @@ describe('Component', () => {
         });
 
 
-    })
+    });
 
 
 });

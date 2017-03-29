@@ -7,4 +7,4 @@ describe('Auth Utils', () => {
 
     });
 
-})
+});

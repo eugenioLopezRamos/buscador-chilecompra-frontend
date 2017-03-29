@@ -9,7 +9,7 @@ export default function onLoadFetchOrgPubReducer(state = initialState.organismos
             return action.value;
 
         default:
-            return state
+            return state;
 
     }
 }

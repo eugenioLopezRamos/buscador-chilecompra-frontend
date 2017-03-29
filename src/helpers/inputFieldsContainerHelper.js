@@ -31,5 +31,5 @@ export const helpers = {
             palabrasClaveInput: (value) => {
                 return {palabrasClave: value};
             } //typing the palabrasClave
-}
+};
             

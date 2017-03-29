@@ -7,7 +7,7 @@ export const userDataFetcher = (endpoint, method, body) => {
         let request = {
                         headers,
                         method: `${method.toUpperCase()}`   
-                    }
+                    };
                     
         if(reqBody !== null) {
             request.body = JSON.stringify(reqBody);
@@ -19,7 +19,7 @@ export const userDataFetcher = (endpoint, method, body) => {
             if(response.status >= 200 & response.status < 300) {
                 return response.json();
             }else { 
-                return response.json().then(error => {throw error})
+                return response.json().then(error => {throw error;});
             }
-        })
-}
+        });
+};

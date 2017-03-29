@@ -51,7 +51,7 @@ const signupReducer = (state = initialState.signup, action) => {
 
         default:
             return state;
-    };
+    }
     
-}
+};
 export default signupReducer;

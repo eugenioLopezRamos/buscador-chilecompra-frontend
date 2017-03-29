@@ -55,7 +55,7 @@ const modifiedUserDataReducer = (state = initialState.modifiedUserData, action) 
                                 });
 
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
-            return objectAssign({}, state, {currentPassword: ""})
+            return objectAssign({}, state, {currentPassword: ""});
         case types.USER_LOGOUT_SUCCESS:
             return initialState.modifiedUserData;
 

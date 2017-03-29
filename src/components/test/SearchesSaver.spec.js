@@ -11,7 +11,7 @@ function setup() {
     const wrapper = shallow(<SearchesSaver {...props}/>);
 
     return {wrapper, props};
-};
+}
 
 
 describe('Component', () => {
@@ -58,7 +58,7 @@ describe('Component', () => {
             expect(instance.state.showModal).toEqual(true);
             
             //should change enteredSearchName
-            let mockEvent = {target: {value: "a new search name value"}}
+            let mockEvent = {target: {value: "a new search name value"}};
             modal.props().onInput(mockEvent);
             expect(instance.state.enteredSearchName).toEqual(mockEvent.target.value);
 

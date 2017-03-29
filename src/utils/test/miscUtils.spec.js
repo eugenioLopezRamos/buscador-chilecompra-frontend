@@ -5,4 +5,4 @@ describe('Misc utils', () => {
 
     });
 
-})
+});

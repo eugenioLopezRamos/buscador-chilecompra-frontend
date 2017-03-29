@@ -25,7 +25,7 @@ export default (
             path="/busqueda" 
             component={
                 () => {
-                    return <AuthorizationWrapper
+                    return (<AuthorizationWrapper
                                component={InputFieldsContainer}
                                saveMenu={SearchesSaver}
                                actions={{createSearches, API}}
@@ -33,7 +33,7 @@ export default (
                                 defaultState: initialState.searchQueryValues
                                }}
                                renderFailure={Introduction}
-                           />
+                           />);
                     }
               }
         />
@@ -42,10 +42,10 @@ export default (
             path="/inicio" 
             component={
                    () => {
-                        return <AuthorizationWrapper
+                        return (<AuthorizationWrapper
                                     component={UserPage}
                                     renderFailure={Introduction}
-                                />
+                                />);
                     }
             } 
         />
@@ -54,16 +54,16 @@ export default (
             path="/perfil"
             component={
                 () => {
-                    return <AuthorizationWrapper 
+                    return (<AuthorizationWrapper 
                             component={UserProfileData}
                             renderFailure={Introduction}
-                           />
+                           />);
                 }
             } 
         />
 
     </Route>
-)
+);
 
 
 

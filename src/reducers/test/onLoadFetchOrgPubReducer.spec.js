@@ -14,13 +14,13 @@ describe('Reducers', () => {
             let action = {type: undefined, value: undefined};
             let initialValue = initialState.organismosPublicos;
 
-            expect(initialValue).toEqual(reducer(undefined, action))
+            expect(initialValue).toEqual(reducer(undefined, action));
 
-            let mockValue = {1111: "Organismo publico 1"}
+            let mockValue = {1111: "Organismo publico 1"};
             action = {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: mockValue};
             let expectedValue = mockValue;
 
-            expect(expectedValue).toEqual(reducer(undefined, action))
+            expect(expectedValue).toEqual(reducer(undefined, action));
 
         });
     });

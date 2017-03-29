@@ -17,7 +17,7 @@ class fetchApi {
                         alwaysToToday: state.alwaysToToday,
                         offset: state.offset,
                         order_by: state.order_by
-                    }
+                    };
                  
         let headers = utils.setHeaders();
         return fetch(`${process.env.API_HOST}/api/get_info`,
@@ -35,7 +35,7 @@ class fetchApi {
                 }
                 throw response;
             })
-            .catch(error => {return error })
+            .catch(error => {return error; });
 
     }
 
@@ -49,7 +49,7 @@ class fetchApi {
                 return response.json();
             }
             throw response;
-        })
+        });
     }
 
     static getEstadosLicitacion() {
@@ -63,7 +63,7 @@ class fetchApi {
                 return response.json();
             }
             throw response;
-        })
+        });
 
     }
 
@@ -88,9 +88,9 @@ class fetchApi {
             .then(response => {
                 let headers = utils.headerToObject(response);
                 utils.saveToStorage(headers);
-                response.json()
+                response.json();
             })
-            .catch(error => {return error }) 
+            .catch(error => {return error; }); 
     }   
     
 }

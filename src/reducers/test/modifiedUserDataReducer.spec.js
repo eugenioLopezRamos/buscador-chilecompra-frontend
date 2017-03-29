@@ -9,7 +9,7 @@ describe('Reducers', () => {
     describe('modifiedUserDataReducer', () => {
 
         it('Should correctly return states', () => {
-            let action = {type: undefined, value: undefined}
+            let action = {type: undefined, value: undefined};
             let initialValue = initialState.modifiedUserData;
             let expectedValue = initialValue;
 
@@ -18,7 +18,7 @@ describe('Reducers', () => {
             };
 
             // returns default
-            compareResults(action, expectedValue)
+            compareResults(action, expectedValue);
                 // INPUTS
             action = {type: types.USER_MODIFY_PROFILE_DATA_INPUT_NAME, value: "my name is <NAME>"};
             expectedValue = objectAssign({}, initialValue, {name: action.value});
@@ -46,7 +46,7 @@ describe('Reducers', () => {
 
 
                 //RESPONSES
-            action = {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: {name: "pedro-perez", email: "aaa@bbb.cl", image: "imgurl.fake/img.jpg"}}
+            action = {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: {name: "pedro-perez", email: "aaa@bbb.cl", image: "imgurl.fake/img.jpg"}};
             expectedValue = objectAssign({}, initialValue, action.response);
             compareResults(action, expectedValue);
 
@@ -62,7 +62,7 @@ describe('Reducers', () => {
                         image: "imageurl.com/imgs/img.jpg"
                     }
                 }
-            }
+            };
             action  = {type: types.USER_VALIDATE_TOKEN_SUCCESS, response};
             expectedValue = objectAssign({}, initialValue, response.body.data);
             compareResults(action, expectedValue);

@@ -94,7 +94,7 @@ const messagesReducer = (state = initialState.messages, action) => {
             return state;
 
     }
-}
+};
 
 export default messagesReducer;
 

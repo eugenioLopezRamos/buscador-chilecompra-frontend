@@ -12,7 +12,7 @@ export const capitalize = (string) => {
             newValue = prev + curr;
         }
         return newValue;
-    }, new String)
+    }, new String);
    
 };
 
@@ -30,11 +30,11 @@ export const getObjectPropsWithValues = (object) =>  {
     // then
     //getObjectPropsWithValues(nestedObj) returns: {nested3: "my value is here"}
 
-    let response = {}
+    let response = {};
 	
     let transverseProps = (o) => Object.keys(o).map((e) => {
         if(Object.prototype.toString.call(o[e]) === "[object Object]") {
-            transverseProps(o[e])
+            transverseProps(o[e]);
         }else {
             response[e] = o[e];
         }
@@ -42,31 +42,31 @@ export const getObjectPropsWithValues = (object) =>  {
 
     transverseProps(object);
     return response;
-}
+};
 
 export const toJSON = (value) => {
     return JSON.stringify(value);
-}
+};
 
 export const isArray = (object) => {
     return Object.prototype.toString.call(object) === "[object Array]";
-}
+};
 
 export const isPOJO = (object) => {
     // POJO => "Plain Old Javascript Object"
-    return Object.prototype.toString.call(object) === "[object Object]"
-}
+    return Object.prototype.toString.call(object) === "[object Object]";
+};
 export const isOnlyNumbers = (object) => {
     return parseInt(object) == object; 
-}
+};
 
 export const isPrimitive = (target) => {
-                let primitives = ["[object String]", "[object Number]", "[object Boolean]", "[object Null]", "[object Undefined]"]
+                let primitives = ["[object String]", "[object Number]", "[object Boolean]", "[object Null]", "[object Undefined]"];
                 if(primitives.indexOf(Object.prototype.toString.call(target)) > -1) {
                     return true;
                 }
                 return false;
-}
+};
 
 export const objectTransverser = (object) => {
         //returns an array with each "tree" of properties
@@ -79,7 +79,7 @@ export const objectTransverser = (object) => {
                         return {[element]: objectTransverser(object[element])};
                     }
                 });
-}
+};
 
 export const getObjectSchema = (object) => {
     //devuelve un objeto tipo:
@@ -97,8 +97,8 @@ export const getObjectSchema = (object) => {
         }
         accumulator.push({[currentKey]: getObjectSchema(usedObject[currentKey])});
         return accumulator;
-    } , new Array) 
-}
+    } , new Array); 
+};
 
 export const objectComparer = (object, secondObject, differencesContainer) => {
     
@@ -107,7 +107,7 @@ export const objectComparer = (object, secondObject, differencesContainer) => {
     let differencesAccumulator = differencesContainer;
 
     if(typeof differencesAccumulator === "undefined" || typeof differencesAccumulator === "null") {
-        differencesAccumulator = {}
+        differencesAccumulator = {};
     }
     const baseObject = object || {};
     const baseSecondObject = secondObject || {};
@@ -170,14 +170,14 @@ export const objectComparer = (object, secondObject, differencesContainer) => {
                 }, differencesAccumulator);
 
     return objectAssign({}, diffFirstToSecond, diffSecondToFirst);
-}
+};
 
 export const arrayObjectProperties = (object, start = 0, end = undefined) => {
 
     return object.keys.slice(start, end).reduce((accumulator, currentKey) => {       
             return accumulator.concat({[currentKey]: object[currentKey]});
-        },[])
-}
+        },[]);
+};
 
 
 export const camelCaseToNormalCase = (string) => {
@@ -191,23 +191,23 @@ export const camelCaseToNormalCase = (string) => {
         }
         let chunk = string.slice(startIndex).match(camelCaseRegex);
 
-        let newIndex = startIndex + chunk[0].length
+        let newIndex = startIndex + chunk[0].length;
         chunks.push(chunk[0]);
-        matcher(string, camelCaseRegex, newIndex)
-    }
+        matcher(string, camelCaseRegex, newIndex);
+    };
 
     matcher(string, camelCaseRegex, startIndex);
 
     let normalCase = chunks.map((word, index) => {
         if(index > 0) {
-            return word.toLowerCase()
+            return word.toLowerCase();
         }
         return word;
     }).join(" ");
 
     return normalCase;
         
-}
+};
 
 export const removeArrayFromArray = (array, containerArray) => {
     let toSplice = -1;
@@ -215,12 +215,12 @@ export const removeArrayFromArray = (array, containerArray) => {
     containerArray.map((element, index) => {
         if(JSON.stringify(element) === JSON.stringify(array)) {
             toSplice = index;
-        };
+        }
     });
     //remove that item from the array
     containerArray.splice(toSplice,1);
     return containerArray;
-}
+};
 
 export const chunkifyArray = (array, itemsPerChunk = 1) => {
 
@@ -233,8 +233,8 @@ export const chunkifyArray = (array, itemsPerChunk = 1) => {
         let chunk = array.slice(start, start + size);
         result.push(chunk);
 
-        return createChunk(array, start + size, size, result)
+        return createChunk(array, start + size, size, result);
     }
 
     return createChunk(array, 0, itemsPerChunk);
-}
+};

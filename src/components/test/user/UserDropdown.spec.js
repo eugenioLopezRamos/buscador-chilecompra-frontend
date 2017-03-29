@@ -15,14 +15,14 @@ function setup() {
         },
         showNotifications: true,
         visible: true
-    }
+    };
 
     const wrapper = shallow(<UserDropdown {...props}/>);
 
     return {
         props,
         wrapper
-    }
+    };
 
 
 }
@@ -59,11 +59,11 @@ describe('Component', () => {
 
             const notificationsComponent = wrapper.find('Notifications');
             expect(props.toggleNotifications.mock.calls.length).toEqual(0);
-            notificationsComponent.props().toggleNotifications()
+            notificationsComponent.props().toggleNotifications();
             expect(props.toggleNotifications.mock.calls.length).toEqual(1);
 
             expect(props.deleteNotification.mock.calls.length).toEqual(0);
-            notificationsComponent.props().deleteNotification(<div></div>);
+            notificationsComponent.props().deleteNotification(<div />);
             expect(props.deleteNotification.mock.calls.length).toEqual(1);
         });
 

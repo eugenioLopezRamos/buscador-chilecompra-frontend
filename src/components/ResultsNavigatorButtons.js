@@ -13,12 +13,12 @@ const ResultsNavigatorButtons = (props) => {
     const incrementOffset = () => {
         // user clicks ">>"
         props.paginatorButtonClickHandler(offset);
-    }
+    };
 
     const decrementOffset = () => {
         //user clicks "<<"
         props.paginatorButtonClickHandler(-offset);
-    }
+    };
 
     const setOffset = (times, event) => {
         // user clicks button [1] or [3] or whatever number (a certain page number)
@@ -37,7 +37,7 @@ const ResultsNavigatorButtons = (props) => {
 //pageSelectButtons.firstElementChild.style.marginLeft = `${buttonWidth}
 
         props.pageButtonClickHandler(offset * times);
-    }
+    };
 
     const handleGoTo = () => {
         //user types in a page number on the input field
@@ -57,14 +57,14 @@ const ResultsNavigatorButtons = (props) => {
             return;
         }
 
-        props.pageButtonClickHandler(offset * number)
+        props.pageButtonClickHandler(offset * number);
         
-    }
+    };
 
     const showButtonsArray = (() => {
         //return numerated pages, [0...props.pages]
-        return Array.apply(null, {length: props.pages}).map((element, index) => index)
-    })()
+        return Array.apply(null, {length: props.pages}).map((element, index) => index);
+    })();
 
     // const currentPageLocation = (() => {
     //     //is the current page in the first half ("head") or in the second half ("tails")
@@ -87,17 +87,17 @@ const ResultsNavigatorButtons = (props) => {
     const buttonRenderer = (element, index, array, isActive = false) => {
             if(isActive === true) {
 
-                return <button className={`page-button button-number-${index + 1} active`} key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
+                return (<button className={`page-button button-number-${index + 1} active`} key={`page ${index}`} onClick={(event) => {setOffset(index, event);}}>
                         {element + 1}
-                       </button>      
+                       </button>);      
             }
 
             else {
-               return <button className={`page-button button-number-${index + 1}`} key={`page ${index}`} onClick={(event) => {setOffset(index, event)}}>
+               return (<button className={`page-button button-number-${index + 1}`} key={`page ${index}`} onClick={(event) => {setOffset(index, event);}}>
                         {element + 1}
-                      </button>        
+                      </button>);        
             }
-        }
+        };
 
 
     const buttonsArray = (() => {
@@ -105,7 +105,7 @@ const ResultsNavigatorButtons = (props) => {
         let currentPage = props.currentPage;
         let pages = props.pages;
 
-        let pagesArray =  Array.apply(null, {length: pages}).map((element, index) => index)
+        let pagesArray =  Array.apply(null, {length: pages}).map((element, index) => index);
 
         let chunkedArray = utils.chunkifyArray(pagesArray, maxAmountOfPages);
 
@@ -116,13 +116,13 @@ const ResultsNavigatorButtons = (props) => {
         let activePageIndex = activePageArray.indexOf(currentPage);
         
 
-        return {activePageArray, activePageIndex}
+        return {activePageArray, activePageIndex};
 
     })();
 
 
     
-    return <div className="results-navigator-buttons-container">
+    return (<div className="results-navigator-buttons-container">
     
                 <div className="page-picker-container">
                     <label className="show-page">Mostrar página:</label>
@@ -133,8 +133,8 @@ const ResultsNavigatorButtons = (props) => {
                             max={props.pages}
                             placeholder="Página"
                             defaultValue={null}
-                            ref={(input) => {goToPageInput = input}}
-                            onChange={(event) => {goToPageInput = event.target}}
+                            ref={(input) => {goToPageInput = input;}}
+                            onChange={(event) => {goToPageInput = event.target;}}
                         />
                         <span className="page-picker-text">
                             de {props.pages}
@@ -165,10 +165,10 @@ const ResultsNavigatorButtons = (props) => {
                         {">>"}
                     </button>
                 </div>
-           </div>
+           </div>);
 
 
-}
+};
 
 export default ResultsNavigatorButtons;
 

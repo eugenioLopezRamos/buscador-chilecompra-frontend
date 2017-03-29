@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as actions from '../signupResultsActions';
-import configureMockStore from 'redux-mock-store'
+import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 
@@ -8,7 +8,7 @@ import nock from 'nock';
 process.env.API_HOST = "http://localhost:3000";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares)
+const mockStore = configureMockStore(middlewares);
 
 describe('Tests response to sending signup data to the backend', () => {
 
@@ -18,7 +18,7 @@ describe('Tests response to sending signup data to the backend', () => {
             email: "example@examplemail.com",
             password: "password",
             password_confirmation: "password"
-        }
+        };
 
         const expectedResponse = {
             data: {
@@ -33,7 +33,7 @@ describe('Tests response to sending signup data to the backend', () => {
                 updated_at: "2017-02-20T13:52:54.412-03:00"
             },
             status:"success"
-        }
+        };
 
         nock("http://localhost:3000/")
             .post("/api/auth/", JSON.stringify(userData))
@@ -41,7 +41,7 @@ describe('Tests response to sending signup data to the backend', () => {
 
         const expectedActions = [
             {type: types.USER_SEND_SIGNUP_INFO_SUCCESS, message: "success", value: "success"}
-        ]
+        ];
 
         const store = mockStore();
 
@@ -58,7 +58,7 @@ describe('Tests response to sending signup data to the backend', () => {
             email: "example2@example2mail.com",
             password: "password",
             password_confirmation: "drowssap"
-        }
+        };
 
         const expectedResponse  = {
             
@@ -78,7 +78,7 @@ describe('Tests response to sending signup data to the backend', () => {
                 "full_messages":["Password confirmation doesn't match Password"]
             },
             status:"error"
-        }
+        };
 
         nock("http://localhost:3000/")
             .post("/api/auth/", JSON.stringify(userData))
@@ -89,7 +89,7 @@ describe('Tests response to sending signup data to the backend', () => {
              message: "password_confirmation doesn\'t match Password \n full_messages Password confirmation doesn\'t match Password",
              value: "error"
             }
-        ]
+        ];
 
         const store = mockStore();
 
@@ -99,4 +99,4 @@ describe('Tests response to sending signup data to the backend', () => {
           });
 
     });
-})
+});

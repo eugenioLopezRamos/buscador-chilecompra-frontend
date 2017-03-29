@@ -6,7 +6,7 @@
 // import { AppContainer } from 'react-hot-loader';
 // import routes from './routes';
 // import configureStore from './store/configureStore';
-require('react-hot-loader/patch')
+require('react-hot-loader/patch');
 import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
@@ -34,7 +34,7 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 const actions = {getUserSubscriptions, getUserSearches,
 				 getUserNotifications, validateToken,
-				 getOrganismosPublicos, getEstadosLicitacion}
+				 getOrganismosPublicos, getEstadosLicitacion};
 
 
 render(

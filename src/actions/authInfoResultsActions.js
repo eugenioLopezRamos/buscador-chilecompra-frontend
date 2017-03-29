@@ -6,29 +6,29 @@ import utils from '../utils/authUtils';
 export const loginSuccess = (response) => {
     let responseData = response.body.data;
     //token should be a hash with all of the user's info (token, user name, email, searches etc etc etc)
-    return {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: responseData}
-}
+    return {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: responseData};
+};
 
 export const loginFailure = (response) => {
     // whereas this should return just an error message and little else.
-    return {type: types.USER_SEND_LOGIN_INFO_FAILURE, response}
-}
+    return {type: types.USER_SEND_LOGIN_INFO_FAILURE, response};
+};
 
 export const validateTokenSuccess = (response) => {
 
 
-    return {type: types.USER_VALIDATE_TOKEN_SUCCESS, response}
-}
+    return {type: types.USER_VALIDATE_TOKEN_SUCCESS, response};
+};
 
 export const validateTokenFailure = (error) => {
-    return {type: types.USER_VALIDATE_TOKEN_FAILURE, response: {error}}
-}
+    return {type: types.USER_VALIDATE_TOKEN_FAILURE, response: {error}};
+};
 export const logoutSuccess = (response) => {
-    return {type: types.USER_LOGOUT_SUCCESS, response}
-}
+    return {type: types.USER_LOGOUT_SUCCESS, response};
+};
 export const logoutFailure = (response) => {
-    return {type: types.USER_LOGOUT_FAILURE, response}
-}
+    return {type: types.USER_LOGOUT_FAILURE, response};
+};
 
 export const submitLoginInfo = (login_data) => {
     // login_data = {email,password};
@@ -51,10 +51,10 @@ export const submitLoginInfo = (login_data) => {
                                 dispatch(loginFailure(response));
                             }
                         })
-                      .catch(error => { dispatch(loginFailure(error)) }); 
+                      .catch(error => { dispatch(loginFailure(error)); }); 
     };
 
-}
+};
 
 export const validateToken = (mockToken) => {
     
@@ -78,9 +78,9 @@ export const validateToken = (mockToken) => {
                     dispatch(validateTokenFailure("failure"));
                 }
             })
-           .catch(error => {dispatch(validateTokenFailure(error))})
-    }
-}
+           .catch(error => {dispatch(validateTokenFailure(error));});
+    };
+};
 
 export const sendLogoutInfo = () => {
 
@@ -90,7 +90,7 @@ export const sendLogoutInfo = () => {
              if(response && response.status >= 200 && response.status < 300) {
                  utils.clearStorage();
                  return response.json().then(response => {
-                     dispatch(logoutSuccess(response)) 
+                     dispatch(logoutSuccess(response)); 
                 });
 
              }else {
@@ -99,7 +99,7 @@ export const sendLogoutInfo = () => {
                 });
              }
             })
-            .catch(error => {dispatch(logoutFailure(error))});
+            .catch(error => {dispatch(logoutFailure(error));});
                
-    }
-}
+    };
+};

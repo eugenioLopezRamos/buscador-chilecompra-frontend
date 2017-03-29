@@ -22,7 +22,7 @@ export default function localStorageMock() {
       clear: function(){
         Object.keys(storage).map((key) => {
             delete(storage[key]);
-        }) 
+        }); 
       }
     };
   }

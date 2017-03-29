@@ -11,11 +11,11 @@ function setup() {
         paginatorButtonClickHandler: jest.fn(),
         pageButtonClickHandler: jest.fn(),
         currentPage: 0
-    }
+    };
 
     let wrapper = shallow(<ResultsNavigatorButtons {...props}/>);
 
-    return {wrapper, props}
+    return {wrapper, props};
 }
 
 
@@ -52,7 +52,7 @@ describe('Component', () => {
                 const prevButton = currentWrapper.find('button.page-button.prev-next').at(0);
                 expect(typeof prevButton.props().onClick).toEqual("function");
                 expect(prevButton.text()).toEqual("<<");
-                const nextButton = currentWrapper.find('button.page-button.prev-next').at(1)
+                const nextButton = currentWrapper.find('button.page-button.prev-next').at(1);
                 expect(typeof nextButton.props().onClick).toEqual("function");
                 expect(nextButton.text()).toEqual(">>");
 
@@ -94,7 +94,7 @@ describe('Component', () => {
 
                 //there must be only one active button
                 expect(currentWrapper.find('.page-select-buttons .page-button.active').length).toEqual(1);
-            }
+            };
 
             const maxPages = 8;
             let currentPage = props.currentPage;
@@ -134,7 +134,7 @@ describe('Component', () => {
 
             expect(props.pageButtonClickHandler.mock.calls.length).toEqual(0);
             pagePickerButtons.forEach((element, index) => {
-                element.props().onClick(index)
+                element.props().onClick(index);
             });
 
             expect(props.pageButtonClickHandler.mock.calls.length).toEqual(pagePickerButtons.length);

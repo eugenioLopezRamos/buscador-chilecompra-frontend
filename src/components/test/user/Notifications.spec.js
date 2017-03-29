@@ -11,12 +11,12 @@ function setup() {
             "9": "Cambios en licitacion XXX-YYY-ZZZZ",
             "15": "Cambios en la licitacion ZZZ-YYY-XXXX"
         }
-    }
+    };
     const propsWithoutNotifs = {
         show: true,
         deleteNotification: jest.fn(),
         notifications: {}
-    }
+    };
 
     const enzymeWrapperWith = shallow(<Notifications {...propsWithNotifs}/>);
     const enzymeWrapperWithout = shallow(<Notifications {...propsWithoutNotifs}/>);
@@ -25,7 +25,7 @@ function setup() {
         wrapperWithoutNotifs: enzymeWrapperWithout,
         propsWithNotifs,
         propsWithNotifs
-    }
+    };
 }
 
 describe('Component', () => {
@@ -47,7 +47,7 @@ describe('Component', () => {
             expect(typeof notif1.props().onClick).toEqual("function");
             
             const removeNotifButton1 = wrapperWithNotifs.find('span.glyphicon.glyphicon-remove').at(0);
-            expect(typeof removeNotifButton1.props().onClick).toEqual("function")
+            expect(typeof removeNotifButton1.props().onClick).toEqual("function");
 
 
             const notif2 = wrapperWithNotifs.find('li.list-group-item.notifications').at(1);
@@ -79,7 +79,7 @@ describe('Component', () => {
 
             let eventsNotPropagated = [];
             notificationListItems.map(container => {
-                eventsNotPropagated.push(container.simulate("click", {stopPropagation: () => {return "Propagation Stopped!"}}));
+                eventsNotPropagated.push(container.simulate("click", {stopPropagation: () => {return "Propagation Stopped!";}}));
             });
 
             expect(eventsNotPropagated.length).toEqual(notificationListItems.length);

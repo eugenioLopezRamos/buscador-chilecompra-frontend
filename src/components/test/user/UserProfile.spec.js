@@ -60,18 +60,18 @@ function setup() {
         deleteUserSearches: jest.fn(),     
         showModal: jest.fn(),
         components: {
-            InputFieldsContainer: <div></div>,
-            SearchResults: <div></div>,
-            ResultComparer: <div></div>,
-            UpdateSearchMenu: <div></div>         
+            InputFieldsContainer: <div />,
+            SearchResults: <div />,
+            ResultComparer: <div />,
+            UpdateSearchMenu: <div />         
         }
-    }
+    };
     const wrapper = shallow(<UserProfile {...props}/>);
 
     return {
         wrapper,
         props
-    }
+    };
 
 }
 

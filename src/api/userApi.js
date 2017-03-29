@@ -16,7 +16,7 @@ class userApi {
             body: JSON.stringify(login_data),
             method: "POST"
         })
-          .catch(error => {return error});
+          .catch(error => {return error;});
     }
 
     static receiveNewAuthData(response) {
@@ -28,7 +28,7 @@ class userApi {
             
         return response.json()
                 .then(response => {
-                    return {headers, body: response, result}
+                    return {headers, body: response, result};
                 });
     }
 
@@ -36,7 +36,7 @@ class userApi {
 
             let query = utils.setQueryParams(mockToken);
             return fetch(`${process.env.API_HOST}/api/auth/validate_token?${query}`)
-                .catch(error => error)
+                .catch(error => error);
 
                        // .catch(error => {return error});
     }
@@ -54,7 +54,7 @@ class userApi {
                     return response;
               //  }
                 })
-            .catch(error => {return error});
+            .catch(error => {return error;});
     }
 
 
@@ -65,7 +65,7 @@ class userApi {
    
         return fetch(`${process.env.API_HOST}/api/auth/`,
         {method: "PUT", body: reqBody, headers
-        })
+        });
         // .then(response => {return response})
         // .catch(error => {return error})
 
@@ -78,15 +78,15 @@ class userApi {
     }
 
     static createSubscription(subscription) {
-        return userDataFetcher("results/subscriptions", "POST", subscription)
+        return userDataFetcher("results/subscriptions", "POST", subscription);
     }
 
     static updateSubscription(subscription) {
-        return userDataFetcher("results/subscriptions", "PUT", subscription)
+        return userDataFetcher("results/subscriptions", "PUT", subscription);
     }
 
     static deleteSubscription(subscription) {
-        return userDataFetcher("results/subscriptions", "DELETE", subscription)
+        return userDataFetcher("results/subscriptions", "DELETE", subscription);
     }
 
 
@@ -115,11 +115,11 @@ class userApi {
     //NOTIFICATIONS
 
     static getNotifications() {
-        return userDataFetcher('notifications', 'GET')
+        return userDataFetcher('notifications', 'GET');
     }
 
     static deleteNotification(notification_id) {
-        return userDataFetcher('notifications', 'DELETE', notification_id)
+        return userDataFetcher('notifications', 'DELETE', notification_id);
     }
 
 }

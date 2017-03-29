@@ -27,7 +27,7 @@ export const sendSignupData = (signupInfo) => {
                         }
                         
                         })
-                      .catch(error => { dispatch(sendSignupDataFailure(error))});
+                      .catch(error => { dispatch(sendSignupDataFailure(error));});
     };
 };
 

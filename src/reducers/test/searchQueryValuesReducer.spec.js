@@ -28,7 +28,7 @@ describe('Reducer', () => {
                 rutProveedor: "",
                 offset: 0,
                 order_by: {fields: ["mockField"], order: "descending"}
-            }
+            };
             // should return initialState;
             expect(initialValue).toEqual(reducer(undefined, action));
 
@@ -56,4 +56,4 @@ describe('Reducer', () => {
 
         });
     });
-})
+});

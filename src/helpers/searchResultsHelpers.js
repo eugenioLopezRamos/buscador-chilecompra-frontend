@@ -1,5 +1,5 @@
 import objectAssign from 'object-assign';
-import * as utils from '../utils/miscUtils';;
+import * as utils from '../utils/miscUtils';
 
 export const applyFilter = (selectedItems, results) => {
   
@@ -13,8 +13,8 @@ export const applyFilter = (selectedItems, results) => {
                     //on the last item, do special stuff
                     if(currIndex === subElement.length -1) {
                         let value = "No incluye campo o está vacío";
-                        try { value = prev[curr] }
-                        catch(error){value = "No incluye campo o está vacío"};
+                        try { value = prev[curr]; }
+                        catch(error){value = "No incluye campo o está vacío";}
 
                         //Some fields(keys of the JSON object) exist more than once, on different levels of "deepness" within
                         // the object's structure. In this case, we append the previous key, to make it
@@ -32,13 +32,13 @@ export const applyFilter = (selectedItems, results) => {
                     return prev[curr];
 
                     }, currentResult.value);
-                })
+                });
                 
                 return newObject;
             });
 
             return columns;
-        }
+        };
 
 export const sortByColumn = (field, order, searchQueryValues) => {
          //Currently disabled. It works, but the results are not stable so it looks really weird.
@@ -65,11 +65,11 @@ export const sortByColumn = (field, order, searchQueryValues) => {
 
             let newQueryValues = objectAssign({}, searchQueryValues);
             // object assign doesnt deep clone.
-            newQueryValues.order_by = objectAssign({}, searchQueryValues.order_by)
+            newQueryValues.order_by = objectAssign({}, searchQueryValues.order_by);
             newQueryValues.order_by.order = order;
        
 
             newQueryValues.order_by.fields = field;
             return newQueryValues;
             
-         }
+         };

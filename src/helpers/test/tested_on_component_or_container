@@ -1,0 +1,3 @@
+These functions are ancilliary to their respective container or component.
+If these didn't work, their components wouldn't work.
+If the related component/container works -> function works

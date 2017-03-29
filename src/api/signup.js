@@ -13,8 +13,8 @@ class signup {
                                   password: signup_info.password,
                                   password_confirmation: signup_info.password_confirmation}),
             method: "POST"
-        }).then(response => {return response.json()})
-          .catch(error => {return error});
+        }).then(response => {return response.json();})
+          .catch(error => {return error;});
     }
 }
 export default signup;

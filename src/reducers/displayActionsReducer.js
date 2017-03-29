@@ -21,10 +21,10 @@ export const displayActionsReducer = (state = initialState.display, action) => {
             return objectAssign({}, state, {showNotifications: !state.showNotifications});
         
         case types.HIDE_ALL:
-            return objectAssign({}, state, {showNavbar: false, showNotifications: false})
+            return objectAssign({}, state, {showNavbar: false, showNotifications: false});
         default:
             return state;
-    };
+    }
 };
 
 export default displayActionsReducer;

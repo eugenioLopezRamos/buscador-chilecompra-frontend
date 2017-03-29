@@ -25,4 +25,4 @@ export const userNotificationsReducer = (state = initialState.userNotifications,
 
 
 
-}
+};

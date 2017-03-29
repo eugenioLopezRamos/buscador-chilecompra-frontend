@@ -11,7 +11,7 @@ describe('Reducers', () => {
         it('Should return states correctly', () => {
             function compareResults(action, expectedValue) {
                 expect(expectedValue).toEqual(fetchReducer(undefined, action));
-            };
+            }
 
             let action = {type: undefined};
             compareResults(action, initialState.searchResults);

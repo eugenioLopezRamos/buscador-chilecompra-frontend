@@ -20,6 +20,7 @@
     border-radius: 10px;
     height:90.5%;
     max-width:100%;
+    min-width: 90%;
     
     & > div:first-of-type {
         width:100% !important;
@@ -75,7 +76,15 @@
     }
 }
 
+@media all and (min-width: 768px) { 
 
+    .prompt-background-container {
+        min-width: 80%;
+    }
+
+
+
+}
 @media all and (min-width: 1199px) { 
 
     .prompt-background {
@@ -84,8 +93,21 @@
     .prompt-background-container {
         height:auto;
         max-width: 90%;
+        min-width: 80%;
     }
 
 
 
+}
+
+@media all and (min-width: 1400px) {
+    .prompt-background-container {
+        min-width: 70%;
+    }
+}
+
+@media all and (min-width: 1600px) {
+    .prompt-background-container {
+        min-width: 50%;
+    }
 }

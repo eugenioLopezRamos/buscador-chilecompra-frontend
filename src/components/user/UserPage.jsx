@@ -12,7 +12,7 @@ import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
-import {shortLoadChilecompraData} from '../../actions/fetchActions';
+//import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../resultComparer/ResultComparer.jsx';
@@ -237,7 +237,7 @@ function mapDispatchToProps(dispatch) {
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
         getResultHistory: bindActionCreators(getResultHistory, dispatch),
        // getUserNotifications: bindActionCreators(getUserNotifications, dispatch),
-        loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
+    //    loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
 
     }
 }

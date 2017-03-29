@@ -7,16 +7,16 @@ export const onLoadFetchOrgPubSuccess = (value) => {
         let organismos = {};
         organismos[e] = value[e];
         return organismos;
-    }) 
+    }); 
     toArray.unshift({"*": "Todos"});
 
-    return { type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: toArray }
-}
+    return { type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: toArray };
+};
 
 export const onLoadFetchOrgPubFailure = (value) => {
         //TODO: Make these actions appear in the <Flash> (messages reducer)
-    return {type: types.ONLOAD_FETCH_ORG_PUB_FAILURE, value}
-}
+    return {type: types.ONLOAD_FETCH_ORG_PUB_FAILURE, value};
+};
 
 export const onLoadFetchOrgPub = () => {
 
@@ -25,10 +25,10 @@ export const onLoadFetchOrgPub = () => {
         return fetchApi.getOrganismosPublicos()
         .then(orgs => {
 
-            dispatch(onLoadFetchOrgPubSuccess(orgs))
+            dispatch(onLoadFetchOrgPubSuccess(orgs));
 
         })
-        .catch(error => {dispatch(onLoadFetchOrgPubFailure(error))})
+        .catch(error => {dispatch(onLoadFetchOrgPubFailure(error));});
 
-    }
-}
+    };
+};
