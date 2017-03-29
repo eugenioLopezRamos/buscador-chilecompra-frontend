@@ -5,7 +5,7 @@ import nock from 'nock';
 import {onLoadFetchOrgPub} from '../onLoadFetchOrgPub'; 
 
 //TODO: add tests for the failure
-import localStorageMock from '../../constants/testLocalStorage';
+import localStorageMock from '../../__mocks__/testLocalStorage';
 
 // Mocks localStorage - Since it saves headers info to localStorage
 if(!window.localStorage) {

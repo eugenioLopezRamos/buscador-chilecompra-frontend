@@ -3,7 +3,7 @@ import * as actions from '../authInfoResultsActions';
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import localStorageMock from '../../constants/testLocalStorage';
+import localStorageMock from '../../__mocks__/testLocalStorage';
 
 // Mocks localStorage
 if(!window.localStorage) {

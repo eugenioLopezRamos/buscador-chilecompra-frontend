@@ -3,7 +3,7 @@ import {shallow} from 'enzyme';
 import {Root} from '../Root';
 import configureMockStore from 'redux-mock-store';
 import routes from '../../routes';
-import localStorageMock from '../../constants/testLocalStorage';
+import localStorageMock from '../../__mocks__/testLocalStorage';
 
 if(!window.localStorage) {
    window.localStorage = localStorageMock();

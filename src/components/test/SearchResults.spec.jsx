@@ -7,7 +7,7 @@ import {searchResultsMock} from '../../__mocks__/searchResultsMock';
 import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
 import {resultComparerMockData} from '../../__mocks__/resultComparerMock';
 import nock from 'nock';
-import localStorageMock from '../../constants/testLocalStorage';
+import localStorageMock from '../../__mocks__/testLocalStorage';
 import ObjectDetails from '../ObjectDetails';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
 import {camelCaseToNormalCase} from '../../utils/miscUtils';

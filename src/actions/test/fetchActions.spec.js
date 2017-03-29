@@ -7,7 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk';
 import utils from '../../utils/authUtils';
 
-import localStorageMock from '../../constants/testLocalStorage';
+import localStorageMock from '../../__mocks__/testLocalStorage';
 
 // Mocks localStorage - Since it saves headers info to localStorage
 if(!window.localStorage) {
