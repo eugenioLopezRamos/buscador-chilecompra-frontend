@@ -1,6 +1,6 @@
 
 
-let utils = {
+const utils = {
         
         saveToStorage: (header) => {
             if(!header["access-token"] || !header["uid"] || !header["client"] || !header["expiry"]) {

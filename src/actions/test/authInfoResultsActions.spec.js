@@ -133,9 +133,9 @@ describe('tests logging in and out successfully', () => {
           .then(() => {
             expect(store.getActions()).toEqual(expectedActionsValidateToken);
           });
-        window.localStorage.clear();
-    });
 
+    });
+    window.localStorage.clear();
 });
 
 

@@ -70,7 +70,6 @@ function setup() {
         updateUserSearches: jest.fn(),
         deleteUserSearches: jest.fn(),
         getResultHistory: jest.fn(),
-        loadChilecompraData: jest.fn(() => {mock: "mockValue"}),
         userApi: {
             getResultHistory: (value) => responsePromise(value)
         },

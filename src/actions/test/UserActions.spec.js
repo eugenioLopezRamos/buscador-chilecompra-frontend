@@ -3,8 +3,6 @@ import * as actions from '../UserActions';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import fetch from 'isomorphic-fetch';
-import utils from '../../utils/authUtils';
 
 import localStorageMock from '../../__mocks__/testLocalStorage';
 

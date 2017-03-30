@@ -33,7 +33,7 @@ export const modifyUserProfileData = (modifiedUserData) => {
 
                 if(response && response.status >= 200 && response.status < 300) {
              
-                    return response.json().then(response => dispatch(modifyUserProfileDataSuccess()));
+                    return response.json().then(() => dispatch(modifyUserProfileDataSuccess()));
                 }else {
                     throw response;
                 }
@@ -154,8 +154,7 @@ export const deleteUserSubscriptionFailure = (value) => {
 
 export const deleteUserSubscription = (name) => {
 
-
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({type: types.USER_DELETE_RESULT_SUBSCRIPTION});
         return userApi.deleteSubscription({destroy_subscription: {name}}).then(response => {
                                     dispatch(deleteUserSubscriptionSuccess(response));

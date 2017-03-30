@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-//import * as actions from '../actions/loginActions';
 import UserProfile from './UserProfile';
 import {getUserSubscriptions, updateUserSubscription} from '../../actions/UserActions';
 import {deleteUserSubscription, getUserSearches} from '../../actions/UserActions';
@@ -12,7 +11,6 @@ import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
-//import {shortLoadChilecompraData} from '../../actions/fetchActions';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../resultComparer/ResultComparer.jsx';
@@ -229,15 +227,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-      //  getUserSubscriptions: bindActionCreators(getUserSubscriptions, dispatch),
         updateSubscription: bindActionCreators(updateUserSubscription, dispatch),
         deleteSubscription: bindActionCreators(deleteUserSubscription, dispatch),
-       // getUserSearches: bindActionCreators(getUserSearches, dispatch),
         updateUserSearches: bindActionCreators(updateUserSearches, dispatch),
         deleteUserSearches: bindActionCreators(deleteUserSearches, dispatch),
         getResultHistory: bindActionCreators(getResultHistory, dispatch),
-       // getUserNotifications: bindActionCreators(getUserNotifications, dispatch),
-    //    loadChilecompraData: bindActionCreators(shortLoadChilecompraData, dispatch),
 
     }
 }

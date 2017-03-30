@@ -4,7 +4,7 @@ import {userDataFetcher} from '../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
-        
+   
     }
         
     static sendLoginInfo(login_data) {

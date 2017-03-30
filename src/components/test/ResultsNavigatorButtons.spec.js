@@ -84,16 +84,16 @@ describe('Component', () => {
     
                 }
                 //button at(currentPage) is active
-                expect(wrapper.find('.page-select-buttons .page-button').at(activeButtonIndex).hasClass('active')).toEqual(true);
+                expect(wrapper.find('ResultsNavigatorButtonsRenderer').at(activeButtonIndex).props().isActive).toEqual(true);
                 //if currentPage > pages -> will render only one button, so:
                 if(currentPage > pages) {
-                    expect(currentWrapper.find('.page-select-buttons .page-button').length).toEqual(1);  
+                    expect(currentWrapper.find('ResultsNavigatorButtonsRenderer').length).toEqual(1);  
                 }else {
-                    expect(currentWrapper.find('.page-select-buttons .page-button').length).toEqual(buttonsAmount);
+                    expect(currentWrapper.find('ResultsNavigatorButtonsRenderer').length).toEqual(buttonsAmount);
                 }
 
                 //there must be only one active button
-                expect(currentWrapper.find('.page-select-buttons .page-button.active').length).toEqual(1);
+                expect(currentWrapper.find('ResultsNavigatorButtonsRenderer').filterWhere(button => button.props().isActive === true).length).toEqual(1);
             };
 
             const maxPages = 8;

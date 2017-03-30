@@ -10,6 +10,7 @@ export default function searchQueryValuesReducer(state = initialState.searchQuer
         case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
             return objectAssign({}, state, action.query);
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
+    
             return objectAssign({}, state, action.query);
 
         case types.ONLOAD_FETCH_ORG_PUB_SUCCESS:

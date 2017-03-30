@@ -1,11 +1,9 @@
 //import fetchApi from '../../api/fetchApi';
 import * as types from '../../constants/actionTypes';
-import moment from 'moment';
 import * as actions from '../fetchActions';
 import nock from 'nock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import utils from '../../utils/authUtils';
 
 import localStorageMock from '../../__mocks__/testLocalStorage';
 

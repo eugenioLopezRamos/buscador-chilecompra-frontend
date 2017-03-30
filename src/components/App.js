@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import * as types from '../constants/actionTypes';
@@ -27,7 +26,7 @@ const App = ({children}, {store}) => {
 };
    
 App.PropTypes = {
-    children: PropTypes.object,
+    children: PropTypes.object
 };
 
 App.contextTypes = {

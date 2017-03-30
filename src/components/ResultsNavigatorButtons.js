@@ -1,7 +1,7 @@
 import React from 'react';
 import {RESULTS_OFFSET_AMOUNT}  from '../constants/resultsOffset';
 import * as utils from '../utils/miscUtils';
-
+import ResultsNavigatorButtonsRenderer from './ResultsNavigatorButtonsRenderer';
 
 const ResultsNavigatorButtons = (props) => {
  
@@ -23,19 +23,6 @@ const ResultsNavigatorButtons = (props) => {
     const setOffset = (times, event) => {
         // user clicks button [1] or [3] or whatever number (a certain page number)
         // shouldn't exceed props.pages since that button wouldn't exist.
-
-      //  const buttonWidth = getComputedStyle(event.target).width;
-
-        // if(times > currentPage) {
-        //     pageSelectButtons.style.transform = `translate(-${buttonWidth}px, 0)`
-        // }
-        // if(times < currentPage) {
-        //     pageSelectButtons.style.transform = `translate(${buttonWidth}px, 0)`        
-        // }
-
-//hide them with margins!
-//pageSelectButtons.firstElementChild.style.marginLeft = `${buttonWidth}
-
         props.pageButtonClickHandler(offset * times);
     };
 
@@ -65,40 +52,6 @@ const ResultsNavigatorButtons = (props) => {
         //return numerated pages, [0...props.pages]
         return Array.apply(null, {length: props.pages}).map((element, index) => index);
     })();
-
-    // const currentPageLocation = (() => {
-    //     //is the current page in the first half ("head") or in the second half ("tails")
-    //     // of the array?
-    //     let middle = parseInt(showButtonsArray.length/2)
-    //     let location = "";
-    //    // debugger
-
-    //     if(props.currentPage > middle) {
-    //         location = "tail";
-    //     }
-    //     if(props.currentPage <= middle) {
-    //         location = "head";
-    //     }
-
-    //     return location;
-    // })()
-
-
-    const buttonRenderer = (element, index, array, isActive = false) => {
-            if(isActive === true) {
-
-                return (<button className={`page-button button-number-${index + 1} active`} key={`page ${index}`} onClick={(event) => {setOffset(index, event);}}>
-                        {element + 1}
-                       </button>);      
-            }
-
-            else {
-               return (<button className={`page-button button-number-${index + 1}`} key={`page ${index}`} onClick={(event) => {setOffset(index, event);}}>
-                        {element + 1}
-                      </button>);        
-            }
-        };
-
 
     const buttonsArray = (() => {
 
@@ -152,10 +105,23 @@ const ResultsNavigatorButtons = (props) => {
                     <div className={`page-select-buttons buttons-offset-${buttonsArray.activePageIndex + 1}`} ref={(element) => pageSelectButtons = element}>
                     {
                         buttonsArray.activePageArray.map((element, index, array) => {
+
                             if(index === buttonsArray.activePageIndex) {
-                                return buttonRenderer(element, index, array, true);
+                                return <ResultsNavigatorButtonsRenderer 
+                                         element={element}
+                                         key={element + index}
+                                         index={index}
+                                         setOffset={setOffset}
+                                         isActive={true}
+                                        />
                             }
-                                return buttonRenderer(element, index, array);                           
+                                return <ResultsNavigatorButtonsRenderer 
+                                         element={element}
+                                         key={element + index}
+                                         index={index}
+                                         setOffset={setOffset}                                  
+                                         isActive={false}
+                                        />                        
                             
                         })
                     }
