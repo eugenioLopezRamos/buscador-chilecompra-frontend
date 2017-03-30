@@ -7,7 +7,7 @@ const ResultsNavigatorButtons = (props) => {
  
     const offset = RESULTS_OFFSET_AMOUNT;
     let goToPageInput = "";
-    let pageSelectButtons = null;
+
     const maxAmountOfPages = 8;
 
     const incrementOffset = () => {
@@ -20,7 +20,7 @@ const ResultsNavigatorButtons = (props) => {
         props.paginatorButtonClickHandler(-offset);
     };
 
-    const setOffset = (times, event) => {
+    const setOffset = (times) => {
         // user clicks button [1] or [3] or whatever number (a certain page number)
         // shouldn't exceed props.pages since that button wouldn't exist.
         props.pageButtonClickHandler(offset * times);
@@ -48,27 +48,29 @@ const ResultsNavigatorButtons = (props) => {
         
     };
 
-    const showButtonsArray = (() => {
-        //return numerated pages, [0...props.pages]
-        return Array.apply(null, {length: props.pages}).map((element, index) => index);
-    })();
-
     const buttonsArray = (() => {
 
         let currentPage = props.currentPage;
         let pages = props.pages;
 
+        //Generate a range [0, ...pages]
         let pagesArray =  Array.apply(null, {length: pages}).map((element, index) => index);
 
+        //Divide the array in chunks
+        // if props.pages = 16 and maxAmountOfPages = 8
+        // You would end up with a new array [chunk1, chunk2]
+        // where chunk1 and chunk2 are arrays of length = 8
         let chunkedArray = utils.chunkifyArray(pagesArray, maxAmountOfPages);
 
+        //In which chunk index is the currentPage?
         let activePageArrayIndex = parseInt(currentPage/maxAmountOfPages);
 
-
+        //Inside that chunk, what's the index of the activePage? 
+        // [0, ..16] => chunkify => chunkedArray = [array[0,..7], array2[0, ..7]]
+        // if active page is "9" => it would be located in chunkedArray[1][1]
         let activePageArray = chunkedArray[activePageArrayIndex];
         let activePageIndex = activePageArray.indexOf(currentPage);
-        
-
+    
         return {activePageArray, activePageIndex};
 
     })();
@@ -102,26 +104,26 @@ const ResultsNavigatorButtons = (props) => {
                         {"<<"}
                     </button>
 
-                    <div className={`page-select-buttons buttons-offset-${buttonsArray.activePageIndex + 1}`} ref={(element) => pageSelectButtons = element}>
+                    <div className={`page-select-buttons buttons-offset-${buttonsArray.activePageIndex + 1}`}>
                     {
-                        buttonsArray.activePageArray.map((element, index, array) => {
+                        buttonsArray.activePageArray.map((element, index) => {
 
                             if(index === buttonsArray.activePageIndex) {
-                                return <ResultsNavigatorButtonsRenderer 
+                                return (<ResultsNavigatorButtonsRenderer 
                                          element={element}
                                          key={element + index}
                                          index={index}
                                          setOffset={setOffset}
                                          isActive={true}
-                                        />
+                                        />);
                             }
-                                return <ResultsNavigatorButtonsRenderer 
+                                return (<ResultsNavigatorButtonsRenderer 
                                          element={element}
                                          key={element + index}
                                          index={index}
                                          setOffset={setOffset}                                  
                                          isActive={false}
-                                        />                        
+                                        />);                        
                             
                         })
                     }
@@ -134,6 +136,13 @@ const ResultsNavigatorButtons = (props) => {
            </div>);
 
 
+};
+
+ResultsNavigatorButtons.propTypes = {
+    pages: React.PropTypes.number,
+    currentPage: React.PropTypes.number,
+    paginatorButtonClickHandler: React.PropTypes.func,
+    pageButtonClickHandler: React.PropTypes.func
 };
 
 export default ResultsNavigatorButtons;

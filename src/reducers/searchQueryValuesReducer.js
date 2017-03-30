@@ -1,7 +1,6 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 import objectAssign from 'object-assign';
-import moment from 'moment';
 
 export default function searchQueryValuesReducer(state = initialState.searchQueryValues, action) {
 

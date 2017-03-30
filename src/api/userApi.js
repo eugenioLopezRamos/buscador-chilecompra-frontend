@@ -1,10 +1,13 @@
 import fetch from 'isomorphic-fetch';
+
 import utils from '../utils/authUtils';
+
 import {userDataFetcher} from '../utils/userApiUtils';
 
 class userApi {
     constructor(utils) {
-   
+        //Only for ESLint - Can't use it on actual code, it fails.
+        this.utils = utils;
     }
         
     static sendLoginInfo(login_data) {

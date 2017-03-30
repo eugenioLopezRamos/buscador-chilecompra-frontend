@@ -49,4 +49,8 @@ const ObjectDetails = ({objectData}) => {
 
 };
 
+ObjectDetails.propTypes = {
+    objectData: React.PropTypes.oneOfType([React.PropTypes.array, React.PropTypes.object])
+};
+
 export default ObjectDetails;

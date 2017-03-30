@@ -5,7 +5,7 @@ import ResultsNavigatorButtonsRenderer from '../ResultsNavigatorButtonsRenderer'
 function activeSetup() {
 
     const activeProps = {
-        element: "aaa",
+        element: 1,
         index: 1,
         setOffset: jest.fn(),
         isActive: true
@@ -19,7 +19,7 @@ function activeSetup() {
 function inactiveSetup() {
 
     const inactiveProps = {
-        element: "aaa",
+        element: 1,
         index: 1,
         setOffset: jest.fn(),
         isActive: false

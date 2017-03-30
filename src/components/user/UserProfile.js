@@ -52,7 +52,7 @@ const UserProfile = (props) => {
             <div className="profile-stored-subscriptions">
                 <h2>Suscripciones</h2>
                 {
-                    props.userSubscriptions && Object.keys(props.userSubscriptions).length > 0 ? Object.keys(props.userSubscriptions).map((subscription, index) => {
+                    props.userSubscriptions && Object.keys(props.userSubscriptions).length > 0 ? Object.keys(props.userSubscriptions).map(subscription => {
                         let resultId = props.userSubscriptions[subscription];
                         let resultName = subscription;
                         return (<li className="list-group-item saved-items" key={"results" + subscription}>
@@ -79,9 +79,9 @@ const UserProfile = (props) => {
 };
 
 UserProfile.propTypes = {
-
-    user: PropTypes.object.isRequired
-
+    user: PropTypes.object.isRequired,
+    userSearches: PropTypes.object.isRequired,
+    userSubscriptions: PropTypes.object.isRequired
 };
 
 export default UserProfile;

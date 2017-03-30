@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Modal from './inputs/Modal.jsx';
 //import Flash from './Flash.jsx';
 
@@ -51,5 +51,9 @@ class SearchesSaver extends React.Component {
             );
     }
 }
+
+SearchesSaver.propTypes = {
+    handleSearches: PropTypes.func.isRequired
+};
 
 export default SearchesSaver;

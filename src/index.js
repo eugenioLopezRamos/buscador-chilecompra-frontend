@@ -1,11 +1,4 @@
-/* eslint-disable import/default */
-// import React from 'react';
-// import {render} from 'react-dom';
-// import { Provider } from 'react-redux';
-// import { Router, browserHistory } from 'react-router';
-// import { AppContainer } from 'react-hot-loader';
-// import routes from './routes';
-// import configureStore from './store/configureStore';
+
 require('react-hot-loader/patch');
 import 'babel-polyfill';
 import React from 'react';
@@ -14,15 +7,12 @@ import { browserHistory } from 'react-router';
 import { syncHistoryWithStore} from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 import configureStore from './store/configureStore';
-import Root from './containers/Root';
+import Root from './containers/Root.jsx';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
-import './css/bootstrap/stylesheets/_bootstrap.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
+import './css/bootstrap/stylesheets/_bootstrap.scss';
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
-
-import {getUserSubscriptions} from './actions/UserActions';
-import {getUserSearches} from './actions/UserActions';
-import {getUserNotifications} from './actions/UserActions';
+import {getUserSubscriptions, getUserSearches, getUserNotifications} from './actions/UserActions';
 import {validateToken} from './actions/authInfoResultsActions';
 import {onLoadFetchOrgPub as getOrganismosPublicos} from './actions/onLoadFetchOrgPub';
 import {onLoadFetchEstLic as getEstadosLicitacion} from './actions/onLoadFetchEstLic';
@@ -32,9 +22,11 @@ import {onLoadFetchEstLic as getEstadosLicitacion} from './actions/onLoadFetchEs
 const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
-const actions = {getUserSubscriptions, getUserSearches,
-				 getUserNotifications, validateToken,
-				 getOrganismosPublicos, getEstadosLicitacion};
+const actions = {
+				getUserSubscriptions, getUserSearches,
+				getUserNotifications, validateToken,
+				getOrganismosPublicos, getEstadosLicitacion
+				};
 
 
 render(

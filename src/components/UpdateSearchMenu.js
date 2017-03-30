@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 
 const UpdateSearchMenu = (props) => {
@@ -15,4 +15,11 @@ const UpdateSearchMenu = (props) => {
         </div>
     );
 };
+
+UpdateSearchMenu.propTypes = {
+    handleSearches: PropTypes.func.isRequired,
+    defaultId: PropTypes.number.isRequired,
+    defaultName: PropTypes.string.isRequired
+};
+
 export default UpdateSearchMenu;

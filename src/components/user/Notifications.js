@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 //TODO: Make a way to remove notifications (which will require a fetch call)
 const Notifications = (props) => {
 
@@ -16,40 +16,37 @@ const Notifications = (props) => {
         props.deleteNotification(key);
     };
 
-
-    let notifications = () => {
-        
-        if(Object.keys(props.notifications).length === 0) {
-            return <li className="list-group-item notifications" key="no-notifications">No hay notificaciones</li>;
-        }
-        return Object.keys(props.notifications).map((element, index) => {
-                                return (<li className="list-group-item notifications"
-                                        key={"numero" + element}
-                                        onClick={notificationClickHandler}
-                                        >
-                                            <span className="notification-text">
-                                                {props.notifications[element]}
-                                            </span>
-                                            <span
-                                                className="glyphicon glyphicon-remove"
-                                                onClick={() => {deleteNotification(element);}}
-                                             />
-                                    </li>);
-                            });
-
-    };
-
  return  (<div className={displayClass} >
                     <ul className="notifications-list-items-container">
                     {   
-                        
-                        notifications()
+                        Object.keys(props.notifications).length === 0 ?
+                        <li className="list-group-item notifications" key="no-notifications">No hay notificaciones</li>
+                        :
+                        Object.keys(props.notifications).map(element => {
+                            return (<li className="list-group-item notifications"
+                                    key={"numero" + element}
+                                    onClick={notificationClickHandler}
+                                    >
+                                        <span className="notification-text">
+                                            {props.notifications[element]}
+                                        </span>
+                                        <span
+                                            className="glyphicon glyphicon-remove"
+                                            onClick={() => {deleteNotification(element);}}
+                                        />
+                                </li>);
+                        })                    
                     }
                     </ul>
             </div>);
 
 };
 
+Notifications.propTypes = {
+    deleteNotification: PropTypes.func.isRequired,
+    notifications: PropTypes.object.isRequired,
+
+};
 export default Notifications;
    
    

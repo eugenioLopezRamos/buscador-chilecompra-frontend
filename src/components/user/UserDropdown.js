@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import Notifications from './Notifications';
 
@@ -46,6 +46,14 @@ const UserDropdown = (props) => {
 
     );
 
+};
+
+UserDropdown.propTypes = {
+    showNotifications: PropTypes.bool,
+    visible: PropTypes.bool,
+    notifications: PropTypes.object,
+    toggleNotifications: PropTypes.func.isRequired,
+    deleteNotification: PropTypes.func.isRequired
 };
 
 export default UserDropdown;

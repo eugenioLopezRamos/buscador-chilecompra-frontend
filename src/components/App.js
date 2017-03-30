@@ -25,12 +25,12 @@ const App = ({children}, {store}) => {
    );
 };
    
-App.PropTypes = {
-    children: PropTypes.object
+App.propTypes = {
+    children: PropTypes.array
 };
 
 App.contextTypes = {
-    store: React.PropTypes.object
+    store: PropTypes.object
 };
  
  

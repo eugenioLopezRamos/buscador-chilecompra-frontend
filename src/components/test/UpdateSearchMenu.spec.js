@@ -4,7 +4,9 @@ import UpdateSearchMenu from '../UpdateSearchMenu';
 
 function setup() {
     const props = {
-        handleSearches: jest.fn()
+        handleSearches: jest.fn(),
+        defaultName: "aaa name",
+        defaultId: 1
     };
 
     const wrapper = shallow(<UpdateSearchMenu {...props}/>);
