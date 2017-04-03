@@ -4,6 +4,8 @@ import thunk from 'redux-thunk';
 import nock from 'nock';
 import {onLoadFetchOrgPub} from '../onLoadFetchOrgPub'; 
 
+
+process.env.API_HOST = "http://localhost:3000"
 //TODO: add tests for the failure
 import localStorageMock from '../../__mocks__/testLocalStorage';
 

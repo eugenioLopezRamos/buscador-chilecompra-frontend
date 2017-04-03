@@ -17,7 +17,7 @@ export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
-  devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
+  //devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
   entry: path.resolve(__dirname, 'src/index'),
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
@@ -57,10 +57,10 @@ export default {
     }),
 
     // Minify JS
-    new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+    new webpack.optimize.UglifyJsPlugin({ sourceMap: false }),
     new webpack.DefinePlugin({
       'process.env': {
-        'API_HOST': JSON.stringify('http://localhost')//change me?
+        'API_HOST': JSON.stringify("")//change me?
       } 
     }),
     new webpack.LoaderOptionsPlugin({

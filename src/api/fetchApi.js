@@ -41,7 +41,7 @@ class fetchApi {
 
     static getOrganismosPublicos() {
         let headers = utils.setHeaders();
-        return fetch("http://localhost:3000/api/get_misc_info?info=organismos_publicos", {headers})
+        return fetch(`${process.env.API_HOST}/api/get_misc_info?info=organismos_publicos`, {headers})
         .then(response => {
             let headers = utils.headerToObject(response);
             utils.saveToStorage(headers);
@@ -54,7 +54,7 @@ class fetchApi {
 
     static getEstadosLicitacion() {
         let headers = utils.setHeaders();
-        return fetch("http://localhost:3000/api/get_misc_info?info=estados_licitacion", {headers})
+        return fetch(`${process.env.API_HOST}/api/get_misc_info?info=estados_licitacion`, {headers})
         .then(response => { 
             let headers = utils.headerToObject(response);
             utils.saveToStorage(headers);

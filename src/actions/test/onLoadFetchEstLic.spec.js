@@ -6,6 +6,7 @@ import {onLoadFetchEstLic} from '../onLoadFetchEstLic';
 //TODO: add test with headers since they  now require auth?
 import localStorageMock from '../../__mocks__/testLocalStorage';
 
+process.env.API_HOST = "http://localhost:3000"
 // Mocks localStorage - Since it saves headers info to localStorage
 if(!window.localStorage) {
    window.localStorage = localStorageMock();
