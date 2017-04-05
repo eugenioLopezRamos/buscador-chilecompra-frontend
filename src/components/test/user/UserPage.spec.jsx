@@ -207,7 +207,7 @@ describe('Container', () => {
                             defaultState: props.userSearches.value[mockIndex]                    
                         },
                         saveMenu: instance.components.UpdateSearchMenu,
-                        
+                        showSearchResultsComponent: false,
                         createSearches: props.updateUserSearches,
                         defaultSearchId: props.userSearches.id[mockIndex],
                         defaultSearchName: props.userSearches.name[mockIndex]

@@ -79,7 +79,8 @@ export class UserPage extends React.Component {
                             saveMenu: this.components.UpdateSearchMenu,
                             createSearches: this.props.updateUserSearches,
                             defaultSearchId: searchId,
-                            defaultSearchName: searchName
+                            defaultSearchName: searchName,
+                            showSearchResultsComponent: false
                         },
 
                     });

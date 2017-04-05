@@ -45,7 +45,7 @@ export class AccountRecovery extends Component {
                         value={this.state.value}
                         className="signup-input"
                         type="textarea"
-                        placeholder="Nombre"
+                        placeholder="Email"
                         onChange={this.handleInput}
                     />
                     <button 

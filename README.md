@@ -3,6 +3,13 @@ This is the front end of an app to browse/search for contracts put out to tender
 Additionally you can save searches or search results on the backend and see their
 results in the front end
 
+demo url:
+    https://www.buscadorchilecompra.info
+
+user: example@example3.com
+
+password: password
+
 The app was made using the following starter kit: [react-slingshot](https://github.com/coryhouse/react-slingshot)
 
 Thanks!
@@ -20,7 +27,7 @@ Installing:
     - git clone
     - npm install
     - npm run test -> all should pass!
-    - npm run start -> will start a dev server on localhost:3000
+    - npm run start -> will start a dev server on localhost:3000 (but will require a backend to work)
 
 
 Directory structure: 
@@ -40,7 +47,7 @@ Directory structure:
 │   │   │   ├── resultComparer
 │   │   │   └── user
 │   │   └── user // user related components
-│   ├── constants // values used several times that shouldn't change on runtime
+│   ├── constants // values used several times that shouldn't change at runtime
 │   ├── containers
 │   │   └── test
 │   ├── css 

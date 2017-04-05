@@ -225,16 +225,4 @@ function mapStateToProps(state, ownProps) {
         
     };
 };
-//TODO: trim this;
-function mapDispatchToProps(dispatch) {
-  return {
-    //actions: bindActionCreators(actions, dispatch),
-  // API: bindActionCreators(API, dispatch),
-   // displayActions: bindActionCreators(displayActions, dispatch),
-  //  createSearches: bindActionCreators(createSearches, dispatch),
-   // createResults: bindActionCreators(createResults, dispatch),
-  };
-};
-
-// export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
-export default connect(mapStateToProps, mapDispatchToProps)(InputFieldsContainer);
+export default connect(mapStateToProps)(InputFieldsContainer);
