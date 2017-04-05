@@ -7,12 +7,8 @@ export const sendSignupDataSuccess = (resp) => {
 };
 
 export const sendSignupDataFailure = (resp) => {
-
-    let errorsToString = Object.keys(resp.errors).map(key => {
-        return `${key} ${resp.errors[key]}`;
-    }).join(' \n ');
-
-    return {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: errorsToString, value: resp.status};
+    let errorString = resp.errors.full_messages.join("\n");
+    return {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: errorString, value: resp.status};
 };
 
 export const sendSignupData = (signupInfo) => {

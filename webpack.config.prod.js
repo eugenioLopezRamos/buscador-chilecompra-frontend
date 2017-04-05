@@ -28,13 +28,13 @@ export default {
   plugins: [
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
-
+    new webpack.optimize.DedupePlugin(), //dedupe similar code 
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
     new webpack.DefinePlugin(GLOBALS),
-
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].[contenthash].css'),
-
+    new webpack.optimize.AggressiveMergingPlugin(),//Merge chunks 
     // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
@@ -60,7 +60,7 @@ export default {
     new webpack.optimize.UglifyJsPlugin({ sourceMap: false }),
     new webpack.DefinePlugin({
       'process.env': {
-        'API_HOST': JSON.stringify("")//change me?
+        'API_HOST': JSON.stringify("")
       } 
     }),
     new webpack.LoaderOptionsPlugin({

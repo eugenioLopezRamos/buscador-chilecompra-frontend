@@ -2,7 +2,9 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
-
+    /* eslint-disable no-unused-vars */
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
+   /* eslint-enable no-unused-vars */
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
@@ -25,6 +27,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('development'), // Tells React to build in either dev or prod modes. https://facebook.github.io/react/downloads.html (See bottom)
       __DEV__: true
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({     // Create HTML file that includes references to bundled CSS and JS.
@@ -51,8 +54,10 @@ export default {
       'process.env': {
         'API_HOST': JSON.stringify('http://localhost:3000')
       } 
-    })
+    }),
+
   //  new BundleAnalyzerPlugin()
+
   ],
   module: {
     rules: [

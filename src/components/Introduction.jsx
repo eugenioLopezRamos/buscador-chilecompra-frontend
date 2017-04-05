@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as signupInputActions from '../actions/signupInputsActions';
 import * as signupResultsActions from '../actions/signupResultsActions';
 import {connect} from 'react-redux';
+import Flash from './Flash';
 
 //TODO: Should should a Flash when successfully signed up!
 export class Introduction extends React.Component {
@@ -31,7 +32,11 @@ export class Introduction extends React.Component {
         return (
             <div key="introduction-key" className="introduction container jumbotron">
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>
-          
+                <Flash 
+                    type="info" 
+                    messages={this.props.messages}
+                    messagesHandler={null}
+                />
                 <div key="introduction-text" className="text-center">Buscador Chilecompra es una app que te permite informarte fácilmente de las licitaciones que te interesan.
               
                     Busca, guarda, y recibe notificaciones cuando aparecen nuevas licitaciones.
@@ -45,14 +50,16 @@ export class Introduction extends React.Component {
 Introduction.propTypes = {
     isAuthenticated: PropTypes.bool,
     signupResults: PropTypes.object,
-    signupInfo: PropTypes.object
+    signupInfo: PropTypes.object,
+    messages: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
     return {
         signupResult: state.signup.result,
         signupInfo: state.signup.info,
-        isAuthenticated: state.isAuthenticated
+        isAuthenticated: state.isAuthenticated,
+        messages: state.messages
     }
 } 
 function mapDispatchToProps(dispatch) {

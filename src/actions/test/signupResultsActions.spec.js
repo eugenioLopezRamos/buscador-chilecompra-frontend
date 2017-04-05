@@ -86,7 +86,7 @@ describe('Tests response to sending signup data to the backend', () => {
 
         const expectedActions = [
             {type: types.USER_SEND_SIGNUP_INFO_FAILURE,
-             message: "password_confirmation doesn\'t match Password \n full_messages Password confirmation doesn\'t match Password",
+             message: "Password confirmation doesn\'t match Password",
              value: "error"
             }
         ];

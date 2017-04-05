@@ -11,6 +11,7 @@ import SearchField from './inputs/SearchField.jsx';
 import SearchesSaver from './SearchesSaver';
 import Flash from './Flash.jsx';
 import moment from 'moment';
+import locale_es from "moment/locale/es";
 import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
 
 

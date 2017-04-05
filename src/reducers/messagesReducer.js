@@ -19,13 +19,19 @@ const messagesReducer = (state = initialState.messages, action) => {
     // case types.TYPE_N;
     // case types.TYPE_NPLUS1:
     // return objectAssign(...);
-    //TODO: DRY this with case fallthrough I guesss....
-
+    //TODO: DRY this with case fallthrough ?
+    
     switch(action.type) {
 
         case types.MESSAGES_DELETE_MESSAGES:
             return initialState.messages;
-            
+            //TODO: Send signup messages from the server?
+        //SIGNUP
+        case types.USER_SEND_SIGNUP_INFO_SUCCESS:
+            return objectAssign({}, state, {Info: "Registrado exitosamente! Revisa tu email para confirmar tu cuenta."});
+        
+        case types.USER_SEND_SIGNUP_INFO_FAILURE:
+            return objectAssign({}, state, {Errores: action.message})
             //PROFILE
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
         //TODO: Probably will have to move this constants off here
@@ -33,7 +39,7 @@ const messagesReducer = (state = initialState.messages, action) => {
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
             return objectAssign({}, state, {Errores: errors});
-            
+
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
             return state;

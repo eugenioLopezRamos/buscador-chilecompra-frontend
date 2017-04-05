@@ -16,6 +16,7 @@ describe('Reducers', () => {
             let expectedValue;
             let expectedInfo = initialState.signup.info;
             let mockValue;
+            let existingInput;
 
             expect(initialValue).toEqual(reducer(undefined, action));
 
@@ -46,13 +47,17 @@ describe('Reducers', () => {
 
             mockValue = "success";
             action = {type: types.USER_SEND_SIGNUP_INFO_SUCCESS, message: "Successfully signed up!", value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {result: {message: action.message, result: action.value}});
-            expect(expectedValue).toEqual(reducer(undefined, action));
+                //simulates the user having entered data into the form
+            existingInput = objectAssign({}, initialValue, {info: expectedInfo})
+                // form data is cleared after succesful send
+            expectedValue = initialValue;
+            expect(expectedValue).toEqual(reducer(existingInput, action));
 
             mockValue = "failure";
             action = {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: "Error while trying to sign up", value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {result: {message: action.message, result: action.value}});
-            expect(expectedValue).toEqual(reducer(undefined, action));          
+            // data should not be cleared if user fails to register.
+            expectedValue = objectAssign({}, initialValue, {info: expectedInfo});
+            expect(expectedValue).toEqual(reducer(existingInput, action));          
 
         });
     });

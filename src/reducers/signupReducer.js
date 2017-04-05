@@ -29,11 +29,11 @@ const signupReducer = (state = initialState.signup, action) => {
         /////////////////// AND NOW THE RESULT HANDLERS
         case types.USER_SEND_SIGNUP_INFO_SUCCESS:
         //TODO: Make the keys more understandable...
-            return objectAssign({}, state, {info: initialState.signup.info},{result: {message: action.message, result: action.value}});
+            return objectAssign({}, state, {info: initialState.signup.info});
             
         case types.USER_SEND_SIGNUP_INFO_FAILURE:
 
-            return objectAssign({}, state,{result: {message: action.message, result: action.value}});
+            return state;
 
         default:
             return state;

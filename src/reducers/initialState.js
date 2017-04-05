@@ -28,10 +28,6 @@ const initialState = {
                     email: "", 
                     password: "", 
                     password_confirmation:""
-                },
-             result: {
-                    message: null, 
-                    result: null
                 }
             },
     searchResults: null,
