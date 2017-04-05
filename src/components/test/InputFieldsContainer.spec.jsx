@@ -211,14 +211,26 @@ describe('Container', () => {
 
             //autoFiller
                 //on selection change
+                //Value should be "*", or "111", "222"
             const autoFiller = wrapper.find('AutoFillerInput');
             possibleValues = props.organismosPublicos;
 
             possibleValues.forEach(value => {
+
                 expectedStateChange = {
-                    selectedOrganismoPublico: value
+                    selectedOrganismoPublico: Object.keys(value)[0]
                 };
-                checkIfFunctionCalled(autoFiller, "onSelectionChange", value, expectedStateChange);
+                //Need to transform the value to use the object structure of
+                // react-select
+                let selectKey = Object.keys(value)[0];
+                let selectValue = Object.values(value)[0];
+                let selectObject = {
+                                    key: selectKey,
+                                    value: selectValue,
+                                    label: `${selectKey} (${selectValue}`
+                                    }
+
+                checkIfFunctionCalled(autoFiller, "onSelectionChange", selectObject, expectedStateChange);
             });
 
             // //rutInput

@@ -3,7 +3,7 @@ import moment from 'moment';
 export const helpers = {
 
             pickOrganismoPublico: (value) => { 
-                return {selectedOrganismoPublico: value};
+                return {selectedOrganismoPublico: value.key};
             }, //when <select>'ing the org publico
 
             estadoLicitacionSelect: (value) => {

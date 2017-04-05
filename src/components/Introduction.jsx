@@ -28,7 +28,6 @@ export class Introduction extends React.Component {
     }
     
     render = () => {
-
         return (
             <div key="introduction-key" className="introduction container jumbotron">
                 <h2 className="text-center">¿Qué es buscador ChileCompra?</h2>

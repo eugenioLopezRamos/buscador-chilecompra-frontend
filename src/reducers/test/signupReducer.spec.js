@@ -14,6 +14,7 @@ describe('Reducers', () => {
             let action = {type: undefined, info: undefined, result: undefined};
             let initialValue = initialState.signup;
             let expectedValue;
+            let expectedInfo = initialState.signup.info;
             let mockValue;
 
             expect(initialValue).toEqual(reducer(undefined, action));
@@ -21,22 +22,26 @@ describe('Reducers', () => {
             //INPUTS
             mockValue = "signupname-111";
             action = {type: types.USER_SIGNUP_INPUT_NAME, value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {info: {name: mockValue}});
+            expectedInfo.name = mockValue;
+            expectedValue = objectAssign({}, initialValue, {info: expectedInfo});
             expect(expectedValue).toEqual(reducer(undefined, action));
 
             mockValue = "email@email.com";
             action = {type: types.USER_SIGNUP_INPUT_EMAIL, value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {info: {email: mockValue}});
+            expectedInfo.email = mockValue;
+            expectedValue = objectAssign({}, initialValue, {info: expectedInfo});
             expect(expectedValue).toEqual(reducer(undefined, action));
 
             mockValue = "secret-password";
             action = {type: types.USER_SIGNUP_INPUT_PASSWORD, value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {info: {password: mockValue}});
+            expectedInfo.password = mockValue;
+            expectedValue = objectAssign({}, initialValue, {info: expectedInfo});
             expect(expectedValue).toEqual(reducer(undefined, action));
 
             mockValue = "secret-password";
             action = {type: types.USER_SIGNUP_INPUT_PASSWORD_CONFIRMATION, value: mockValue};
-            expectedValue = objectAssign({}, initialValue, {info: {password_confirmation: mockValue}});
+            expectedInfo.password_confirmation = mockValue;
+            expectedValue = objectAssign({}, initialValue, {info: expectedInfo});
             expect(expectedValue).toEqual(reducer(undefined, action));
 
             mockValue = "success";

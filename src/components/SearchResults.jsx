@@ -135,14 +135,29 @@ export class SearchResults extends React.PureComponent {
         }
 
         handleScroll = (event) => {
+            event.preventDefault();
             //TODO: See some way to make this work, on mobile the scrolling title looks janky and feels very
             //weird
+      //     event.persist();
+            
+            let distance = event.target.scrollLeft;
+            let self = this;
             if(event.nativeEvent.target.scrollLeft >= 0) {
-                this.resultTitles.style.transform = `translate(-${event.target.scrollLeft}px, 0)` 
-                
+                function move() {
+                    //self.resultTitles.scrollLeft = distance;
+                    self.resultTitles.style.transform = `translate(-${distance}px, 0)`
+                    requestAnimationFrame(move)
+                }
+                requestAnimationFrame(move)
             }
+
             if(event.nativeEvent.target.scrollLeft < 0) {
-                this.resultTitles.style.transform = `translate(0, 0)`   
+                function stop() {
+                    self.resultTitles.style.transform = `translate(0, 0)`;
+                    cancelAnimationFrame(move);
+                }
+                requestAnimationFrame(move);
+                //this.resultTitles.style.transform = `translate(0, 0)`   
             }
         }
 

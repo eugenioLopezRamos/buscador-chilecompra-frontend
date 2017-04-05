@@ -4,6 +4,8 @@ import Flash from './Flash.jsx';
 const SignupForm = (props) => {
     //TODO: If password != password_confirmation, give a warning and dont send info to backend
 
+    console.log("INFO", props.signupInfo);
+    
     const handleChangeName = (event) => {
         props.inputActions.signupInputsName(event.target.value);
     }
