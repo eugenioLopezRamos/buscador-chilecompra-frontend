@@ -40,6 +40,12 @@ const messagesReducer = (state = initialState.messages, action) => {
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
             return objectAssign({}, state, {Errores: errors});
 
+        case types.USER_SEND_RECOVER_ACCOUNT_SUCCESS:
+            return objectAssign({}, state, {Info: action.value.message});
+
+        case types.USER_SEND_RECOVER_ACCOUNT_FAILURE:
+            return objectAssign({}, state, {Errores: action.value.errors});
+
             //SUBSCRIPTIONS
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
             return state;

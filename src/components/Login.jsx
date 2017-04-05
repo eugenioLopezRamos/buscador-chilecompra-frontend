@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router';
 
 const Login = (props) => {
 
@@ -18,8 +19,11 @@ const Login = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         return null;
-    }   
+    } 
+    const recoverPasswordHandler = (event) => {
 
+        
+    }
     return (
             <form className="navbar-form navbar-right" role="form">
                 <span className="login-span">Tienes cuenta? Ingresa:</span>
@@ -42,10 +46,16 @@ const Login = (props) => {
                         />
                 </div>
                 <button type="submit" 
-                    className="btn btn-success"
+                    className="btn btn-success login"
                     onSubmit={handleSubmit}
                     onClick={handleClickSubmit}
                     >Enviar</button>
+                <Link
+                    className="btn btn-primary login"
+                    to="/recuperacion"
+                >
+                    Recuperar cuenta
+                </Link>
             </form>
     );
 };

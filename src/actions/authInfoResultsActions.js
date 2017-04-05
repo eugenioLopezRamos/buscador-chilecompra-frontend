@@ -30,6 +30,14 @@ export const logoutFailure = (response) => {
     return {type: types.USER_LOGOUT_FAILURE, response};
 };
 
+export const sendRecoverAccountSuccess = (value) => {
+    return {type: types.USER_SEND_RECOVER_ACCOUNT_SUCCESS, value};
+};
+export const sendRecoverAccountFailure = (value) => {
+    return {type: types.USER_SEND_RECOVER_ACCOUNT_FAILURE, value};
+};
+
+
 export const submitLoginInfo = (login_data) => {
     // login_data = {email,password};
  
@@ -101,5 +109,23 @@ export const sendLogoutInfo = () => {
             })
             .catch(error => {dispatch(logoutFailure(error));});
                
+    };
+};
+
+export const sendRecoverAccount = (email) => {
+    
+    return dispatch => {
+        return userAPI.sendRecoverAccount(email)
+            .then(response => {
+                if(response && response.status >= 200 && response.status < 300) {
+                    return response.json().then(response => {
+                        dispatch(sendRecoverAccountSuccess(response));
+                    });
+                }
+                return response.json().then(response => {
+                    dispatch(sendRecoverAccountFailure(response));
+                });
+        })
+        .catch(() => dispatch(sendRecoverAccountFailure({errors: "Ha habido un error."})));
     };
 };

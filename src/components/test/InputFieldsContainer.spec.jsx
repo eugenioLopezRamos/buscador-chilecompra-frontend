@@ -9,11 +9,11 @@ import objectAssign from 'object-assign';
 import {deepFreeze} from '../../utils/miscUtils';
 
 function setup() {
-        const searchResults = null;
-        const organismosPublicos =  [{"*": "Todos"},  {111: "Organismo 1"}, {222: "Organismo 2"}];
-        const estadosLicitacion = {111: "Estado 1", 222: "Estado 2"};
-        const searchQueryValues =  initialState.searchQueryValues;
-        const messages = initialState.messages;
+    const searchResults = null;
+    const organismosPublicos =  [{"*": "Todos"},  {111: "Organismo 1"}, {222: "Organismo 2"}];
+    const estadosLicitacion = {111: "Estado 1", 222: "Estado 2"};
+    const searchQueryValues =  initialState.searchQueryValues;
+    const messages = initialState.messages;
 
     const props = {
         searchResults,

@@ -28,7 +28,7 @@ export default {
   plugins: [
     // Hash the files using MD5 so that their names change when the content changes.
     new WebpackMd5Hash(),
-    new webpack.optimize.DedupePlugin(), //dedupe similar code 
+
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
     new webpack.DefinePlugin(GLOBALS),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),

@@ -10,6 +10,7 @@ import * as API from './actions/fetchActions';
 import {createUserSearches as createSearches} from './actions/UserActions';
 import initialState from './reducers/initialState';
 import SearchesSaver from './components/SearchesSaver';
+import AccountRecovery from './components/AccountRecovery.jsx';
 
 export default (
     <Route path="/" component={App} >
@@ -53,6 +54,11 @@ export default (
                            />);
                 }
             } 
+        />
+
+        <Route
+            path="/recuperacion"
+            component={AccountRecovery}
         />
 
     </Route>

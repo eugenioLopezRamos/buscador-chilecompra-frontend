@@ -56,6 +56,24 @@
     flex-direction: column;
 }
 
+.btn {
+
+    &.btn-primary, &.btn-success {
+        &.login {
+            min-width: 40%;
+        }
+    }
+
+    &.btn-primary.login {
+        float:right;
+    }
+
+}
+
+// a.btn.btn-primary.login {
+//     float:right;
+// }
+
 @keyframes dropdown-anim {
     0% {
         transform: scaleY(0.3);
@@ -98,6 +116,8 @@
     form.navbar-form.navbar-right {
         width: 74%;
         display:flex;
+        padding-left: 0;
+        padding-right: 0;
         .form-group {
             width: 25%;
             
@@ -106,17 +126,38 @@
             }
             
         }
-        button {
-            height: 100%;
-            width: 25%;
+
+        .btn {
+
+            &.btn-primary, &.btn-success {
+                &.login {
+                    min-width: 0%;
+                }
+            }
+
+            &.btn-primary.login {
+                float:right;
+                height: 100%;
+                padding-left: 0;
+                padding-right: 0;
+                width: 27%;
+            }
+            &.btn-success.login {
+                height: 100%;
+                width: 23%;
+            }
+
         }
+
     }
 
     .login-span {
 
         color: #eee;
         padding: 0;
-        width: 30%;
+        width: 24%;
+        text-align: left;
+        margin-left: 0px;
     }
     
     .dropdown-menu-list-item {
@@ -138,10 +179,6 @@
             padding: 3px;
             background-color: #f5f5f5;       
         }
-    }
-
-    .navbar-brand {
-      //  padding-left: 0;
     }
 
     .user-menu {
@@ -216,4 +253,15 @@
             background-color: #f5f5f5;
         }
     }
+
+    .btn {
+
+        &.btn-primary, &.btn-success {
+            &.login {
+                max-width: 150px;
+            }
+        }
+
+    }
+
 }

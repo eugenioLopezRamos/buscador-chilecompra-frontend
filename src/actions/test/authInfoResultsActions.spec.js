@@ -223,6 +223,62 @@ describe('Tests logging in and out unsuccessfully', () => {
 
   });
 
+  it('Should send recover account request successfully',  () => {
+
+    const mockHeader = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+
+    const mockEmail = "example@example.com";
+    const expectedResponse = {"success":true,"message":`Un correo electrónico ha sido enviado a '${mockEmail}' con las instrucciones para restablecer su contraseña.`};
+
+    nock("http://localhost:3000")
+      .post('/api/auth/password', {email: mockEmail, redirect_url: "/"})
+      .reply(200, expectedResponse);
+
+      const store = mockStore();
+      const expectedActions = [
+        {
+          type: types.USER_SEND_RECOVER_ACCOUNT_SUCCESS,
+          value: expectedResponse
+        }
+      ];
+
+      return store.dispatch(actions.sendRecoverAccount(mockEmail))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+
+  });
+
+  it('Should send recover account request unsuccessfully', () => {
+    const mockHeader = {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+    const mockEmail = "missing@doesnt-exist.com";
+    const expectedResponse = {"success":false,"errors":[`No se pudo encontrar un usuario con este correo electrónico '${mockEmail}'.`]};
+
+    nock("http://localhost:3000")
+      .post('/api/auth/password', {email: mockEmail, redirect_url: "/"})
+      .reply(404, expectedResponse);
+
+      const store = mockStore();
+      const expectedActions = [
+        {
+          type: types.USER_SEND_RECOVER_ACCOUNT_FAILURE,
+          value: expectedResponse
+        }
+      ];
+      return store.dispatch(actions.sendRecoverAccount(mockEmail))
+        .then(() => {
+          expect(store.getActions()).toEqual(expectedActions);
+        });
+
+
+  });
+
 
 
 

@@ -69,10 +69,20 @@ class userApi {
         return fetch(`${process.env.API_HOST}/api/auth/`,
         {method: "PUT", body: reqBody, headers
         });
-        // .then(response => {return response})
-        // .catch(error => {return error})
+    }
 
-       // .catch(error => {return error});
+    static sendRecoverAccount(email) {
+
+        let body = JSON.stringify({email, redirect_url: "/"});
+        let headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        };
+        
+        return fetch(`${process.env.API_HOST}/api/auth/password`, {
+            method: "POST", body, headers
+        });
+
     }
 
     //SUBSCRIPTIONS
