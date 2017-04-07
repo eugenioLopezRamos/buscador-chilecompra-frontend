@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import UserProfile from '../../user/UserProfile';
-
+import sinon from 'sinon';
 function setup() {
 
     const props = {
@@ -155,8 +155,11 @@ describe('Component', () => {
             // Eliminar
             let eliminarSearchButton = searchButtons.at(2);
             expect(props.deleteUserSearches.mock.calls.length).toEqual(0);
+            const confirmStub = sinon.stub(global, 'confirm');
+            confirmStub.returns(true);
             eliminarSearchButton.simulate("click");
             expect(props.deleteUserSearches.mock.calls.length).toEqual(1);
+            confirmStub.restore();
             // STORED SUBSCRIPTIONS
             const subscriptionBtnSelector = 'div.profile-stored-subscriptions li.list-group-item.saved-items button.btn.btn-primary.pull-right';
             const subscriptionButtons = wrapper.find(subscriptionBtnSelector);
@@ -176,9 +179,11 @@ describe('Component', () => {
             //Eliminar
             let eliminarSubscriptionButton = subscriptionButtons.at(2);
             expect(props.deleteUserSubscription.mock.calls.length).toEqual(0);
+            const anotherConfirmStub = sinon.stub(global, 'confirm');
+            anotherConfirmStub.returns(true);
             eliminarSubscriptionButton.simulate("click");
             expect(props.deleteUserSubscription.mock.calls.length).toEqual(1);
-        
+            anotherConfirmStub.restore();
             //TODO: Make + test the link displayed when a user has no subsctiptions stored
 
         });

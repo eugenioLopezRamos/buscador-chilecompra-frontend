@@ -4,8 +4,12 @@ import {Link} from 'react-router';
 const UserProfile = (props) => {
     
     const handleSearchDelete = (index) => {
-        let id = Object.values(props.userSearches.id)[index];
-        props.deleteUserSearches(id);
+        let searchName = Object.values(props.userSearches.name)[index];
+        let delete_it = confirm(`Estás seguro que deseas eliminar la búsqueda ${searchName}`);
+        if(delete_it) {
+            let id = Object.values(props.userSearches.id)[index];
+            props.deleteUserSearches(id);
+        }
     };
 
     const showStoredSearch = (component, index) => {
@@ -17,7 +21,10 @@ const UserProfile = (props) => {
     };
 
     const handleSubscriptionDelete = (name) => {
-        props.deleteUserSubscription(name);   
+        let delete_it = confirm(`Estas seguro que desear borrar la suscripcion ${name}`)
+        if(delete_it) {
+            props.deleteUserSubscription(name);   
+        }
     };
 
     const handleShowSubscriptionHistory = (component, resultId, resultName) => {
