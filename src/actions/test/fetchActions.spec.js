@@ -54,7 +54,7 @@ describe('Tests chilecompra result fetcher', () => {
         
 
         nock("http://localhost:3000")
-            .post('/api/get_info')
+            .post('/api/licitacion_data')
             .reply(200, expectedResponse);
 
         let expectedActions = [{
@@ -95,7 +95,7 @@ describe('Tests chilecompra result fetcher', () => {
         };
         
         nock("http://localhost:3000")
-            .post('/api/get_info')
+            .post('/api/licitacion_data')
             .reply(200, expectedResponse);
 
         let expectedActions = [{

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
 const UserProfile = (props) => {
     
@@ -44,7 +45,9 @@ const UserProfile = (props) => {
                             </li>);
                     }) : <li className="list-group-item saved-items" key={"search-empty"}>
                             <span className="saved-items-description">No hay búsquedas guardadas</span>
-                            <button type="button" className="btn btn-primary pull-right" onClick={() => {alert("deberia ser un link!");}}>Buscar</button>
+                            <Link to="/busqueda" className="btn btn-primary pull-right">
+                                <span className="link-button-text">Buscar</span>
+                            </Link>
                          </li>
                 }
             </div>
@@ -68,8 +71,10 @@ const UserProfile = (props) => {
                                 <button type="button" className="btn btn-primary pull-right" onClick={() => {handleSubscriptionDelete(subscription);}}>Eliminar</button>
                                </li>);
                     }) :  <li className="list-group-item saved-items" key={"results-empty"}>
-                            <span className="saved-items-description">No hay suscripciones</span>
-                            <button type="button" className="btn btn-primary pull-right" onClick={() => {alert("TODO: deberia ser un link a buscar!!");}}>Buscar</button>
+                            <span className="saved-items-description">No hay suscripciones guardadas</span>
+                            <Link to="/busqueda" className="btn btn-primary pull-right">
+                                <span className="link-button-text">Buscar</span>
+                            </Link>
                           </li>
                 }
             </div>

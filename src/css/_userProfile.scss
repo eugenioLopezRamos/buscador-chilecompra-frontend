@@ -1,7 +1,3 @@
-.profile-container {
-
-}
-
 .jumbotron.user-profile-page-main-container{
     padding: 15px 7px 15px 7px;
     max-width: 100vw;
@@ -35,7 +31,6 @@
     padding: 0;
 
 }
-
 
 .list-group-item.saved-items {
     button, .saved-items-description {
@@ -77,6 +72,16 @@
 
 .user-profile-data-update-container {
     padding: 15px;
+}
+
+a.btn.btn-primary.pull-right {
+    text-align:center;
+    width: 25%;
+    display: flex;
+    
+    .link-button-text {
+        margin: auto;
+    }
 }
 
 

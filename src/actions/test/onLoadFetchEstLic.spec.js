@@ -35,7 +35,7 @@ describe('it gets the Estados Licitacion from the server', () => {
     const store = mockStore({});
 
     nock("http://localhost:3000/")
-        .get('/api/get_misc_info?info=estados_licitacion')
+        .get('/api/chilecompra_misc_data?info=estados_licitacion')
         .reply(200, {"1": "Estado Licitacion ejemplo"});
    
     return store.dispatch(onLoadFetchEstLic())

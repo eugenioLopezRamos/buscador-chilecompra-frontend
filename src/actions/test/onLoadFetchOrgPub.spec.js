@@ -51,7 +51,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
 
         const store = mockStore();
         nock("http://localhost:3000")
-            .get('/api/get_misc_info?info=organismos_publicos')
+            .get('/api/chilecompra_misc_data?info=organismos_publicos')
             .reply(200, expectedResponse);
 
         return store.dispatch(onLoadFetchOrgPub())
@@ -80,7 +80,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
         const store = mockStore();
 
         nock("http://localhost:3000")
-            .get('/api/get_misc_info?info=organismos_publicos')
+            .get('/api/chilecompra_misc_data?info=organismos_publicos')
             .reply(200, expectedResponse);
 
         return store.dispatch(onLoadFetchOrgPub())
