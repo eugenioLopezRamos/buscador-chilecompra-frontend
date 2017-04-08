@@ -17,7 +17,7 @@ describe('Reducers', () => {
             expect(initialValue).toEqual(reducer(undefined, action));
 
             let mockValue = {1111: "Organismo publico 1"};
-            action = {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: mockValue};
+            action = {type: types.FETCH_ORGANISMOS_PUBLICOS_SUCCESS, value: mockValue};
             let expectedValue = mockValue;
 
             expect(expectedValue).toEqual(reducer(undefined, action));

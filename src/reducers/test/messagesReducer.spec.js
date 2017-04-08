@@ -2,8 +2,8 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
 import messagesReducer from '../messagesReducer';
-
-
+import * as messages from '../../constants/flashMessages';
+import * as backendMessages from '../../__mocks__/messagesFromBackendMocks';
 describe('Reducers', () => {
  
     describe('messagesReducer', () => {
@@ -40,17 +40,17 @@ describe('Reducers', () => {
 
             // ONLOAD FETCHERS
 
-            action = {type: types.ONLOAD_FETCH_EST_LIC_FAILURE };
-            let expectedValue = {Errores: "Hubo un error al obtener datos de estados licitación desde el servidor, intenta de nuevo", Info: []};
+            action = {type: types.FETCH_ESTADOS_LICITACION_FAILURE };
+            let expectedValue = objectAssign({}, initialState.messages, {Errores: messages.FETCH_ESTADOS_LICITACION_FAILURE});
             compareResults(action, expectedValue)
 
-            action = {type: types.ONLOAD_FETCH_ORG_PUB_FAILURE };
-            expectedValue = {Errores: "Hubo un error al obtener datos de organismos públicos desde el servidor, intenta de nuevo", Info: []};
+            action = {type: types.FETCH_ORGANISMOS_PUBLICOS_FAILURE };
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.FETCH_ORGANISMOS_PUBLICOS_FAILURE});
             compareResults(action, expectedValue);
 
             //FETCH CHILECOMPRA DATA
             action = {type: types.FETCH_CHILECOMPRA_DATA_START };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Cargando..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.FETCH_CHILECOMPRA_DATA_START});
             compareResults(action, expectedValue);
 
             action = {type: types.FETCH_CHILECOMPRA_DATA_SUCCESS};
@@ -58,67 +58,67 @@ describe('Reducers', () => {
             compareResults(action, expectedValue);
 
             action = {type: types.FETCH_CHILECOMPRA_DATA_FAILURE};
-            expectedValue = objectAssign({}, initialState.messages, {Errores: "Lo sentimos, no se pudo obtener esa información. Por favor espera un poco e intenta de nuevo"});
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.FETCH_CHILECOMPRA_DATA_FAILURE});
             compareResults(action, expectedValue);
 
             //SIGNUP
             action = {type: types.USER_SEND_SIGNUP_INFO };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Enviando información"});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_SEND_SIGNUP_INFO});
             compareResults(action, expectedValue);
 
 
             action = {type: types.USER_SEND_SIGNUP_INFO_SUCCESS };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Registrado exitosamente! Revisa tu email para confirmar tu cuenta."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_SEND_SIGNUP_INFO_SUCCESS});
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: "Error al inscribirse"};
+            action = {type: types.USER_SEND_SIGNUP_INFO_FAILURE, message: messages.USER_SEND_SIGNUP_INFO_FAILURE};
             expectedValue = objectAssign({}, initialState.messages, {Errores: action.message});
             compareResults(action, expectedValue);
 
             //LOGIN
 
             action = {type: types.USER_SEND_LOGIN_INFO };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Ingresando..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_SEND_LOGIN_INFO});
             compareResults(action, expectedValue);
 
             action = {type: types.USER_SEND_LOGIN_INFO_SUCCESS };
             expectedValue = initialState.messages;
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_SEND_LOGIN_INFO_FAILURE };
-            expectedValue = objectAssign({}, initialState.messages, {Errores: "No se pudo ingresar a la aplicación, por favor intentalo de nuevo"});
+            action = {type: types.USER_SEND_LOGIN_INFO_FAILURE, message: backendMessages.USER_SEND_LOGIN_INFO_FAILURE};
+            expectedValue = objectAssign({}, initialState.messages, {Errores: action.message});
             compareResults(action, expectedValue);
 
             //LOGOUT
             action = {type: types.USER_LOGOUT};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Cerrando sesión..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_LOGOUT});
             compareResults(action, expectedValue);
 
             action = {type: types.USER_LOGOUT_SUCCESS};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Has salido de la aplicación"});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_LOGOUT_SUCCESS});
             compareResults(action, expectedValue);
 
             action = {type: types.USER_LOGOUT_FAILURE };
-            expectedValue = objectAssign({}, initialState.messages, {Errores: "No pudimos sacarte de la aplicación, intenta nuevamente"});
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.USER_LOGOUT_FAILURE});
             compareResults(action, expectedValue);
 
             // VALIDATE TOKEN
             action = {type: types.USER_VALIDATE_TOKEN_FAILURE };
-            expectedValue = objectAssign({}, initialState.messages, {Errores: "No se pudo validar tu sesión, por favor vuelve a ingresar"});
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.USER_VALIDATE_TOKEN_FAILURE});
             compareResults(action, expectedValue);
 
 
             //PROFILE
                 //PROFILE DATA
             action = {type: types.USER_MODIFY_PROFILE_DATA };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Modificando perfil..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_MODIFY_PROFILE_DATA });
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}};
+            action = {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: messages.USER_MODIFY_PROFILE_DATA_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, value: {message: {errors: "No se pudo modificar los datos de perfil"}}};
+            action = {type: types.USER_MODIFY_PROFILE_DATA_FAILURE, value: {message: {errors: messages.USER_MODIFY_PROFILE_DATA_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
@@ -130,46 +130,46 @@ describe('Reducers', () => {
             expectedValue = {Info: initialInfo, Errores: initialErrors};
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE, value: {message: {errors: "No se pudo obtener subscripciones"}}};
+            action = {type: types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE, value: {message: {errors: backendMessages.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
                 //CREATE
             action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Creando suscripción..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_CREATE_RESULT_SUBSCRIPTION });
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripción creada con éxito!"}}};
+            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: backendMessages.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS}}};
             expectedValue = {Info: action.value.message.info, Errores: initialErrors};
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: "Error al crear suscripción"}}};
+            action = {type: types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: messages.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
                 
                 //UPDATE
             action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Actualizando información de suscripción"});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_UPDATE_RESULT_SUBSCRIPTION });
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripcion actualizada con éxito"}}};
+            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: backendMessages.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: "Fallo al actualizar suscripción"}}};
+            action = {type: types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: backendMessages.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
                 //DELETE
             action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION };
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Eliminando suscripción"});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_DELETE_RESULT_SUBSCRIPTION});
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: "Suscripción borrada exitosamente"}}};
+            action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {info: backendMessages.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS, value: {message: {errors: "Fallo al borrar suscripción"}}};
+            action = {type: types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE, value: {message: {errors: backendMessages.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
@@ -177,62 +177,50 @@ describe('Reducers', () => {
                 //SEARCHES
                 //CREATE
             action = {type: types.USER_CREATE_SEARCHES};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Guardando parámetros de búsqueda..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_CREATE_SEARCHES});
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_CREATE_SEARCHES_SUCCESS, value: {message: {info: "Busqueda creada con éxito"}}};
+            action = {type: types.USER_CREATE_SEARCHES_SUCCESS, value: {message: {info: backendMessages.USER_CREATE_SEARCHES_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_CREATE_SEARCHES_FAILURE, value: {message: {info: "Fallo al crear busqueda"}}};
+            action = {type: types.USER_CREATE_SEARCHES_FAILURE, value: {message: {info: backendMessages.USER_CREATE_SEARCHES_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
                 //UPDATE
             action = {type: types.USER_UPDATE_SEARCHES};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Actualizando información de búsqueda almacenada..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_UPDATE_SEARCHES});
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_UPDATE_SEARCHES_SUCCESS, value: {message: {info: "Busqueda actualizada con exito"}}};
+            action = {type: types.USER_UPDATE_SEARCHES_SUCCESS, value: {message: {info: backendMessages.USER_UPDATE_SEARCHES_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_UPDATE_SEARCHES_FAILURE, value: {message: {errors: "Fallo al actualizar busqueda"}}};
+            action = {type: types.USER_UPDATE_SEARCHES_FAILURE, value: {message: {errors: backendMessages.USER_UPDATE_SEARCHES_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
                 //DELETE
             action = {type: types.USER_DELETE_SEARCHES};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Borrando búsqueda almacenada..."});
+            expectedValue = objectAssign({}, initialState.messages, {Info: messages.USER_DELETE_SEARCHES});
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_DELETE_SEARCHES_SUCCESS, value: {message: {info: "Busqueda borrada con exito"}}};
+            action = {type: types.USER_DELETE_SEARCHES_SUCCESS, value: {message: {info: backendMessages.USER_DELETE_SEARCHES_SUCCESS}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
-            action = {type: types.USER_DELETE_SEARCHES_FAILURE, value: {message: {errors: "Error al borrar busqueda"}}};
+            action = {type: types.USER_DELETE_SEARCHES_FAILURE, value: {message: {errors: backendMessages.USER_DELETE_SEARCHES_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 
                 //NOTIFICATIONS
                 //GET
-            action = {type: types.USER_GET_NOTIFICATIONS_SUCCESS, value: {message: {info: "Notificaciones solicitadas con éxito"}}};
-            expectedValue = setExpectedValue();
-            compareResults(action, expectedValue);
-
-            action = {type: types.USER_GET_NOTIFICATIONS_FAILURE, value: {message: {errors: "Error al intentar obtener notificaciones"}}};
-            expectedValue = setExpectedValue();
+            action = {type: types.USER_GET_NOTIFICATIONS_FAILURE};
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.USER_GET_NOTIFICATIONS_FAILURE});
             compareResults(action, expectedValue);
 
                 //DELETE
-            action = {type: types.USER_DELETE_NOTIFICATION};
-            expectedValue = objectAssign({}, initialState.messages, {Info: "Borrando notificación..."});
-            compareResults(action, expectedValue);
-
-            action = {type: types.USER_DELETE_NOTIFICATION_SUCCESS, value: {message: {info: "Notificacion eliminada"}}};
-            expectedValue = setExpectedValue();
-            compareResults(action, expectedValue);
-
-            action = {type: types.USER_DELETE_NOTIFICATION_FAILURE, value: {message: {errors: "Error al intentar borrar notificacion"}}};
+            action = {type: types.USER_DELETE_NOTIFICATION_FAILURE, value: {message: {errors: backendMessages.USER_DELETE_NOTIFICATION_FAILURE}}};
             expectedValue = setExpectedValue();
             compareResults(action, expectedValue);
 

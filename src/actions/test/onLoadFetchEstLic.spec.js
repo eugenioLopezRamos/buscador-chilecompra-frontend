@@ -31,7 +31,7 @@ describe('it gets the Estados Licitacion from the server', () => {
       localStorage.setItem("session", JSON.stringify(initialHeaders));
 
 
-    const expectedAction = [{type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value: {"1": "Estado Licitacion ejemplo"} }];
+    const expectedAction = [{type: types.FETCH_ESTADOS_LICITACION_SUCCESS, value: {"1": "Estado Licitacion ejemplo"} }];
     const store = mockStore({});
 
     nock("http://localhost:3000/")

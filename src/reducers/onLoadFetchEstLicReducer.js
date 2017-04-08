@@ -5,17 +5,17 @@ import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 import objectAssign from 'object-assign';
 
-// export const ONLOAD_FETCH_ORG_PUB_SUCCESS = 'ONLOAD_FETCH_ORG_PUB_SUCCESS';
-// export const ONLOAD_FETCH_ORG_PUB_FAILURE = 'ONLOAD_FETCH_ORG_PUB_FAILURE';
-// export const ONLOAD_FETCH_EST_LIC_SUCCESS = 'ONLOAD_FETCH_EST_LIC_SUCCESS';
-// export const ONLOAD_FETCH_EST_LIC_FAILURE = 'ONLOAD_FETCH_EST_LIC_FAILURE';
+// export const FETCH_ORGANISMOS_PUBLICOS_SUCCESS = 'FETCH_ORGANISMOS_PUBLICOS_SUCCESS';
+// export const FETCH_ORGANISMOS_PUBLICOS_FAILURE = 'FETCH_ORGANISMOS_PUBLICOS_FAILURE';
+// export const FETCH_ESTADOS_LICITACION_SUCCESS = 'FETCH_ESTADOS_LICITACION_SUCCESS';
+// export const FETCH_ESTADOS_LICITACION_FAILURE = 'FETCH_ESTADOS_LICITACION_FAILURE';
 
 export default function onLoadFetchEstLicReducer(state = initialState.estadosLicitacion, action){
     switch(action.type) {
-        case types.ONLOAD_FETCH_EST_LIC_SUCCESS:
+        case types.FETCH_ESTADOS_LICITACION_SUCCESS:
             return objectAssign({}, state, action.value);
         
-        case types.ONLOAD_FETCH_EST_LIC_FAILURE:
+        case types.FETCH_ESTADOS_LICITACION_FAILURE:
             return state;
             
         default:

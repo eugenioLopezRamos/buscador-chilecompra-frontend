@@ -47,7 +47,7 @@ describe('Reducer', () => {
             let filteredOrganismos = {1: "Org 1", 2: "Org 2"};
 
             //FETCH ORGANISMOS PUBLICOS
-            action = {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: filteredOrganismos};
+            action = {type: types.FETCH_ORGANISMOS_PUBLICOS_SUCCESS, value: filteredOrganismos};
             expectedValue = objectAssign({}, initialValue, {organismosPublicosFilteredSubset: filteredOrganismos});
             expect(expectedValue).toEqual(reducer(undefined, action));
 

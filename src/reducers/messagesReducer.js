@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 import objectAssign from 'object-assign';
+import * as messages from '../constants/flashMessages';
 
 const messagesReducer = (state = initialState.messages, action) => {
 
@@ -27,73 +28,73 @@ const messagesReducer = (state = initialState.messages, action) => {
             return initialState.messages;
             //TODO: Send signup messages from the server?
             //ONLOAD FETCHERS
-        case types.ONLOAD_FETCH_EST_LIC_FAILURE:
-            return objectAssign({}, state, {Errores: "Hubo un error al obtener datos de estados licitación desde el servidor, intenta de nuevo"});
+        case types.FETCH_ESTADOS_LICITACION_FAILURE:
+            return objectAssign({}, initialState.messages, {Errores: messages.FETCH_ESTADOS_LICITACION_FAILURE});
 
-        case types.ONLOAD_FETCH_ORG_PUB_FAILURE:
-            return objectAssign({}, state, {Errores: "Hubo un error al obtener datos de organismos públicos desde el servidor, intenta de nuevo"});
+        case types.FETCH_ORGANISMOS_PUBLICOS_FAILURE:
+            return objectAssign({}, initialState.messages, {Errores: messages.FETCH_ORGANISMOS_PUBLICOS_FAILURE});
 
             //FETCH CHILECOMPRA DATA
         case types.FETCH_CHILECOMPRA_DATA_START:
-            return objectAssign({}, state, {Info: "Cargando..."});
+            return objectAssign({}, initialState.messages, {Info: messages.FETCH_CHILECOMPRA_DATA_START});
 
         case types.FETCH_CHILECOMPRA_DATA_SUCCESS:
             return initialState.messages;
         
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
-            return objectAssign({}, state, {Errores: "Lo sentimos, no se pudo obtener esa información. Por favor espera un poco e intenta de nuevo"});
+            return objectAssign({}, initialState.messages, {Errores: messages.FETCH_CHILECOMPRA_DATA_FAILURE});
             
         //SIGNUP
         case types.USER_SEND_SIGNUP_INFO:
-            return objectAssign({}, state, {Info: "Enviando información"});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_SEND_SIGNUP_INFO});
 
         case types.USER_SEND_SIGNUP_INFO_SUCCESS:
-            return objectAssign({}, state, {Info: "Registrado exitosamente! Revisa tu email para confirmar tu cuenta."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_SEND_SIGNUP_INFO_SUCCESS});
         
         case types.USER_SEND_SIGNUP_INFO_FAILURE:
-            return objectAssign({}, state, {Errores: action.message});
+           return objectAssign({}, initialState.messages, {Errores: action.message});
 
         // LOGIN
         case types.USER_SEND_LOGIN_INFO:
-            return objectAssign({}, state, {Info: "Ingresando..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_SEND_LOGIN_INFO});
         
         case types.USER_SEND_LOGIN_INFO_SUCCESS:
             return initialState.messages;
 
         case types.USER_SEND_LOGIN_INFO_FAILURE:
-            return objectAssign({}, state, {Errores: "No se pudo ingresar a la aplicación, por favor intentalo de nuevo"});
+            return objectAssign({}, initialState.messages, {Errores: action.message});
 
         //LOGOUT
         case types.USER_LOGOUT:
-            return objectAssign({}, state, {Info: "Cerrando sesión..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_LOGOUT});
 
         case types.USER_LOGOUT_SUCCESS:
-            return objectAssign({}, state, {Info: "Has salido de la aplicación"});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_LOGOUT_SUCCESS});
 
         case types.USER_LOGOUT_FAILURE:
-            return objectAssign({}, state, {Errores: "No pudimos sacarte de la aplicación, intenta nuevamente"});
+            return objectAssign({}, initialState.messages, {Errores: messages.USER_LOGOUT_FAILURE});
         // VALIDATE TOKEN
         case types.USER_VALIDATE_TOKEN_FAILURE:
-            return objectAssign({}, state, {Errores: "No se pudo validar tu sesión, por favor vuelve a ingresar"});
+            return objectAssign({}, initialState.messages, {Errores: messages.USER_VALIDATE_TOKEN_FAILURE});
             //PROFILE
         case types.USER_MODIFY_PROFILE_DATA:
-            return objectAssign({}, state, {Info: "Modificando perfil..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_MODIFY_PROFILE_DATA});
         
         case types.USER_MODIFY_PROFILE_DATA_SUCCESS:
         //TODO: Probably will have to move this constants off here
-            return objectAssign({}, state, {Info: info});
+            return objectAssign({}, initialState.messages, {Info: info});
 
         case types.USER_MODIFY_PROFILE_DATA_FAILURE:
-            return objectAssign({}, state, {Errores: errors});
+            return objectAssign({}, initialState.messages, {Errores: errors});
         
         case types.USER_SEND_RECOVER_ACCOUNT:
-            return objectAssign({}, state, {Info: "Enviando información..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_SEND_RECOVER_ACCOUNT});
 
         case types.USER_SEND_RECOVER_ACCOUNT_SUCCESS:
-            return objectAssign({}, state, {Info: action.value.message});
+            return objectAssign({}, initialState.messages, {Info: action.value.message});
 
         case types.USER_SEND_RECOVER_ACCOUNT_FAILURE:
-            return objectAssign({}, state, {Errores: action.value.errors});
+            return objectAssign({}, initialState.messages, {Errores: action.value.errors});
 
             //SUBSCRIPTIONS
                 //GET
@@ -101,80 +102,71 @@ const messagesReducer = (state = initialState.messages, action) => {
             return state;
 
         case types.USER_GET_RESULT_SUBSCRIPTIONS_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
                 // CREATE
         case types.USER_CREATE_RESULT_SUBSCRIPTION:
-            return objectAssign({}, state, {Info: "Creando suscripción..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_CREATE_RESULT_SUBSCRIPTION});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_CREATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state,  {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages,  {Info: info, Errores: errors});
                 // UPDATE
         case types.USER_UPDATE_RESULT_SUBSCRIPTION:
-            return objectAssign({}, state, {Info: "Actualizando información de suscripción"});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_UPDATE_RESULT_SUBSCRIPTION});
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
                 //DELETE
         case types.USER_DELETE_RESULT_SUBSCRIPTION:
-            return objectAssign({}, state, {Info: "Eliminando suscripción"});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_DELETE_RESULT_SUBSCRIPTION});
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_DELETE_RESULT_SUBSCRIPTION_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
 
             //SEARCHES
                 //CREATE
         case types.USER_CREATE_SEARCHES:
-            return objectAssign({}, state, {Info: "Guardando parámetros de búsqueda..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_CREATE_SEARCHES});
 
         case types.USER_CREATE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_CREATE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
                 //UPDATE
         case types.USER_UPDATE_SEARCHES:
-            return objectAssign({}, state, {Info: "Actualizando información de búsqueda almacenada..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_UPDATE_SEARCHES});
 
         case types.USER_UPDATE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_UPDATE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
                 //DELETE
         case types.USER_DELETE_SEARCHES:
-            return objectAssign({}, state, {Info: "Borrando búsqueda almacenada..."});
+            return objectAssign({}, initialState.messages, {Info: messages.USER_DELETE_SEARCHES});
         case types.USER_DELETE_SEARCHES_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         case types.USER_DELETE_SEARCHES_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
             //NOTIFICATIONS
-        case types.USER_GET_NOTIFICATIONS_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
-
         case types.USER_GET_NOTIFICATIONS_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
-
-        case types.USER_DELETE_NOTIFICATION:
-            return objectAssign({}, state, {Info: "Borrando notificación..."});
-
-        case types.USER_DELETE_NOTIFICATION_SUCCESS:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Errores: messages.USER_GET_NOTIFICATIONS_FAILURE});
 
         case types.USER_DELETE_NOTIFICATION_FAILURE:
-            return objectAssign({}, state, {Info: info, Errores: errors});
+            return objectAssign({}, initialState.messages, {Info: info, Errores: errors});
 
         default:
             return state;

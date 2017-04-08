@@ -1,0 +1,21 @@
+
+export const FETCH_ESTADOS_LICITACION_FAILURE = "Hubo un error al obtener datos de estados licitación desde el servidor, intenta de nuevo";
+export const FETCH_ORGANISMOS_PUBLICOS_FAILURE = "Hubo un error al obtener datos de organismos públicos desde el servidor, intenta de nuevo";
+export const FETCH_CHILECOMPRA_DATA_START = "Buscando...";
+export const FETCH_CHILECOMPRA_DATA_FAILURE = "Lo sentimos, no se pudo obtener esa información. Por favor espera un poco e intenta de nuevo";
+export const USER_SEND_SIGNUP_INFO = "Enviando información para registro...";
+export const USER_SEND_SIGNUP_INFO_SUCCESS = "Registrado exitosamente! Revisa tu email para confirmar tu cuenta.";
+export const USER_SEND_LOGIN_INFO = "Ingresando...";
+export const USER_LOGOUT = "Cerrando sesión...";
+export const USER_LOGOUT_SUCCESS = "Has salido de la aplicación";
+export const USER_LOGOUT_FAILURE = "No pudimos sacarte de la aplicación, intenta nuevamente";
+export const USER_VALIDATE_TOKEN_FAILURE = "No se pudo validar tu sesión, por favor vuelve a ingresar";
+export const USER_MODIFY_PROFILE_DATA = "Modificando datos de perfil...";
+export const USER_SEND_RECOVER_ACCOUNT = "Enviando información para recuperar cuenta...";
+export const USER_CREATE_RESULT_SUBSCRIPTION = "Creando suscripción...";
+export const USER_UPDATE_RESULT_SUBSCRIPTION = "Actualizando información de suscripción";
+export const USER_DELETE_RESULT_SUBSCRIPTION = "Eliminando suscripción";
+export const USER_CREATE_SEARCHES = "Guardando parámetros de búsqueda...";
+export const USER_UPDATE_SEARCHES = "Actualizando información de búsqueda almacenada...";
+export const USER_DELETE_SEARCHES = "Borrando búsqueda almacenada...";
+export const USER_GET_NOTIFICATIONS_FAILURE = "Error al obtener notificaciones";

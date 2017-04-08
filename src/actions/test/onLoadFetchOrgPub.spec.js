@@ -46,7 +46,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
         ];
 
         const expectedActions = [
-            {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: expectedValue}
+            {type: types.FETCH_ORGANISMOS_PUBLICOS_SUCCESS, value: expectedValue}
         ];
 
         const store = mockStore();
@@ -74,7 +74,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
         ];
         
         const expectedActions = [
-            {type: types.ONLOAD_FETCH_ORG_PUB_SUCCESS, value: expectedValue}
+            {type: types.FETCH_ORGANISMOS_PUBLICOS_SUCCESS, value: expectedValue}
         ];
 
         const store = mockStore();

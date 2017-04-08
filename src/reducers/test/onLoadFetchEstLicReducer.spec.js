@@ -17,7 +17,7 @@ describe('Reducers', () => {
 
 
             let mockValue = {1: "Estado Licitacion 1"};
-            action = {type: types.ONLOAD_FETCH_EST_LIC_SUCCESS, value: mockValue};
+            action = {type: types.FETCH_ESTADOS_LICITACION_SUCCESS, value: mockValue};
             expectedValue = objectAssign({}, initialState.estadosLicitacion, mockValue);
             expect(expectedValue).toEqual(reducer(undefined, action));
 
