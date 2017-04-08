@@ -1,8 +1,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import Flash from '../Flash';
+import {Flash} from '../Flash';
 import configureMockStore from 'redux-mock-store';
 import * as types from '../../constants/actionTypes';
+import {deleteMessages as deleteMessagesAction} from '../../actions/messageActions';
 
 const mockStore = configureMockStore();
 const store = mockStore();
@@ -14,11 +15,11 @@ const contextObject = {
 
 function setup() {
     const props = {
-        messagesHandler: undefined,
         messages: {
             Info: "Mock Info",
             Errores: "Mock Error"
-        }
+        },
+        deleteMessages: deleteMessagesAction
     }
 
 
@@ -62,10 +63,10 @@ describe('Component', () => {
 
             const componentRoot = wrapper.find('.flash-center');
             const componentRootProps = componentRoot.props();
-            const expectedActions = [{type: types.MESSAGES_DELETE_MESSAGES}];
+            const expectedActions = {type: types.MESSAGES_DELETE_MESSAGES};
 
-            componentRoot.simulate("click");
-            expect(store.getActions()).toEqual(expectedActions);
+            let action = componentRootProps.onClick();
+            expect(action).toEqual(expectedActions);
 
         });
 

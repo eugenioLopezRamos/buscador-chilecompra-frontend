@@ -5,10 +5,6 @@ import {AccountRecovery} from '../AccountRecovery.jsx';
 function setup() {
 
     const props = {
-        messages: {
-            Errores: [],
-            Info: []
-        },
         sendRecoverAccount: jest.fn()
     };
 
@@ -38,10 +34,6 @@ describe('Components', () => {
         const buttons = wrapper.find('button.btn.btn-primary.col-xs-8.col-xs-offset-2.col-sm-3.col-sm-offset-3');
         expect(buttons.length).toEqual(1);
         expect(buttons.at(0).text()).toEqual("Enviar información");
-
-        // flash is rendered
-        expect(wrapper.find('Flash').length).toEqual(1);
-        expect(wrapper.find('Flash').at(0).props().messages).toEqual(props.messages);
 
     });
 

@@ -51,12 +51,6 @@ describe('Container', () => {
         it('Should render self and subcomponents', () => {
             //root
             expect(wrapper.find('div.container.inputfields.jumbotron').length).toEqual(1);
-            //Flash
-            const flash = wrapper.find('Flash'); 
-            expect(flash.length).toEqual(1);
-            expect(flash.props().type).toEqual("info");
-            expect(flash.props().messages).toEqual(props.messages);
-            expect(flash.props().messagesHandler).toEqual(state.messagesHandler);
             // search fields
             expect(wrapper.find('div.fixed-size-searchTab-container').length).toEqual(1);
             //DatePicker

@@ -75,8 +75,6 @@ const ResultsNavigatorButtons = (props) => {
 
     })();
 
-
-    
     return (<div className="results-navigator-buttons-container">
     
                 <div className="page-picker-container">

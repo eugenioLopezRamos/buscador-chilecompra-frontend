@@ -61,10 +61,6 @@ function setup() {
         userNotifications: {
             8: "Cambios en la licitación 1851-3-LE17"
         },
-        messages: {
-            Info: [], 
-            Errores: []
-        },
         updateSubscription: jest.fn(),
         deleteSubscriptino: jest.fn(),
         updateUserSearches: jest.fn(),
@@ -115,12 +111,6 @@ describe('Container', () => {
             expect(modal.props().hideModal).toEqual(instance.hideModal);
             expect(modal.props().defaultName).toEqual(state.modalDefaultName);
             expect(modal.props().onInput).toEqual(instance.onSubscriptionNewNameInput);
-
-            //renders Flash
-            expect(wrapper.find('Flash').length).toBe(1);
-            const flash = wrapper.find('Flash').at(0);
-            expect(flash.props().type).toEqual("info");
-            expect(flash.props().messages).toEqual(props.messages);
 
             //renders h2 welcome
             expect(wrapper.find('h2.text-center').length).toBe(1);
@@ -186,8 +176,6 @@ describe('Container', () => {
             expectedValue = {enteredNewSubscriptionName: newSubscriptionName};
             let args = {target: {value: newSubscriptionName}};
             testFunctionChangesState(modal.props().onInput, args, expectedValue);
-
-            //Flash functions - NONE
 
             //userProfile functions
             const userProfile = wrapper.find('UserProfile').at(0);

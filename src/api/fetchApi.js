@@ -3,7 +3,7 @@ import utils from '../utils/authUtils';
 
 class fetchApi {
 
-    static getChileCompraData(state) {
+    static getChilecompraData(state) {
   
         let body = {
                         estadoLicitacion: state.selectedEstadoLicitacion,
@@ -66,33 +66,6 @@ class fetchApi {
         });
 
     }
-
-
-    static shortGetChileCompraData(state) {
-        let headers = utils.setHeaders();
-        let queryFields = [
-            `estadoLicitacion=${state.selectedEstadoLicitacion}`,
-            `codigoLicitacion=${state.codigoLicitacion}`,
-            `selectedDate=${state.date}`,
-            `organismoPublico=${state.selectedOrganismoPublico}`,
-            `rutProveedor=${state.rutProveedor}`,
-            `palabrasClave=${state.palabrasClave}`
-            ];
-        
-        let query = queryFields.join("&");
-
-
-        return fetch(`${process.env.API_HOST}/api/licitacion_data?${query}`,
-        {headers}
-        )
-            .then(response => {
-                let headers = utils.headerToObject(response);
-                utils.saveToStorage(headers);
-                response.json();
-            })
-            .catch(error => {return error; }); 
-    }   
-    
 }
 
 export default fetchApi;

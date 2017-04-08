@@ -56,7 +56,7 @@ export default {
       } 
     }),
 
-  //  new BundleAnalyzerPlugin()
+    //new BundleAnalyzerPlugin()
 
   ],
   module: {

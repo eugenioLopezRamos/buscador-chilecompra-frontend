@@ -16,7 +16,7 @@ export const modifyUserProfileDataFailure = (value) => {
 export const modifyUserProfileData = (modifiedUserData) => {
 
     return (dispatch) => {
-
+        dispatch({type: types.USER_MODIFY_PROFILE_DATA});
         let body = {
                     name: modifiedUserData.name,
                     email: modifiedUserData.email,

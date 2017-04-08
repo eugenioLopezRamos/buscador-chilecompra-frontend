@@ -40,6 +40,7 @@ describe('Tests response to sending signup data to the backend', () => {
             .reply(200, expectedResponse);
 
         const expectedActions = [
+            {type: types.USER_SEND_SIGNUP_INFO},
             {type: types.USER_SEND_SIGNUP_INFO_SUCCESS, message: "success", value: "success"}
         ];
 
@@ -85,6 +86,7 @@ describe('Tests response to sending signup data to the backend', () => {
             .reply(422, expectedResponse);
 
         const expectedActions = [
+            {type: types.USER_SEND_SIGNUP_INFO},
             {type: types.USER_SEND_SIGNUP_INFO_FAILURE,
              message: "Password confirmation doesn\'t match Password",
              value: "error"

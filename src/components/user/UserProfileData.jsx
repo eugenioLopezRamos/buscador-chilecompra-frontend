@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as UserProfileActions from '../../actions/UserActions';
 import {capitalize} from '../../utils/miscUtils';
-import Flash from '../Flash.jsx';
 
 export class UserProfileData extends React.Component {
 
@@ -64,7 +63,6 @@ export class UserProfileData extends React.Component {
 
         return (
             <div className="jumbotron text-center">
-                <Flash messages={this.props.messages}/>
                 <label className="user-profile-description">Aquí puedes editar los datos de tu perfil</label>
                 {this.userData()}
                 <button className="btn btn-primary info" onClick={this.handleClick}>Enviar datos</button>
@@ -78,14 +76,12 @@ export class UserProfileData extends React.Component {
 }
 UserProfileData.propTypes = {
     modifiedUserData: PropTypes.object.isRequired,
-    messages: PropTypes.object
 }
 
 
 function mapStateToProps(state, ownProps) {
     return {
         modifiedUserData: state.modifiedUserData,
-        messages: state.messages
     }
 }
 

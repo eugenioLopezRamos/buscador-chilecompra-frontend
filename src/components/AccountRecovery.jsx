@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {sendRecoverAccount} from '../actions/authInfoResultsActions';
 import {connect} from 'react-redux';
-import Flash from './Flash';
 
 export class AccountRecovery extends Component {
 
@@ -55,26 +54,14 @@ export class AccountRecovery extends Component {
                     >
                     Enviar información
                     </button>  
-
-                    <Flash 
-                        type="info" 
-                        messages={this.props.messages}
-                        messagesHandler={null}
-                    />
                 </div>
             </div>
         )
    }
 };
-AccountRecovery.propTypes = {
-    messages: PropTypes.object
-}
-
 
 function mapStateToProps(state) {
-    return {
-        messages: state.messages
-    }
+    return {}
 }
 
 function mapDispatchToProps(dispatch) {

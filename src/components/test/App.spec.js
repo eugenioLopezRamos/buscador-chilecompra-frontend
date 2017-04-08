@@ -62,7 +62,6 @@ describe('Container', () => {
 
     const {wrapper, props} = setup();
     const {altWrapper, altProps} = altSetup();
-    
 
     describe('App', () => {
         it('Should render self and subcomponents', () => {
@@ -71,12 +70,15 @@ describe('Container', () => {
             expect(wrapper.find('Header').length).toEqual(1);
             expect(wrapper.find('Footer').length).toEqual(1);
             expect(wrapper.find('Introduction').length).toEqual(1);
-
+            expect(wrapper.find('Connect(Flash)').length).toEqual(1);
             // Auth wrapper
             expect(altWrapper.find('#app-component-root').length).toEqual(1);
             expect(altWrapper.find('Header').length).toEqual(1);
             expect(altWrapper.find('Footer').length).toEqual(1);
             expect(altWrapper.find('AuthorizationWrapper').length).toEqual(1);
+
+            //Flash
+            expect(altWrapper.find('Connect(Flash)').length).toEqual(1);
 
         });
 

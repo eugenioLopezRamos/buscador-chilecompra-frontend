@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
+import Flash from './Flash.jsx';
 import * as types from '../constants/actionTypes';
  
 
@@ -15,13 +16,12 @@ const App = ({children}, {store}) => {
         }
     };
    return( 
-            <div key="app-main" className="app-main-div"
-                 id="app-component-root"
-                 onClick={hideNavbar}>
-                <Header />
-                   {children}
-                <Footer />
-            </div>
+        <div key="app-main" className="app-main-div" id="app-component-root" onClick={hideNavbar}>
+            <Header />
+                {children}
+            <Footer />
+            <Flash />
+        </div>
    );
 };
    

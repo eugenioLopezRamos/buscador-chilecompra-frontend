@@ -76,6 +76,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         const store = mockStore();
 
         const expectedActions = [
+            {type: types.USER_MODIFY_PROFILE_DATA},
             {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}}
         ];
 
@@ -117,7 +118,9 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
             .put('/api/auth/', JSON.stringify(requestModifiedUserData))
             .reply(422, {message: {errors: "No se pudo actualizar. Ingresaste tu contraseña?"}});
 
-        const expectedActions = [{
+        const expectedActions = [
+            {type: types.USER_MODIFY_PROFILE_DATA},
+            {
             type: types.USER_MODIFY_PROFILE_DATA_FAILURE,
             value: {message: {errors: "No se pudo actualizar. Ingresaste tu contraseña?"}} 
         }];

@@ -18,10 +18,6 @@ function setup() {
             created_at: "2016-12-22T12:42:17.461-03:00",
             updated_at: "2017-02-23T17:14:03.002-03:00"
         },
-        messages: {
-            Info: [],
-            Errores: []
-        },
         userProfileActions: {
             modifyUserProfileDataInputName: jest.fn(),
             modifyUserProfileDataInputImage: jest.fn(),
@@ -50,8 +46,7 @@ describe('Container', () => {
         it('Should render self and subcomponents', () => {
             // component root
             expect(wrapper.find('.jumbotron.text-center').length).toEqual(1);
-            //Flash
-            expect(wrapper.find('Flash').length).toEqual(1);
+
             // Description label
             expect(wrapper.find('label.user-profile-description').length).toEqual(1);
             expect(wrapper.find('label.user-profile-description').text()).toEqual('Aquí puedes editar los datos de tu perfil');

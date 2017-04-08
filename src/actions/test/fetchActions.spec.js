@@ -57,11 +57,13 @@ describe('Tests chilecompra result fetcher', () => {
             .post('/api/licitacion_data')
             .reply(200, expectedResponse);
 
-        let expectedActions = [{
+        let expectedActions = [{type: types.FETCH_CHILECOMPRA_DATA_START},
+            {
             type: types.FETCH_CHILECOMPRA_DATA_SUCCESS,
             data: expectedResponse,
             query: requestBody
-        }];
+            }
+        ];
 
         const store = mockStore();
 
@@ -98,11 +100,13 @@ describe('Tests chilecompra result fetcher', () => {
             .post('/api/licitacion_data')
             .reply(200, expectedResponse);
 
-        let expectedActions = [{
+        let expectedActions = [{type: types.FETCH_CHILECOMPRA_DATA_START},
+            {
             type: types.FETCH_CHILECOMPRA_DATA_SUCCESS,
             data: expectedResponse,
             query: requestBody
-        }];
+            }
+        ];
 
         const store = mockStore();
 

@@ -42,7 +42,7 @@ export const submitLoginInfo = (login_data) => {
     // login_data = {email,password};
  
     return (dispatch) => {
-      
+
         return userAPI.sendLoginInfo(login_data)
                     .then(response => {
                         //this got moved from userApi
@@ -115,6 +115,7 @@ export const sendLogoutInfo = () => {
 export const sendRecoverAccount = (email) => {
     
     return dispatch => {
+        dispatch({type: types.USER_SEND_RECOVER_ACCOUNT});
         return userAPI.sendRecoverAccount(email)
             .then(response => {
                 if(response && response.status >= 200 && response.status < 300) {

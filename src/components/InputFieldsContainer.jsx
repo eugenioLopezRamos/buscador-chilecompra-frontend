@@ -9,7 +9,6 @@ import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';
 import SearchField from './inputs/SearchField.jsx';
 import SearchesSaver from './SearchesSaver';
-import Flash from './Flash.jsx';
 import moment from 'moment';
 import locale_es from "moment/locale/es";
 import {RESULTS_INITIAL_CHECKBOXES_ORDER_BY} from '../constants/resultsInitialCheckboxes';
@@ -119,11 +118,6 @@ export class InputFieldsContainer extends React.PureComponent {
         return (    
               
                     <div className="container inputfields jumbotron"> 
-                        <Flash 
-                            type="info" 
-                            messages={this.props.messages}
-                            messagesHandler={this.state.messagesHandler}
-                        />
                         <div className="fixed-size-searchTab-container">
                         <label className="date-range">Selecciona un rango de fechas:</label>
                             <DateField
@@ -221,7 +215,6 @@ function mapStateToProps(state, ownProps) {
         organismosPublicos: state.organismosPublicos,
         estadosLicitacion: state.estadosLicitacion,
         searchQueryValues: state.searchQueryValues,
-        messages: state.messages
         
     };
 };

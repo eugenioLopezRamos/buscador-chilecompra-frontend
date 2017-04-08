@@ -239,6 +239,7 @@ describe('Tests logging in and out unsuccessfully', () => {
 
       const store = mockStore();
       const expectedActions = [
+        {type: types.USER_SEND_RECOVER_ACCOUNT},
         {
           type: types.USER_SEND_RECOVER_ACCOUNT_SUCCESS,
           value: expectedResponse
@@ -266,6 +267,7 @@ describe('Tests logging in and out unsuccessfully', () => {
 
       const store = mockStore();
       const expectedActions = [
+        {type: types.USER_SEND_RECOVER_ACCOUNT},
         {
           type: types.USER_SEND_RECOVER_ACCOUNT_FAILURE,
           value: expectedResponse

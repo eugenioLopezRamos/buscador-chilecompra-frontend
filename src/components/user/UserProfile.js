@@ -21,7 +21,7 @@ const UserProfile = (props) => {
     };
 
     const handleSubscriptionDelete = (name) => {
-        let delete_it = confirm(`Estas seguro que desear borrar la suscripcion ${name}`)
+        let delete_it = confirm(`Estas seguro que desear borrar la suscripcion ${name}`);
         if(delete_it) {
             props.deleteUserSubscription(name);   
         }

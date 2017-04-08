@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
-import Flash from './Flash';
-
 
 export class AuthorizationWrapper extends React.Component {
     constructor(props, {store}) {
@@ -51,7 +49,6 @@ function mapStateToProps(state, ownProps) {
     return {
             user: state.userData,
             isAuthenticated: state.isAuthenticated,
-            messages: state.messages
         }
 }
 

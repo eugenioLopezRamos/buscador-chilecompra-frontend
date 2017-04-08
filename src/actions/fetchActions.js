@@ -12,8 +12,8 @@ export const fetchChilecompraDataFailure = (state, data) => {
 export const loadChilecompraData = (state) => {
 
     return function(dispatch) {
-
-        return fetchApi.getChileCompraData(state)
+        dispatch({type: types.FETCH_CHILECOMPRA_DATA_START});
+        return fetchApi.getChilecompraData(state)
             .then(data => {dispatch(fetchChilecompraDataSuccess(state, data));})
             .catch( error => {dispatch(fetchChilecompraDataFailure(state, error));} );
     };  

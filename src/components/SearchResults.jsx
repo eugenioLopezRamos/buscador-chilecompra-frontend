@@ -8,7 +8,6 @@ import * as types from '../constants/actionTypes';
 //import {createUserSearches as createSearches} from '../actions/UserActions'; //no longer used, moved to <InputFieldsContainer />
 import {createUserSubscription} from '../actions/UserActions';
 import SearchesSaver from './SearchesSaver';
-import Flash from './Flash.jsx';
 import Modal from './inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
 import * as utils from '../utils/miscUtils';

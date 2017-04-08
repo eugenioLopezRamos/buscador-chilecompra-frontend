@@ -7,7 +7,6 @@ import {deleteUserSubscription, getUserSearches} from '../../actions/UserActions
 import {updateUserSearches, deleteUserSearches} from '../../actions/UserActions';
 import {getResultHistory, getUserNotifications} from '../../actions/UserActions';
 import userApi from '../../api/userApi';
-import Flash from '../Flash.jsx';
 import FullScreenPane from '../FullScreenPane.jsx';
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
 import SearchResults from '../SearchResults.jsx';
@@ -179,11 +178,6 @@ export class UserPage extends React.Component {
                     onInput={this.onSubscriptionNewNameInput}           
                 />
 
-                <Flash 
-                    type="info"
-                    messages={this.props.messages} 
-                />
-
                 <h2 className="text-center">Bienvenido {this.props.user.name}</h2>
                 <UserProfile user={this.props.user}
                              userNotifications = {this.props.userNotifications} 
@@ -205,13 +199,10 @@ export class UserPage extends React.Component {
 }
 
 UserPage.propTypes = {
-   // login: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     userSubscriptions: PropTypes.object,
     userSearches: PropTypes.object,
     userNotifications: PropTypes.object,
-    messages: PropTypes.object
-    //tbi
 }
 
 function mapStateToProps(state, ownProps) {
@@ -220,7 +211,6 @@ function mapStateToProps(state, ownProps) {
             userSubscriptions: state.userSubscriptions,
             userSearches: state.userSearches,
             userNotifications: state.userNotifications,
-            messages: state.messages,
             userApi: userApi,
             fetchApi: fetchApi
         }

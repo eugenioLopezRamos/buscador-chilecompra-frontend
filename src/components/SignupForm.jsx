@@ -1,5 +1,4 @@
 import React from 'react';
-import Flash from './Flash.jsx';
 
 const SignupForm = (props) => {
     //TODO: If password != password_confirmation, give a warning and dont send info to backend
@@ -29,7 +28,6 @@ const SignupForm = (props) => {
     return (
         //TODO: Add client side verifications for email, password len && password confirmation
         <div key="signupForm" className="signup-form col-xs-12 col-sm-10 col-sm-offset-1">
- 
 
             <label className="signup-label">Nombre</label>
             <input value={props.signupInfo.name}
@@ -71,4 +69,3 @@ const SignupForm = (props) => {
 }
 
 export default SignupForm;
-         //TODO: Make this flash use the messages reducer
