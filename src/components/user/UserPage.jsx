@@ -98,7 +98,7 @@ export class UserPage extends React.Component {
         let data = objectAssign({}, this.props.userSearches.value[index]);
 
         data.date = Date.parse(data.date);
-        this.props.fetchApi.getChileCompraData(data)
+        this.props.fetchApi.getChilecompraData(data)
             .then(response => {
                                 this.setState({
                                                 showFullScreenPane: true, 

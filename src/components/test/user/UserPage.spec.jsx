@@ -70,7 +70,7 @@ function setup() {
             getResultHistory: (value) => responsePromise(value)
         },
         fetchApi: {
-            getChileCompraData: (value) => responsePromise(value)
+            getChilecompraData: (value) => responsePromise(value)
         }
     }
 
@@ -216,7 +216,7 @@ describe('Container', () => {
             testFunctionChangesState(userProfile.props().executeStoredSearch, args, expectedValue);
             //TODO: Not quite sure about this one, need to see more about how it works in testing (in reality in the browser this 
             // does work, just need to verify that the test if indeed working correctly with the mock promise);
-            expectedValue = expectedValue.componentProps.results = props.fetchApi.getChileCompraData("mock response")
+            expectedValue = expectedValue.componentProps.results = props.fetchApi.getChilecompraData("mock response")
             expect(wrapper.update().instance().state).toEqual(objectAssign(instance.state, expectedValue));
         
             // getResultHistory - Sets state: 
