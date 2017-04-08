@@ -52,7 +52,24 @@ const messagesReducer = (state = initialState.messages, action) => {
         
         case types.USER_SEND_SIGNUP_INFO_FAILURE:
             return objectAssign({}, state, {Errores: action.message});
+
+        // LOGIN
+        case types.USER_SEND_LOGIN_INFO:
+            return objectAssign({}, state, {Info: "Ingresando..."});
+        
+        case types.USER_SEND_LOGIN_INFO_SUCCESS:
+            return initialState.messages;
+
+        case types.USER_SEND_LOGIN_INFO_FAILURE:
+            return objectAssign({}, state, {Errores: "No se pudo ingresar a la aplicación, por favor intentalo de nuevo"});
+
         //LOGOUT
+        case types.USER_LOGOUT:
+            return objectAssign({}, state, {Info: "Cerrando sesión..."});
+
+        case types.USER_LOGOUT_SUCCESS:
+            return objectAssign({}, state, {Info: "Has salido de la aplicación"});
+
         case types.USER_LOGOUT_FAILURE:
             return objectAssign({}, state, {Errores: "No pudimos sacarte de la aplicación, intenta nuevamente"});
         // VALIDATE TOKEN

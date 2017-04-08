@@ -42,7 +42,7 @@ export const submitLoginInfo = (login_data) => {
     // login_data = {email,password};
  
     return (dispatch) => {
-
+        dispatch({type: types.USER_SEND_LOGIN_INFO});
         return userAPI.sendLoginInfo(login_data)
                     .then(response => {
                         //this got moved from userApi
@@ -93,6 +93,7 @@ export const validateToken = (mockToken) => {
 export const sendLogoutInfo = () => {
 
     return dispatch => {
+        dispatch({type: types.USER_LOGOUT});
         return userAPI.sendLogoutInfo()
         .then(response => {
              if(response && response.status >= 200 && response.status < 300) {

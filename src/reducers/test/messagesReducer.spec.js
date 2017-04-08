@@ -75,7 +75,29 @@ describe('Reducers', () => {
             expectedValue = objectAssign({}, initialState.messages, {Errores: action.message});
             compareResults(action, expectedValue);
 
+            //LOGIN
+
+            action = {type: types.USER_SEND_LOGIN_INFO };
+            expectedValue = objectAssign({}, initialState.messages, {Info: "Ingresando..."});
+            compareResults(action, expectedValue);
+
+            action = {type: types.USER_SEND_LOGIN_INFO_SUCCESS };
+            expectedValue = initialState.messages;
+            compareResults(action, expectedValue);
+
+            action = {type: types.USER_SEND_LOGIN_INFO_FAILURE };
+            expectedValue = objectAssign({}, initialState.messages, {Errores: "No se pudo ingresar a la aplicación, por favor intentalo de nuevo"});
+            compareResults(action, expectedValue);
+
             //LOGOUT
+            action = {type: types.USER_LOGOUT};
+            expectedValue = objectAssign({}, initialState.messages, {Info: "Cerrando sesión..."});
+            compareResults(action, expectedValue);
+
+            action = {type: types.USER_LOGOUT_SUCCESS};
+            expectedValue = objectAssign({}, initialState.messages, {Info: "Has salido de la aplicación"});
+            compareResults(action, expectedValue);
+
             action = {type: types.USER_LOGOUT_FAILURE };
             expectedValue = objectAssign({}, initialState.messages, {Errores: "No pudimos sacarte de la aplicación, intenta nuevamente"});
             compareResults(action, expectedValue);

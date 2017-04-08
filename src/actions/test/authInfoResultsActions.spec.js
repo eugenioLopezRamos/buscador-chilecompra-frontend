@@ -37,7 +37,7 @@ describe('tests logging in and out successfully', () => {
           }
       };
 
-      const expectedActionsLogin = [{type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse}];
+      const expectedActionsLogin = [{type: types.USER_SEND_LOGIN_INFO}, {type: types.USER_SEND_LOGIN_INFO_SUCCESS, response: expectedResponse}];
       const store = mockStore();
 
       let responseHeaders = {
@@ -64,7 +64,7 @@ describe('tests logging in and out successfully', () => {
         .delete('/api/auth/sign_out') //the server checks which user it is by checking headers. Since we mock the server here, no point in sending headers
         .reply(200, {success: true});
 
-        const expectedActionsLogout = [{type: types.USER_LOGOUT_SUCCESS, response: {success: true}}];
+        const expectedActionsLogout = [{type: types.USER_LOGOUT}, {type: types.USER_LOGOUT_SUCCESS, response: {success: true}}];
         const store = mockStore();
 
         return store.dispatch(actions.sendLogoutInfo())
@@ -152,6 +152,7 @@ describe('Tests logging in and out unsuccessfully', () => {
 
       const store = mockStore();
       const expectedActionsLogin = [
+        {type: types.USER_SEND_LOGIN_INFO},
         {
           type: types.USER_SEND_LOGIN_INFO_FAILURE,
           response: {
@@ -179,6 +180,7 @@ describe('Tests logging in and out unsuccessfully', () => {
 
       const store = mockStore();
       const expectedActionsLogout = [
+        {type: types.USER_LOGOUT},
         {
           type: types.USER_LOGOUT_FAILURE,
           response: {errors: ["User was not found or was not logged in."]}

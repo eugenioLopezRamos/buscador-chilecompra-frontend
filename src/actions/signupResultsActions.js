@@ -13,7 +13,7 @@ export const sendSignupDataFailure = (resp) => {
 
 export const sendSignupData = (signupInfo) => {
     return function(dispatch){
-        dispatch({type: types.USER_SEND_SIGNUP_INFO})
+        dispatch({type: types.USER_SEND_SIGNUP_INFO});
         return signup.sendSignupInfo(signupInfo)
                       .then(response => { 
                         if(response.status === "success") {
