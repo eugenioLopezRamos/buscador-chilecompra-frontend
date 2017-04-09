@@ -1,0 +1,1 @@
+export const subscriptionsMock = {"Suscrip1": 111, "suscrip2": 222};

@@ -3,6 +3,7 @@ import * as actions from '../UserActions';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
+import {userDataMock} from '../../__mocks__/userDataMock';
 
 import localStorageMock from '../../__mocks__/testLocalStorage';
 
@@ -25,6 +26,51 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
         localStorage.clear();
         window.localStorage.clear();
     });
+
+    it('Should fetch initial user data correctly', () => {
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedActions = [
+            {type: types.INITIAL_USER_DATA_LOAD},
+            {type: types.INITIAL_USER_DATA_LOAD_SUCCESS, data: userDataMock}
+        ];
+        const expectedResponse = userDataMock;
+        nock(`${process.env.API_HOST}`)
+            .get('/api/user')
+            .reply(200, expectedResponse);
+        return store.dispatch(actions.initialUserDataLoad()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+    });
+
+    it('Should fetch initial user data incorrectly', () => {
+        const initialHeaders = {
+            "access-token": "111",
+            "uid": "example@examplemail.com",
+            "client": "53k1237",
+        };
+        localStorage.setItem("session", JSON.stringify(initialHeaders));
+        const store = mockStore();
+        const expectedActions = [
+            {type: types.INITIAL_USER_DATA_LOAD},
+            {type: types.INITIAL_USER_DATA_LOAD_FAILURE}
+        ];
+        const expectedResponse = {message: {errors: "Acceso denegado. Por favor ingresa."}}
+        nock(`${process.env.API_HOST}`)
+            .get('/api/user')
+            .reply(401, expectedResponse);
+        return store.dispatch(actions.initialUserDataLoad()).then(() => {
+                expect(store.getActions()).toEqual(expectedActions);
+            });
+
+
+    });
+
 
     it('Should modify user\'s profile data successfully', () => {
 
@@ -56,17 +102,7 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
         const expectedResponse = {
             "status":"success",
-            "data":{
-                "id":1,
-                "name":"nuevo nombre",
-                "email":"example@examplemail2.com",
-                "image":"",
-                "provider":"email",
-                "uid":"example@examplemail2.com",
-                "nickname":null,
-                "created_at":"2016-12-13T12:42:17.461-03:00",
-                "updated_at":"2017-02-20T15:13:07.103-03:00"
-            }
+            "data": userDataMock
         };
         //TODO: See how to add headers?
         nock(`${process.env.API_HOST}`)

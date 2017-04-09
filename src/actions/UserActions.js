@@ -2,6 +2,41 @@ import * as types from '../constants/actionTypes';
 import userApi from '../api/userApi';
 import utils from '../utils/authUtils';
 import objectAssign from 'object-assign';
+
+// INITIAL USER DATA LOAD
+export const initialUserDataLoadSuccess = (data) => {
+    return {type: types.INITIAL_USER_DATA_LOAD_SUCCESS, data};
+};
+
+export const initialUserDataLoadFailure = () => {
+
+    return {type: types.INITIAL_USER_DATA_LOAD_FAILURE};
+};
+
+export const initialUserDataLoad = () => {
+
+    return dispatch => {
+        dispatch({type: types.INITIAL_USER_DATA_LOAD});
+        return userApi.initialDataLoad()
+            .then(response => {
+                let headers = utils.headerToObject(response);
+                utils.saveToStorage(headers);
+                if(response && response.status >= 200 && response.status < 300) {
+             
+                    return response.json().then(response => dispatch(initialUserDataLoadSuccess(response)));
+                }else {
+                    throw response;
+                }
+            })
+            .catch(error => {
+                return error.json().then(() => {
+                    dispatch(initialUserDataLoadFailure());
+                });
+            });
+    };
+
+};
+
 // MODIFIY USER DATA API CALLS
 
 export const modifyUserProfileDataSuccess = () => {

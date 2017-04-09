@@ -1,0 +1,1 @@
+export const notificationMock = {1: "Notification 1", 2: "Second notif"};

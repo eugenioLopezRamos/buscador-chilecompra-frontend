@@ -1,4 +1,4 @@
-
+export const INITIAL_USER_DATA_LOAD_FAILURE = "No se pudieron confirmar tus datos, por favor espera un momento e intenta nuevamente";
 export const FETCH_ESTADOS_LICITACION_FAILURE = "Hubo un error al obtener datos de estados licitación desde el servidor, intenta de nuevo";
 export const FETCH_ORGANISMOS_PUBLICOS_FAILURE = "Hubo un error al obtener datos de organismos públicos desde el servidor, intenta de nuevo";
 export const FETCH_CHILECOMPRA_DATA_START = "Buscando...";

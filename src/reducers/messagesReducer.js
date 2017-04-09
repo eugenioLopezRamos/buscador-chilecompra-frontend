@@ -28,6 +28,9 @@ const messagesReducer = (state = initialState.messages, action) => {
             return initialState.messages;
             //TODO: Send signup messages from the server?
             //ONLOAD FETCHERS
+        case types.INITIAL_USER_DATA_LOAD_FAILURE:
+            return objectAssign({}, initialState.messages, {Errores: messages.INITIAL_USER_DATA_LOAD_FAILURE});
+
         case types.FETCH_ESTADOS_LICITACION_FAILURE:
             return objectAssign({}, initialState.messages, {Errores: messages.FETCH_ESTADOS_LICITACION_FAILURE});
 

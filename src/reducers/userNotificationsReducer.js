@@ -4,6 +4,10 @@ import * as types from '../constants/actionTypes';
 
 export const userNotificationsReducer = (state = initialState.userNotifications, action) => {
     switch(action.type) {
+
+        case types.INITIAL_USER_DATA_LOAD_SUCCESS:
+            return objectAssign({}, state, action.data.notifications);
+
         case types.USER_GET_NOTIFICATIONS_SUCCESS: 
             return objectAssign({}, state, action.value);
 

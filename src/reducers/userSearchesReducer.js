@@ -7,6 +7,9 @@ export const userSearchesReducer = (state = initialState.userSearches, action) =
 
     switch(action.type) {
 
+        case types.INITIAL_USER_DATA_LOAD_SUCCESS:
+            return objectAssign({}, state, action.data.searches);
+
         case types.USER_GET_SEARCHES_SUCCESS:
             return objectAssign({}, state, action.value.searches);
 

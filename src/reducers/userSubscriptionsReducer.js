@@ -6,10 +6,9 @@ export const userSubscriptionsReducer = (state = initialState.userSubscriptions,
 
     switch(action.type) {
 
-        case types.USER_GET_RESULT_SUBSCRIPTIONS:
-            //TODO: add loading anim
-            return state;
-        
+        case types.INITIAL_USER_DATA_LOAD_SUCCESS:
+            return objectAssign({}, state, action.data.subscriptions);
+
         case types.USER_GET_RESULT_SUBSCRIPTIONS_SUCCESS:
             return objectAssign({}, state, action.value);
 

@@ -12,7 +12,7 @@ require('./favicon.ico'); // Tell webpack to load favicon.ico
 import './css/bootstrap/stylesheets/_bootstrap.scss';
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
-import {getUserSubscriptions, getUserSearches, getUserNotifications} from './actions/UserActions';
+import {initialUserDataLoad} from './actions/UserActions';
 import {validateToken} from './actions/authInfoResultsActions';
 import {onLoadFetchOrgPub as getOrganismosPublicos} from './actions/onLoadFetchOrgPub';
 import {onLoadFetchEstLic as getEstadosLicitacion} from './actions/onLoadFetchEstLic';
@@ -23,8 +23,8 @@ const store = configureStore();
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store);
 const actions = {
-				getUserSubscriptions, getUserSearches,
-				getUserNotifications, validateToken,
+				initialUserDataLoad,
+				validateToken,
 				getOrganismosPublicos, getEstadosLicitacion
 				};
 

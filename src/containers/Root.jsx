@@ -14,7 +14,7 @@ export class Root extends Component {
         this.history = props.history;
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         if(localStorage.getItem("session") && localStorage.getItem("session").length > 1){
             this.dispatch(this.props.actions.validateToken());
         }
@@ -25,9 +25,10 @@ export class Root extends Component {
         if(!this.props.isAuthenticated || !this.props.userData) {
 
             if(nextProps.isAuthenticated && nextProps.userData) {
-                this.dispatch(this.props.actions.getUserNotifications());
-                this.dispatch(this.props.actions.getUserSubscriptions());
-                this.dispatch(this.props.actions.getUserSearches());  
+                // this.dispatch(this.props.actions.getUserNotifications());
+                // this.dispatch(this.props.actions.getUserSubscriptions());
+                // this.dispatch(this.props.actions.getUserSearches());  
+                this.dispatch(this.props.actions.initialUserDataLoad());
                 this.dispatch(this.props.actions.getOrganismosPublicos());
                 this.dispatch(this.props.actions.getEstadosLicitacion());
             }

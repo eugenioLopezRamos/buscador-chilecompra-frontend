@@ -38,6 +38,11 @@ describe('Reducers', () => {
             action = {type: types.MESSAGES_DELETE_MESSAGES};
             compareResults(action, initialState.messages);
 
+            // fetch initail user data failure
+
+            action = {type: types.INITIAL_USER_DATA_LOAD_FAILURE};
+            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.INITIAL_USER_DATA_LOAD_FAILURE});
+            compareResults(action, expectedValue)
             // ONLOAD FETCHERS
 
             action = {type: types.FETCH_ESTADOS_LICITACION_FAILURE };

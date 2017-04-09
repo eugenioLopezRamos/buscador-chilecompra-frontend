@@ -84,7 +84,7 @@ export const getObjectSchema = (object) => {
     } , new Array); 
 };
 
-export const resultComparerFn = (object = {}, secondObject = {}) => {
+export const resultComparerFn = (object, secondObject) => {
     
     const baseObject = object || {};
     const secondBaseObject = secondObject || {};
@@ -96,36 +96,36 @@ export const resultComparerFn = (object = {}, secondObject = {}) => {
 
 export const compareObjects = (firstObject, secondObject, differencesKeyName, whenUndefined, whenPrimitive, whenIsOtherType) => {
 
-        return Object.keys(firstObject).reduce((differences, element) => {
-                    //check if object[element] exists on both objects.If it does't, return that as a difference
-                    if(secondObject[element] === undefined) {                
-                        return whenUndefined(differences, differencesKeyName, firstObject, element);
+        return Object.keys(firstObject).reduce((differences, key) => {
+                    //check if object[key] exists on both objects.If it does't, return that as a difference
+                    if(secondObject[key] === undefined) {                
+                        return whenUndefined(differences, differencesKeyName, firstObject, key);
                     }
                     //value is a primitive? check if values are equal then return the same differences if they are equal or
-                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
-                    if(isPrimitive(firstObject[element]) && isPrimitive(secondObject[element])) {
-                        return whenPrimitive(differences, firstObject, secondObject, element);
+                    //differences with key [key] = {anterior: baseObject[key], nuevo: baseSecondObject[key]};
+                    if(isPrimitive(firstObject[key]) && isPrimitive(secondObject[key])) {
+                        return whenPrimitive(differences, firstObject, secondObject, key);
                     }
                     //Otherwise, iterate until you find a primitive 
-                    return whenIsOtherType(differences, resultComparerFn, firstObject, secondObject, element);
+                    return whenIsOtherType(differences, resultComparerFn, firstObject, secondObject, key);
 
                 }, {});
 };
 
-export const whenUndefined = (differences, differencesKeyName, firstObject, element) => {
+export const whenUndefined = (differences, differencesKeyName, firstObject, key) => {
 
     if(differences[differencesKeyName]) {
-        return differences[differencesKeyName][element] = firstObject[element];
+        return differences[differencesKeyName][key] = firstObject[key];
     }
-    return differences[differencesKeyName] = {[element]: firstObject[element]};
+    return differences[differencesKeyName] = {[key]: firstObject[key]};
       
 };
 
-export const whenPrimitive = (differences, firstObject, secondObject, element) => {
-    if(firstObject[element] === secondObject[element]) {
+export const whenPrimitive = (differences, firstObject, secondObject, key) => {
+    if(firstObject[key] === secondObject[key]) {
         return differences;
     }
-    differences[element] = {Anterior: firstObject[element], Nuevo: secondObject[element]};
+    differences[key] = {Anterior: firstObject[key], Nuevo: secondObject[key]};
     return differences;    
 };
 
@@ -146,7 +146,7 @@ export const arrayObjectProperties = (object, start = 0, end = undefined) => {
 };
 
 export const toSentenceCase = (matcher, string) => {
-    
+
     let matches = matcher(string);
     return matches.map((word, index) => {
                 if(index > 0) {
@@ -163,7 +163,9 @@ export const caseMatcher = (regex) => {
             return chunks;
         }
         let chunk = string.slice(startIndex).match(regex);
-
+        // result is expected to be an array of matches
+        // so no match => an array with just the original string
+        if(!chunk || chunk.length === 0) {return [string];}
         let newIndex = startIndex + chunk[0].length;
         chunks.push(chunk[0]);
         return matcher(regex, string, newIndex, chunks);
@@ -180,15 +182,22 @@ export const pascalCaseToSentenceCase = toSentenceCase.bind(undefined, pascalCas
 
 
 export const removeArrayFromArray = (array, containerArray) => {
-    let toSplice = -1;
+    
+    const arrayToRemove = JSON.stringify(array);
     //search the index of the item that's already in the array
-    containerArray.map((element, index) => {
-        if(JSON.stringify(element) === JSON.stringify(array)) {
-            toSplice = index;
-        }
-    });
-    //remove that item from the array
-    containerArray.splice(toSplice,1);
+    // This will return the LAST instance as it is a loop
+    const toSplice = containerArray.reduce((accumulator, currentElement, index) => {
+                        if(JSON.stringify(currentElement) === arrayToRemove) {
+                            accumulator.push(index);
+                        }
+                        return accumulator;
+                    }, []);
+
+    if(toSplice.length === 0) {return containerArray;}
+    //remove those items from the array
+    toSplice.forEach((indexToSplice) => {
+        containerArray.splice(indexToSplice, 1);
+    }); 
     return containerArray;
 };
 

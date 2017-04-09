@@ -1,5 +1,4 @@
 import fetch from 'isomorphic-fetch';
-
 import utils from '../utils/authUtils';
 
 import {userDataFetcher} from '../utils/userApiUtils';
@@ -9,7 +8,17 @@ class userApi {
         //Only for ESLint - Can't use it on actual code, it fails.
         this.utils = utils;
     }
-        
+    
+    static initialDataLoad() {
+        const headers = utils.setHeaders();
+        return fetch(`${process.env.API_HOST}/api/user`, {
+            headers,
+            method: "GET"
+        })
+        .catch(error => {return error;});
+
+    }
+
     static sendLoginInfo(login_data) {
         return fetch(`${process.env.API_HOST}/api/auth/sign_in`, {
             headers: {
@@ -36,7 +45,7 @@ class userApi {
     }
 
     static requestTokenValidation(mockToken) {
-
+        //mockToken is just for testing...
             let query = utils.setQueryParams(mockToken);
             return fetch(`${process.env.API_HOST}/api/auth/validate_token?${query}`)
                 .catch(error => error);
