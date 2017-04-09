@@ -145,34 +145,39 @@ export const arrayObjectProperties = (object, start = 0, end = undefined) => {
         },[]);
 };
 
+export const toSentenceCase = (matcher, string) => {
+    
+    let matches = matcher(string);
+    return matches.map((word, index) => {
+                if(index > 0) {
+                    return word.toLowerCase();
+                }
+                return word;
+            }).join(" ");   
+};
 
-export const pascalCaseToSentenceCase = (string) => {
-    const camelCaseRegex = new RegExp("[A-Z]{1}[a-z]*");
-    let chunks = new Array;
+export const caseMatcher = (regex) => {
 
-    let matcher = (string, camelCaseRegex, startIndex) => {
+    const matcher = (regex, string, startIndex = 0, chunks = []) => {
         if(startIndex >= string.length) {
-            return;
+            return chunks;
         }
-        let chunk = string.slice(startIndex).match(camelCaseRegex);
+        let chunk = string.slice(startIndex).match(regex);
 
         let newIndex = startIndex + chunk[0].length;
         chunks.push(chunk[0]);
-        matcher(string, camelCaseRegex, newIndex);
+        return matcher(regex, string, newIndex, chunks);
     };
-
-    matcher(string, camelCaseRegex, 0);
-
-    let normalCase = chunks.map((word, index) => {
-        if(index > 0) {
-            return word.toLowerCase();
-        }
-        return word;
-    }).join(" ");
-
-    return normalCase;
-        
+    return matcher.bind(undefined, regex);
 };
+
+export const pascalCaseMatcher = (() => {
+    const pascalCaseRegex = new RegExp("[A-Z]{1}[a-z]*");
+    return caseMatcher(pascalCaseRegex);
+})();
+
+export const pascalCaseToSentenceCase = toSentenceCase.bind(undefined, pascalCaseMatcher);
+
 
 export const removeArrayFromArray = (array, containerArray) => {
     let toSplice = -1;
