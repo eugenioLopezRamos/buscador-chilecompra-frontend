@@ -6,7 +6,7 @@ export const CheckboxLabel = ({item, tag, id, isChecked, handler}) => (
 
             <label className="json-schema-checkbox-label" key={"label" + id }>
                     <span className="json-schema-checkbox-label text">
-                        {utils.camelCaseToPascalCase(item)}
+                        {utils.pascalCaseToSentenceCase(item)}
                     </span>
                 
                     <input className="json-schema-checkbox" 

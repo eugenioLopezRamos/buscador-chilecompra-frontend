@@ -10,7 +10,7 @@ import nock from 'nock';
 import localStorageMock from '../../__mocks__/testLocalStorage';
 import ObjectDetails from '../ObjectDetails';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
-import {camelCaseToPascalCase} from '../../utils/miscUtils';
+import {pascalCaseToSentenceCase} from '../../utils/miscUtils';
 import {isPrimitive} from '../../utils/miscUtils';
 import {RESULTS_OFFSET_AMOUNT}  from '../../constants/resultsOffset';
 import * as API from '../../actions/fetchActions';
@@ -118,7 +118,7 @@ describe('Component', () => {
 
                 selectableTitles.forEach((title, index) => {
                     let stateColumn = instance.state.columns[index];
-                    expect(title.text()).toEqual(camelCaseToPascalCase(stateColumn[stateColumn.length - 1]));
+                    expect(title.text()).toEqual(pascalCaseToSentenceCase(stateColumn[stateColumn.length - 1]));
                 });
 
 

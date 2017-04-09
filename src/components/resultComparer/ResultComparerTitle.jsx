@@ -1,5 +1,5 @@
 import React from 'react';
-
+import * as utils from '../../utils/miscUtils';
 
 const ResultComparerTitle = ({keyName, type, handler}) => {
 
@@ -11,7 +11,7 @@ const ResultComparerTitle = ({keyName, type, handler}) => {
         <span className={`object-container-name type-${type} open`} onClick={(event) => {handler(event)}}>
             <span className="glyphicon glyphicon-triangle-right"></span>
             <span className="glyphicon glyphicon-triangle-bottom"></span>
-            {keyName}
+            {utils.keyName}
         </span>
     )
 

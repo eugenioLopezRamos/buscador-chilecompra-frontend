@@ -1,7 +1,7 @@
 import objectAssign from 'object-assign';
 
 export const capitalize = (string) => {
-    if(!string) {return string};
+    if(!string) {return string;}
     return string.slice(0, 1)
                  .toUpperCase()
                  .concat(string.slice(1));
@@ -99,12 +99,12 @@ export const compareObjects = (firstObject, secondObject, differencesKeyName, wh
         return Object.keys(firstObject).reduce((differences, element) => {
                     //check if object[element] exists on both objects.If it does't, return that as a difference
                     if(secondObject[element] === undefined) {                
-                        return whenUndefined(differences, differencesKeyName, firstObject);
+                        return whenUndefined(differences, differencesKeyName, firstObject, element);
                     }
                     //value is a primitive? check if values are equal then return the same differences if they are equal or
                     //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
                     if(isPrimitive(firstObject[element]) && isPrimitive(secondObject[element])) {
-                        return whenPrimitive(differences, firstObject, secondObject, element)
+                        return whenPrimitive(differences, firstObject, secondObject, element);
                     }
                     //Otherwise, iterate until you find a primitive 
                     return whenIsOtherType(differences, resultComparerFn, firstObject, secondObject, element);
@@ -112,14 +112,13 @@ export const compareObjects = (firstObject, secondObject, differencesKeyName, wh
                 }, {});
 };
 
-export const whenUndefined = (differences, differencesKeyName, firstObject) => {
+export const whenUndefined = (differences, differencesKeyName, firstObject, element) => {
 
     if(differences[differencesKeyName]) {
-        differences[differencesKeyName][element] = firstObject[element];
+        return differences[differencesKeyName][element] = firstObject[element];
     }
-    else {
-        differences[differencesKeyName] = {[element]: firstObject[element]};
-    }  
+    return differences[differencesKeyName] = {[element]: firstObject[element]};
+      
 };
 
 export const whenPrimitive = (differences, firstObject, secondObject, element) => {
@@ -147,9 +146,8 @@ export const arrayObjectProperties = (object, start = 0, end = undefined) => {
 };
 
 
-export const camelCaseToPascalCase = (string) => {
+export const pascalCaseToSentenceCase = (string) => {
     const camelCaseRegex = new RegExp("[A-Z]{1}[a-z]*");
-    let startIndex = 0;
     let chunks = new Array;
 
     let matcher = (string, camelCaseRegex, startIndex) => {
@@ -163,7 +161,7 @@ export const camelCaseToPascalCase = (string) => {
         matcher(string, camelCaseRegex, newIndex);
     };
 
-    matcher(string, camelCaseRegex, startIndex);
+    matcher(string, camelCaseRegex, 0);
 
     let normalCase = chunks.map((word, index) => {
         if(index > 0) {

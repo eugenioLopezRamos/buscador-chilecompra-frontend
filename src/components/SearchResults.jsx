@@ -279,7 +279,7 @@ export class SearchResults extends React.PureComponent {
                                                          key={"title key" + index }
                                                     >
                                                         <div className="title-spans-container">
-                                                            <span className="title-text">{utils.camelCaseToPascalCase(element)}</span>
+                                                            <span className="title-text">{utils.pascalCaseToSentenceCase(element)}</span>
                                                             <span className="glyphicon glyphicon-chevron-down filler"></span>
                                                             <span className="glyphicon glyphicon-chevron-down"
                                                                   onClick={() => {this.sortByColumn(this.state.columns[index], "descending")} }
