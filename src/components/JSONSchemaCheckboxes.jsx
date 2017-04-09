@@ -92,7 +92,7 @@ class JSONSchemaCheckboxes extends React.Component {
 
         let currentTag = tags[tags.length - 1];
         
-        let currentTagString = utils.isOnlyNumbers(currentTag) ? `${parseInt(currentTag) + 1})` : utils.camelCaseToNormalCase(currentTag);
+        let currentTagString = utils.isOnlyNumbers(currentTag) ? `${parseInt(currentTag) + 1})` : utils.camelCaseToPascalCase(currentTag);
 
         return(
             <div>         

@@ -36,7 +36,7 @@ class ResultComparer extends React.Component {
                     //takes chunks of two and compares them
                     let toCompare = this.props.results.slice(index, index+2);
                     
-                    accumulator.push(utils.objectComparer(toCompare[0].value, toCompare[1].value));
+                    accumulator.push(utils.resultComparerFn(toCompare[0].value, toCompare[1].value));
                     return accumulator;
                 }, [])
             
@@ -55,7 +55,7 @@ class ResultComparer extends React.Component {
 
     render = () => {
         // We take the first result because that one should be shown in full
-        // while in the others we'll show only the differences using utils.objectComparer(firstObject, secondObject, differencesContainer)
+        // while in the others we'll show only the differences using utils.resultComparerFn(firstObject, secondObject, differencesContainer)
 
         let firstResult = this.props.results.slice(0, 1)[0].value;
         let self = this;

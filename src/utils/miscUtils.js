@@ -1,19 +1,10 @@
 import objectAssign from 'object-assign';
 
 export const capitalize = (string) => {
-    
-    let newString = string;
-    return newString.split("").reduce((prev, curr) => {
-
-        let newValue = "";
-        if(prev.length === 0) {
-            newValue = prev + curr.toUpperCase();
-        }else {
-            newValue = prev + curr;
-        }
-        return newValue;
-    }, new String);
-   
+    if(!string) {return string};
+    return string.slice(0, 1)
+                 .toUpperCase()
+                 .concat(string.slice(1));
 };
 
 
@@ -44,10 +35,6 @@ export const getObjectPropsWithValues = (object) =>  {
     return response;
 };
 
-export const toJSON = (value) => {
-    return JSON.stringify(value);
-};
-
 export const isArray = (object) => {
     return Object.prototype.toString.call(object) === "[object Array]";
 };
@@ -71,13 +58,10 @@ export const isPrimitive = (target) => {
 export const objectTransverser = (object) => {
         //returns an array with each "tree" of properties
         return Object.keys(object).map((element) => {
-
                     if(isPrimitive(object[element])) {
                         return {[element]: object[element]};
                     }
-                    else {
-                        return {[element]: objectTransverser(object[element])};
-                    }
+                    return {[element]: objectTransverser(object[element])};
                 });
 };
 
@@ -100,76 +84,60 @@ export const getObjectSchema = (object) => {
     } , new Array); 
 };
 
-export const objectComparer = (object, secondObject, differencesContainer) => {
+export const resultComparerFn = (object = {}, secondObject = {}) => {
     
-    //TODO: DRY this up
-    let differencesAccumulator = differencesContainer;
-
-    if(typeof differencesAccumulator === "undefined" || differencesAccumulator === null) {
-        differencesAccumulator = {};
-    }
     const baseObject = object || {};
-    const baseSecondObject = secondObject || {};
+    const secondBaseObject = secondObject || {};
 
-        let diffFirstToSecond = Object.keys(baseObject).reduce((differences, element) => {
-                    //check if object[element] exists on both objects.If it does't, return that as a difference
-                    if(baseSecondObject[element] === undefined) {                    
-                        differences["Removidos"] ? differences["Removidos"][element] = baseObject[element] : differences["Removidos"] = {[element]: baseObject[element]};
-                        return differences;
-                    }
-
-                    //value is a primitive? check if values are equal then return the same differences if they are equal or
-                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
-                    if(isPrimitive(baseObject[element]) && isPrimitive(baseSecondObject[element])) {
-                        if(baseObject[element] === baseSecondObject[element]) {
-                            return differences;
-                        }else {
-                            differences[element] = {Anterior: baseObject[element], Nuevo: baseSecondObject[element]};
-                            return differences;
-                        }
-                    }
-                    //Otherwise, iterate until you find a primitive 
-                    else {
-                        let subObjectDifferences = objectComparer(baseObject[element], baseSecondObject[element], {});
-                        if(Object.keys(subObjectDifferences).length > 0) {
-                            differences[element] = subObjectDifferences;
-                        }
-                        return differences;
-                    }
-                }, differencesAccumulator);
-
-/********************************************************************************************************************** */
-/********************************************************************************************************************** */
-/********************************************************************************************************************** */
-        let diffSecondToFirst = Object.keys(baseSecondObject).reduce((differences, element) => {
-                    //check if baseObject[element] exists on both objects.If it does't, return that as a difference
-                    if(baseObject[element] === undefined) {
-                            differences["Añadidos"] ? differences["Añadidos"][element] = baseSecondObject[element] : differences["Añadidos"] = {[element]: baseSecondObject[element]};
-                            return differences;
-                    }
-
-                    //value is a primitive? check if values are equal then return the same differences if they are equal or
-                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
-                    if(isPrimitive(baseObject[element]) && isPrimitive(baseSecondObject[element])) {
-                        if(baseObject[element] === baseSecondObject[element]) {
-                            return differences;
-                        }else {
-                            differences[element] = {Anterior: baseObject[element], Nuevo: baseSecondObject[element]};
-                            return differences;
-                        }
-                    }
-                    //Otherwise, iterate until you find a primitive 
-                    else {
-                        let subObjectDifferences = objectComparer(baseObject[element], baseSecondObject[element], {});
-                        if(Object.keys(subObjectDifferences).length > 0) {
-                            differences[element] = subObjectDifferences;
-                        }
-                        return differences;
-                    }
-                }, differencesAccumulator);
-
+    let diffFirstToSecond = compareObjects(baseObject, secondBaseObject, "Añadidos", whenUndefined, whenPrimitive, whenIsOtherType);
+    let diffSecondToFirst = compareObjects(secondBaseObject, secondBaseObject, "Removidos", whenUndefined, whenPrimitive, whenIsOtherType);
     return objectAssign({}, diffFirstToSecond, diffSecondToFirst);
 };
+
+export const compareObjects = (firstObject, secondObject, differencesKeyName, whenUndefined, whenPrimitive, whenIsOtherType) => {
+
+        return Object.keys(firstObject).reduce((differences, element) => {
+                    //check if object[element] exists on both objects.If it does't, return that as a difference
+                    if(secondObject[element] === undefined) {                
+                        return whenUndefined(differences, differencesKeyName, firstObject);
+                    }
+                    //value is a primitive? check if values are equal then return the same differences if they are equal or
+                    //differences with key [element] = {anterior: baseObject[element], nuevo: baseSecondObject[element]};
+                    if(isPrimitive(firstObject[element]) && isPrimitive(secondObject[element])) {
+                        return whenPrimitive(differences, firstObject, secondObject, element)
+                    }
+                    //Otherwise, iterate until you find a primitive 
+                    return whenIsOtherType(differences, resultComparerFn, firstObject, secondObject, element);
+
+                }, {});
+};
+
+export const whenUndefined = (differences, differencesKeyName, firstObject) => {
+
+    if(differences[differencesKeyName]) {
+        differences[differencesKeyName][element] = firstObject[element];
+    }
+    else {
+        differences[differencesKeyName] = {[element]: firstObject[element]};
+    }  
+};
+
+export const whenPrimitive = (differences, firstObject, secondObject, element) => {
+    if(firstObject[element] === secondObject[element]) {
+        return differences;
+    }
+    differences[element] = {Anterior: firstObject[element], Nuevo: secondObject[element]};
+    return differences;    
+};
+
+export const whenIsOtherType = (differences, resultComparerFn, firstObject, secondObject, element) => {
+    let subObjectDifferences = resultComparerFn(firstObject[element], secondObject[element], {});
+    if(Object.keys(subObjectDifferences).length > 0) {
+        differences[element] = subObjectDifferences;
+    }
+    return differences;
+};
+
 
 export const arrayObjectProperties = (object, start = 0, end = undefined) => {
 
@@ -179,7 +147,7 @@ export const arrayObjectProperties = (object, start = 0, end = undefined) => {
 };
 
 
-export const camelCaseToNormalCase = (string) => {
+export const camelCaseToPascalCase = (string) => {
     const camelCaseRegex = new RegExp("[A-Z]{1}[a-z]*");
     let startIndex = 0;
     let chunks = new Array;

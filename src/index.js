@@ -9,7 +9,7 @@ import { AppContainer } from 'react-hot-loader';
 import configureStore from './store/configureStore';
 import Root from './containers/Root.jsx';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
-import './css/bootstrap.min.css';
+import './css/bootstrap/stylesheets/_bootstrap.scss';
 import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
 import {getUserSubscriptions, getUserSearches, getUserNotifications} from './actions/UserActions';

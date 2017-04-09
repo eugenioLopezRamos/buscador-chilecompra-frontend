@@ -10,13 +10,13 @@ const ObjectDetails = ({objectData}) => {
 
             if(utils.isPrimitive(object[key])) {
                     if(!object[key]) {
-                        return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: (vacío)`</div>;
+                        return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToPascalCase(key)}: (vacío)`</div>;
                     }
-                    return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToNormalCase(key)}: {object[key]}</div>;
+                    return <div className="object-details-primitive" key={`object-details-primitive-${index}`}>{utils.camelCaseToPascalCase(key)}: {object[key]}</div>;
             }
 
             return (<li className="object-details-subObject-title" key={`li-${index}`}>
-                    {utils.camelCaseToNormalCase(key)}: <div key={`object-details-subobject-${index}`} className="object-details-subObject">{objectHandler(object[key])}</div>
+                    {utils.camelCaseToPascalCase(key)}: <div key={`object-details-subobject-${index}`} className="object-details-subObject">{objectHandler(object[key])}</div>
                    </li>); 
         });
     };
