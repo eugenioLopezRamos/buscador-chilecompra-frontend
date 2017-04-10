@@ -24,7 +24,7 @@ const UserDropdown = (props) => {
         <div className="dropdown">
 
             <ul className={props.visible ? "dropdown-menu dropdown-menu-right dropdown-visible" : "dropdown-menu dropdown-menu-right"} aria-labelledby="dropdownMenu1">
-                <li><Link to="/inicio">Página Principal</Link></li>
+                <li className="dropdown-menu-list-item"><Link to="/inicio">Página Principal</Link></li>
                 <li className={notificationStyle} onClick={handleNotificationsClick}>
                     <div className="notification-list-item-text">
                         Notificaciones
@@ -37,10 +37,10 @@ const UserDropdown = (props) => {
                     />
                 </li>
 
-                <li><Link to="/modificar_perfil">Modificar datos</Link></li>
-                <li><Link to="/busqueda">Buscar</Link></li>
+                <li className="dropdown-menu-list-item"><Link to="/modificar_perfil">Modificar datos</Link></li>
+                <li className="dropdown-menu-list-item"><Link to="/busqueda">Buscar</Link></li>
                 <li role="separator" className="divider" />
-                <li onClick={handleLogout}><Link to="/">Salir</Link></li>
+                <li className="dropdown-menu-list-item" onClick={handleLogout}><Link to="/">Salir</Link></li>
             </ul>        
         </div>
 

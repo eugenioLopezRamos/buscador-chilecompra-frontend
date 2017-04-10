@@ -11,3 +11,35 @@
     right: initial;
     margin-left: -20px;
 }
+
+.react-datepicker__day {
+    margin: 10px;
+    font-size: 1.2em;
+    width: 2rem;
+}
+
+.react-datepicker__day-names {
+    font-size: 1.2em;
+}
+
+.react-datepicker__day-name {
+    margin: 10px;
+}
+
+@media all and (min-width: 1199px) {
+.react-datepicker__day {
+    margin: 0.166rem;
+    font-size: 1em;
+}
+
+.react-datepicker__day-names {
+    font-size: 1em;
+}
+
+.react-datepicker__day-name {
+    margin: 0.166rem;
+}
+
+
+
+}
