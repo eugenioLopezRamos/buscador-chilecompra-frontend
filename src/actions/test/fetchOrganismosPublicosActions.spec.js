@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import {onLoadFetchOrgPub} from '../onLoadFetchOrgPub'; 
+import {fetchOrganismosPublicos} from '../fetchOrganismosPublicosActions'; 
 
 
 process.env.API_HOST = "http://localhost:3000"
@@ -54,7 +54,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
             .get('/api/chilecompra_misc_data?info=organismos_publicos')
             .reply(200, expectedResponse);
 
-        return store.dispatch(onLoadFetchOrgPub())
+        return store.dispatch(fetchOrganismosPublicos())
           .then(() => {
             expect(store.getActions()).toEqual(expectedActions);
           });
@@ -83,7 +83,7 @@ describe('Fetches Organismos Publicos from the backend', () => {
             .get('/api/chilecompra_misc_data?info=organismos_publicos')
             .reply(200, expectedResponse);
 
-        return store.dispatch(onLoadFetchOrgPub())
+        return store.dispatch(fetchOrganismosPublicos())
           .then(() => {
             expect(store.getActions()).toEqual(expectedActions);
           });

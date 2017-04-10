@@ -14,8 +14,8 @@ import './css/bootstrap/sb-admin-2.css';
 import './css/main.scss';
 import {initialUserDataLoad} from './actions/UserActions';
 import {validateToken} from './actions/authInfoResultsActions';
-import {onLoadFetchOrgPub as getOrganismosPublicos} from './actions/onLoadFetchOrgPub';
-import {onLoadFetchEstLic as getEstadosLicitacion} from './actions/onLoadFetchEstLic';
+import {fetchOrganismosPublicos} from './actions/fetchOrganismosPublicosActions';
+import {fetchEstadosLicitacion} from './actions/fetchEstadosLicitacionActions';
 
 
 
@@ -25,7 +25,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const actions = {
 				initialUserDataLoad,
 				validateToken,
-				getOrganismosPublicos, getEstadosLicitacion
+				fetchOrganismosPublicos, fetchEstadosLicitacion
 				};
 
 

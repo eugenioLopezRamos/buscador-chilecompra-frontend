@@ -7,7 +7,7 @@ $object-container-padding: 13px;
 }
 .result-comparer-root {
     height: 100%;
-    overflow:scroll;
+    overflow:auto;
 }
 
 .result-comparer-main-title {
@@ -55,7 +55,7 @@ $object-container-padding: 13px;
     cursor: pointer;
 }
 .original-result-data {
-    overflow:scroll;
+    overflow:auto;
 }
 
 .all-differences-container {
@@ -90,14 +90,18 @@ $object-container-padding: 13px;
            display:flex;
        }
    }
+}
 
+.no-differences {
 
+    margin: 10px auto 0 auto;
+    text-align: center;
 
 }
 
 .all-differences-each {
     display:flex;
-    overflow: scroll;
+    overflow: auto;
     width:auto;
 }
 
@@ -119,9 +123,6 @@ $object-container-padding: 13px;
     margin-right: 15px;
     min-width:95%;
     max-width: 95%;
-}
-.difference-item {
-
 }
 
 .object-container-name {
@@ -184,6 +185,9 @@ $object-container-padding: 13px;
     .all-differences-container {
         min-width: 48%;
         max-width: 48vw;
+    }
+    .main-result-comparer-container {
+        width: 90%;
     }
 
 

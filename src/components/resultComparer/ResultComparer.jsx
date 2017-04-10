@@ -44,7 +44,13 @@ class ResultComparer extends React.Component {
 
     areThereDifferences = (() => resultComparerHelpers.areThereDifferences(this))(this);
 
-    renderDifferences = (areThereDifferences, rendererGenerator) => resultComparerHelpers.netDifferencesRenderer(areThereDifferences, rendererGenerator);
+    renderDifferences = (areThereDifferences, rendererGenerator) => {
+        const differences = resultComparerHelpers.netDifferencesRenderer(areThereDifferences, rendererGenerator);
+        if(!differences) {
+            return <div className="no-differences">No se encontraron diferencias</div>;
+        }
+        return differences;
+    }
 
     rendererGenerator = (currentResult, currentKey) => (<ResultComparerObjectRenderer
                                                                     key={`ResultComparerObjectRenderer${currentKey}`}
@@ -64,7 +70,7 @@ class ResultComparer extends React.Component {
         let resultName = this.props.resultName ? `: ${this.props.resultName}` : "";
 
         return (
-            <div className="result-comparer-root" style={{minWidth: document.documentElement.clientWidth * 0.85}}>  
+            <div className="result-comparer-root">  
 
                 <div className="result-comparer-main-title">
                     {`Variaciones del resultado${resultName}`} 
@@ -98,7 +104,7 @@ class ResultComparer extends React.Component {
                                 <div className="detail">Detalle de variaciones</div>
                             </div>
                             <div className="all-differences-each">
-                            {this.renderDifferences(areThereDifferences, rendererGenerator)}
+                                {this.renderDifferences(areThereDifferences, rendererGenerator)}
                             </div>
                         </div>
 

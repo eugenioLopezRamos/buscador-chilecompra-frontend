@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
-import {onLoadFetchEstLic} from '../onLoadFetchEstLic'; 
+import {fetchEstadosLicitacion} from '../fetchEstadosLicitacionActions'; 
 //TODO: add test with headers since they  now require auth?
 import localStorageMock from '../../__mocks__/testLocalStorage';
 
@@ -38,7 +38,7 @@ describe('it gets the Estados Licitacion from the server', () => {
         .get('/api/chilecompra_misc_data?info=estados_licitacion')
         .reply(200, {"1": "Estado Licitacion ejemplo"});
    
-    return store.dispatch(onLoadFetchEstLic())
+    return store.dispatch(fetchEstadosLicitacion())
                 .then(() => {
                   expect(store.getActions()).toEqual(expectedAction);
                 });

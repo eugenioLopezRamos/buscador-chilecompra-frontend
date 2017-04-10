@@ -29,8 +29,8 @@ export class Root extends Component {
                 // this.dispatch(this.props.actions.getUserSubscriptions());
                 // this.dispatch(this.props.actions.getUserSearches());  
                 this.dispatch(this.props.actions.initialUserDataLoad());
-                this.dispatch(this.props.actions.getOrganismosPublicos());
-                this.dispatch(this.props.actions.getEstadosLicitacion());
+                this.dispatch(this.props.actions.fetchOrganismosPublicos());
+                this.dispatch(this.props.actions.fetchEstadosLicitacion());
             }
         }
     }

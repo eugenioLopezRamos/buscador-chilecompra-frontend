@@ -11,7 +11,7 @@ import {createUserSearches as createSearches} from './actions/UserActions';
 import initialState from './reducers/initialState';
 import SearchesSaver from './components/SearchesSaver';
 import AccountRecovery from './components/AccountRecovery.jsx';
-
+import MissingPage from './components/MissingPage.jsx';
 export default (
     <Route path="/" component={App} >
         <IndexRoute component={Introduction}  />
@@ -45,7 +45,7 @@ export default (
         />
 
         <Route
-            path="/perfil"
+            path="/modificar_perfil"
             component={
                 () => {
                     return (<AuthorizationWrapper 
@@ -60,6 +60,8 @@ export default (
             path="/recuperacion"
             component={AccountRecovery}
         />
+        <Route path="*" component={MissingPage}/>
+        
 
     </Route>
 );

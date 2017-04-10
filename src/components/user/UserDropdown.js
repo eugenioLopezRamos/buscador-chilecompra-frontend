@@ -37,7 +37,7 @@ const UserDropdown = (props) => {
                     />
                 </li>
 
-                <li><Link to="/perfil">Modificar datos</Link></li>
+                <li><Link to="/modificar_perfil">Modificar datos</Link></li>
                 <li><Link to="/busqueda">Buscar</Link></li>
                 <li role="separator" className="divider" />
                 <li onClick={handleLogout}><Link to="/">Salir</Link></li>
