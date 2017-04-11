@@ -43,7 +43,7 @@ export class Flash extends Component {
                         if(!messages[e] || messages[e].length === 0) { return null}
                         return(<div key={`${e}-title`} className="info">
                                     <div className="message-type">{`${e}:`}</div>
-                                    <span className="message-body">{messages[e]}</span>
+                                    <div className="message-body">{messages[e]}</div>
                         </div>) 
                     })
                 }

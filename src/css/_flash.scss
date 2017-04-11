@@ -21,20 +21,21 @@
     margin: auto;
     margin-top: 70px;
     text-align: center;
-    padding: 5px 20px 5px 20px;
+   // padding: 5px 20px 5px 20px;
     border-radius: 5px;
     background-color: #eee;
     border: 2px solid lightblue;
     pointer-events: all;
 }
-// .flash-message {
 
-//     min-width: 360px;
-//     width: 30%;
-//     margin: auto;
-//     background-color: #d9edf7;
-//     border-color: #bce8f1;
-//     color: #31708f;
-//     border-radius: 5px;
+.message-type {
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid lightblue;
+}
 
-// }
+.message-body {
+    padding: 5px 20px 5px 20px;
+    width: 100%;
+}
