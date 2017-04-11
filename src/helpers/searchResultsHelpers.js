@@ -41,7 +41,10 @@ export const applyFilter = (selectedItems, results) => {
         };
 
 export const sortByColumn = (field, order, searchQueryValues) => {
-         //Currently disabled. It works, but the results are not stable so it looks really weird.
+         //Currently disabled. 
+
+         
+         // It works, but the results are not stable so it looks really weird.
          // Once I solve the stability issue, this should be used 
          //when the totalresults count is <= 200 (or whatever the limit is)
 

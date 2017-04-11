@@ -11,7 +11,7 @@ import SearchesSaver from './SearchesSaver';
 import Modal from './inputs/Modal.jsx';
 import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
 import * as utils from '../utils/miscUtils';
-import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
+// import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
 import FullScreenPane from './FullScreenPane';
 import ObjectDetails from './ObjectDetails';
 import ResultsComparer from './resultComparer/ResultComparer.jsx'
@@ -20,6 +20,8 @@ import userApi from '../api/userApi';
 import ResultsNavigatorButtons from './ResultsNavigatorButtons';
 import * as API from '../actions/fetchActions';
 import * as helpers from '../helpers/searchResultsHelpers';
+import SearchResultsHeader from './SearchResultsHeader';
+import SearchResultsContent from './SearchResultsContent';
 
 //TODO: Chunk this container a bit more
 export class SearchResults extends React.PureComponent {
@@ -48,8 +50,7 @@ export class SearchResults extends React.PureComponent {
                     menuProps: {},
                 }
             }
-
-            this.mockResult = [{value: chileCompraResponseExample}];
+            // this.mockResult = [{value: chileCompraResponseExample}];
         }
 
         componentWillReceiveProps(nextProps) {
@@ -62,10 +63,9 @@ export class SearchResults extends React.PureComponent {
             this.setState({columns: newColumns});
         } 
 
-        //TODO: Get this to a helper or something...
         applyFilter = (selectedItems, results) => {return helpers.applyFilter(selectedItems, results)}
 
-        showObjectDetail = (objectData) => {
+        showObjectDetail = function(objectData){
 
             let newFullScreenPane = objectAssign({}, this.state.fullScreenPane);
             newFullScreenPane.show = true;
@@ -75,7 +75,7 @@ export class SearchResults extends React.PureComponent {
             this.setState({
                 fullScreenPane: newFullScreenPane
             })
-        }
+        }.bind(this);
 
 
 
@@ -88,7 +88,7 @@ export class SearchResults extends React.PureComponent {
             this.setState({fullScreenPane: newFullScreenPane})
         }
 
-        getResultHistory = (resultIndex) => {
+        getResultHistory = function(resultIndex) {
             let resultId = this.props.results.values[resultIndex].id;
 
 
@@ -111,15 +111,13 @@ export class SearchResults extends React.PureComponent {
                                 });
             }
 
-           this.setState({
-                            fullScreenPane: newFullScreenPane
-                        }, executeAfter)
-        }
+           this.setState({fullScreenPane: newFullScreenPane}, executeAfter)
+        }.bind(this);
 
-        showSubscriptionModal = (index) => {
+        showSubscriptionModal = function(index) {
 
             this.setState({showModal: true, subscriptionIndex: index})
-        }
+        }.bind(this)
 
         hideSubscriptionModal = () => {
             this.setState({showModal: false, subscriptionIndex: null});
@@ -133,32 +131,19 @@ export class SearchResults extends React.PureComponent {
            this.props.createUserSubscription(resultId, subscriptionName)
         }
 
-        handleScroll = (event) => {
+        handleScroll = function(event) {
             event.preventDefault();
             //TODO: See some way to make this work, on mobile the scrolling title looks janky and feels very
             //weird
-      //     event.persist();
-            
             let distance = event.target.scrollLeft;
             let self = this;
-            if(event.nativeEvent.target.scrollLeft >= 0) {
-                function move() {
-                    //self.resultTitles.scrollLeft = distance;
-                    self.resultTitles.style.transform = `translate(-${distance}px, 0)`
-                    requestAnimationFrame(move)
-                }
-                requestAnimationFrame(move)
+            if(event.target.scrollLeft >= 0) {
+                self.resultTitles.setTransform(distance);
+                return;
             }
-
-            if(event.nativeEvent.target.scrollLeft < 0) {
-                function stop() {
-                    self.resultTitles.style.transform = `translate(0, 0)`;
-                    cancelAnimationFrame(move);
-                }
-                requestAnimationFrame(move);
-                //this.resultTitles.style.transform = `translate(0, 0)`   
-            }
-        }
+            self.resultTitles.setTransform(0);
+            //self.resultTitles.style.transform = `translate3d(0, 0, 0)`;
+        }.bind(this);
 
         onSubscriptionNameInput = (event) => {
             this.setState({enteredSubscriptionName: event.target.value});
@@ -196,11 +181,13 @@ export class SearchResults extends React.PureComponent {
             this.props.API.loadChilecompraData(newQueryValues);    
          }
 
-         sortByColumn = (field, order) => {
-             //client side sort currently not implemented - Will probably have to sort with mergeSort since it is stable
+         sortByColumn = function(columnIndex, order){
+      
+             //client side sort currently not implemented - Will probably have to sort with merge sort since it is stable
+             let field = this.state.columns[columnIndex];
              let newQueryValues = helpers.sortByColumn(field, order, this.props.searchQueryValues);
              this.props.API.loadChilecompraData(newQueryValues);
-         } 
+         }.bind(this);
 
          resultsNavigatorButtons = () => {
             return <ResultsNavigatorButtons 
@@ -211,6 +198,12 @@ export class SearchResults extends React.PureComponent {
                     />
             }
 
+        // handleResultContainerScroll = (event) => {
+        //     //parseInt(event.target.style.width)
+        //     let tableWidth = parseInt(getComputedStyle(event.target).width);
+        //     let tableScrollLef = parseInt(getComputedStyle(event.target).scrollLeft);
+        //     event.target.style.width = `${tableWidth + tableScrollLeft}px`;
+        // }
 
         render = () => {
         if(!this.props.results){
@@ -230,8 +223,8 @@ export class SearchResults extends React.PureComponent {
 
            // TODO: See some way of taking this logic out?
            // Maybe make the titles one component and the rows another?
-            let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
-            let titlesToRender = this.applyFilter(this.state.columns, this.mockResult);
+            // let elementsToRender = this.applyFilter(this.state.columns, this.props.results.values);
+            // let titlesToRender = this.applyFilter(this.state.columns, this.mockResult);
 
 
   
@@ -272,88 +265,23 @@ export class SearchResults extends React.PureComponent {
                       
                         <div className="results-data-container">
                             <div className="title-container" >   
-                                <span className="movable-title-container" ref={(div) => {this.resultTitles = div}}>
-                                    {        
-                                        Object.keys(titlesToRender[0]).map((element,index) => {
-                                            return <span className="search title col-xs-3 searchable" 
-                                                         key={"title key" + index }
-                                                    >
-                                                        <div className="title-spans-container">
-                                                            <span className="title-text">{utils.pascalCaseToSentenceCase(element)}</span>
-                                                            <span className="glyphicon glyphicon-chevron-down filler"></span>
-                                                            <span className="glyphicon glyphicon-chevron-down"
-                                                                  onClick={() => {this.sortByColumn(this.state.columns[index], "descending")} }
-                                                            >
-                                                            </span>
-                                                            <span className="glyphicon glyphicon-chevron-up"
-                                                                  onClick={() => {this.sortByColumn(this.state.columns[index], "ascending")} }
-                                                            ></span>
-                                                        </div>
-                                                    </span>
-                                        })
-                                    }
-                                    <span className="search title col-xs-3 half" key={"historia-key"}>
-                                        
-                                        <span className="title-text">Historia</span>
-                                        
-                                    </span>
-                                    <span className="search title col-xs-3 half" key={"subscribe-key"}>
-                                        
-                                        <span className="title-text">Suscribirse</span>
-                                    </span>
-                                </span>
-                                    
+                                <SearchResultsHeader 
+                                    ref={(componentRoot) => {this.resultTitles = componentRoot}}
+                                    sortByColumn={this.sortByColumn}
+                                    columns={this.state.columns}
+                                />
                             </div>
-
-
-                            <div className="results-li-container" onScroll={this.handleScroll}>
-                            {
-                            elementsToRender.map((row, index) => {
-                                return <li className="search-results" key={index}>
-                                    {
-                                            Object.values(row).map((column, index) => {
-                                                {/*if the column given is not a primitive, make a "link" to the items 
-                                                (which really is just a FullScreenPane with the item details.
-                                                As of this writing (March 2nd 2017) this only happens with Listado[0].Items*/}
-                                                if(!utils.isPrimitive(column)) {
-                                                    return <span className="search col-xs-3" key={"column key" + index}>
-                                                                <a href="#" 
-                                                                    onClick={(event) => {
-                                                                                event.preventDefault(); 
-                                                                                this.showObjectDetail(column)
-                                                                                }
-                                                                            }
-                                                                >
-                                                                    Ver detalle
-                                                                </a>
-                                                            </span>
-                                                }
-
-                                             return <span className="search col-xs-3" key={"column key" + index}>
-                                                            {column ? column : "Sin información"}
-                                                    </span>
-                                            })
-                                    }
-
-                                            <span className="search col-xs-3 half" key={"result history key " + index } >
-                                                <button className="btn btn-primary col-xs-12 result-history-button" onClick={() => {this.getResultHistory(index)}}>
-                                                    Ver historia
-                                                </button>
-                                            </span>
-                                            <span className="search col-xs-3 half" key={"suscripcion key " + index } >
-                                                <button className="btn btn-primary col-xs-12 subscription-button" onClick={() => {this.showSubscriptionModal(index)}}>
-                                                    Suscribirse
-                                                </button>
-                                            </span>
-
-                                        </li>
-                            })
-                            }
-                            </div>
+                            <SearchResultsContent 
+                                columns={this.state.columns}
+                                values={this.props.results.values}
+                                handleScroll={this.handleScroll}
+                                showObjectDetail={this.showObjectDetail}
+                                getResultHistory={this.getResultHistory}
+                                showSubscriptionModal={this.showSubscriptionModal}
+                            />
                         </div>
-             
-                        {this.resultsNavigatorButtons()}
 
+                        {this.resultsNavigatorButtons()}
 
                         </ul>
                 </div>

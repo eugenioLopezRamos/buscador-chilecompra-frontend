@@ -87,7 +87,11 @@ span.movable-title-container {
     justify-content: flex-start;
     margin-right: 1em;
     margin-left: 1em;
-
+    //position: absolute;
+    //height: 60px;
+    will-change: transform;
+    transform: translateZ(0);
+  //  overflow-x: hidden;
           // transform: translateZ(0);
        // animation-timing-function: ease-out;
       //  -webkit-overflow-scrolling: touch;
@@ -116,7 +120,7 @@ span.movable-title-container {
 
 .searchResults-container-div {
     min-width: 70vw;
-    overflow: scroll;
+    overflow: auto;
     max-height: 100%;
 }
 
@@ -275,7 +279,6 @@ span.movable-title-container {
             
             width: 13.5%;
             min-width: 13.5%;
-            //TODO: Probably will have to use JS to fit text to container
             .title-text {
                 font-size: $font-size;
                 margin: auto;
@@ -289,7 +292,7 @@ span.movable-title-container {
     }
 
     .results-li-container {
-       width: calc(100% - 0.5em);
+       width: calc(100% - 1.5em);
     }
     li.search-results {
         width: calc(100% - 1.5em);
