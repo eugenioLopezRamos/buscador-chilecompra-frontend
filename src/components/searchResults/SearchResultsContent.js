@@ -1,6 +1,6 @@
 import React from 'react';
-import * as utils from '../utils/miscUtils';
-import {applyFilter} from '../helpers/searchResultsHelpers';
+import * as utils from '../../utils/miscUtils';
+import {applyFilter} from '../../helpers/searchResultsHelpers';
 
 const applyFilterFn = applyFilter;
 

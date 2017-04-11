@@ -2,10 +2,10 @@ import React from 'react';
 // mount is unusable for me - Takes about 3 mins to test this component alone...
 //import {mount} from 'enzyme';
 import {shallow} from 'enzyme';
-import SearchResultsHeader from '../SearchResultsHeader.js';
-import {RESULTS_INITIAL_CHECKBOXES} from '../../constants/resultsInitialCheckboxes';
-import {mockColumns} from '../../__mocks__/mockColumns';
-import * as utils from '../../utils/miscUtils';
+import SearchResultsHeader from '../../searchResults/SearchResultsHeader.js';
+import {RESULTS_INITIAL_CHECKBOXES} from '../../../constants/resultsInitialCheckboxes';
+import {mockColumns} from '../../../__mocks__/mockColumns';
+import * as utils from '../../../utils/miscUtils';
 
 
 function setup() {

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {helpers} from '../helpers/inputFieldsContainerHelper';
 //import * as displayActions from '../actions/DisplayActions';
 import {bindActionCreators} from 'redux';
-import SearchResults from './SearchResults.jsx';
+import SearchResults from './searchResults/SearchResults.jsx';
 import DateField from './inputs/DateField.jsx';
 import SelectionField from './inputs/SelectionField.jsx';
 import AutoFillerInput from './inputs/AutoFillerInput.jsx';

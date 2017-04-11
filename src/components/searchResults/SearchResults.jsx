@@ -4,22 +4,22 @@ import {Link} from 'react-router'; //these will later be links to the query that
 import {connect} from 'react-redux';
 import objectAssign from 'object-assign';
 import {bindActionCreators} from  'redux';
-import * as types from '../constants/actionTypes';
+import * as types from '../../constants/actionTypes';
 //import {createUserSearches as createSearches} from '../actions/UserActions'; //no longer used, moved to <InputFieldsContainer />
-import {createUserSubscription} from '../actions/UserActions';
-import SearchesSaver from './SearchesSaver';
-import Modal from './inputs/Modal.jsx';
-import JSONSchemaCheckboxes from './JSONSchemaCheckboxes.jsx';
-import * as utils from '../utils/miscUtils';
+import {createUserSubscription} from '../../actions/UserActions';
+import SearchesSaver from '../SearchesSaver';
+import Modal from '../inputs/Modal.jsx';
+import JSONSchemaCheckboxes from '../JSONSchemaCheckboxes.jsx';
+import * as utils from '../../utils/miscUtils';
 // import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
-import FullScreenPane from './FullScreenPane';
-import ObjectDetails from './ObjectDetails';
-import ResultsComparer from './resultComparer/ResultComparer.jsx'
-import {RESULTS_INITIAL_CHECKBOXES} from '../constants/resultsInitialCheckboxes';
-import userApi from '../api/userApi';
-import ResultsNavigatorButtons from './ResultsNavigatorButtons';
-import * as API from '../actions/fetchActions';
-import * as helpers from '../helpers/searchResultsHelpers';
+import FullScreenPane from '../FullScreenPane';
+import ObjectDetails from '../ObjectDetails';
+import ResultsComparer from '../resultComparer/ResultComparer.jsx'
+import {RESULTS_INITIAL_CHECKBOXES} from '../../constants/resultsInitialCheckboxes';
+import userApi from '../../api/userApi';
+import ResultsNavigatorButtons from '../ResultsNavigatorButtons';
+import * as API from '../../actions/fetchActions';
+import * as helpers from '../../helpers/searchResultsHelpers';
 import SearchResultsHeader from './SearchResultsHeader';
 import SearchResultsContent from './SearchResultsContent';
 

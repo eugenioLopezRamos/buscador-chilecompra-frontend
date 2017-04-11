@@ -9,7 +9,7 @@ import {getResultHistory, getUserNotifications} from '../../actions/UserActions'
 import userApi from '../../api/userApi';
 import FullScreenPane from '../FullScreenPane.jsx';
 import InputFieldsContainer from '../InputFieldsContainer.jsx';
-import SearchResults from '../SearchResults.jsx';
+import SearchResults from '../searchResults/SearchResults.jsx';
 import Modal from '../inputs/Modal.jsx';
 import objectAssign from 'object-assign';
 import ResultComparer from '../resultComparer/ResultComparer.jsx';

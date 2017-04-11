@@ -41,11 +41,13 @@ Directory structure:
 │   │   └── test
 │   ├── components // components that make up the UI
 │   │   ├── inputs 
+│   │   ├── searchResults 
 │   │   ├── resultComparer // used in "Historia" (see variations of a result)
 │   │   ├── test
 │   │   │   ├── inputs
 │   │   │   ├── resultComparer
-│   │   │   └── user
+│   │   │   ├── user
+│   │   │   └── searchResults
 │   │   └── user // user related components
 │   ├── constants // values used several times that shouldn't change at runtime
 │   ├── containers

@@ -2,19 +2,19 @@ import React from 'react';
 // mount is unusable for me - Takes about 3 mins to test this component alone...
 //import {mount} from 'enzyme';
 import {shallow} from 'enzyme';
-import {SearchResults} from '../SearchResults';
-import {searchResultsMock} from '../../__mocks__/searchResultsMock';
-import {searchQueryValuesMock} from  '../../__mocks__/searchResultsMock';
-import {resultComparerMockData} from '../../__mocks__/resultComparerMock';
+import {SearchResults} from '../../searchResults/SearchResults';
+import {searchResultsMock} from '../../../__mocks__/searchResultsMock';
+import {searchQueryValuesMock} from  '../../../__mocks__/searchResultsMock';
+import {resultComparerMockData} from '../../../__mocks__/resultComparerMock';
 import nock from 'nock';
-import localStorageMock from '../../__mocks__/testLocalStorage';
-import ObjectDetails from '../ObjectDetails';
+import localStorageMock from '../../../__mocks__/testLocalStorage';
+import ObjectDetails from '../../ObjectDetails';
 //import {mockSelectedColumns} from '../../__mocks__/searchResultsMock';
-import {pascalCaseToSentenceCase} from '../../utils/miscUtils';
-import {isPrimitive} from '../../utils/miscUtils';
-import {RESULTS_OFFSET_AMOUNT}  from '../../constants/resultsOffset';
-import * as API from '../../actions/fetchActions';
-import * as mockColumns from '../../__mocks__/mockColumns';
+import {pascalCaseToSentenceCase} from '../../../utils/miscUtils';
+import {isPrimitive} from '../../../utils/miscUtils';
+import {RESULTS_OFFSET_AMOUNT}  from '../../../constants/resultsOffset';
+import * as API from '../../../actions/fetchActions';
+import * as mockColumns from '../../../__mocks__/mockColumns';
 
 if(!window.localStorage) {
     window.localStorage = localStorageMock();

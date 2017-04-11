@@ -1,7 +1,7 @@
 import React from 'react';
-import * as utils from '../utils/miscUtils';
-import {applyFilter} from '../helpers/searchResultsHelpers';
-import {chileCompraResponseExample} from '../utils/objectSchemaExamples';
+import * as utils from '../../utils/miscUtils';
+import {applyFilter} from '../../helpers/searchResultsHelpers';
+import {chileCompraResponseExample} from '../../utils/objectSchemaExamples';
 
 
 class SearchResultsHeader extends React.Component {
