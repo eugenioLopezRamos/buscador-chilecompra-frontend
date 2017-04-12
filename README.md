@@ -23,7 +23,7 @@ The app uses:
 - ...among others
 
 Installing:
-
+    - fork the repo
     - git clone
     - npm install
     - npm run test -> all should pass!

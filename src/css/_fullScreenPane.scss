@@ -21,8 +21,12 @@
     height:90.5%;
     max-width:100%;
     min-width: 90%;
+    overflow: auto;
     
     & > div:first-of-type {
+        //since this is a higher order component, 
+        // this uses important to avoid having problems
+        // with specificity on subcomponents
         width:100% !important;
         margin:0 auto;
         display: flex;
