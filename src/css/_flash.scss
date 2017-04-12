@@ -3,9 +3,9 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    left: 0;
+    left: 0%;
     margin: auto;
-    display: flex;
+    display: block;
     justify-content: center;
     top: 0%;
     z-index: 9001;
@@ -14,10 +14,11 @@
 
 .message-wrap {
     white-space: pre-wrap;
-    position: absolute;
+    position: relative;
   //  z-index: 9001;
     min-height: 200px;
     min-width: 300px;
+    max-width: 360px;
     margin: auto;
     margin-top: 70px;
     text-align: center;
