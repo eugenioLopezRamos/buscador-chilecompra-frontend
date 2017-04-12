@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import nock from 'nock';
 import localStorageMock from '../../__mocks__/testLocalStorage';
+import * as backendMocks from '../../__mocks__/messagesFromBackendMocks';
 
 // Mocks localStorage
 if(!window.localStorage) {
@@ -148,7 +149,7 @@ describe('Tests logging in and out unsuccessfully', () => {
 
       nock("http://localhost:3000/")
         .post('/api/auth/sign_in', {password: "passwordx", email:"etc@etc.com"})
-        .reply(401,{"errors":["Invalid login credentials. Please try again."]});
+        .reply(401,{"errors":[backendMocks.USER_SEND_LOGIN_INFO_FAILURE_INVALID]});
 
       const store = mockStore();
       const expectedActionsLogin = [
@@ -156,10 +157,11 @@ describe('Tests logging in and out unsuccessfully', () => {
         {
           type: types.USER_SEND_LOGIN_INFO_FAILURE,
           response: {
-            body: {"errors":["Invalid login credentials. Please try again."]},
+            body: {"errors":[backendMocks.USER_SEND_LOGIN_INFO_FAILURE_INVALID]},
             headers: {"content-type":"application/json"},
             result: "failure"
-          }
+          },
+          message: [backendMocks.USER_SEND_LOGIN_INFO_FAILURE_INVALID]
         }
       ];
 

@@ -11,7 +11,7 @@ export const loginSuccess = (response) => {
 
 export const loginFailure = (response) => {
     // whereas this should return just an error message and little else.
-    return {type: types.USER_SEND_LOGIN_INFO_FAILURE, response};
+    return {type: types.USER_SEND_LOGIN_INFO_FAILURE, response, message: response.body.errors};
 };
 
 export const validateTokenSuccess = (response) => {
