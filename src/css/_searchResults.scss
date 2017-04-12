@@ -36,7 +36,7 @@ li.search-results {
     //TODO: Fix less brittly
     display: flex;
     border-left: $border-color;
-    margin-left: 0.5em;
+    //margin-left: 0.5em;
     width: calc(100%);
     span.search.col-xs-3 {
         border-right: $border-color;
@@ -60,12 +60,13 @@ li.search-results {
 .title-container {
     overflow: hidden;
     width: 100%;
-    margin-left: -0.45em;
-    width: calc(100% + 0.45em);
+   // margin-left: -0.45em;
+    width: 100%;
+    //width: calc(100% + 0.45em);
     display:flex;
     flex-direction: row;
     height: 4em;
-
+    padding-left: calc(0.5em + 1px);
 
     span {
         display:flex;
@@ -78,15 +79,17 @@ li.search-results {
     overflow: scroll;
    // border-bottom: 1px solid black;
     max-height: 75vh;
-    width: calc(100% - 1.5em);
+    //width: calc(100% - 2em);
+    width: 100%;
+    padding-left: calc(0.5em + 1px);
 }
 
 span.movable-title-container {
-    width: calc(100% - 2em);
+    width: calc(100%);
     display: flex;
     justify-content: flex-start;
-    margin-right: 1em;
-    margin-left: 1em;
+  //  margin-right: 1em;
+    //margin-left: 1em;
     //position: absolute;
     //height: 60px;
     will-change: transform;
@@ -292,11 +295,11 @@ span.movable-title-container {
     }
 
     .results-li-container {
-       width: calc(100% - 1.5em);
+       width: calc(100% - 1em);
     }
     li.search-results {
-        width: calc(100% - 1.5em);
-        margin-left: 1em;
+       // width: calc(100%);
+       // margin-left: 1em;
     }
 
 }
@@ -309,16 +312,18 @@ span.movable-title-container {
     }
 
     span.movable-title-container {
-        width: calc(100% - 3em);
+        width: 100%;
     }
     li.search-results {
-        margin-left: 0.5em;
-        width: calc(100% - 1.5em);
+        width: 100%;
 
     }
     .title-container {
-        margin-left: -0.5em;
-        width: calc(100%);
+        width: 100%;
+    }
+
+    .results-li-container {
+        width: 100%;
     }
 
 }

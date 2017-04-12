@@ -110,7 +110,6 @@ const ResultsNavigatorButtons = (props) => {
                                 return (<ResultsNavigatorButtonsRenderer 
                                          element={element}
                                          key={element + index}
-                                         index={index}
                                          setOffset={setOffset}
                                          isActive={true}
                                         />);
@@ -118,7 +117,6 @@ const ResultsNavigatorButtons = (props) => {
                                 return (<ResultsNavigatorButtonsRenderer 
                                          element={element}
                                          key={element + index}
-                                         index={index}
                                          setOffset={setOffset}                                  
                                          isActive={false}
                                         />);                        

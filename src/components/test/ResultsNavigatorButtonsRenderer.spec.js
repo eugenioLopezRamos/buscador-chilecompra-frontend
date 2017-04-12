@@ -6,7 +6,6 @@ function activeSetup() {
 
     const activeProps = {
         element: 1,
-        index: 1,
         setOffset: jest.fn(),
         isActive: true
     }
@@ -20,7 +19,6 @@ function inactiveSetup() {
 
     const inactiveProps = {
         element: 1,
-        index: 1,
         setOffset: jest.fn(),
         isActive: false
     }

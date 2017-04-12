@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {PropTypes, Component} from 'react';
 import * as utils from '../../utils/miscUtils';
 import {applyFilter} from '../../helpers/searchResultsHelpers';
 import {chileCompraResponseExample} from '../../utils/objectSchemaExamples';
 
 
-class SearchResultsHeader extends React.Component {
+class SearchResultsHeader extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             rootTransform: 0
-        }
+        };
         this.applyFilter = applyFilter;
         this.mockResult = [{value: chileCompraResponseExample}];
     }
@@ -38,21 +38,20 @@ class SearchResultsHeader extends React.Component {
                 <span className="movable-title-container" style={{transform: `translate(-${this.state.rootTransform}px, 0)`}}>
                         {        
                             Object.keys(titlesToRender).map((title,index) => {
-                                return <span className="search title col-xs-3 searchable" 
-                                            key={"title key" + index }
+                                return (<span className="search title col-xs-3 searchable" 
+                                            key={"title key" + index}
                                         >
                                             <div className="title-spans-container">
                                                 <span className="title-text">{utils.pascalCaseToSentenceCase(title)}</span>
-                                                <span className="glyphicon filler"></span>
+                                                <span className="glyphicon filler" />
                                                 <span className="glyphicon glyphicon-chevron-down"
                                                     onClick={() => this.handleSortBy(index, "descending")}
-                                                >
-                                                </span>
+                                                 />
                                                 <span className="glyphicon glyphicon-chevron-up"
                                                     onClick={() => this.handleSortBy(index, "ascending")}
-                                                ></span>
+                                                 />
                                             </div>
-                                        </span>
+                                        </span>);
                             })
                         }
                         <span className="search title col-xs-3 half" key={"historia-key"}>
@@ -67,7 +66,10 @@ class SearchResultsHeader extends React.Component {
                 </span>
              );
     };
+}
+SearchResultsHeader.propTypes = {
+    sortByColumn: PropTypes.func,
+    columns: PropTypes.array
 };
-
 
 export default SearchResultsHeader;
