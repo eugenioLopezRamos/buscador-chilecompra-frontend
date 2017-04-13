@@ -39,9 +39,13 @@ export const initialUserDataLoad = () => {
 
 // MODIFIY USER DATA API CALLS
 
-export const modifyUserProfileDataSuccess = () => {
+export const modifyUserProfileDataSuccess = (response) => {
      
-    return {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}};
+    return {
+            type: types.USER_MODIFY_PROFILE_DATA_SUCCESS,
+            value: {message: {info: "Datos actualizados exitosamente"}},
+            userData: response.data 
+           };
 };
 
 export const modifyUserProfileDataFailure = (value) => {
@@ -68,7 +72,7 @@ export const modifyUserProfileData = (modifiedUserData) => {
 
                 if(response && response.status >= 200 && response.status < 300) {
              
-                    return response.json().then(() => dispatch(modifyUserProfileDataSuccess()));
+                    return response.json().then((response) => dispatch(modifyUserProfileDataSuccess(response)));
                 }else {
                     throw response;
                 }

@@ -113,7 +113,10 @@ describe('Tests User Actions, such as modifying his/her profile data or fetching
 
         const expectedActions = [
             {type: types.USER_MODIFY_PROFILE_DATA},
-            {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS, value: {message: {info: "Datos actualizados exitosamente"}}}
+            {type: types.USER_MODIFY_PROFILE_DATA_SUCCESS,
+             value: {message: {info: "Datos actualizados exitosamente"}},
+             userData: userDataMock
+            }
         ];
 
         return store.dispatch(actions.modifyUserProfileData(modifiedUserData)).then(() => {
