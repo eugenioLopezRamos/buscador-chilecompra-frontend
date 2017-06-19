@@ -37,6 +37,7 @@ li.search-results {
     display: flex;
     border-left: $border-color;
     word-break:break-all;
+
     //margin-left: 0.5em;
     width: calc(100%);
     span.search.col-xs-3 {
@@ -84,6 +85,7 @@ li.search-results {
 }
 .results-li-container {
     overflow: auto;
+    overflow-y: scroll;
    // border-bottom: 1px solid black;
     max-height: 75vh;
     //width: calc(100% - 2em);
@@ -92,7 +94,7 @@ li.search-results {
 }
 
 span.movable-title-container {
-    width: calc(100%);
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     // overflow-y: scroll;

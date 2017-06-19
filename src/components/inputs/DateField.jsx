@@ -10,8 +10,7 @@ const DateField = ({startDate, endDate, setStartDate,
     return (
             <div className="date-field-container">
             <span className="date-field-container-span">Desde:</span>
-                <
-                DatePicker 
+                <DatePicker 
                     className="col-xs-12 col-md-10 col-lg-8 no-gutter"
                     dateFormat="DD-MM-YYYY"
                     selected={startDate}
@@ -32,8 +31,7 @@ const DateField = ({startDate, endDate, setStartDate,
                 </span>
 
             <span className="date-field-container-span">Hasta:</span>
-                <
-                DatePicker 
+                <DatePicker 
                     className="col-xs-12 col-md-10 col-lg-8 no-gutter"
                     dateFormat="DD-MM-YYYY"
                     selected={endDate}

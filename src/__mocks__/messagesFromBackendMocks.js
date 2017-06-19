@@ -11,3 +11,5 @@ export const USER_DELETE_RESULT_SUBSCRIPTION_FAILURE = "No se pudo borrar suscri
 
 export const USER_UPDATE_RESULT_SUBSCRIPTION_SUCCESS = "Suscripción actualizada exitosamente";
 export const USER_UPDATE_RESULT_SUBSCRIPTION_FAILURE = "Error al actualizar suscripción";
+
+export const FETCH_CHILECOMPRA_DATA_FAILURE = "Máximo 30 días de distancia entre fechas";

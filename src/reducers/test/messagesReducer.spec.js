@@ -62,8 +62,8 @@ describe('Reducers', () => {
             expectedValue = initialState.messages;
             compareResults(action, expectedValue);
 
-            action = {type: types.FETCH_CHILECOMPRA_DATA_FAILURE};
-            expectedValue = objectAssign({}, initialState.messages, {Errores: messages.FETCH_CHILECOMPRA_DATA_FAILURE});
+            action = {type: types.FETCH_CHILECOMPRA_DATA_FAILURE, value: {message: {errors: backendMessages.FETCH_CHILECOMPRA_DATA_FAILURE} }};
+            expectedValue = objectAssign({}, initialState.messages, {Errores: action.value.message.errors});
             compareResults(action, expectedValue);
 
             //SIGNUP

@@ -45,7 +45,7 @@ const messagesReducer = (state = initialState.messages, action) => {
             return initialState.messages;
         
         case types.FETCH_CHILECOMPRA_DATA_FAILURE:
-            return objectAssign({}, initialState.messages, {Errores: messages.FETCH_CHILECOMPRA_DATA_FAILURE});
+            return objectAssign({}, initialState.messages, {Errores: errors});
             
         //SIGNUP
         case types.USER_SEND_SIGNUP_INFO:

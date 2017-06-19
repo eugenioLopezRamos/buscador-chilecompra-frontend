@@ -100,13 +100,17 @@ export class UserPage extends React.Component {
         data.date = Date.parse(data.date);
         this.props.fetchApi.getChilecompraData(data)
             .then(response => {
-                                this.setState({
-                                                showFullScreenPane: true, 
-                                                FullScreenPaneComponent: component, 
-                                                componentProps: {results: response},
-                                                menu: this.getMenu(component)
-                                            });
-                                });
+                   return response.json()
+            })
+            .then(resp => {
+                this.setState({
+                                showFullScreenPane: true, 
+                                FullScreenPaneComponent: component, 
+                                componentProps: {results: resp},
+                                menu: this.getMenu(component)
+                            });  
+            })
+
     }
 
 

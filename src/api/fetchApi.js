@@ -18,7 +18,8 @@ class fetchApi {
                         offset: state.offset,
                         order_by: state.order_by
                     };
-                 
+                    //hrs * min * sec * 1000
+
         let headers = utils.setHeaders();
         return fetch(`${process.env.API_HOST}/api/licitacion_data`,
         {
@@ -30,12 +31,9 @@ class fetchApi {
             .then(response => {
                 let headers = utils.headerToObject(response);
                 utils.saveToStorage(headers);
-                if(response.status >= 200 && response.status <300) {
-                    return response.json();
-                }
-                throw response;
-            })
-            .catch(error => {return error; });
+                return response;
+            });
+           // .catch(error => {return error; });
 
     }
 

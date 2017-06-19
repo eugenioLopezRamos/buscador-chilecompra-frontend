@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../initialState';
 import objectAssign from 'object-assign';
 import fetchReducer from '../fetchReducer';
-
+import * as messages from '../../__mocks__/messagesFromBackendMocks.js';
 
 describe('Reducers', () => {
 
@@ -20,10 +20,8 @@ describe('Reducers', () => {
             action.type = types.FETCH_CHILECOMPRA_DATA_SUCCESS;
             compareResults(action, action.data);
 
-            action.error = {error: "mistakes were made"};
             action.type = types.FETCH_CHILECOMPRA_DATA_FAILURE;
-            compareResults(action, action.error);
-
+            compareResults(action, null);
 
         });
     });
