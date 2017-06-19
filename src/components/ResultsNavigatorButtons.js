@@ -50,8 +50,8 @@ const ResultsNavigatorButtons = (props) => {
 
     const buttonsArray = (() => {
 
-        let currentPage = props.currentPage || 1;
-        let pages = props.pages || 1;
+        let currentPage = props.currentPage;
+        let pages = props.pages;
         //Generate a range [0, ...pages]
         let pagesArray =  Array.apply(null, {length: pages}).map((element, index) => index);
 

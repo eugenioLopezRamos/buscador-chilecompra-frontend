@@ -190,7 +190,6 @@ export class SearchResults extends React.PureComponent {
          }.bind(this);
 
          resultsNavigatorButtons = () => {
-             debugger
             return <ResultsNavigatorButtons 
                         pages={parseInt(this.props.results.count/this.props.results.limit)+1}
                         paginatorButtonClickHandler={this.offsetChangeHandler}
